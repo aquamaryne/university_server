@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
-import { fontFamily } from '@mui/system';
 
 const Authorizations = () => {
     const [key, setKey] = useState('');
@@ -42,6 +41,7 @@ const Authorizations = () => {
                     {/* Fix this */}
                     <Box component="form" noValidate sx={{ mt:1 }}>
                         <TextField
+                            className='field'
                             margin='normal'
                             required
                             fullWidth
@@ -52,10 +52,9 @@ const Authorizations = () => {
                             value={key}
                             onChange={(e) => setKey(e.target.value)}
                             sx={{
-                                fontFamily: 'PT Sans',
-                                color: 'white'
+                                borderRadius: 2
                             }}
-                    />
+                        />
 
                     {/* Fix this */}
                     <Button
@@ -65,7 +64,10 @@ const Authorizations = () => {
                             mt: 3, 
                             mb: 2,  
                             fontFamily: 'PT Sans',
-                            borderColor: 'green'
+                            backgroundColor: '#1D2B53',
+                            '&:hover': {
+                                backgroundColor: '#7E2553'
+                            }
                         }}
                         onClick={handleAuthorization}
                     >
