@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SecretKeyModule } from './secret_key/secret_key.module';
+import { Auth_Keys } from './secret_key/key';
 
 @Module({
   imports: [
@@ -12,8 +13,10 @@ import { SecretKeyModule } from './secret_key/secret_key.module';
         port: 3306,
         username: 'root',
         password: 'toor',
-        database: 'test_key',
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        database: 'kadry',
+        entities: [
+          Auth_Keys
+        ],
         synchronize: true
     }),
     SecretKeyModule,

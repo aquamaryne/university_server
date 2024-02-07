@@ -1,22 +1,20 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom'
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
+import "../css/theme.css";
 
 const Authorizations = () => {
     const [key, setKey] = useState('');
     const [message, setMessage] = useState('');
-    const navigate = useNavigate();
 
     const handleAuthorization = async() => {
         try{
-            const responce = await axios.post('http//localhost:3001/login', { key });
+            const responce = await axios.post('http//localhost:3001/validate-key', { key });
             setMessage(responce.data.message);
-
-            //fix
-            navigate('/mainPage');
+            return redirect=("/mainPage")
         } catch(error){
-            setMessage('Authorization failed');
+            setMessage('Помилка авторизації');
         }
     };
 
@@ -24,7 +22,7 @@ const Authorizations = () => {
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
-                    marginTop: 8,
+                    marginTop: 10,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -34,29 +32,38 @@ const Authorizations = () => {
                     color: 'white',
                 }}
                 >
-                    <Typography component="h1" variant="h5" sx={{ fontFamily: 'PT Sans'}}>
-                        Authorization
+                    <Typography component="h1" variant="h5" sx={{ fontFamily: 'PT Sans', color: '#1f1f1f'}}>
+                        Авторизація
                     </Typography>
 
-                    {/* Fix this */}
-                    <Box component="form" noValidate sx={{ mt:1 }}>
+                    <Box component="form" sx={{ mt:1 }} className='box'>
                         <TextField
                             className='field'
                             margin='normal'
                             required
                             fullWidth
                             id='key'
-                            label='Enter Key'
+                            label='Введіть ключ'
                             name='key'
-                            autoFocus
-                            value={key}
+                            value={ key }
                             onChange={(e) => setKey(e.target.value)}
+
                             sx={{
-                                borderRadius: 2
+                                borderRadius: 1,
+                                border: 2,
+                                borderColor: '#46244C'
                             }}
+
+                            InputLabelProps={{ 
+                                className: 'label__textfield' 
+                            }}
+
+                            InputProps={{
+                                color: "warning"
+                            }}
+                            variant="filled"
                         />
 
-                    {/* Fix this */}
                     <Button
                         fullWidth
                         variant='contained'
@@ -64,16 +71,24 @@ const Authorizations = () => {
                             mt: 3, 
                             mb: 2,  
                             fontFamily: 'PT Sans',
-                            backgroundColor: '#1D2B53',
+                            backgroundColor: '#fdf6e3',
                             '&:hover': {
-                                backgroundColor: '#7E2553'
-                            }
+                                backgroundColor: '#eee8d5'
+                            },
+                            color: 'black',
+                            '&:hover': {
+                                boxShadow: '-3px 3px 0px 0px',
+                                backgroundColor: '#2EB086',
+                            },
+                            borderRadius: 0,
+                            border: 1,
+                            borderColor: 'black'
                         }}
                         onClick={handleAuthorization}
                     >
-                        Enter
+                        Увійти
                     </Button>
-                    <Typography variant='body2' color="error" align='center'>
+                    <Typography variant='body2' color="error" align='center' sx={{ fontFamily: 'PT Sans' }}>
                         {message}
                     </Typography>
                 </Box>

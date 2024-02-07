@@ -6,5 +6,5 @@ export class Auth_Keys {
     id: number
 
     @Column({ unique: true })
-    key: string
+    auth_keys: string
 }

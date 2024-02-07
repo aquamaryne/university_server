@@ -1,17 +1,14 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { SecretKeyService } from './secret_key.service';
 
-@Controller('secret-key')
+@Controller('auth')
 export class SecretKeyController {
-    constructor(private readonly secretKey: SecretKeyService){}
+    constructor(private readonly keySercice: SecretKeyService){}
 
-    @Post('login')
-    async login(@Body('key') key: string): Promise<{ success: boolean; message: string}> {
-        try{
-            await this.secretKey.validate_key(key);
-            return { success: true, message: 'Authorization successful'};
-        } catch (error){
-            return {success: false, message: error.message};
-        }
+    @Post('validate-key')
+    async validateKey(@Body('key') body: { keyValue: string } ): Promise<{ isValid: boolean}> {
+        const { keyValue } = body;
+        const isValid = await this.keySercice.validateKey(keyValue);
+        return { isValid };
     } 
 }
