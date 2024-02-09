@@ -1,0 +1,25 @@
+import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+
+@Entity()
+export class Personal_info{
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({ unique: true })
+    unique_card: number;
+
+    @Column({ unique: true })
+    serial_num_of_passport: string;
+
+    @Column()
+    issued_by: string;
+
+    @Column()
+    place_of_living: string;
+
+    @Column({ unique: true })
+    mobile_phone_number: string;
+
+    @Column()
+    employeers_id: number;
+}

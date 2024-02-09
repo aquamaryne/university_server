@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SecretKeyService } from './secret_key.service';
 import { SecretKeyController } from './secret_key.controller';
-import { Auth_Keys } from './key';
+import { Auth_Keys } from '../entity/key';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Auth_Keys])],

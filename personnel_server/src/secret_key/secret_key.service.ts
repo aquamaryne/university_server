@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Auth_Keys } from './key';
+import { Auth_Keys } from '../entity/key';
 
 @Injectable()
 export class SecretKeyService {

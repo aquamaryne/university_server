@@ -1,18 +1,19 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { redirect } from 'react-router-dom'
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import "../css/theme.css";
 
 const Authorizations = () => {
     const [key, setKey] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleAuthorization = async() => {
         try{
             const responce = await axios.post('http//localhost:3001/validate-key', { key });
             setMessage(responce.data.message);
-            return redirect=("/mainPage")
+            navigate('/mainPage', { replace: true })
         } catch(error){
             setMessage('Помилка авторизації');
         }

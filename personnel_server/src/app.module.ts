@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SecretKeyModule } from './secret_key/secret_key.module';
-import { Auth_Keys } from './secret_key/key';
+import { Auth_Keys } from './entity/key';
 
 @Module({
   imports: [
