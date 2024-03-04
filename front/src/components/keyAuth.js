@@ -13,7 +13,7 @@ const Authorizations = () => {
         try{
             const responce = await axios.post('http//localhost:3001/validate-key', { key });
             setMessage(responce.data.message);
-            navigate('/mainPage', { replace: true })
+            navigate('./mainPage', { replace: true })
         } catch(error){
             setMessage('Помилка авторизації');
         }

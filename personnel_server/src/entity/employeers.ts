@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToMany, OneToMany } from "typeorm";
 
 @Entity()
 export class Employeers{
@@ -28,4 +28,6 @@ export class Employeers{
 
     @Column()
     education_id: number;
+
+    
 }
