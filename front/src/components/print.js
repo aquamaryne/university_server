@@ -14,7 +14,15 @@ const Print = () => {
 
     return(
         <div>
-            <Button onClick={handleClick}>Друк</Button>
+            <Button onClick={handleClick} sx={{
+                border: 1,
+                borderRadius: 1,
+                color: "black",
+                '&:hover': {
+                    background: 'black',
+                    color: 'white'
+                },
+            }}>Друк</Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}

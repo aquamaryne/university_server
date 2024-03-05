@@ -15,7 +15,15 @@ const Form = () => {
 
     return(
         <div>
-            <Button onClick={handleClick}>Формуляр </Button>
+            <Button onClick={handleClick} sx={{
+                border: 1,
+                borderRadius: 1,
+                color: "black",
+                '&:hover': {
+                    background: 'black',
+                    color: 'white'
+                },
+            }}>Формуляр</Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}

@@ -14,7 +14,15 @@ const PersonalCard = () => {
 
     return(
         <div>
-            <Button onClick={handleClick}>Особисті картки</Button>
+            <Button onClick={handleClick} sx={{
+                border: 1,
+                borderRadius: 1,
+                color: "black",
+                '&:hover': {
+                    background: 'black',
+                    color: 'white'
+                },
+            }}>Особисті картки</Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}

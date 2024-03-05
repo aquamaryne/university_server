@@ -15,7 +15,15 @@ const PrintWitness = () => {
 
     return(
         <div>
-            <Button onClick={handleClick}>Друк довідників</Button>
+            <Button onClick={handleClick} sx={{
+                border: 1,
+                borderRadius: 1,
+                color: "black",
+                '&:hover': {
+                    background: 'black',
+                    color: 'white'
+                },
+            }}>Друк довідників</Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}

@@ -7,47 +7,38 @@ import Statistics from "./statistics";
 import PrintWitness from "./witnessPrint";
 import Form from "./form";
 import Store from "./store";
+import "../css/page.css";
 
 const MainPage = () => { 
     return(
-        <Grid container spacing={2} justifyContent={"center"} sx={{
-            marginTop: 1,
-            border: 1,
-        }}>
-            <Box sx={{
-                borderRight: 1,
+        <div>
+            <Grid container spacing={2} justifyContent={"center"} sx={{
+                marginTop: 1,
             }}>
-                <Witness />
-            </Box>
-            <Box sx={{
-                borderRight: 1,
-            }}>
-                <PersonalCard />
-            </Box>
-            <Box sx={{
-                borderRight: 1,
-            }}>
-                <Print />
-            </Box>
-            <Box sx={{
-                borderRight: 1,
-            }}>
-                <Statistics />
-            </Box>
-            <Box sx={{
-                borderRight: 1,
-            }}>
-                <PrintWitness />
-            </Box>
-            <Box sx={{
-                borderRight: 1,
-            }}>
-                <Form />
-            </Box>
-            <Box>
-                <Store />
-            </Box>
-        </Grid>
+                <Box>
+                    <Witness />
+                </Box>
+                <Box sx={{ marginLeft: 1}}>
+                    <PersonalCard />
+                </Box>
+                <Box sx={{ marginLeft: 1}}>
+                    <Print />
+                </Box>
+                <Box sx={{ marginLeft: 1}}>
+                    <Statistics />
+                </Box>
+                <Box sx={{ marginLeft: 1}}>
+                    <PrintWitness />
+                </Box>
+                <Box sx={{ marginLeft: 1}}>
+                    <Form />
+                </Box>
+                <Box sx={{ marginLeft: 1}}>
+                    <Store />
+                </Box>
+            </Grid>
+            <div className="line"></div>
+        </div>
     )
 };
 

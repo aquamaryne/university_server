@@ -14,7 +14,15 @@ const Statistics = () => {
 
     return(
         <div>
-            <Button onClick={handleClick}>Статистика</Button>
+            <Button onClick={handleClick} sx={{
+                border: 1,
+                borderRadius: 1,
+                color: "black",
+                '&:hover': {
+                    background: 'black',
+                    color: 'white'
+                },
+            }}>Статистика</Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
