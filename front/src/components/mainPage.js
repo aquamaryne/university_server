@@ -12,7 +12,7 @@ import "../css/page.css";
 const MainPage = () => { 
     return(
         <div>
-            <Grid container spacing={2} justifyContent={"center"} sx={{
+            <Grid container spacing={2} marginLeft={4} sx={{
                 marginTop: 1,
             }}>
                 <Box>

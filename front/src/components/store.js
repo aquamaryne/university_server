@@ -4,26 +4,33 @@ import { Button, Menu, MenuItem } from "@mui/material";
 const Store = () => { 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [clicked, setClicked] = React.useState(false);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+        setClicked(true);
     };
 
     const handleClose = () => {
         setAnchorEl(null);
+        setClicked(false);
     };
 
     return(
         <div>
             <Button onClick={handleClick} sx={{
-                border: 1,
+                border: 2,
+                fontFamily: 'PT Sans',
                 borderRadius: 1,
-                color: "black",
+                color: clicked ? "white" : "black",
+                backgroundColor: clicked ? '#191970' : 'transparent',
                 '&:hover': {
-                    background: 'black',
-                    color: 'white'
+                    backgroundColor: clicked ? '#191970' : '#191970',
+                    color: clicked ? 'white' : 'white',
+                    borderColor: 'orange',
+                    boxShadow: '-4px 4px 2px 0 purple',
                 },
-            }}>Довідники </Button>
+            }}>Архів </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
