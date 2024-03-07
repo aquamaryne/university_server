@@ -27,8 +27,10 @@ const Statistics = () => {
                     backgroundColor: clicked ? '#191970' : '#191970',
                     color: clicked ? 'white' : 'white',
                     borderColor: 'orange',
-                    boxShadow: '-4px 4px 2px 0 purple',
+                    boxShadow: '-4px 2px 2px 0 purple',
                 },
+                transition: 'box-shadow 0.3s'
+
             }}>Статистика</Button>
             <Menu
                 anchorEl={anchorEl}

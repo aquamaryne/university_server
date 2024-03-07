@@ -7,12 +7,16 @@ import "../css/theme.css";
 const Authorizations = () => {
     const [key, setKey] = useState('');
     const [message, setMessage] = useState('');
+    const [isValid, setIsValid] = useState(null);
     const navigate = useNavigate();
 
     const handleAuthorization = async() => {
         try{
-            const responce = await axios.post('http//localhost:3001/validate-key', { key });
-            setMessage(responce.data.message);
+            const responce = await axios.post('http://localhost:3001/auth', { key });
+            setIsValid(responce.data.isValid);
+            if(!responce.data.isValid){
+                setMessage(responce.data.message);
+            }
             navigate('./mainPage', { replace: true })
         } catch(error){
             setMessage('Помилка авторизації');
@@ -92,6 +96,11 @@ const Authorizations = () => {
                     <Typography variant='body2' color="error" align='center' sx={{ fontFamily: 'PT Sans' }}>
                         {message}
                     </Typography>
+                    {isValid !== null && (
+                        <Typography variant='body2' color="error" align='center' sx={{ fontFamily: 'PT Sans' }}>
+                            {isValid ? 'Ваш ключ дійсний' : 'Невірний ключ'}
+                        </Typography>
+                    )}
                 </Box>
             </Box>
         </Container>

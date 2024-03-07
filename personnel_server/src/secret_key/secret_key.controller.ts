@@ -5,10 +5,9 @@ import { SecretKeyService } from './secret_key.service';
 export class SecretKeyController {
     constructor(private readonly keySercice: SecretKeyService){}
 
-    @Post('validate-key')
-    async validateKey(@Body('key') body: { keyValue: string } ): Promise<{ isValid: boolean}> {
-        const { keyValue } = body;
-        const isValid = await this.keySercice.validateKey(keyValue);
+    @Post()
+    async validateKey(@Body('key') key: string  ): Promise<{ isValid: boolean}> {
+        const isValid = await this.keySercice.validateKey(key);
         return { isValid };
     } 
 }
