@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import "../css/style.css";
-import ArchievePage from "../pages/archievePage";
-import Edit from "../pages/edit";
-import Fired from "../pages/firedPeople";
+import ArchievePage from "../pages/archieve/archievePage";
+import Edit from "../pages/archieve/edit";
+import Fired from "../pages/archieve/firedPeople";
 
 const Store = () => { 
 
@@ -23,15 +23,16 @@ const Store = () => {
 
     const handleMenuItemClick = (content) => {
         setSelectedMenuItem(content);
-        handleClose();
-    }
+        handleClose(true);
+    };
 
     return(
         <div>
             <Button onClick={handleClick} sx={{
                 border: 2,
-                fontFamily: 'PT Sans',
-                borderRadius: 1,
+                fontFamily: 'Daikon',
+                fontWeight: 'bold',
+                borderRadius: 0,
                 color: clicked ? "white" : "black",
                 backgroundColor: clicked ? '#191970' : 'transparent',
                 '&:hover': {
@@ -42,7 +43,9 @@ const Store = () => {
                 },
                 transition: 'box-shadow 0.3s'
 
-            }}>Архів </Button>
+            }}>
+                <Typography>Архів</Typography>
+            </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}

@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItem, Menu, Button } from "@mui/material"
+import { MenuItem, Menu, Button, Typography } from "@mui/material"
 
 const Statistics = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -19,8 +19,9 @@ const Statistics = () => {
         <div>
             <Button onClick={handleClick} sx={{
                 border: 2,
-                fontFamily: 'PT Sans',
-                borderRadius: 1,
+                fontFamily: 'Daikon',
+                fontWeight: 'bold',
+                borderRadius: 0,
                 color: clicked ? "white" : "black",
                 backgroundColor: clicked ? '#191970' : 'transparent',
                 '&:hover': {
@@ -31,7 +32,11 @@ const Statistics = () => {
                 },
                 transition: 'box-shadow 0.3s'
 
-            }}>Статистика</Button>
+            }}>
+                <Typography>
+                    Статистика
+                </Typography>
+            </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}

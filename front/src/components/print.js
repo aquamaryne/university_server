@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItem, Menu, Button } from "@mui/material"
+import { MenuItem, Menu, Button, Typography } from "@mui/material"
 
 const Print = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -19,8 +19,9 @@ const Print = () => {
         <div>
             <Button onClick={handleClick} sx={{
                 border: 2,
-                fontFamily: 'PT Sans',
-                borderRadius: 1,
+                fontFamily: 'Daikon',
+                fontWeight: 'bold',
+                borderRadius: 0,
                 color: clicked ? "white" : "black",
                 backgroundColor: clicked ? '#191970' : 'transparent',
                 '&:hover': {
@@ -30,7 +31,11 @@ const Print = () => {
                     boxShadow: '-4px 2px 2px 0 purple',
                 },
                 transition: 'box-shadow 0.3s'
-            }}>Друк</Button>
+            }}>
+                <Typography>
+                    Друк
+                </Typography>
+            </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}

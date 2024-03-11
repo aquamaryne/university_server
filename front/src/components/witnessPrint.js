@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
 const PrintWitness = () => { 
 
@@ -20,8 +20,9 @@ const PrintWitness = () => {
         <div>
             <Button onClick={handleClick} sx={{
                 border: 2,
-                fontFamily: 'PT Sans',
-                borderRadius: 1,
+                fontFamily: 'Daikon',
+                fontWeight: 'bold',
+                borderRadius: 0,
                 color: clicked ? "white" : "black",
                 backgroundColor: clicked ? '#191970' : 'transparent',
                 '&:hover': {
@@ -31,7 +32,11 @@ const PrintWitness = () => {
                     boxShadow: '-4px 2px 2px 0 purple',
                 },
                 transition: 'box-shadow 0.3s'
-            }}>Друк довідників</Button>
+            }}>
+                <Typography>
+                    Друк довідників
+                </Typography>
+            </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
