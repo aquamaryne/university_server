@@ -1,4 +1,6 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Department } from "./department";
+import { Employeers } from "./employeers";
 
 @Entity()
 export class Positions{
@@ -8,7 +10,7 @@ export class Positions{
     @Column()
     position_name: string;
 
-    @Column()
+    @Column({ type: 'date' })
     date_of_entry: Date;
     
     @Column()
@@ -24,5 +26,11 @@ export class Positions{
     department_id: number;
 
     @Column()
-    employeers_id: number
+    employeers_id: number;
+
+    @ManyToOne(() => Department, department => department.positions)
+    department: Department;
+
+    @ManyToOne(() => Employeers, employeers => employeers.positions)
+    employeers: Employeers;
 }

@@ -1,4 +1,5 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Positions } from "./positions";
 
 @Entity()
 export class Domains{
@@ -8,6 +9,6 @@ export class Domains{
     @Column()
     domain_name: string;
 
-    @Column()
-    emplyeers_id: number;
+    @ManyToOne(() => Positions, position => position.department_id)
+    position: Positions;
 }

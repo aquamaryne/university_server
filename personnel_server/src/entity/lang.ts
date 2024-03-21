@@ -1,4 +1,5 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Employeers } from "./employeers";
 
 @Entity()
 export class Language{
@@ -11,6 +12,6 @@ export class Language{
     @Column()
     second_lang_name: string;
 
-    @Column()
-    employeers_id: number;
+    @ManyToOne(() => Employeers, employeers => employeers.languages)
+    employeers: Employeers;
 }

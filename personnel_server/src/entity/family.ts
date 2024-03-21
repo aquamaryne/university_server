@@ -1,4 +1,6 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { FamilyStatus } from "./familyStatus";
+import { Employeers } from "./employeers";
 
 @Entity()
 export class Family{
@@ -19,4 +21,10 @@ export class Family{
 
     @Column()
     family_status_id: number;
+
+    @ManyToOne(() => FamilyStatus, familyStatus => familyStatus.status)
+    familyStatus: FamilyStatus;
+
+    @ManyToOne(() => Employeers, employeers => employeers.family)
+    employeers: Employeers;
 }

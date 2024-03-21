@@ -1,4 +1,5 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Employeers } from "./employeers";
 
 @Entity()
 export class Sex{
@@ -8,6 +9,6 @@ export class Sex{
     @Column()
     sex_name: string;
 
-    @Column()
-    employeers_id: number;
+    @ManyToOne(() => Employeers, employeers => employeers.sex)
+    employeers: Employeers;
 }

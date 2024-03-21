@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Button, Menu, MenuItem, Typography} from "@mui/material";
 import "../css/style.css";
 import ArchievePage from "../pages/archieve/archievePage";
 import Edit from "../pages/archieve/edit";
@@ -45,7 +45,7 @@ const Store = () => {
 
             }}>
                 <Typography>Архів</Typography>
-            </Button>
+                 </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
