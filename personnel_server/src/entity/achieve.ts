@@ -32,6 +32,6 @@ export class Achieve{
     @Column()
     emplyeers_id: string;
 
-    @ManyToOne(() => Employeers, employeers => employeers.) //add id
+    @ManyToOne(() => Employeers, employeers => employeers.achieve) //add id
     employeers: Employeers;
 }
