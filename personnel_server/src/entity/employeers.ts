@@ -26,18 +26,6 @@ export class Employeers{
     @Column()
     date_of_birth: Date;
 
-    @Column()
-    positions_id: number;
-
-    @Column()
-    family_id: number;
-
-    @Column()
-    work_experience: number;
-
-    @Column()
-    education_id: number;
-
     @OneToOne(() => Positions)
     positions: Positions;
 
