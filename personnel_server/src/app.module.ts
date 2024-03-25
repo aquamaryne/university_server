@@ -18,7 +18,8 @@ import { Family } from './entity/family';
 import { FamilyStatus } from './entity/familyStatus';
 import { Education } from './entity/education';
 import { Positions } from './entity/positions';
-
+import { EducationController } from './education/education.controller';
+import { EducationService } from './education/education.service';
 @Module({
   imports: [
       TypeOrmModule.forRoot({
@@ -49,7 +50,7 @@ import { Positions } from './entity/positions';
     }),
     SecretKeyModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, EducationController],
+  providers: [AppService, EducationService],
 })
 export class AppModule {}
