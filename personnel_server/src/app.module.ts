@@ -20,8 +20,10 @@ import { Education } from './entity/education';
 import { Positions } from './entity/positions';
 import { EducationController } from './education/education.controller';
 import { EducationService } from './education/education.service';
+
 @Module({
   imports: [
+      TypeOrmModule.forFeature([Education]),
       TypeOrmModule.forRoot({
         type: 'mysql',
         host: 'localhost',
@@ -48,7 +50,7 @@ import { EducationService } from './education/education.service';
         ],
         synchronize: true
     }),
-    SecretKeyModule,
+    SecretKeyModule
   ],
   controllers: [AppController, EducationController],
   providers: [AppService, EducationService],

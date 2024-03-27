@@ -13,7 +13,7 @@ export class Education{
     diploma: string;
 
     @Column()
-    number_of_diplome: string;
+    number_of_diploma: string;
 
     @Column()
     name_of_the_high_university: string;
