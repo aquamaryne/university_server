@@ -24,12 +24,16 @@ import { AchieveController } from './achieve/achieve.controller';
 import { AchieveService } from './achieve/achieve.service';
 import { EmployeersController } from './employeers/employeers.controller';
 import { EmployeersService } from './employeers/employeers.service';
+import { FamilyController } from './family/family.controller';
+import { FamilyService } from './family/family.service';
 
 @Module({
   imports: [
       TypeOrmModule.forFeature([
         Education,
-        Achieve
+        Achieve,
+        Employeers,
+        Family
       ]),
       TypeOrmModule.forRoot({
         type: 'mysql',
@@ -59,7 +63,7 @@ import { EmployeersService } from './employeers/employeers.service';
     }),
     SecretKeyModule
   ],
-  controllers: [AppController, EducationController, AchieveController, EmployeersController],
-  providers: [AppService, EducationService, AchieveService, EmployeersService],
+  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController],
+  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService],
 })
 export class AppModule {}
