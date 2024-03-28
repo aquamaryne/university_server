@@ -4,23 +4,31 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello(): string {
     return `
-    <!-- HTML-разметка -->
     <div class="welcome-container">
-      <h1 class="welcome-header">Привет!</h1>
-      <p class="welcome-text">Добро пожаловать в наше приложение. Мы рады видеть вас здесь!</p>
+      <h1 class="welcome-header">Greetings!</h1>
+      <p class="welcome-text">Ты находишься в системе управления и мониторинга приложения для "Отдела кадров"</p>
       <div class="feature-card">
-        <h2>Наши API</h2>
-        <p>Получить доступ к нашему <a href="http://localhost:3001/api" target="_blank">API</a></p>
+        <h2>API для управление запросами через Swagger</h2>
+        <button class="button" onCLick="window.location.href='http://localhost:3001/api'">Swagger</button>
       </div>
     </div>
-    <!-- CSS-стили -->
     <style>
       body {
-        background-color: #12192c; /* Цвет фона страницы */
-        font-family: 'Roboto', sans-serif; /* Используем шрифт Roboto для всей страницы */
-        margin: 0; /* Убираем внешние отступы */
-        padding: 0; /* Убираем внутренние отступы */
+        background-color: #12192c; 
+        font-family: 'Roboto', sans-serif; 
+        margin: 0; 
+        padding: 0; 
       }
+
+      .button {
+        display: inline-block;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid #1f1f1f;
+        background-color: #87A922;
+      }
+
       .welcome-container {
         background-color: #f9f9f9;
         border: 1px solid #1f1f1f;
@@ -28,6 +36,7 @@ export class AppService {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         max-width: 400px;
         margin: 0 auto;
+        margin-top: 10rem;
         text-align: center;
         padding: 20px;
         overflow: hidden;
@@ -43,20 +52,15 @@ export class AppService {
         font-size: 18px;
         color: #666;
         line-height: 1.6;
-        margin-bottom: 30px; /* Увеличили пространство между описанием и карточкой */
+        margin-bottom: 30px;
       }
 
       .feature-card {
         background-color: #fff;
         padding: 20px;
-        transition: transform 0.3s ease-in-out;
         border-radius: 8px;
-        margin-top: 30px; /* Увеличили пространство между карточкой и описанием */
-        border: 2px solid #1f1f1f; /* Добавили границу с цветом */
-      }
-
-      .feature-card:hover {
-        transform: translateY(-5px);
+        margin-top: 30px; 
+        border: 2px solid #1f1f1f; 
       }
 
       .feature-list {
