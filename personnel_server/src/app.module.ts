@@ -20,10 +20,17 @@ import { Education } from './entity/education';
 import { Positions } from './entity/positions';
 import { EducationController } from './education/education.controller';
 import { EducationService } from './education/education.service';
+import { AchieveController } from './achieve/achieve.controller';
+import { AchieveService } from './achieve/achieve.service';
+import { EmployeersController } from './employeers/employeers.controller';
+import { EmployeersService } from './employeers/employeers.service';
 
 @Module({
   imports: [
-      TypeOrmModule.forFeature([Education]),
+      TypeOrmModule.forFeature([
+        Education,
+        Achieve
+      ]),
       TypeOrmModule.forRoot({
         type: 'mysql',
         host: 'localhost',
@@ -52,7 +59,7 @@ import { EducationService } from './education/education.service';
     }),
     SecretKeyModule
   ],
-  controllers: [AppController, EducationController],
-  providers: [AppService, EducationService],
+  controllers: [AppController, EducationController, AchieveController, EmployeersController],
+  providers: [AppService, EducationService, AchieveService, EmployeersService],
 })
 export class AppModule {}

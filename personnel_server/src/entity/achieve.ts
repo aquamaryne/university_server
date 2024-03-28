@@ -1,5 +1,6 @@
 import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
 import { Employeers } from "./employeers";
+
 @Entity()
 export class Achieve{
     @PrimaryGeneratedColumn()
@@ -32,6 +33,6 @@ export class Achieve{
     @Column()
     emplyeers_id: string;
 
-    @ManyToOne(() => Employeers, employeers => employeers.achieve) //add id
+    @ManyToOne(() => Employeers, employeers => employeers.achieve)
     employeers: Employeers;
 }
