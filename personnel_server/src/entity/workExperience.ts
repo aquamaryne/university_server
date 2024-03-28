@@ -18,9 +18,6 @@ export class Work_Experience{
     @Column()
     continuous_work_exp: Date;
 
-    @Column()
-    employeers_id: number;
-
     @ManyToOne(() => Employeers, employeers => employeers.workExperience)
     employeers: Employeers;
 }

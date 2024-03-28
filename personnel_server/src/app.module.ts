@@ -26,6 +26,10 @@ import { EmployeersController } from './employeers/employeers.controller';
 import { EmployeersService } from './employeers/employeers.service';
 import { FamilyController } from './family/family.controller';
 import { FamilyService } from './family/family.service';
+import { FiredController } from './fired/fired.controller';
+import { FiredService } from './fired/fired.service';
+import { LangController } from './lang/lang.controller';
+import { LangService } from './lang/lang.service';
 
 @Module({
   imports: [
@@ -33,7 +37,9 @@ import { FamilyService } from './family/family.service';
         Education,
         Achieve,
         Employeers,
-        Family
+        Family,
+        Fired, 
+        Language
       ]),
       TypeOrmModule.forRoot({
         type: 'mysql',
@@ -63,7 +69,7 @@ import { FamilyService } from './family/family.service';
     }),
     SecretKeyModule
   ],
-  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController],
-  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService],
+  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController],
+  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService],
 })
 export class AppModule {}

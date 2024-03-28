@@ -21,9 +21,6 @@ export class Personal_info{
     @Column({ unique: true })
     mobile_phone_number: string;
 
-    @Column()
-    employeers_id: number;
-
     @ManyToOne(() => Employeers, employeers => employeers.personalInfo)
     employeers: Employeers;
 }

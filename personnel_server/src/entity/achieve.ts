@@ -30,9 +30,6 @@ export class Achieve{
     @Column()
     member_of: string;
 
-    @Column()
-    emplyeers_id: string;
-
     @ManyToOne(() => Employeers, employeers => employeers.achieve)
     employeers: Employeers;
 }

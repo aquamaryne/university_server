@@ -16,12 +16,6 @@ export class Family{
     @Column()
     year_of_birth_children: Date;
 
-    @Column()
-    employeers_id: number;
-
-    @Column()
-    family_status_id: number;
-
     @ManyToOne(() => FamilyStatus, familyStatus => familyStatus.status)
     familyStatus: FamilyStatus;
 

@@ -25,9 +25,6 @@ export class Positions{
     @Column()
     department_id: number;
 
-    @Column()
-    employeers_id: number;
-
     @ManyToOne(() => Department, department => department.positions)
     department: Department;
 

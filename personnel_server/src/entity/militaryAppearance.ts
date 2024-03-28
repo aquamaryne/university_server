@@ -30,9 +30,6 @@ export class Military_appearance{
     @Column()
     name_of_the_military_office_at_the_place_of_residence: string;
 
-    @Column()
-    employeers_id: number;
-
     @ManyToOne(() => Employeers, employeers => employeers.id)
     employeers: Employeers;
 }
