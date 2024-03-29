@@ -13,7 +13,7 @@ import { Language } from './entity/lang';
 import { Employeers } from './entity/employeers';
 import { Sex } from './entity/sex';
 import { Work_Experience } from './entity/workExperience';
-import { Military_appearance } from './entity/militaryAppearance';
+import { Military_Appearance } from './entity/militaryAppearance';
 import { Family } from './entity/family';
 import { FamilyStatus } from './entity/familyStatus';
 import { Education } from './entity/education';
@@ -30,6 +30,8 @@ import { FiredController } from './fired/fired.controller';
 import { FiredService } from './fired/fired.service';
 import { LangController } from './lang/lang.controller';
 import { LangService } from './lang/lang.service';
+import { MilitaryAppearanceController } from './military_appearance/military_appearance.controller';
+import { MilitaryAppearanceService } from './military_appearance/military_appearance.service';
 
 @Module({
   imports: [
@@ -39,7 +41,8 @@ import { LangService } from './lang/lang.service';
         Employeers,
         Family,
         Fired, 
-        Language
+        Language,
+        Military_Appearance
       ]),
       TypeOrmModule.forRoot({
         type: 'mysql',
@@ -59,7 +62,7 @@ import { LangService } from './lang/lang.service';
           Employeers,
           Sex,
           Work_Experience,
-          Military_appearance,
+          Military_Appearance,
           Family,
           FamilyStatus,
           Education,
@@ -69,7 +72,7 @@ import { LangService } from './lang/lang.service';
     }),
     SecretKeyModule
   ],
-  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController],
-  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService],
+  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController],
+  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService],
 })
 export class AppModule {}

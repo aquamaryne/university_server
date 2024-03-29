@@ -6,7 +6,7 @@ export class AppService {
     return `
     <div class="welcome-container">
       <h1 class="welcome-header">Greetings!</h1>
-      <p class="welcome-text">Ты находишься в системе управления и мониторинга приложения для "Отдела кадров"</p>
+      <p class="welcome-text">Ты находишься в системе управления приложения для "Отдела кадров"</p>
       <div class="feature-card">
         <h2>API для управление запросами через Swagger</h2>
         <button class="button" onCLick="window.location.href='http://localhost:3001/api'">Swagger</button>
