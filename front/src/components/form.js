@@ -1,10 +1,6 @@
 import React from "react";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import WhereFrom from "../pages/witness/whereFrom";
-import IncreaseOneYear from "../pages/witness/increaseOneYear";
-import DecreaseOneYear from "../pages/witness/decreaseOneYear";
-import IncreaseGeneral from "../pages/witness/increaseGeneral";
-import DecreaseGeneral from "../pages/witness/decreaseGeneral";
 import EnterForm from "../pages/witness/enterToForm";
 import ManageTeam from "../pages/witness/manageTeam";
 import PrintForm from "../pages/witness/printForm";
@@ -63,10 +59,6 @@ const Form = () => {
                 onClose={handleClose}
             > 
                 <MenuItem onClick={() => handleMenuItemClick("Внесення звідки прийшов")}>Внесення звідки прийшов</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Збільшити всім педагогічний стаж на 1 рік")}>Збільшити всім педагогічний стаж на 1 рік</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Зменшити всім педагогічний стаж на 1 рік")}>Зменшити всім педагогічний стаж на 1 рік</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Збільшити всім загальний педагогічний стаж на 1 рік")}>Збільшити всім загальний педагогічний стаж на 1 рік</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Зменшити всім загальний педагогічний стаж на 1 рік")}>Зменшити всім загальний педагогічний стаж на 1 рік</MenuItem>
                 <MenuItem onClick={() => handleMenuItemClick("Внесення даних до формуляру")}>Внесення даних до формуляру</MenuItem>
                 <MenuItem onClick={() => handleMenuItemClick("Керівний склад")}>Керівний склад</MenuItem>
                 <MenuItem onClick={() => handleMenuItemClick("Друк штатного формуляру")}>Друк штатного формуляру</MenuItem>                    
@@ -80,10 +72,6 @@ const Form = () => {
                 <div>
                     <h2>Було обрано: {selectedMenuItem}</h2>
                     {selectedMenuItem === "Внесення звідки прийшов" && <WhereFrom />}
-                    {selectedMenuItem === "Збільшити всім педагогічний стаж на 1 рік" && <IncreaseOneYear />}
-                    {selectedMenuItem === "Зменшити всім педагогічний стаж на 1 рік" && <DecreaseOneYear />}
-                    {selectedMenuItem === "Збільшити всім загальний педагогічний стаж на 1 рік" && <IncreaseGeneral />}
-                    {selectedMenuItem === "Зменшити всім загальний педагогічний стаж на 1 рік" && <DecreaseGeneral />}
                     {selectedMenuItem === "Внесення даних до формуляру" && <EnterForm />}
                     {selectedMenuItem === "Керівний склад" && <ManageTeam />}
                     {selectedMenuItem === "Друк штатного формуляру" && <PrintForm />}
