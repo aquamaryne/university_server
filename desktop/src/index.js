@@ -15,7 +15,7 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
-  mainWindow.loadURL('http://localhost:3001/');
+  mainWindow.loadURL('http://localhost:3000/mainPage');
 };
 
 // This method will be called when Electron has finished
