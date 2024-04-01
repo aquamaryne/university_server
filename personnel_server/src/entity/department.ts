@@ -9,6 +9,6 @@ export class Department{
     @Column()
     department_name: string;
 
-    @OneToMany(() => Positions, position => position.department_id)
+    @OneToMany(() => Positions, position => position.department)
     positions: Positions[];
 }

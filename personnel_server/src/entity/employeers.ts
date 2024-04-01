@@ -4,7 +4,7 @@ import { Family } from "./family";
 import { Work_Experience } from "./workExperience";
 import { Education } from "./education";
 import { Fired } from "./fired";
-import { Personal_info } from "./personalInfo";
+import { Personal_Info } from "./personalInfo";
 import { Achieve } from "./achieve";
 import { Language } from "./lang";
 import { Sex } from "./sex";
@@ -41,8 +41,8 @@ export class Employeers{
     @OneToOne(() => Fired)
     fired: Fired;
 
-    @OneToOne(() => Personal_info)
-    personalInfo: Personal_info;
+    @OneToOne(() => Personal_Info)
+    personalInfo: Personal_Info;
 
     @OneToOne(() => Achieve)
     achieve: Achieve;

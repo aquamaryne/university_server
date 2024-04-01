@@ -22,9 +22,6 @@ export class Positions{
     @Column({ unique: true })
     number_of_order: number;
 
-    @Column()
-    department_id: number;
-
     @ManyToOne(() => Department, department => department.positions)
     department: Department;
 

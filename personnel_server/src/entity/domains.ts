@@ -9,6 +9,6 @@ export class Domains{
     @Column()
     domain_name: string;
 
-    @ManyToOne(() => Positions, position => position.department_id)
+    @ManyToOne(() => Positions, position => position.department)
     position: Positions;
 }
