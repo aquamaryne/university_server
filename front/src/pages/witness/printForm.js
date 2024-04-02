@@ -22,7 +22,7 @@ const FullFormPrint = () => {
       birthYear: "1990",
       gender: "Мужской",
       education: "Высшее",
-      rank: "Капитан",
+      rank: "Доктор наук",
       origin: "Университет",
       employmentEndDate: "01.01.2024"
     },
@@ -41,7 +41,7 @@ const FullFormPrint = () => {
       birthYear: "1985",
       gender: "Мужской",
       education: "Высшее",
-      rank: "Майор",
+      rank: "Доктор наук",
       origin: "Колледж",
       employmentEndDate: "01.02.2023"
     },
@@ -61,7 +61,7 @@ const FullFormPrint = () => {
       birthYear: "1992",
       gender: "Женский",
       education: "Высшее",
-      rank: "Прапорщик",
+      rank: "Доктор наук",
       origin: "Университет",
       employmentEndDate: "01.03.2022"
     },
@@ -80,7 +80,7 @@ const FullFormPrint = () => {
       birthYear: "1980",
       gender: "Мужской",
       education: "Высшее",
-      rank: "Капитан-Лейтенант",
+      rank: "Доктор наук",
       origin: "Университет",
       employmentEndDate: "01.04.2021"
     },
@@ -99,7 +99,7 @@ const FullFormPrint = () => {
       birthYear: "1987",
       gender: "Женский",
       education: "Высшее",
-      rank: "Капитан-Майор",
+      rank: "Доктор наук",
       origin: "Университет",
       employmentEndDate: "01.05.2020"
     },
@@ -118,7 +118,7 @@ const FullFormPrint = () => {
       birthYear: "1975",
       gender: "Женский",
       education: "Высшее",
-      rank: "Подполковник",
+      rank: "Доктор наук",
       origin: "Университет",
       employmentEndDate: "01.06.2019"
     },
@@ -137,7 +137,7 @@ const FullFormPrint = () => {
       birthYear: "1970",
       gender: "Мужской",
       education: "Высшее",
-      rank: "Полковник",
+      rank: "Доктор наук",
       origin: "Университет",
       employmentEndDate: "01.07.2018"
     }
@@ -176,23 +176,23 @@ const FullFormPrint = () => {
         <table className="print-table">
             <thead>
                 <tr>
-                    <th>КОД</th>
-                    <th>Имя, Фамилия и Отчество</th>
-                    <th>Поасад</th>
-                    <th>Дата вступу на посаду</th>
-                    <th>Дисциплину которую читает</th>
-                    <th>Штат или вспом</th>
-                    <th>Науч звание</th>
-                    <th>Науч степень</th>
-                    <th>Стаж науч работы (Общий)</th>
-                    <th>Стаж науч работы (В этом ВНЗ)</th>
-                    <th>Год последней пов квал</th>
-                    <th>Год рождения</th>
-                    <th>Пол</th>
-                    <th>Образование</th>
-                    <th>Звание</th>
-                    <th>Откуда пришел</th>
-                    <th>Дата окончание труд</th>
+                  <th>Код</th>
+                  <th>Ім'я, Прізвище та По батькові</th>
+                  <th>Посада</th>
+                  <th>Дата призначення на посаду</th>
+                  <th>Дисципліна, яку викладає</th>
+                  <th>Штат або виклик</th>
+                  <th>Наукове звання</th>
+                  <th>Науковий ступінь</th>
+                  <th>Стаж наукової роботи (Загальний)</th>
+                  <th>Стаж наукової роботи (У цьому ВНЗ)</th>
+                  <th>Рік останньої підвищеної кваліфікації</th>
+                  <th>Рік народження</th>
+                  <th>Стать</th>
+                  <th>Освіта</th>
+                  <th>Вченне Звання</th>
+                  <th>Звідки прибув</th>
+                  <th>Дата закінчення роботи</th>
                 </tr>
                 <tr>
                     {[...Array(17).keys()].map((index) => (

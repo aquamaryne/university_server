@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import WhereFrom from "../pages/witness/whereFrom";
 import EnterForm from "../pages/witness/enterToForm";
@@ -10,44 +10,57 @@ import FormThree from "../pages/witness/formThree";
 import FormFour from "../pages/witness/formFour";
 import FormFive from "../pages/witness/formFive";
 
-const Form = () => { 
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [clicked, setClicked] = React.useState(false);
-    const [selectedMenuItem, setSelectedMenuItem] = React.useState(null);
+const Form = () => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedMenuItem, setSelectedMenuItem] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
-        setClicked(true);
     };
 
     const handleClose = () => {
         setAnchorEl(null);
-        setClicked(false);
     };
 
     const handleMenuItemClick = (content) => {
         setSelectedMenuItem(content);
         handleClose();
-    }
+    };
 
-    return(
+    const menuItems = [
+        "Внесення звідки прийшов",
+        "Внесення даних до формуляру",
+        "Керівний склад",
+        "Друк штатного формуляру",
+        "Форма №1",
+        "Форма №2",
+        "Форма №3",
+        "Форма №4",
+        "Форма №5"
+    ];
+
+    const renderMenuItem = (menuItem) => (
+        <MenuItem key={menuItem} onClick={() => handleMenuItemClick(menuItem)}>
+            {menuItem}
+        </MenuItem>
+    );
+
+    return (
         <div>
             <Button onClick={handleClick} sx={{
                 border: 2,
                 fontFamily: 'Daikon',
                 fontWeight: 'bold',
                 borderRadius: 0,
-                color: clicked ? "white" : "black",
-                backgroundColor: clicked ? '#191970' : 'transparent',
+                color: anchorEl ? "white" : "black",
+                backgroundColor: anchorEl ? '#191970' : 'transparent',
                 '&:hover': {
-                    backgroundColor: clicked ? '#191970' : '#191970',
-                    color: clicked ? 'white' : 'white',
+                    backgroundColor: anchorEl ? '#191970' : '#191970',
+                    color: 'white',
                     borderColor: 'orange',
                     boxShadow: '-4px 2px 2px 0 purple',
                 },
                 transition: 'box-shadow 0.3s'
-
             }}>
                 <Typography>
                     Формуляр
@@ -57,16 +70,8 @@ const Form = () => {
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-            > 
-                <MenuItem onClick={() => handleMenuItemClick("Внесення звідки прийшов")}>Внесення звідки прийшов</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Внесення даних до формуляру")}>Внесення даних до формуляру</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Керівний склад")}>Керівний склад</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Друк штатного формуляру")}>Друк штатного формуляру</MenuItem>                    
-                <MenuItem onClick={() => handleMenuItemClick("Форма №1")}>Форма №1</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Форма №2")}>Форма №2</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Форма №3")}>Форма №3</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Форма №4")}>Форма №4</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("Форма №5")}>Форма №5</MenuItem>
+            >
+                {menuItems.map(renderMenuItem)}
             </Menu>
             {selectedMenuItem && (
                 <div>
@@ -82,9 +87,8 @@ const Form = () => {
                     {selectedMenuItem === "Форма №5" && <FormFive />}
                 </div>
             )}
-
         </div>
-    )
+    );
 };
 
 export default Form;

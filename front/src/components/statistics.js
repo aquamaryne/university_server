@@ -1,9 +1,9 @@
-import React from "react";
-import { MenuItem, Menu, Button, Typography } from "@mui/material"
+import React, { useState } from "react";
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
 const Statistics = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [clicked, setClicked] = React.useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [clicked, setClicked] = useState(false);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -15,44 +15,53 @@ const Statistics = () => {
         setClicked(false);
     };
 
-    return(
+    return (
         <div>
-            <Button onClick={handleClick} sx={{
-                border: 2,
-                fontFamily: 'Daikon',
-                fontWeight: 'bold',
-                borderRadius: 0,
-                color: clicked ? "white" : "black",
-                backgroundColor: clicked ? '#191970' : 'transparent',
-                '&:hover': {
-                    backgroundColor: clicked ? '#191970' : '#191970',
-                    color: clicked ? 'white' : 'white',
-                    borderColor: 'orange',
-                    boxShadow: '-4px 2px 2px 0 purple',
-                },
-                transition: 'box-shadow 0.3s'
-
-            }}>
-                <Typography>
-                    Статистика
-                </Typography>
+            <Button onClick={handleClick} sx={buttonStyles(clicked)}>
+                <Typography>Статистика</Typography>
             </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-            > 
-                <MenuItem onClick={handleClose}>Внесенні реквізитів для статистичних форм</MenuItem>
-                <MenuItem onClick={handleClose}>Форма №5 - формування даних</MenuItem>
-                <MenuItem onClick={handleClose}>Корегування та друк форми №5</MenuItem>
-                <MenuItem onClick={handleClose}>Форма №6</MenuItem>
-                <MenuItem onClick={handleClose}>Список осіб віком 16-29 років, що підлягають імунизації</MenuItem>
-                <MenuItem onClick={handleClose}>Список працівників віком старше...років</MenuItem>
-                <MenuItem onClick={handleClose}>Список всіх без сумісників і філіалів</MenuItem>
-                <MenuItem onClick={handleClose}>Список кандитатів і докторів з № дипломів</MenuItem>
+            >
+                {menuItems.map((item, index) => (
+                    <MenuItem key={index} onClick={handleClose}>
+                        {item}
+                    </MenuItem>
+                ))}
             </Menu>
         </div>
-    )
-}
+    );
+};
+
+// Стили для кнопки
+const buttonStyles = (clicked) => ({
+    border: 2,
+    fontFamily: 'Daikon',
+    fontWeight: 'bold',
+    borderRadius: 0,
+    color: clicked ? "white" : "black",
+    backgroundColor: clicked ? '#191970' : 'transparent',
+    '&:hover': {
+        backgroundColor: clicked ? '#191970' : '#191970',
+        color: clicked ? 'white' : 'white',
+        borderColor: 'orange',
+        boxShadow: '-4px 2px 2px 0 purple',
+    },
+    transition: 'box-shadow 0.3s'
+});
+
+// Массив элементов меню
+const menuItems = [
+    "Внесенні реквізитів для статистичних форм",
+    "Форма №5 - формування даних",
+    "Корегування та друк форми №5",
+    "Форма №6",
+    "Список осіб віком 16-29 років, що підлягають імунизації",
+    "Список працівників віком старше...років",
+    "Список всіх без сумісників і філіалів",
+    "Список кандитатів і докторів з № дипломів"
+];
 
 export default Statistics;

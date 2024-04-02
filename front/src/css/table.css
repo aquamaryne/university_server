@@ -36,7 +36,8 @@
   
   /* Стили для таблицы */
   .print-table {
-    width: 100%;
+    margin: 0 auto;
+    width: 90%;
     border-collapse: collapse;
     background-color: #fff; /* Цвет фона таблицы */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тень для таблицы */
@@ -45,8 +46,9 @@
   .print-table th,
   .print-table td {
     border: 1px solid #ddd; /* Цвет границ ячеек */
-    padding: 12px;
+    padding: 8px;
     text-align: left;
+    font-size: 16px;
   }
   
   .print-table th {

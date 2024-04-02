@@ -12,10 +12,10 @@ import "../css/page.css";
 const MainPage = () => { 
     return(
         <div>
-            <Grid container spacing={2} marginLeft={4} sx={{
+            <Grid container spacing={2} sx={{
                 marginTop: 1,
-            }}>
-                <Box>
+            }} className="grid-container">
+                <Box sx={{ marginLeft: 5}}>
                     <Witness />
                 </Box>
                 <Box sx={{ marginLeft: 1}}>
@@ -43,3 +43,4 @@ const MainPage = () => {
 };
 
 export default MainPage;
+

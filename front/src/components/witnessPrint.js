@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
 const PrintWitness = () => { 
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [clicked, setClicked] = React.useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [clicked, setClicked] = useState(false);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -18,21 +17,7 @@ const PrintWitness = () => {
 
     return(
         <div>
-            <Button onClick={handleClick} sx={{
-                border: 2,
-                fontFamily: 'Daikon',
-                fontWeight: 'bold',
-                borderRadius: 0,
-                color: clicked ? "white" : "black",
-                backgroundColor: clicked ? '#191970' : 'transparent',
-                '&:hover': {
-                    backgroundColor: clicked ? '#191970' : '#191970',
-                    color: clicked ? 'white' : 'white',
-                    borderColor: 'orange',
-                    boxShadow: '-4px 2px 2px 0 purple',
-                },
-                transition: 'box-shadow 0.3s'
-            }}>
+            <Button onClick={handleClick} sx={buttonStyles(clicked)}>
                 <Typography>
                     Друк довідників
                 </Typography>
@@ -42,22 +27,48 @@ const PrintWitness = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             > 
-                <MenuItem onClick={handleClose}>Друк довідника факультетів</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника посад</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника підрозділів</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника причин звільнення</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника родинного стану</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника членів сім'ї</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника трудових угод</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника видів відпусток</MenuItem>                    
-                <MenuItem onClick={handleClose}>Друк довідника вчених званнів</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника вчених ступенів</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника іноземних мов</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника наукових галузей</MenuItem>
-                <MenuItem onClick={handleClose}>Друк довідника почесних званнів</MenuItem>
+                {menuItems.map((item, index) => (
+                    <MenuItem key={index} onClick={handleClose}>
+                        {item}
+                    </MenuItem>
+                ))}
             </Menu>
         </div>
-    )
+    );
 };
+
+// Стили для кнопки
+const buttonStyles = (clicked) => ({
+    border: 2,
+    fontFamily: 'Daikon',
+    fontWeight: 'bold',
+    borderRadius: 0,
+    color: clicked ? "white" : "black",
+    backgroundColor: clicked ? '#191970' : 'transparent',
+    '&:hover': {
+        backgroundColor: clicked ? '#191970' : '#191970',
+        color: clicked ? 'white' : 'white',
+        borderColor: 'orange',
+        boxShadow: '-4px 2px 2px 0 purple',
+    },
+    transition: 'box-shadow 0.3s'
+});
+
+// Массив элементов меню
+const menuItems = [
+    "Друк довідника факультетів",
+    "Друк довідника посад",
+    "Друк довідника підрозділів",
+    "Друк довідника причин звільнення",
+    "Друк довідника родинного стану",
+    "Друк довідника членів сім'ї",
+    "Друк довідника трудових угод",
+    "Друк довідника видів відпусток",
+    "Друк довідника вчених званнів",
+    "Друк довідника вчених ступенів",
+    "Друк довідника іноземних мов",
+    "Друк довідника наукових галузей",
+    "Друк довідника почесних званнів"
+];
 
 export default PrintWitness;
