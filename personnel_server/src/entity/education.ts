@@ -7,7 +7,10 @@ export class Education{
     id: number;
 
     @Column()
-    degree_of_education: string;
+    status_of_education: string;
+
+    @Column()
+    academic_title: string; 
 
     @Column()
     diploma: string;

@@ -8,6 +8,7 @@ import PrintWitness from "./witnessPrint";
 import Form from "./form";
 import Store from "./store";
 import "../css/page.css";
+import EnterDataForm from "./enterData";
 
 const MainPage = () => { 
     return(
@@ -35,6 +36,9 @@ const MainPage = () => {
                 </Box>
                 <Box sx={{ marginLeft: 1}}>
                     <Store />
+                </Box>
+                <Box sx={{ marginLeft: 1}}>
+                    <EnterDataForm />
                 </Box>
             </Grid>
             <div className="line"></div>

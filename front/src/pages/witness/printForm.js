@@ -151,24 +151,30 @@ const FullFormPrint = () => {
         content={() => componentRef.current}
         pageStyle={`
             @page {
-                size: 450mm 360mm;
-                margin: 2rem; 
-                orientation: landscape;
-            }
-            @media print {
-                .print-title {
-                    font-size: 140px;
-                    text-align: center;
-                    margin-bottom: 5rem;
-                }
-
-                .print-table {
-                    margin-top: 0;
-                    width: 100%;
-                    font-size: 40px;
-                    text-align: center;
-                }
-            }
+              size: auto;
+              margin: 2rem; 
+              orientation: landscape;
+              }
+              @media print {
+                  .print-title {
+                      width: 100%;
+                      margin-bottom: 5rem;
+                  }
+          
+                  .print-table {
+                      width: 110%;
+                      height: 90%;
+                      font-size: 140px;
+                      text-align: center;
+                  }
+          
+                  body, html, #root, .print-content, .print-button {
+                      margin: 0;
+                      padding: 0;
+                      width: 100%;
+                      height: 100%; /* Установка высоты на 100% */
+                  }
+              }
         `}
       />
       <div ref={componentRef} className="print-content">
@@ -202,25 +208,25 @@ const FullFormPrint = () => {
             </thead>
           <tbody>
           {firedPeople.map((person) => (
-            <tr key={person.id}>
-                <td>{person.id}</td>
-                <td>{person.fullName}</td>
-                <td>{person.position}</td>
-                <td>{person.dateStarted}</td>
-                <td>{person.discipline}</td>
-                <td>{person.employmentType}</td>
-                <td>{person.academicTitle}</td>
-                <td>{person.academicDegree}</td>
-                <td>{person.totalExperience}</td>
-                <td>{person.universityExperience}</td>
-                <td>{person.lastQualificationYear}</td>
-                <td>{person.birthYear}</td>
-                <td>{person.gender}</td>
-                <td>{person.education}</td>
-                <td>{person.rank}</td>
-                <td>{person.origin}</td>
-                <td>{person.employmentEndDate}</td>
-            </tr>
+              <tr key={person.id}>
+                  <td>{person.id}</td>
+                  <td>{person.fullName}</td>
+                  <td>{person.position}</td>
+                  <td>{person.dateStarted}</td>
+                  <td>{person.discipline}</td>
+                  <td>{person.employmentType}</td>
+                  <td>{person.academicTitle}</td>
+                  <td>{person.academicDegree}</td>
+                  <td>{person.totalExperience}</td>
+                  <td>{person.universityExperience}</td>
+                  <td>{person.lastQualificationYear}</td>
+                  <td>{person.birthYear}</td>
+                  <td>{person.gender}</td>
+                  <td>{person.education}</td>
+                  <td>{person.rank}</td>
+                  <td>{person.origin}</td>
+                  <td>{person.employmentEndDate}</td>
+              </tr>
             ))}
           </tbody>
         </table>
