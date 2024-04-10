@@ -3,7 +3,40 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography'
+import { styled } from '@mui/system';
 import "../css/form.css";
+
+
+const ModernTextField = styled(TextField)({
+    "& .MuiOutlinedInput-root": {
+        borderRadius: "0px",
+        backgroundColor: "white",
+        border: "2px solid black",
+        "&:hover fieldset": {
+            borderColor: "transparent", // убираем границу при наведении
+        },
+        "&.Mui-focused fieldset": {
+            borderColor: "black", // меняем цвет границы при фокусировке
+        },
+    },
+    "& .MuiInputLabel-root": {
+        color: "black",
+        fontWeight: "bold",
+    },
+    "& .MuiInputBase-input": {
+        color: "black",
+    },
+    "& .MuiFormHelperText-root": {
+        color: "gray",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+    },
+    "& .MuiOutlinedInput-input": {
+        padding: "16px",
+    },
+    transition: "background-color 0.3s, border-color 0.3s, box-shadow 0.3s",
+});
 
 const buttonStyles = (clicked) => ({
     border: 2,
@@ -38,155 +71,33 @@ const EnterDataForm = () => {
                     <form>
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={6}>
-                                <TextField 
+                                <ModernTextField 
                                     fullWidth
-                                    label="Имя"
+                                    label="Ім'я"
                                     name='name'
-                                    onChange={"_"}
+                                    onChange={() => {}}
+                                    variant="outlined"
+                                    size="small"
+                                    color="primary"
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <TextField 
+                                <ModernTextField 
                                     fullWidth
-                                    label="Фамилия"
+                                    label="Прізвище"
                                     name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Имя"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Фамилия"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Имя"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Фамилия"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Имя"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Фамилия"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Имя"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Фамилия"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Имя"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Фамилия"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Имя"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Фамилия"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Имя"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Фамилия"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Имя"
-                                    name='name'
-                                    onChange={"_"}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Фамилия"
-                                    name='name'
-                                    onChange={"_"}
+                                    onChange={() => {}}
+                                    variant="outlined"
+                                    size="small"
+                                    color="primary"
                                 />
                             </Grid>
                         </Grid>
-                        <Button type='save'>Зберегти</Button>
-                    </form>
-                </div>
-            )}
-        </div> 
+                    <Button type='save'>Зберегти</Button>
+                </form>
+            </div>
+        )}
+    </div> 
     )
 };
 
