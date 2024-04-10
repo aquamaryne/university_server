@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ReactToPrint } from "react-to-print";
 import "../../css/table.css";
-import { textAlign } from "@mui/system";
+import axios from "axios";
 
 const FullFormPrint = () => {
   const componentRef = React.useRef();
 
+  const[employeers, setEmployeers] = React.useState([]);
   const firedPeople = [
     {
       id: 1,
@@ -142,8 +143,13 @@ const FullFormPrint = () => {
       employmentEndDate: "01.07.2018"
     }
   ];
-  
-  
+
+  useEffect(() => {
+    axios.get(`http://localhost:3001/employeers`)
+    .then(res => setEmployeers(res.data))
+    .catch(err => console.log(err));
+  }, []);
+
   return (
     <div>
       <ReactToPrint
