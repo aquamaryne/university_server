@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import TextField from '@mui/material/TextField';
-
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography'
@@ -57,9 +57,20 @@ const buttonStyles = (clicked) => ({
 
 const EnterDataForm = () => {
     const [clicked, setClicked] = useState(false);
+    const [employeers, setEmployeers] = useState([]);
 
     const handleClick = () => {
         setClicked(prevClicked => !prevClicked);
+    };
+
+    //api for post data in db
+    const handleSave = () => {
+        axios.post('http://localhost:3001/employeers', FormData) // Use http:// before localhost
+            .then(res => {
+                setEmployeers(res.data);
+                console.log('Data saved successfully:', res.data); // Optional: Log success message
+            })
+            .catch(err => console.error('Error saving data:', err)); // Log error if any
     };
 
     return(
@@ -69,7 +80,7 @@ const EnterDataForm = () => {
             </Button>  
             {clicked && (
                 <div>
-                    <form>
+                    <form onSubmit={handleSave}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={6}>
                                 <ModernTextField 

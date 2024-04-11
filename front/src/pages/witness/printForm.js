@@ -7,142 +7,6 @@ const FullFormPrint = () => {
   const componentRef = React.useRef();
 
   const[employeers, setEmployeers] = React.useState([]);
-  const firedPeople = [
-    {
-      id: 1,
-      fullName: "Иванов Иван Иванович",
-      position: "Программист",
-      dateStarted: "01.01.2023",
-      discipline: "Информатика",
-      employmentType: "Штат",
-      academicTitle: "Профессор",
-      academicDegree: "Доктор наук",
-      totalExperience: "10 лет",
-      universityExperience: "5 лет",
-      lastQualificationYear: "2022",
-      birthYear: "1990",
-      gender: "Мужской",
-      education: "Высшее",
-      rank: "Доктор наук",
-      origin: "Университет",
-      employmentEndDate: "01.01.2024"
-    },
-    {
-      id: 2,
-      fullName: "Петров Петр Петрович",
-      position: "Аналитик",
-      dateStarted: "01.02.2022",
-      discipline: "Математика",
-      employmentType: "Вспомогательный",
-      academicTitle: "Доцент",
-      academicDegree: "Кандидат наук",
-      totalExperience: "8 лет",
-      universityExperience: "3 лет",
-      lastQualificationYear: "2021",
-      birthYear: "1985",
-      gender: "Мужской",
-      education: "Высшее",
-      rank: "Доктор наук",
-      origin: "Колледж",
-      employmentEndDate: "01.02.2023"
-    },
-    // Добавьте данные для других сотрудников здесь
-    {
-      id: 3,
-      fullName: "Сидорова Елена Ивановна",
-      position: "Бухгалтер",
-      dateStarted: "01.03.2021",
-      discipline: "Финансы",
-      employmentType: "Штат",
-      academicTitle: "Ассистент",
-      academicDegree: "Бакалавр",
-      totalExperience: "5 лет",
-      universityExperience: "2 лет",
-      lastQualificationYear: "2020",
-      birthYear: "1992",
-      gender: "Женский",
-      education: "Высшее",
-      rank: "Доктор наук",
-      origin: "Университет",
-      employmentEndDate: "01.03.2022"
-    },
-    {
-      id: 4,
-      fullName: "Кузнецов Владимир Сергеевич",
-      position: "Инженер",
-      dateStarted: "01.04.2020",
-      discipline: "Техника",
-      employmentType: "Штат",
-      academicTitle: "Преподаватель",
-      academicDegree: "Кандидат наук",
-      totalExperience: "12 лет",
-      universityExperience: "6 лет",
-      lastQualificationYear: "2019",
-      birthYear: "1980",
-      gender: "Мужской",
-      education: "Высшее",
-      rank: "Доктор наук",
-      origin: "Университет",
-      employmentEndDate: "01.04.2021"
-    },
-    {
-      id: 5,
-      fullName: "Смирнова Ольга Николаевна",
-      position: "Менеджер",
-      dateStarted: "01.05.2019",
-      discipline: "Менеджмент",
-      employmentType: "Штат",
-      academicTitle: "Старший преподаватель",
-      academicDegree: "Кандидат наук",
-      totalExperience: "9 лет",
-      universityExperience: "4 лет",
-      lastQualificationYear: "2018",
-      birthYear: "1987",
-      gender: "Женский",
-      education: "Высшее",
-      rank: "Доктор наук",
-      origin: "Университет",
-      employmentEndDate: "01.05.2020"
-    },
-    {
-      id: 6,
-      fullName: "Иванова Мария Владимировна",
-      position: "Преподаватель",
-      dateStarted: "01.06.2018",
-      discipline: "Педагогика",
-      employmentType: "Штат",
-      academicTitle: "Профессор",
-      academicDegree: "Доктор наук",
-      totalExperience: "15 лет",
-      universityExperience: "8 лет",
-      lastQualificationYear: "2017",
-      birthYear: "1975",
-      gender: "Женский",
-      education: "Высшее",
-      rank: "Доктор наук",
-      origin: "Университет",
-      employmentEndDate: "01.06.2019"
-    },
-    {
-      id: 7,
-      fullName: "Сидоров Игорь Павлович",
-      position: "Директор",
-      dateStarted: "01.07.2017",
-      discipline: "Управление",
-      employmentType: "Штат",
-      academicTitle: "Профессор",
-      academicDegree: "Доктор наук",
-      totalExperience: "20 лет",
-      universityExperience: "10 лет",
-      lastQualificationYear: "2016",
-      birthYear: "1970",
-      gender: "Мужской",
-      education: "Высшее",
-      rank: "Доктор наук",
-      origin: "Университет",
-      employmentEndDate: "01.07.2018"
-    }
-  ];
 
   useEffect(() => {
     axios.get(`http://localhost:3001/employeers`)
@@ -213,25 +77,15 @@ const FullFormPrint = () => {
                 </tr>
             </thead>
           <tbody>
-          {firedPeople.map((person) => (
-              <tr key={person.id}>
-                  <td>{person.id}</td>
-                  <td>{person.fullName}</td>
-                  <td>{person.position}</td>
-                  <td>{person.dateStarted}</td>
-                  <td>{person.discipline}</td>
-                  <td>{person.employmentType}</td>
-                  <td>{person.academicTitle}</td>
-                  <td>{person.academicDegree}</td>
-                  <td>{person.totalExperience}</td>
-                  <td>{person.universityExperience}</td>
-                  <td>{person.lastQualificationYear}</td>
-                  <td>{person.birthYear}</td>
-                  <td>{person.gender}</td>
-                  <td>{person.education}</td>
-                  <td>{person.rank}</td>
-                  <td>{person.origin}</td>
-                  <td>{person.employmentEndDate}</td>
+          {employeers.map((employyer) => (
+              <tr key={employyer.id}>
+                  <td>{employyer.id}</td>
+                  <td>
+                      {employyer.fname}
+                      {employyer.sname}
+                      {employyer.fatherly}
+                  </td>
+                  <td>{employyer.date_of_birth}</td>
               </tr>
             ))}
           </tbody>
