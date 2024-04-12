@@ -58,20 +58,33 @@ const buttonStyles = (clicked) => ({
 const EnterDataForm = () => {
     const [clicked, setClicked] = useState(false);
     const [employeers, setEmployeers] = useState([]);
+    const [formData, setFormData] = useState({});
 
     const handleClick = () => {
         setClicked(prevClicked => !prevClicked);
     };
 
-    //api for post data in db
+    const handleSubmit = (event) => {
+        handleSave();
+    }
+    //api for POST data in db
     const handleSave = () => {
-        axios.post('http://localhost:3001/employeers', FormData) // Use http:// before localhost
+        axios.post('http://localhost:3001/employeers', formData) 
             .then(res => {
                 setEmployeers(res.data);
-                console.log('Data saved successfully:', res.data); // Optional: Log success message
+                console.log('Data saved successfully:', res.data);
             })
-            .catch(err => console.error('Error saving data:', err)); // Log error if any
+            .catch(err => console.error('Error saving data:', err)); 
     };
+
+    const handleChange = (event) => {
+        const { sname, fname, value } = event.target;
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [sname]: value,
+            [fname]: value
+        }))
+    }
 
     return(
         <div>
@@ -80,14 +93,14 @@ const EnterDataForm = () => {
             </Button>  
             {clicked && (
                 <div>
-                    <form onSubmit={handleSave}>
+                    <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={6}>
                                 <ModernTextField 
                                     fullWidth
                                     label="Ім'я"
                                     name='name'
-                                    onChange={() => {}}
+                                    onChange={handleChange}
                                     variant="outlined"
                                     size="small"
                                     color="primary"
@@ -98,7 +111,7 @@ const EnterDataForm = () => {
                                     fullWidth
                                     label="Прізвище"
                                     name='name'
-                                    onChange={() => {}}
+                                    onChange={handleChange}
                                     variant="outlined"
                                     size="small"
                                     color="primary"
