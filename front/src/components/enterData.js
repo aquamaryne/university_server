@@ -1,103 +1,58 @@
 import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography'
-import { Snackbar } from '@mui/material';
-import { Alert } from '@mui/material';
-import "../css/form.css";
+import { PostEmployeerDataTable } from '../api/eployeer.api.post';
+import '../css/form.css';
 
 const EnterDataForm = () => {
     const [clicked, setClicked] = useState(false);
-    const [formData, setFormData] = useState({});
-    const [notification, setNotification] = useState({ open: false, message: '', severity: 'success'});
+    const [employeerData, setEmployeerData] = useState({
+        fname: '',
+        sname: '',
+        fatherly: '',
+        date_of_birth: ''
+    });
 
-
-    const handleClick = () => {
+    const handleClicked = () => {
         setClicked(prevClicked => !prevClicked);
     };
-
-    const handleSubmit = () => {
-        handleSave();
+    
+    const handleEmployeerChange = (e) => {
+        const { name, value } = e.target;
+        setEmployeerData(({
+            ...employeerData,
+            [name]: value
+        }));
     };
 
-    const handleCloseNotifiaction = () => {
-        setNotification({...notification, open: false});
-    };
-
-    //api for POST data in db
-    const handleSave = async () => {
-        try{
-            const responce = await fetch(`http://localhost:3001/employeers`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-            if(!responce.ok){
-                throw new Error('Error to send req');
-            }
-            setNotification({open: true, message: 'Дані були успішно внесені', severity: 'success'});
-            setFormData({});
-        } catch(error){
-            console.error('Error saving data', error);
-            setNotification({open: true, message: 'Помилка при внесені даних', severity: 'error'})
+    const handleEmployeerSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const responce = await PostEmployeerDataTable(employeerData);
+            console.log('Data submitted to table `Employeers`', responce);
+            setEmployeerData({
+                fname: '',
+                sname: '',
+                fatherly: '',
+                date_of_birth: '',
+            })
+        } catch (error) {
+            console.error(error);
         }
     };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            [name]: value
-        }))
-    }
 
-    return(
+    return (
         <div>
-            <Button onClick={handleClick}>
-                <Typography>Внесееня даних</Typography>
-            </Button>  
+            <button onClick={handleClicked}>Внесення даних</button>
             {clicked && (
-                <div>
-                    <form onSubmit={handleSubmit}>
-                        <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Ім'я"
-                                    name='name'
-                                    value={formData.fname}
-                                    onChange={handleChange}
-                                    variant="outlined"
-                                    size="small"
-                                    color="primary"
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField 
-                                    fullWidth
-                                    label="Прізвище"
-                                    name='name'
-                                    value={formData.sname}
-                                    onChange={handleChange}
-                                    variant="outlined"
-                                    size="small"
-                                    color="primary"
-                                />
-                            </Grid>
-                        </Grid>
-                    <Button type='save'>Зберегти</Button>
+                <form onSubmit={handleEmployeerSubmit}>
+                    <input type='text' name='fname' placeholder="Ім'я" value={employeerData.fname} onChange={handleEmployeerChange}></input>
+                    <input type='text' name='sname' placeholder="Прізвище" value={employeerData.sname} onChange={handleEmployeerChange}></input>
+                    <input type='text' name='fatherly' placeholder="ПО батькові" value={employeerData.fatherly} onChange={handleEmployeerChange}></input>
+                    <input type='text' name='date_of_birth' placeholder="Дата народження" value={employeerData.date_of_birth} onChange={handleEmployeerChange}></input>
+                    <button type='submit'>Зберегти</button>
                 </form>
-            </div>
-        )}
-        <Snackbar open={notification.open} autoHideDuration={600} onClose={handleCloseNotifiaction}>
-            <Alert elevation={6} variant='filled' onClose={handleCloseNotifiaction} severity={notification.severity}>
-                {notification.message};
-            </Alert>
-        </Snackbar>
-    </div> 
+            )}
+        </div>
     )
 };
 

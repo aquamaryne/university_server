@@ -8,22 +8,27 @@ import { Personal_Info } from "./personalInfo";
 import { Achieve } from "./achieve";
 import { Language } from "./lang";
 import { Sex } from "./sex";
+import { IsNotEmpty } from "class-validator";
 
 @Entity()
 export class Employeers{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @Column()
+    @Column({ nullable: true })
+    @IsNotEmpty()
     fname: string;
 
-    @Column()
+    @Column({ nullable: true })
+    @IsNotEmpty()
     sname: string;
 
-    @Column()
+    @Column({ nullable: true })
+    @IsNotEmpty()
     fatherly: string;
 
-    @Column()
+    @Column({ nullable: true })
+    @IsNotEmpty()
     date_of_birth: Date;
 
     @OneToOne(() => Positions)
