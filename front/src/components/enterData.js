@@ -47,7 +47,7 @@ const EnterDataForm = () => {
                 <form onSubmit={handleEmployeerSubmit}>
                     <input type='text' name='fname' placeholder="Ім'я" value={employeerData.fname} onChange={handleEmployeerChange}></input>
                     <input type='text' name='sname' placeholder="Прізвище" value={employeerData.sname} onChange={handleEmployeerChange}></input>
-                    <input type='text' name='fatherly' placeholder="ПО батькові" value={employeerData.fatherly} onChange={handleEmployeerChange}></input>
+                    <input type='text' name='fatherly' placeholder="По батькові" value={employeerData.fatherly} onChange={handleEmployeerChange}></input>
                     <input type='text' name='date_of_birth' placeholder="Дата народження" value={employeerData.date_of_birth} onChange={handleEmployeerChange}></input>
                     <button type='submit'>Зберегти</button>
                 </form>
