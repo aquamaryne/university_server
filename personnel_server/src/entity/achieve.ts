@@ -1,5 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Employeers } from "./employeers";
+import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
 
 @Entity()
 export class Achieve{
@@ -29,7 +28,4 @@ export class Achieve{
 
     @Column()
     member_of: string;
-
-    @ManyToOne(() => Employeers, employeers => employeers.achieve)
-    employeers: Employeers;
 }

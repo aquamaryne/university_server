@@ -1,5 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Employeers } from "./employeers";
+import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
 
 @Entity()
 export class Personal_Info{
@@ -20,7 +19,4 @@ export class Personal_Info{
 
     @Column({ unique: true })
     mobile_phone_number: string;
-
-    @ManyToOne(() => Employeers, employeers => employeers.personalInfo)
-    employeers: Employeers;
 }

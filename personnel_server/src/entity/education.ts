@@ -1,5 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Employeers } from "./employeers";
+import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
 
 @Entity()
 export class Education{
@@ -23,7 +22,4 @@ export class Education{
 
     @Column()
     name_of_the_middle_university: string;
-
-    @ManyToOne(() => Employeers, employeers => employeers.education)
-    employeers: Employeers;
 }

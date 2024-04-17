@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToOne, OneToMany } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne, JoinColumn } from "typeorm";
 import { Positions } from "./positions";
 import { Family } from "./family";
 import { Work_Experience } from "./workExperience";
@@ -31,30 +31,66 @@ export class Employeers{
     @IsNotEmpty()
     date_of_birth: Date;
 
-    @OneToOne(() => Positions)
+    @Column({ nullable: true })
+    positionId: number;
+
+    @Column({ nullable: true })
+    familyId: number;
+
+    @Column({ nullable: true })
+    workExperienceId: number;
+
+    @Column({ nullable: true })
+    educationId: number;
+
+    @Column({ nullable: true })
+    firedId: number;
+
+    @Column({ nullable: true })
+    personalInfoId: number;
+
+    @Column({ nullable: true })
+    achieveId: number;
+
+    @Column({ nullable: true })
+    languagesId: number;
+
+    @Column({ nullable: true })
+    sexId: number;
+
+    @ManyToOne(() => Positions)
+    @JoinColumn({ name: 'positionId' })
     positions: Positions;
 
-    @OneToOne(() => Family)
+    @ManyToOne(() => Family)
+    @JoinColumn({ name: 'familyId' })
     family: Family;
 
-    @OneToOne(() => Work_Experience)
+    @ManyToOne(() => Work_Experience)
+    @JoinColumn({ name: 'workExperienceId' })
     workExperience: Work_Experience;
 
-    @OneToOne(() => Education)
+    @ManyToOne(() => Education)
+    @JoinColumn({ name: 'educationId' })
     education: Education;
 
-    @OneToOne(() => Fired)
+    @ManyToOne(() => Fired)
+    @JoinColumn({ name: 'firedId' })
     fired: Fired;
 
-    @OneToOne(() => Personal_Info)
+    @ManyToOne(() => Personal_Info)
+    @JoinColumn({ name: 'personalInfoId' })
     personalInfo: Personal_Info;
 
-    @OneToOne(() => Achieve)
+    @ManyToOne(() => Achieve)
+    @JoinColumn({ name: 'achieveId' })
     achieve: Achieve;
 
-    @OneToOne(() => Language)
+    @ManyToOne(() => Language)
+    @JoinColumn({ name: 'languagesId' })
     languages: Language;
 
-    @OneToOne(() => Sex)
+    @ManyToOne(() => Sex)
+    @JoinColumn({ name: 'sexId' })
     sex: Sex;
 }

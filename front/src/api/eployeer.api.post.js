@@ -13,7 +13,6 @@ export const PostEmployeerDataTable = async(formData) => {
         if(!responce.ok){
             throw new Error('Failed to submit data to table employeers', formData);
         }
-
         return await responce.json();
     } catch (error) {
         console.error('Error submitting data to table employeers', error);

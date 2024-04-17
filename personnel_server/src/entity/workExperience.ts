@@ -1,5 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Employeers } from "./employeers";
+import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
 
 @Entity()
 export class Work_Experience{
@@ -17,7 +16,4 @@ export class Work_Experience{
 
     @Column()
     continuous_work_exp: Date;
-
-    @ManyToOne(() => Employeers, employeers => employeers.workExperience)
-    employeers: Employeers;
 }

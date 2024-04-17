@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SecretKeyModule } from './secret_key/secret_key.module';
-import { A_Key } from './entity/key';
 import { Achieve } from './entity/achieve';
 import { Personal_Info } from './entity/personalInfo';
 import { Department } from './entity/department';
@@ -70,7 +68,6 @@ import { WorkExperienceService } from './work_experience/work_experience.service
         password: 'toor',
         database: 'kadry',
         entities: [
-          A_Key,
           Achieve,
           Personal_Info,
           Department,
@@ -88,7 +85,6 @@ import { WorkExperienceService } from './work_experience/work_experience.service
         ],
         synchronize: true
     }),
-    SecretKeyModule
   ],
   controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController],
   providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService],
