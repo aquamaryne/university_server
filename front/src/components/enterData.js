@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PostEmployeerDataTable } from '../api/eployeer.api.post';
+import { postDataToTable } from '../api/data.api.post';
 import '../css/form.css';
 
 const EnterDataForm = () => {
@@ -26,8 +26,8 @@ const EnterDataForm = () => {
     const handleEmployeerSubmit = async (e) => {
         e.preventDefault();
         try {
-            const responce = await PostEmployeerDataTable(employeerData);
-            console.log('Data submitted to table `Employeers`', responce);
+            const responce = await postDataToTable(employeerData);
+            console.log('Data submitted to table `Employeers`', responce[0]);
             setEmployeerData({
                 fname: '',
                 sname: '',
