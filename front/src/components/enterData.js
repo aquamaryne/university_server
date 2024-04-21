@@ -2,20 +2,10 @@ import React, { useState } from 'react';
 import '../css/form.css';
 import EmployeerData from '../data/employeer.data';
 import EducationData from '../data/education.data';
+import FamilyData from '../data/family.data';
 
 const EnterDataForm = () => {
     const[clicked, setClicked] = useState(false);
-
-    // const[achieveData, setAchieveData] = useState({
-    //     achieve_name: '',
-    //     honory_title: '',
-    //     meritotious_title: '',
-    //     state_awards: '',
-    //     honored_scientist: '',
-    //     other_honors: '',
-    //     academic: '',
-    //     member_of: ''
-    // });
 
     // const[departmentData, setDepartmentData] = useState({
     //     department_name: ''
@@ -23,12 +13,6 @@ const EnterDataForm = () => {
 
     // const[domainsData, setDomainsData] = useState({
     //     domain_name: '',
-    // });
-
-    // const[familyData, setFamilyData] = useState({
-    //     count_of_children: '',
-    //     children_name: '',
-    //     year_of_birth_children: ''
     // });
 
     // const[familyStatusData, setFamilyStatusData] = useState({
@@ -95,6 +79,7 @@ const EnterDataForm = () => {
                 <div>
                     <EmployeerData />
                     <EducationData />
+                    <FamilyData />
                 </div>
             )}
         </div>
