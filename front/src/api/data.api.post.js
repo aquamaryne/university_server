@@ -1,17 +1,17 @@
-const URL0 = 'http://localhost:3001/employeers';
-const URL1 = 'http://localhost:3001/education';
-const URL2 = 'http://localhost:3001/sex';
-const URL3 = 'http://localhost:3001/positions';
-const URL4 = 'http://localhost:3001/department';
-const URL5 = 'http://localhost:3001/domains';
-const URL6 = 'http://localhost:3001/work-experience';
-const URL7 = 'http://localhost:3001/military-appearance';
-const URL8 = 'http://localhost:3001/family';
-const URL9 = 'http://localhost:3001/family-status';
-const URL10 = 'http://localhost:3001/lang';
-const URL11 = 'http://localhost:3001/personal-info';
-const URL12 = 'http://localhost:3001/achieve';
-const URL13 = 'http://localhost:3001/fired';
+const URL0 = 'http://localhost:3001/employeers';            // responce[1]
+const URL1 = 'http://localhost:3001/education';             // responce[2]
+const URL2 = 'http://localhost:3001/sex';                   // responce[3]
+const URL3 = 'http://localhost:3001/positions';             // responce[4]
+const URL4 = 'http://localhost:3001/department';            // responce[5]
+const URL5 = 'http://localhost:3001/domains';               // responce[6]
+const URL6 = 'http://localhost:3001/work-experience';       // responce[7]
+const URL7 = 'http://localhost:3001/military-appearance';   // responce[8]
+const URL8 = 'http://localhost:3001/family';                // responce[9]
+const URL9 = 'http://localhost:3001/family-status';         // responce[10]
+const URL10 = 'http://localhost:3001/lang';                 // responce[11]
+const URL11 = 'http://localhost:3001/personal-info';        // responce[12]
+const URL12 = 'http://localhost:3001/achieve';              // responce[13]
+const URL13 = 'http://localhost:3001/fired';                // responce[14]
 
 export const postDataToTable = async(formData) => {
     try{
