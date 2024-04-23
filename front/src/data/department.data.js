@@ -1,5 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
+import { TextField } from "@mui/material";
 
 const DepartmentData = () => {
     const[departmentData, setDepartmentData] = React.useState({
@@ -30,7 +31,7 @@ const DepartmentData = () => {
     return(
         <div>
             <form onSubmit={handleDepartmentSubmit}>
-                <input type='text' name="department_name" value={departmentData.department_name} onChange={handleDepartmentChange}></input>
+                <TextField type='text' name="department_name" value={departmentData.department_name} onChange={handleDepartmentChange}/>
             </form>
         </div>
     )

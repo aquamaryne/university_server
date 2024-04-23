@@ -1,5 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
+import { TextField } from "@mui/material";
 
 const FamilyStatusData = () => {
     const[familyStatusData, setFamilyStatusData] = React.useState({
@@ -30,7 +31,7 @@ const FamilyStatusData = () => {
     return(
         <div>
             <form onSubmit={handleFamilyStatusSubmit}>
-                <input type='text' name='status' value={familyStatusData.status} onChange={handleFamilyStatusChange}></input>
+                <TextField type='text' name='status' value={familyStatusData.status} onChange={handleFamilyStatusChange}/>
             </form>
         </div>
     )

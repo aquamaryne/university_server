@@ -1,5 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
+import { TextField } from "@mui/material";
 
 const PositionsData = () => {
     const[positionsData, setPositionsData] = React.useState({
@@ -38,11 +39,11 @@ const PositionsData = () => {
     return(
         <div>
             <form onSubmit={handlePositionSubmit}>
-                <input type="text" name="position_name" value={positionsData.position_name} onChange={handlePositionChange}></input>
-                <input type="text" name="data_of_entry" value={positionsData.data_of_entry} onChange={handlePositionChange}></input>
-                <input type="text" name="type_of_study" value={positionsData.type_of_study} onChange={handlePositionChange}></input>
-                <input type="text" name="position_where_work_now" value={positionsData.position_where_work_now} onChange={handlePositionChange}></input>
-                <input type="text" name="number_of_order" value={positionsData.number_of_order} onChange={handlePositionChange}></input>
+                <TextField type="text" name="position_name" value={positionsData.position_name} onChange={handlePositionChange}/>
+                <TextField type="text" name="data_of_entry" value={positionsData.data_of_entry} onChange={handlePositionChange}/>
+                <TextField type="text" name="type_of_study" value={positionsData.type_of_study} onChange={handlePositionChange}/>
+                <TextField type="text" name="position_where_work_now" value={positionsData.position_where_work_now} onChange={handlePositionChange}/>
+                <TextField type="text" name="number_of_order" value={positionsData.number_of_order} onChange={handlePositionChange}/>
             </form>
         </div>
     )

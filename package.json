@@ -5,6 +5,6 @@
   "scripts": {
     "start:frontend": "cd front && npm start",
     "start:server": "cd personnel_server && npm start",
-    "start:product": "concurrently \"npm run start:frontend\" \"npm run start:server\"" 
+    "start": "npm run start:server && npm run start:frontend" 
   }
 }

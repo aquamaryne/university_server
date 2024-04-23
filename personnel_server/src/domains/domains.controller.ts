@@ -26,7 +26,7 @@ export class DomainsController {
         return this.domainsService.update(Number(id), domains);
     }
 
-    @Delete()
+    @Delete(':id')
     remove(@Param('id') id: string): Promise<void>{
         return this.domainsService.remove(Number(id));
     }

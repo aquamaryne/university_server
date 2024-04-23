@@ -1,5 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
+import { TextField } from "@mui/material";
 
 const LangData = () => {
     const[langData, setLangData] = React.useState({
@@ -32,8 +33,8 @@ const LangData = () => {
     return(
         <div>
             <form onSubmit={handleLangSubmit}>
-                <input type='text' name='first_lang_name' value={langData.first_lang_name} onChange={handleLangChange}></input>
-                <input type='text' name='second_lang_name' value={langData.second_lang_name} onChange={handleLangChange}></input>
+                <TextField type='text' name='first_lang_name' value={langData.first_lang_name} onChange={handleLangChange}/>
+                <TextField type='text' name='second_lang_name' value={langData.second_lang_name} onChange={handleLangChange}/>
             </form>
         </div>
     );

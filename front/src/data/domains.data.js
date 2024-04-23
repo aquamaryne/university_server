@@ -1,5 +1,7 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
+import Button from '@mui/material/Button';
+import { TextField } from "@mui/material";
 
 const DomainsData = () => {
     const[domainsData, setDomainsData] = React.useState({
@@ -30,7 +32,16 @@ const DomainsData = () => {
     return(
         <div>
             <form onSubmit={handleDomainSubmit}>
-                <input type='text' name="domain_name" value={domainsData.domain_name} onChange={handleDomainChange}></input>
+                <TextField 
+                    type='text' 
+                    name="domain_name" 
+                    label="Посада"
+                    value={domainsData.domain_name} 
+                    onChange={handleDomainChange} 
+                />
+                <Button type="submit" variant="contained" color="primary">
+                    Зберегти
+                </Button>
             </form>
         </div>
     )

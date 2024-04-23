@@ -1,5 +1,6 @@
 import React from 'react';
 import { postDataToTable } from '../api/data.api.post';
+import { TextField } from '@mui/material';
 
 const SexData = () => {
     const[sexData, setSexData] = React.useState({
@@ -30,7 +31,7 @@ const SexData = () => {
     return(
         <div>
             <form onSubmit={handleSexSubmit}>
-                <input type='text' name='sex_name' value={sexData.sex_name} onChange={handleSexChange}></input>
+                <TextField type='text' name='sex_name' value={sexData.sex_name} onChange={handleSexChange}/>
             </form>
         </div>
     )

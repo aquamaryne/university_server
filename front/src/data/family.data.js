@@ -1,5 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
+import { TextField } from "@mui/material";
 
 const FamilyData = () => {
     const[familyData, setFamilyData] = React.useState({
@@ -34,9 +35,9 @@ const FamilyData = () => {
     return(
         <div>
             <form onSubmit={handleFamilySubmit}>
-                <input type='text' name="count_of_children" placeholder="" value={familyData.count_of_children} onChange={handleFamilyChange}></input>
-                <input type='text' name="children_name" placeholder="" value={familyData.children_name} onChange={handleFamilyChange}></input>
-                <input type='text' name="year_of_birth_children" placeholder="" value={familyData.year_of_birth_children}></input>
+                <TextField type='text' name="count_of_children" placeholder="" value={familyData.count_of_children} onChange={handleFamilyChange}/>
+                <TextField type='text' name="children_name" placeholder="" value={familyData.children_name} onChange={handleFamilyChange}/>
+                <TextField type='text' name="year_of_birth_children" placeholder="" value={familyData.year_of_birth_children}/>
             </form>
         </div>
     )

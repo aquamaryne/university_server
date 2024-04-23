@@ -1,5 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
+import { TextField } from "@mui/material";
 
 const WorkExpData = () => {
     const[workExperience, setWorkExperience] = React.useState({
@@ -36,10 +37,10 @@ const WorkExpData = () => {
     return(
         <div>
             <form onSubmit={handleWorkExpSubmit}>
-                <input type='text' name='global_work_exp' value={workExperience.global_work_exp} onChange={handleWorkExpChange}></input>
-                <input type='text' name='global_science_exp' value={workExperience.global_science_exp} onChange={handleWorkExpChange}></input>
-                <input type='text' name='science_at_this_university' value={workExperience.science_at_this_university} onChange={handleWorkExpChange}></input>
-                <input type='text' name='continuous_work_exp' value={workExperience.continuous_work_exp} onChange={handleWorkExpChange}></input>
+                <TextField type='text' name='global_work_exp' value={workExperience.global_work_exp} onChange={handleWorkExpChange}/>
+                <TextField type='text' name='global_science_exp' value={workExperience.global_science_exp} onChange={handleWorkExpChange}/>
+                <TextField type='text' name='science_at_this_university' value={workExperience.science_at_this_university} onChange={handleWorkExpChange}/>
+                <TextField type='text' name='continuous_work_exp' value={workExperience.continuous_work_exp} onChange={handleWorkExpChange}/>
             </form>
         </div>
     )

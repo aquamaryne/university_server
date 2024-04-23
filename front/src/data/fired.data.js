@@ -1,5 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
+import { TextField } from "@mui/material";
 
 const FiredData = () => {
     const[firedData, setFiredData] = React.useState({
@@ -34,9 +35,9 @@ const FiredData = () => {
     return(
         <div>
             <form onSubmit={handleFiredSubmit}>
-                <input type='text' name='date_of_fired' value={firedData.date_of_fired} onChange={handleFiredChange}></input>
-                <input type='text' name='unique_card' value={firedData.unique_card} onChange={handleFiredChange}></input>
-                <input type='text' name='identify_code' value={firedData.identify_code} onChange={handleFiredChange}></input>
+                <TextField type='text' name='date_of_fired' value={firedData.date_of_fired} onChange={handleFiredChange}/>
+                <TextField type='text' name='unique_card' value={firedData.unique_card} onChange={handleFiredChange}/>
+                <TextField type='text' name='identify_code' value={firedData.identify_code} onChange={handleFiredChange}/>
             </form>
         </div>
     );

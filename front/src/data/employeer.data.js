@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { postDataToTable } from "../api/data.api.post";
+import { Button, TextField } from "@mui/material";
 
 const EmployeerData = () => {
     const[employeerData, setEmployeerData] = useState({
@@ -36,11 +37,11 @@ const EmployeerData = () => {
     return(
         <div>
             <form onSubmit={handleEmployeerSubmit}>
-                <input type='text' name='fname' placeholder="Ім'я" value={employeerData.fname} onChange={handleEmployeerChange}></input>
-                <input type='text' name='sname' placeholder="Прізвище" value={employeerData.sname} onChange={handleEmployeerChange}></input>
-                <input type='text' name='fatherly' placeholder="По батькові" value={employeerData.fatherly} onChange={handleEmployeerChange}></input>
-                <input type='text' name='date_of_birth' placeholder="Дата народження" value={employeerData.date_of_birth} onChange={handleEmployeerChange}></input>
-                <button type='submit'>Зберегти</button>
+                <TextField type='text' name='fname' placeholder="Ім'я" value={employeerData.fname} onChange={handleEmployeerChange}/>
+                <TextField type='text' name='sname' placeholder="Прізвище" value={employeerData.sname} onChange={handleEmployeerChange}/>
+                <TextField type='text' name='fatherly' placeholder="По батькові" value={employeerData.fatherly} onChange={handleEmployeerChange}/>
+                <TextField type='text' name='date_of_birth' placeholder="Дата народження" value={employeerData.date_of_birth} onChange={handleEmployeerChange}/>
+                <Button type='submit'>Зберегти</Button>
             </form>
         </div>
     )
