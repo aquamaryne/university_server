@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Achieve } from './entity/achieve';
@@ -42,9 +43,16 @@ import { SexController } from './sex/sex.controller';
 import { SexService } from './sex/sex.service';
 import { WorkExperienceController } from './work_experience/work_experience.controller';
 import { WorkExperienceService } from './work_experience/work_experience.service';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
+      JwtModule.register({
+        secret: 'my-token',
+        signOptions: { expiresIn: '1h' },
+      }),
+      
       TypeOrmModule.forFeature([
         Education,
         Achieve,
@@ -86,7 +94,7 @@ import { WorkExperienceService } from './work_experience/work_experience.service
         synchronize: true
     }),
   ],
-  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController],
-  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService],
+  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController, AuthController],
+  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService, AuthService],
 })
 export class AppModule {}
