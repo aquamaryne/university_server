@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { Button, TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const EmployeerData = () => {
     const[employeerData, setEmployeerData] = useState({
@@ -36,13 +36,21 @@ const EmployeerData = () => {
 
     return(
         <div>
-            <form onSubmit={handleEmployeerSubmit}>
-                <TextField type='text' name='fname' placeholder="Ім'я" value={employeerData.fname} onChange={handleEmployeerChange}/>
-                <TextField type='text' name='sname' placeholder="Прізвище" value={employeerData.sname} onChange={handleEmployeerChange}/>
-                <TextField type='text' name='fatherly' placeholder="По батькові" value={employeerData.fatherly} onChange={handleEmployeerChange}/>
-                <TextField type='text' name='date_of_birth' placeholder="Дата народження" value={employeerData.date_of_birth} onChange={handleEmployeerChange}/>
-                <Button type='submit'>Зберегти</Button>
-            </form>
+            <Grid container alignItems="center">
+                <Grid item>
+                    <Paper sx={{
+                        padding: '2px'
+                    }}>
+                        <Typography>Робітники</Typography>
+                        <form onSubmit={handleEmployeerSubmit}>
+                            <TextField type='text' name='fname' placeholder="Ім'я" value={employeerData.fname} onChange={handleEmployeerChange}/>
+                            <TextField type='text' name='sname' placeholder="Прізвище" value={employeerData.sname} onChange={handleEmployeerChange}/>
+                            <TextField type='text' name='fatherly' placeholder="По батькові" value={employeerData.fatherly} onChange={handleEmployeerChange}/>
+                            <TextField type='text' name='date_of_birth' placeholder="Дата народження" value={employeerData.date_of_birth} onChange={handleEmployeerChange}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     )
 }

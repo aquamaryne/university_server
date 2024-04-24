@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const PositionsData = () => {
     const[positionsData, setPositionsData] = React.useState({
@@ -38,13 +38,22 @@ const PositionsData = () => {
 
     return(
         <div>
-            <form onSubmit={handlePositionSubmit}>
-                <TextField type="text" name="position_name" value={positionsData.position_name} onChange={handlePositionChange}/>
-                <TextField type="text" name="data_of_entry" value={positionsData.data_of_entry} onChange={handlePositionChange}/>
-                <TextField type="text" name="type_of_study" value={positionsData.type_of_study} onChange={handlePositionChange}/>
-                <TextField type="text" name="position_where_work_now" value={positionsData.position_where_work_now} onChange={handlePositionChange}/>
-                <TextField type="text" name="number_of_order" value={positionsData.number_of_order} onChange={handlePositionChange}/>
-            </form>
+            <Grid container alignItems="center">
+                <Grid item>
+                    <Paper sx={{
+                        padding: '2px'
+                    }}>
+                        <Typography>Посада</Typography>
+                        <form onSubmit={handlePositionSubmit}>
+                            <TextField type="text" name="position_name" placeholder="Ім'я посади" value={positionsData.position_name} onChange={handlePositionChange}/>
+                            <TextField type="text" name="data_of_entry" placeholder="Дата вступу на посаду" value={positionsData.data_of_entry} onChange={handlePositionChange}/>
+                            <TextField type="text" name="type_of_study" placeholder="Тип навчання" value={positionsData.type_of_study} onChange={handlePositionChange}/>
+                            <TextField type="text" name="position_where_work_now" placeholder="Посада де працює зараз" value={positionsData.position_where_work_now} onChange={handlePositionChange}/>
+                            <TextField type="text" name="number_of_order" placeholder="Номер договору" value={positionsData.number_of_order} onChange={handlePositionChange}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     )
 };

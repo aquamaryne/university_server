@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const FiredData = () => {
     const[firedData, setFiredData] = React.useState({
@@ -34,11 +34,20 @@ const FiredData = () => {
 
     return(
         <div>
-            <form onSubmit={handleFiredSubmit}>
-                <TextField type='text' name='date_of_fired' value={firedData.date_of_fired} onChange={handleFiredChange}/>
-                <TextField type='text' name='unique_card' value={firedData.unique_card} onChange={handleFiredChange}/>
-                <TextField type='text' name='identify_code' value={firedData.identify_code} onChange={handleFiredChange}/>
-            </form>
+            <Grid container alignItems="center">
+                <Grid item>
+                    <Paper sx={{
+                        padding: '2px'
+                    }}>
+                        <Typography>Звільнені співробітники</Typography>
+                        <form onSubmit={handleFiredSubmit}>
+                            <TextField type='text' placeholder="Дата звільнення" name='date_of_fired' value={firedData.date_of_fired} onChange={handleFiredChange}/>
+                            <TextField type='text' placeholder="Унікальний номер карти" name='unique_card' value={firedData.unique_card} onChange={handleFiredChange}/>
+                            <TextField type='text' placeholder="Ідентифікаційний код" name='identify_code' value={firedData.identify_code} onChange={handleFiredChange}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     );
 };

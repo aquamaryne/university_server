@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const LangData = () => {
     const[langData, setLangData] = React.useState({
@@ -32,10 +32,19 @@ const LangData = () => {
 
     return(
         <div>
-            <form onSubmit={handleLangSubmit}>
-                <TextField type='text' name='first_lang_name' value={langData.first_lang_name} onChange={handleLangChange}/>
-                <TextField type='text' name='second_lang_name' value={langData.second_lang_name} onChange={handleLangChange}/>
-            </form>
+            <Grid container alignItems="center">
+                <Grid item>
+                    <Paper sx={{
+                        padding: '2px'
+                    }}>
+                        <Typography>Знання мови</Typography>
+                        <form onSubmit={handleLangSubmit}>
+                            <TextField type='text' name='first_lang_name' placeholder="Іноземна мова" value={langData.first_lang_name} onChange={handleLangChange}/>
+                            <TextField type='text' name='second_lang_name' placeholder="Друга іноземна мова" value={langData.second_lang_name} onChange={handleLangChange}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     );
 };

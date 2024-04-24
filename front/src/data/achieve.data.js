@@ -46,13 +46,22 @@ const AchieveData = () => {
     return(
         <div>
             <Grid container alignItems='center'>
-                <Grid item xs={2}>
+                <Grid item>
                     <Paper elevation={3} sx={{
                         padding: '3px',
                     }}>
-                        <Typography>Досягнення</Typography>
-                       <form onChange={handleAchieveSubmit}>
-                            <TextField type='text' name='achieve_name' placeholder="Ім'я досягнення" value={achieveData.achieve_name} onChange={handleAchieveChange}/>
+                        <Typography variant="h6" sx={{ marginBottom: '20px' }}>Досягнення</Typography>
+                        <form onChange={handleAchieveSubmit}>
+                            <TextField 
+                                type='text' 
+                                name='achieve_name' 
+                                placeholder="Ім'я досягнення" 
+                                value={achieveData.achieve_name} 
+                                onChange={handleAchieveChange}
+                                sx={{
+                                    marginBottom: '10px'
+                                }}
+                            />
                             <TextField type='text' name='honory_title' placeholder="Почесне звання" value={achieveData.honory_title} onChange={handleAchieveChange}/>
                             <TextField type='text' name='meritotious_title' placeholder="Почесне звання" value={achieveData.meritotious_title} onChange={handleAchieveChange}/>                                   
                             <TextField type='text' name='state_awards' placeholder="Державні нагороди" value={achieveData.state_awards} onChange={handleAchieveChange}/>

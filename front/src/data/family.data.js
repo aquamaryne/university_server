@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const FamilyData = () => {
     const[familyData, setFamilyData] = React.useState({
@@ -34,11 +34,20 @@ const FamilyData = () => {
 
     return(
         <div>
-            <form onSubmit={handleFamilySubmit}>
-                <TextField type='text' name="count_of_children" placeholder="" value={familyData.count_of_children} onChange={handleFamilyChange}/>
-                <TextField type='text' name="children_name" placeholder="" value={familyData.children_name} onChange={handleFamilyChange}/>
-                <TextField type='text' name="year_of_birth_children" placeholder="" value={familyData.year_of_birth_children}/>
-            </form>
+            <Grid container alignItems="center">
+                <Grid item>
+                    <Paper sx={{
+                        padding: '2px'
+                    }}>
+                        <Typography>Сім'я</Typography>
+                        <form onSubmit={handleFamilySubmit}>
+                            <TextField type='text' name="count_of_children" placeholder="Кількість дітей" value={familyData.count_of_children} onChange={handleFamilyChange}/>
+                            <TextField type='text' name="children_name" placeholder="Ім'я дітей" value={familyData.children_name} onChange={handleFamilyChange}/>
+                            <TextField type='text' name="year_of_birth_children" placeholder="Дата народження дитини" value={familyData.year_of_birth_children}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     )
 };

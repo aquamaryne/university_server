@@ -31,7 +31,7 @@ const DepartmentData = () => {
     return(
         <div>
             <Grid container alignItems='center'>
-                <Grid item xs={2}>
+                <Grid item>
                     <Paper  elevation={2} sx={{
                         padding: '3px'
                     }}>

@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const FamilyStatusData = () => {
     const[familyStatusData, setFamilyStatusData] = React.useState({
@@ -30,9 +30,18 @@ const FamilyStatusData = () => {
 
     return(
         <div>
-            <form onSubmit={handleFamilyStatusSubmit}>
-                <TextField type='text' name='status' value={familyStatusData.status} onChange={handleFamilyStatusChange}/>
-            </form>
+            <Grid container alignItems="center">
+                <Grid item>
+                    <Paper sx={{
+                        padding: '2px'
+                    }}>
+                        <Typography>Сімейний статус</Typography>
+                        <form onSubmit={handleFamilyStatusSubmit}>
+                            <TextField type='text' placeholder="Сіменйний статус" name='status' value={familyStatusData.status} onChange={handleFamilyStatusChange}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     )
 };

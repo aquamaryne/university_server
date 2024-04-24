@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { postDataToTable } from "../api/data.api.post";
 import "../css/education.css";
-import { Button, TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const EducationData = () => {
     const[educationData, setEducationData] = useState({
@@ -41,15 +41,23 @@ const EducationData = () => {
 
     return(
         <div>
-            <form onSubmit={handleEducationSubmit}>
-                <TextField type='text' name='diploma' placeholder="Диплом" onChange={handleEducationChange} value={educationData.diploma}/>
-                <TextField type='text' name='number_of_diploma' placeholder="Номер диплома" onChange={handleEducationChange} value={educationData.number_of_diploma}/>
-                <TextField type='text' name='name_of_the_high_university' placeholder="Назва вищого навчального закладу" onChange={handleEducationChange} value={educationData.name_of_the_high_university}/>
-                <TextField type='text' name='name_of_the_middle_university' placeholder="Назва середнього навчального закладу" onChange={handleEducationChange} value={educationData.name_of_the_middle_university}/>
-                <TextField type='text' name='status_of_education' placeholder="Статус освіти" onChange={handleEducationChange} value={educationData.status_of_education}/>
-                <TextField type='text' name='academic_title' placeholder="Академічне звання" onChange={handleEducationChange} value={educationData.academic_title}/>
-                <Button type='submit'>Зберегти</Button>
-            </form>
+            <Grid container alignItems="center">
+                <Grid item>
+                    <Paper sx={{
+                        padding: "2px"
+                    }}>
+                        <Typography>Освіта</Typography>
+                        <form onSubmit={handleEducationSubmit}>
+                            <TextField type='text' name='diploma' placeholder="Диплом" onChange={handleEducationChange} value={educationData.diploma}/>
+                            <TextField type='text' name='number_of_diploma' placeholder="Номер диплома" onChange={handleEducationChange} value={educationData.number_of_diploma}/>
+                            <TextField type='text' name='name_of_the_high_university' placeholder="Назва вищого навчального закладу" onChange={handleEducationChange} value={educationData.name_of_the_high_university}/>
+                            <TextField type='text' name='name_of_the_middle_university' placeholder="Назва середнього навчального закладу" onChange={handleEducationChange} value={educationData.name_of_the_middle_university}/>
+                            <TextField type='text' name='status_of_education' placeholder="Статус освіти" onChange={handleEducationChange} value={educationData.status_of_education}/>
+                            <TextField type='text' name='academic_title' placeholder="Академічне звання" onChange={handleEducationChange} value={educationData.academic_title}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     )
 }

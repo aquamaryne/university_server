@@ -14,6 +14,7 @@ import PositionsData from '../data/positions.data';
 import WorkExpData from '../data/work_exp.data';
 import FamilyStatusData from '../data/family_status.data';
 import FiredData from '../data/fired.data';
+import { Button } from '@mui/material';
 
 const EnterDataForm = () => {
     const[clicked, setClicked] = useState(false);
@@ -24,7 +25,23 @@ const EnterDataForm = () => {
 
     return (
         <div>
-            <button onClick={handleClicked}>Внесення даних</button>
+            <Button onClick={handleClicked} sx={{
+                border: 2,
+                fontFamily: 'Daikon',
+                fontWeight: 'bold',
+                borderRadius: 0,
+                color: clicked ? "white" : "black",
+                backgroundColor: clicked ? '#191970' : 'transparent',
+                '&:hover': {
+                    backgroundColor: clicked ? '#191970' : '#191970',
+                    color: clicked ? 'white' : 'white',
+                    borderColor: 'orange',
+                    boxShadow: '-4px 2px 2px 0 purple',
+                },
+                transition: 'box-shadow 0.3s'
+            }}>
+                Внесення даних
+            </Button>
             {clicked &&(
                 <div>
                     <EmployeerData />

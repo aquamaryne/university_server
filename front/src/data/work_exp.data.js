@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const WorkExpData = () => {
     const[workExperience, setWorkExperience] = React.useState({
@@ -36,12 +36,21 @@ const WorkExpData = () => {
 
     return(
         <div>
-            <form onSubmit={handleWorkExpSubmit}>
-                <TextField type='text' name='global_work_exp' value={workExperience.global_work_exp} onChange={handleWorkExpChange}/>
-                <TextField type='text' name='global_science_exp' value={workExperience.global_science_exp} onChange={handleWorkExpChange}/>
-                <TextField type='text' name='science_at_this_university' value={workExperience.science_at_this_university} onChange={handleWorkExpChange}/>
-                <TextField type='text' name='continuous_work_exp' value={workExperience.continuous_work_exp} onChange={handleWorkExpChange}/>
-            </form>
+            <Grid container alignItems="center">
+                <Grid item>
+                    <Paper sx={{
+                        padding: '2px'
+                    }}>
+                        <Typography>Стаж роботи</Typography>
+                        <form onSubmit={handleWorkExpSubmit}>
+                            <TextField type='text' placeholder="Загальний стаж роботи" name='global_work_exp' value={workExperience.global_work_exp} onChange={handleWorkExpChange}/>
+                            <TextField type='text' placeholder="Загальний науковий стаж" name='global_science_exp' value={workExperience.global_science_exp} onChange={handleWorkExpChange}/>
+                            <TextField type='text' placeholder="Науковий стаж в цьому університеті" name='science_at_this_university' value={workExperience.science_at_this_university} onChange={handleWorkExpChange}/>
+                            <TextField type='text' placeholder="Продовження наукового стажу" name='continuous_work_exp' value={workExperience.continuous_work_exp} onChange={handleWorkExpChange}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     )
 };
