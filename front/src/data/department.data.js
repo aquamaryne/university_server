@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField } from "@mui/material";
+import { TextField, Grid, Paper, Typography } from "@mui/material";
 
 const DepartmentData = () => {
     const[departmentData, setDepartmentData] = React.useState({
@@ -30,9 +30,19 @@ const DepartmentData = () => {
 
     return(
         <div>
-            <form onSubmit={handleDepartmentSubmit}>
-                <TextField type='text' name="department_name" value={departmentData.department_name} onChange={handleDepartmentChange}/>
-            </form>
+            <Grid container alignItems='center'>
+                <Grid item xs={2}>
+                    <Paper  elevation={2} sx={{
+                        padding: '3px'
+                    }}>
+
+                    <Typography>Кафедра</Typography>
+                        <form onSubmit={handleDepartmentSubmit}>
+                            <TextField type='text' name="department_name" placeholder="Ім'я кафедри" value={departmentData.department_name} onChange={handleDepartmentChange}/>
+                        </form>
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     )
 };
