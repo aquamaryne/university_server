@@ -30,14 +30,42 @@ const FamilyStatusData = () => {
 
     return(
         <div>
-            <Grid container alignItems="center">
-                <Grid item>
+            <Grid container alignItems='center' sx={{ padding: 1 }}>
+                <Grid item xs={10} md={2}>
                     <Paper sx={{
-                        padding: '2px'
-                    }}>
-                        <Typography>Сімейний статус</Typography>
+                        padding: '20px',
+                        border: 1,
+                        borderRadius: 2
+                        }}
+                    >
+                        <Typography
+                            variant="h6" 
+                            sx={{ 
+                                marginBottom: '20px',
+                                textAlign: 'center',
+                                border: 1, 
+                                borderWidth: 1,
+                                borderColor: '#1f1f1f',
+                                borderRadius: 2,
+                                color: 'royalblue',
+                                backgroundColor: '#2b2b2a',
+                                marginRight: '1rem',
+                                marginLeft: '1rem',
+                            }}
+                        >
+                            Сімейний статус
+                        </Typography>
                         <form onSubmit={handleFamilyStatusSubmit}>
-                            <TextField type='text' placeholder="Сіменйний статус" name='status' value={familyStatusData.status} onChange={handleFamilyStatusChange}/>
+                            <TextField 
+                                type='text' 
+                                placeholder="Сіменйний статус" 
+                                name='status' 
+                                value={familyStatusData.status} 
+                                onChange={handleFamilyStatusChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
                         </form>
                     </Paper>
                 </Grid>

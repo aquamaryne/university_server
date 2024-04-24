@@ -30,11 +30,25 @@ const DomainsData = () => {
 
     return(
         <div>
-            <Grid container alignItems='center'>
-                <Grid item>
-                    <Paper elevation={2} sx={{ padding: "2px" }}>
-                        <Typography>Посада</Typography>
-                        <form onSubmit={handleDomainSubmit}>
+            <Grid container alignItems='center' sx={{ padding: 1 }}>
+                <Grid item xs={2}>
+                    <Paper elevation={2} sx={{ padding: "20px", border: 1,}}>
+                        <Typography variant="h6"
+                            sx={{ 
+                                marginBottom: '20px',
+                                textAlign: 'center',
+                                border: 1, 
+                                borderWidth: 1,
+                                borderColor: '#1f1f1f',
+                                borderRadius: 2,
+                                color: 'royalblue',
+                                backgroundColor: '#2b2b2a',
+                                marginRight: '3rem',
+                                marginLeft: '3rem',
+                            }}
+                        >Посада
+                        </Typography>
+                        <form onSubmit={handleDomainSubmit} style={{ marginLeft: '1rem' }}>
                             <TextField 
                                 type='text' 
                                 name="domain_name" 

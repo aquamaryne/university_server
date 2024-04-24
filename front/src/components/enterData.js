@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../css/form.css';
 import EmployeerData from '../data/employeer.data';
 import EducationData from '../data/education.data';
 import FamilyData from '../data/family.data';

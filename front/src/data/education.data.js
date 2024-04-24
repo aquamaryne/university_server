@@ -41,19 +41,90 @@ const EducationData = () => {
 
     return(
         <div>
-            <Grid container alignItems="center">
-                <Grid item>
+            <Grid container alignItems='center' sx={{ padding: 1 }}>
+                <Grid item xs={10} md={4}>
                     <Paper sx={{
-                        padding: "2px"
+                        padding: '20px',
+                        border: 1,
+                        borderRadius: 2,
                     }}>
-                        <Typography>Освіта</Typography>
-                        <form onSubmit={handleEducationSubmit}>
-                            <TextField type='text' name='diploma' placeholder="Диплом" onChange={handleEducationChange} value={educationData.diploma}/>
-                            <TextField type='text' name='number_of_diploma' placeholder="Номер диплома" onChange={handleEducationChange} value={educationData.number_of_diploma}/>
-                            <TextField type='text' name='name_of_the_high_university' placeholder="Назва вищого навчального закладу" onChange={handleEducationChange} value={educationData.name_of_the_high_university}/>
-                            <TextField type='text' name='name_of_the_middle_university' placeholder="Назва середнього навчального закладу" onChange={handleEducationChange} value={educationData.name_of_the_middle_university}/>
-                            <TextField type='text' name='status_of_education' placeholder="Статус освіти" onChange={handleEducationChange} value={educationData.status_of_education}/>
-                            <TextField type='text' name='academic_title' placeholder="Академічне звання" onChange={handleEducationChange} value={educationData.academic_title}/>
+                        <Typography variant="h6"
+                            sx={{ 
+                                marginBottom: '20px',
+                                textAlign: 'center',
+                                border: 1, 
+                                borderWidth: 1,
+                                borderColor: '#1f1f1f',
+                                borderRadius: 2,
+                                color: 'royalblue',
+                                backgroundColor: '#2b2b2a',
+                                marginRight: '10rem',
+                                marginLeft: '10rem',
+                            }}
+                        >
+                            Освіта
+                        </Typography>
+                        <form onSubmit={handleEducationSubmit} style={{ marginLeft: '2rem' }}>
+                            <TextField 
+                                type='text' 
+                                name='diploma' 
+                                placeholder="Диплом" 
+                                onChange={handleEducationChange} 
+                                value={educationData.diploma}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name='number_of_diploma' 
+                                placeholder="Номер диплома" o
+                                nChange={handleEducationChange} 
+                                value={educationData.number_of_diploma}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name='name_of_the_high_university' 
+                                placeholder="Назва вищого навчального закладу" 
+                                onChange={handleEducationChange} 
+                                value={educationData.name_of_the_high_university}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name='name_of_the_middle_university' 
+                                placeholder="Назва середнього навчального закладу" 
+                                onChange={handleEducationChange} 
+                                value={educationData.name_of_the_middle_university}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name='status_of_education' 
+                                placeholder="Статус освіти" 
+                                onChange={handleEducationChange} 
+                                value={educationData.status_of_education}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name='academic_title' 
+                                placeholder="Академічне звання" 
+                                onChange={handleEducationChange} 
+                                value={educationData.academic_title}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
                         </form>
                     </Paper>
                 </Grid>
