@@ -38,18 +38,80 @@ const PositionsData = () => {
 
     return(
         <div>
-            <Grid container alignItems="center">
-                <Grid item>
+            <Grid container alignItems='center' sx={{ padding: 1 }}>
+                <Grid item xs={10} md={4}>
                     <Paper sx={{
-                        padding: '2px'
+                        padding: '20px',
+                        border: 1,
+                        borderRadius: 2,
                     }}>
-                        <Typography>Посада</Typography>
+                        <Typography variant="h6"
+                            sx={{ 
+                                marginBottom: '20px',
+                                textAlign: 'center',
+                                border: 1, 
+                                borderWidth: 1,
+                                borderColor: '#1f1f1f',
+                                borderRadius: 2,
+                                color: 'royalblue',
+                                backgroundColor: '#2b2b2a',
+                                marginRight: '10rem',
+                                marginLeft: '10rem',
+                            }}
+                        >
+                            Посада
+                        </Typography>
                         <form onSubmit={handlePositionSubmit}>
-                            <TextField type="text" name="position_name" placeholder="Ім'я посади" value={positionsData.position_name} onChange={handlePositionChange}/>
-                            <TextField type="text" name="data_of_entry" placeholder="Дата вступу на посаду" value={positionsData.data_of_entry} onChange={handlePositionChange}/>
-                            <TextField type="text" name="type_of_study" placeholder="Тип навчання" value={positionsData.type_of_study} onChange={handlePositionChange}/>
-                            <TextField type="text" name="position_where_work_now" placeholder="Посада де працює зараз" value={positionsData.position_where_work_now} onChange={handlePositionChange}/>
-                            <TextField type="text" name="number_of_order" placeholder="Номер договору" value={positionsData.number_of_order} onChange={handlePositionChange}/>
+                            <TextField 
+                                type="text" 
+                                name="position_name" 
+                                placeholder="Ім'я посади" 
+                                value={positionsData.position_name} 
+                                onChange={handlePositionChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type="text" 
+                                name="data_of_entry" 
+                                placeholder="Дата вступу на посаду" 
+                                value={positionsData.data_of_entry} 
+                                onChange={handlePositionChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type="text" 
+                                name="type_of_study" 
+                                placeholder="Тип навчання" 
+                                value={positionsData.type_of_study} 
+                                onChange={handlePositionChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type="text" 
+                                name="position_where_work_now" 
+                                placeholder="Посада де працює зараз" 
+                                value={positionsData.position_where_work_now} 
+                                onChange={handlePositionChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type="text" 
+                                name="number_of_order" 
+                                placeholder="Номер договору" 
+                                value={positionsData.number_of_order} 
+                                onChange={handlePositionChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
                         </form>
                     </Paper>
                 </Grid>

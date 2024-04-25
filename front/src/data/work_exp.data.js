@@ -36,17 +36,70 @@ const WorkExpData = () => {
 
     return(
         <div>
-            <Grid container alignItems="center">
-                <Grid item>
+            <Grid container alignItems='center' sx={{ padding: 1 }}>
+                <Grid item xs={10} md={4}>
                     <Paper sx={{
-                        padding: '2px'
+                        padding: '20px',
+                        border: 1,
+                        borderRadius: 2,
                     }}>
-                        <Typography>Стаж роботи</Typography>
+                        <Typography variant="h6"
+                            sx={{ 
+                                marginBottom: '20px',
+                                textAlign: 'center',
+                                border: 1, 
+                                borderWidth: 1,
+                                borderColor: '#1f1f1f',
+                                borderRadius: 2,
+                                color: 'royalblue',
+                                backgroundColor: '#2b2b2a',
+                                marginRight: '10rem',
+                                marginLeft: '10rem',
+                            }}
+                        >
+                            Стаж роботи
+                        </Typography>
                         <form onSubmit={handleWorkExpSubmit}>
-                            <TextField type='text' placeholder="Загальний стаж роботи" name='global_work_exp' value={workExperience.global_work_exp} onChange={handleWorkExpChange}/>
-                            <TextField type='text' placeholder="Загальний науковий стаж" name='global_science_exp' value={workExperience.global_science_exp} onChange={handleWorkExpChange}/>
-                            <TextField type='text' placeholder="Науковий стаж в цьому університеті" name='science_at_this_university' value={workExperience.science_at_this_university} onChange={handleWorkExpChange}/>
-                            <TextField type='text' placeholder="Продовження наукового стажу" name='continuous_work_exp' value={workExperience.continuous_work_exp} onChange={handleWorkExpChange}/>
+                            <TextField 
+                                type='text' 
+                                label="Загальний стаж роботи" 
+                                name='global_work_exp' 
+                                value={workExperience.global_work_exp} 
+                                onChange={handleWorkExpChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                placeholder="Загальний науковий стаж" 
+                                name='global_science_exp' 
+                                value={workExperience.global_science_exp} 
+                                onChange={handleWorkExpChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                placeholder="Науковий стаж в цьому університеті" 
+                                name='science_at_this_university' 
+                                value={workExperience.science_at_this_university} 
+                                onChange={handleWorkExpChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                placeholder="Продовження наукового стажу" 
+                                name='continuous_work_exp' 
+                                value={workExperience.continuous_work_exp} 
+                                onChange={handleWorkExpChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
                         </form>
                     </Paper>
                 </Grid>

@@ -32,15 +32,50 @@ const LangData = () => {
 
     return(
         <div>
-            <Grid container alignItems="center">
-                <Grid item>
+            <Grid container alignItems='center' sx={{ padding: 1 }}>
+                <Grid item xs={10} md={4}>
                     <Paper sx={{
-                        padding: '2px'
+                        padding: '20px',
+                        border: 1,
+                        borderRadius: 2,
                     }}>
-                        <Typography>Знання мови</Typography>
+                        <Typography variant="h6"
+                            sx={{ 
+                                marginBottom: '20px',
+                                textAlign: 'center',
+                                border: 1, 
+                                borderWidth: 1,
+                                borderColor: '#1f1f1f',
+                                borderRadius: 2,
+                                color: 'royalblue',
+                                backgroundColor: '#2b2b2a',
+                                marginRight: '10rem',
+                                marginLeft: '10rem',
+                            }}
+                        >
+                            Знання мови
+                        </Typography>
                         <form onSubmit={handleLangSubmit}>
-                            <TextField type='text' name='first_lang_name' placeholder="Іноземна мова" value={langData.first_lang_name} onChange={handleLangChange}/>
-                            <TextField type='text' name='second_lang_name' placeholder="Друга іноземна мова" value={langData.second_lang_name} onChange={handleLangChange}/>
+                            <TextField 
+                                type='text' 
+                                name='first_lang_name' 
+                                placeholder="Іноземна мова" 
+                                value={langData.first_lang_name} 
+                                onChange={handleLangChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name='second_lang_name' 
+                                placeholder="Друга іноземна мова" 
+                                value={langData.second_lang_name} 
+                                onChange={handleLangChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
                         </form>
                     </Paper>
                 </Grid>

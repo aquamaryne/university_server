@@ -44,21 +44,102 @@ const MilitaryData = () => {
 
     return(
         <div>
-            <Grid container alignItems='center'>
-                <Grid item>
+            <Grid container alignItems='center' sx={{ padding: 1 }}>
+                <Grid item xs={10} md={4}>
                     <Paper sx={{
-                        padding: '2px'
+                        padding: '20px',
+                        border: 1,
+                        borderRadius: 2,
                     }}>
-                        <Typography>Військовий облік</Typography>
+                        <Typography variant="h6"
+                            sx={{ 
+                                marginBottom: '20px',
+                                textAlign: 'center',
+                                border: 1, 
+                                borderWidth: 1,
+                                borderColor: '#1f1f1f',
+                                borderRadius: 2,
+                                color: 'royalblue',
+                                backgroundColor: '#2b2b2a',
+                                marginRight: '10rem',
+                                marginLeft: '10rem',
+                            }}
+                        >
+                            Військовий облік
+                        </Typography>
                         <form onSubmit={handleMilitarySubmit}>
-                            <TextField type='text' name="accounting_group" value={militaryAppearanceData.accounting_group} onChange={handleMilitaryChange}/>
-                            <TextField type='text' name="accounting_category" value={militaryAppearanceData.accounting_category} onChange={handleMilitaryChange}/>
-                            <TextField type='text' name="depot" value={militaryAppearanceData.depot} onChange={handleMilitaryChange}/>
-                            <TextField type='text' name="military_rank" value={militaryAppearanceData.military_rank} onChange={handleMilitaryChange}/>
-                            <TextField type='text' name="military_accounting_specialty" value={militaryAppearanceData.military_accounting_specialty} onChange={handleMilitaryChange}/>
-                            <TextField type='text' name="num" value={militaryAppearanceData.num} onChange={handleMilitaryChange}/>
-                            <TextField type='text' name="suitability_for_military_service" value={militaryAppearanceData.suitability_for_military_service} onChange={handleMilitaryChange}/>
-                            <TextField type='text' name="name_of_the_military_office_at_the_place_of_residence" value={militaryAppearanceData.name_of_the_military_office_at_the_place_of_residence} onChange={handleMilitaryChange}/>
+                            <TextField 
+                                type='text' 
+                                name="accounting_group" 
+                                value={militaryAppearanceData.accounting_group} 
+                                onChange={handleMilitaryChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name="accounting_category" 
+                                value={militaryAppearanceData.accounting_category} 
+                                onChange={handleMilitaryChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name="depot" 
+                                value={militaryAppearanceData.depot} 
+                                onChange={handleMilitaryChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name="military_rank" 
+                                value={militaryAppearanceData.military_rank} 
+                                onChange={handleMilitaryChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name="military_accounting_specialty" 
+                                value={militaryAppearanceData.military_accounting_specialty} 
+                                onChange={handleMilitaryChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name="num" 
+                                value={militaryAppearanceData.num} 
+                                onChange={handleMilitaryChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name="suitability_for_military_service" 
+                                value={militaryAppearanceData.suitability_for_military_service} 
+                                onChange={handleMilitaryChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
+                            <TextField 
+                                type='text' 
+                                name="name_of_the_military_office_at_the_place_of_residence" 
+                                value={militaryAppearanceData.name_of_the_military_office_at_the_place_of_residence} 
+                                onChange={handleMilitaryChange}
+                                sx={{
+                                    padding: 1,
+                                }}
+                            />
                         </form>
                     </Paper>
                 </Grid>
