@@ -42,7 +42,7 @@ const EducationData = () => {
     return(
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
-                <Grid item xs={10} md={4}>
+                <Grid item xs={10} md={4} style={{ marginLeft: '35%', marginTop: '-13.5%' }}>
                     <Paper sx={{
                         padding: '20px',
                         border: 1,

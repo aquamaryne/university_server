@@ -13,7 +13,7 @@ import PositionsData from '../data/positions.data';
 import WorkExpData from '../data/work_exp.data';
 import FamilyStatusData from '../data/family_status.data';
 import FiredData from '../data/fired.data';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 
 const EnterDataForm = () => {
     const[clicked, setClicked] = useState(false);
@@ -43,20 +43,50 @@ const EnterDataForm = () => {
             </Button>
             {clicked &&(
                 <div>
-                    <EmployeerData />
-                    <EducationData />
-                    <FamilyData />
-                    <AchieveData />
-                    <SexData />
-                    <DomainsData />
-                    <DepartmentData />
-                    <LangData />
-                    <MilitaryData />
-                    <PersonalData />
-                    <PositionsData />
-                    <WorkExpData />
-                    <FamilyStatusData />
-                    <FiredData />
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12}>
+                            <EmployeerData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <EducationData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <FamilyData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <AchieveData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <SexData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <DomainsData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <DepartmentData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <LangData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>                            
+                            <MilitaryData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <PersonalData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <PositionsData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>  
+                            <WorkExpData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>    
+                            <FamilyStatusData />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <FiredData />
+                        </Grid>
+                    </Grid>
                 </div>
             )}
         </div>
