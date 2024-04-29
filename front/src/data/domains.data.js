@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField, Grid, Paper, Typography } from "@mui/material";
+import { TextField, Grid, Paper, Typography, Card } from "@mui/material";
 
 const DomainsData = () => {
     const[domainsData, setDomainsData] = React.useState({
@@ -32,7 +32,7 @@ const DomainsData = () => {
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
                 <Grid item xs={2}>
-                    <Paper elevation={2} sx={{ padding: "20px", border: 1,}}>
+                    <Card elevation={2} sx={{ padding: "20px", border: 1,}}>
                         <Typography variant="h6"
                             sx={{ 
                                 marginBottom: '20px',
@@ -57,7 +57,7 @@ const DomainsData = () => {
                                 onChange={handleDomainChange} 
                             />
                         </form>
-                    </Paper>
+                    </Card>
                 </Grid>
             </Grid>
         </div>

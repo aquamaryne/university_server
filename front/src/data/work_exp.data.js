@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField, Grid, Paper, Typography } from "@mui/material";
+import { TextField, Grid, Paper, Typography, Card } from "@mui/material";
 
 const WorkExpData = () => {
     const[workExperience, setWorkExperience] = React.useState({
@@ -38,7 +38,7 @@ const WorkExpData = () => {
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
                 <Grid item xs={10} md={4}>
-                    <Paper sx={{
+                    <Card sx={{
                         padding: '20px',
                         border: 1,
                         borderRadius: 2,
@@ -101,7 +101,7 @@ const WorkExpData = () => {
                                 }}
                             />
                         </form>
-                    </Paper>
+                    </Card>
                 </Grid>
             </Grid>
         </div>

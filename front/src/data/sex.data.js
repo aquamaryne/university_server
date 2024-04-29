@@ -1,6 +1,6 @@
 import React from 'react';
 import { postDataToTable } from '../api/data.api.post';
-import { TextField, Grid, Paper, Typography } from "@mui/material";
+import { TextField, Grid, Paper, Typography, Card } from "@mui/material";
 
 const SexData = () => {
     const[sexData, setSexData] = React.useState({
@@ -32,10 +32,13 @@ const SexData = () => {
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
                 <Grid item xs={10} md={4}>
-                    <Paper sx={{
+                    <Card sx={{
                         padding: '20px',
                         border: 1,
                         borderRadius: 2,
+                        '&:hover': {
+                            transform: 'scale(1.05)', // Увеличение размера при наведении
+                        },
                     }}>
                         <Typography variant="h6"
                             sx={{ 
@@ -65,7 +68,7 @@ const SexData = () => {
                                 }}
                             />
                         </form>
-                    </Paper>
+                    </Card>
                 </Grid>
             </Grid>
         </div>

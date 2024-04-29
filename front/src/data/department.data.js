@@ -1,6 +1,6 @@
 import React from "react";
 import { postDataToTable } from "../api/data.api.post";
-import { TextField, Grid, Paper, Typography } from "@mui/material";
+import { TextField, Grid, Paper, Typography, Card } from "@mui/material";
 
 const DepartmentData = () => {
     const[departmentData, setDepartmentData] = React.useState({
@@ -32,7 +32,7 @@ const DepartmentData = () => {
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
                 <Grid item xs={2}>
-                    <Paper  elevation={3} sx={{
+                    <Card  elevation={3} sx={{
                         padding: '20px',
                         border: 1,
                     }}>
@@ -65,7 +65,7 @@ const DepartmentData = () => {
                                 }}
                             />
                         </form>
-                    </Paper>
+                    </Card>
                 </Grid>
             </Grid>
         </div>

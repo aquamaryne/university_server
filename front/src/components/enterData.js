@@ -13,7 +13,7 @@ import PositionsData from '../data/positions.data';
 import WorkExpData from '../data/work_exp.data';
 import FamilyStatusData from '../data/family_status.data';
 import FiredData from '../data/fired.data';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Card, CardContent } from '@mui/material';
 
 const EnterDataForm = () => {
     const[clicked, setClicked] = useState(false);
