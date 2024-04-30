@@ -43,31 +43,29 @@ const EmployeerData = () => {
         }
     };
 
+    const randomColor = getRandomColor();
+
     return(
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
                 <Grid item xs={4} md={2}>
                     <Card sx={{
                         padding: '20px',
-                        border: 1,
+                        border: 1.9,
                         borderRadius: 0,
                         marginLeft: '10px',
-                        transition: 'background-color 0.3s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out border-radius 0.3s ease-in-out', // Анимация изменения размера
+                        transition: 'background-color 0.3s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.3s ease-in-out',
                         '&:hover': {
                             transition: 'translateX(5px)',
-                            boxShadow: `-5px 5px 0px ${getRandomColor()}`, // Тень при наведении
+                            boxShadow: `-4px 4px 0px ${randomColor}`,
+                            borderColor: randomColor,
                         },
                     }}>
                         <Typography variant="h6" 
                             sx={{ 
                                 marginBottom: '20px',
-                                textAlign: 'center',
                                 fontSize: 30,
                                 fontFamily: 'monospace',
-                                border: 1, 
-                                borderWidth: 1,
-                                borderColor: '#1f1f1f',
-                                borderRadius: 1.5,
                                 color: 'indigo',
                                 marginRight: '2rem',
                                 marginLeft: '3rem',
@@ -86,8 +84,14 @@ const EmployeerData = () => {
                                 color="warning"
                                 sx={{
                                     border: 1,
-                                    marginLeft: -1,
+                                    marginLeft: -2.5,
                                     marginBottom: 1,
+                                    backgroundColor: 'white',
+                                    transition: 'transform 0.3s ease-in-out',
+                                    '&:hover': {
+                                        borderColor: randomColor,
+                                        transform: 'translateX(3px) scale(1.02)',
+                                    }
                                 }}
                             />
                             <TextField 
@@ -100,8 +104,14 @@ const EmployeerData = () => {
                                 color="warning"
                                 sx={{
                                     border: 1,
-                                    marginLeft: -1,
+                                    marginLeft: -2.5,
                                     marginBottom: 1,
+                                    backgroundColor: 'white',
+                                    transition: 'transform 0.3s ease-in-out',
+                                    '&:hover': {
+                                        borderColor: randomColor,
+                                        transform: 'translateX(3px) scale(1.02)',
+                                    }
                                 }}
                             />
                             <TextField 
@@ -114,8 +124,14 @@ const EmployeerData = () => {
                                 color="warning"
                                 sx={{
                                     border: 1,
-                                    marginLeft: -1,
+                                    marginLeft: -2.5,
                                     marginBottom: 1,
+                                    backgroundColor: 'white',
+                                    transition: 'transform 0.3s ease-in-out',
+                                    '&:hover': {
+                                        borderColor: randomColor,
+                                        transform: 'translateX(3px) scale(1.02)',
+                                    }
                                 }}
                             />
                             <TextField 
@@ -128,7 +144,14 @@ const EmployeerData = () => {
                                 color="warning"
                                 sx={{
                                     border: 1,
-                                    marginLeft: -1,
+                                    marginLeft: -2.5,
+                                    marginBottom: 1,
+                                    backgroundColor: 'white',
+                                    transition: 'transform 0.3s ease-in-out',
+                                    '&:hover': {
+                                        borderColor: randomColor,
+                                        transform: 'translateX(3px) scale(1.02)',
+                                    }
                                 }}
                             />
                         </form>

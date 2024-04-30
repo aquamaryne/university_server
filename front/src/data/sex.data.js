@@ -2,6 +2,16 @@ import React from 'react';
 import { postDataToTable } from '../api/data.api.post';
 import { TextField, Grid, Paper, Typography, Card } from "@mui/material";
 
+const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for(let i = 0; i < 6; i++){
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+const randomColor = getRandomColor();
+
 const SexData = () => {
     const[sexData, setSexData] = React.useState({
         sex_name: ''
@@ -31,27 +41,27 @@ const SexData = () => {
     return(
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
-                <Grid item xs={10} md={4}>
+                <Grid item xs={2} md={2} style={{ marginTop: '-20%' }}>
                     <Card sx={{
                         padding: '20px',
-                        border: 1,
-                        borderRadius: 2,
+                        border: 1.9,
+                        borderRadius: 0,
+                        marginLeft: '10px',
+                        transition: 'background-color 0.3s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.3s ease-in-out',
                         '&:hover': {
-                            transform: 'scale(1.05)', // Увеличение размера при наведении
+                            transition: 'translateX(5px)',
+                            boxShadow: `-4px 4px 0px ${randomColor}`,
+                            borderColor: randomColor,
                         },
                     }}>
                         <Typography variant="h6"
                             sx={{ 
                                 marginBottom: '20px',
-                                textAlign: 'center',
-                                border: 1, 
-                                borderWidth: 1,
-                                borderColor: '#1f1f1f',
-                                borderRadius: 2,
-                                color: 'royalblue',
-                                backgroundColor: '#2b2b2a',
-                                marginRight: '10rem',
-                                marginLeft: '10rem',
+                                fontSize: 30,
+                                fontFamily: 'monospace',
+                                color: 'indigo',
+                                marginRight: '2rem',
+                                marginLeft: '3rem',
                             }}
                         >
                             Стать
@@ -63,8 +73,18 @@ const SexData = () => {
                                 placeholder="Стать" 
                                 value={sexData.sex_name} 
                                 onChange={handleSexChange}
+                                variant="filled"
+                                color="warning"
                                 sx={{
-                                    padding: 1,
+                                    border: 1,
+                                    marginLeft: 1,
+                                    marginBottom: 1,
+                                    backgroundColor: 'white',
+                                    transition: 'transform 0.3s ease-in-out',
+                                    '&:hover': {
+                                        borderColor: randomColor,
+                                        transform: 'translateX(3px) scale(1.02)',
+                                    }
                                 }}
                             />
                         </form>
