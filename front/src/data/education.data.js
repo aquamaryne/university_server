@@ -53,7 +53,7 @@ const EducationData = () => {
     return(
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
-                <Grid item xs={4} md={2} style={{ marginLeft: '18%', marginTop: '-22.5%' }}>
+                <Grid item xs={4} md={2} style={{ marginLeft: '18%', marginTop: '-20.85%' }}>
                     <Card sx={{
                         padding: '20px',
                         border: 1.9,

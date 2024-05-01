@@ -56,7 +56,7 @@ const AchieveData = () => {
     return(
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
-                <Grid item xs={2} md={2} style={{ marginLeft: '54%', marginTop: '-32.34%' }}>
+                <Grid item xs={2} md={2} style={{ marginLeft: '54%', marginTop: '-30%' }}>
                     <Card  sx={{
                         padding: '20px',
                         border: 1.9,

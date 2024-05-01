@@ -45,7 +45,7 @@ const FamilyData = () => {
     return(
         <div>
             <Grid container alignItems='center' sx={{ padding: 1 }}>
-                <Grid item xs={4} md={2} style={{ marginLeft: '36%', marginTop: '-43.6%' }}>
+                <Grid item xs={4} md={2} style={{ marginLeft: '36%', marginTop: '-40.5%' }}>
                     <Card sx={{
                         padding: '20px',
                         border: 1.9,

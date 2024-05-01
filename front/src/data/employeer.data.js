@@ -9,7 +9,9 @@ const getRandomColor = () => {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-}
+};
+
+const randomColor = getRandomColor();
 
 const EmployeerData = () => {
     const[employeerData, setEmployeerData] = useState({
@@ -43,7 +45,6 @@ const EmployeerData = () => {
         }
     };
 
-    const randomColor = getRandomColor();
 
     return(
         <div>
