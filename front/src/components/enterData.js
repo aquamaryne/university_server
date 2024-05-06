@@ -14,6 +14,7 @@ import WorkExpData from '../data/work_exp.data';
 import FamilyStatusData from '../data/family_status.data';
 import FiredData from '../data/fired.data';
 import { Button, Grid, Card, CardContent } from '@mui/material';
+import SaveButton from './button';
 
 const EnterDataForm = () => {
     const[clicked, setClicked] = useState(false);
@@ -85,6 +86,9 @@ const EnterDataForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={12}>
                             <FiredData />
+                        </Grid>
+                        <Grid style={{ marginLeft: '2%' }}>
+                            <SaveButton />
                         </Grid>
                     </Grid>
                 </div>
