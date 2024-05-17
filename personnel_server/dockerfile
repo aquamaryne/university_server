@@ -1,0 +1,15 @@
+FROM node:21
+VOLUME /nest-app
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm install mysql2
+RUN npm run build
+EXPOSE 3001
+ENV MYSQL_HOST=""
+ENV MYSQL_USER=""
+ENV MYSQL_PASS=""
+ENV MYSQL_DB=""
+ENV DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASS}@${MYSQL_HOST}:3306/${MYSQL_DB}
+CMD [ "npm", "start" ]
