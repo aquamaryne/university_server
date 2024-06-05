@@ -7,9 +7,9 @@ COPY . .
 RUN npm install mysql2
 RUN npm run build
 EXPOSE 3001
-ENV MYSQL_HOST=""
-ENV MYSQL_USER=""
-ENV MYSQL_PASS=""
-ENV MYSQL_DB=""
+ENV MYSQL_HOST="localhost"
+ENV MYSQL_USER="root"
+ENV MYSQL_PASS="toor"
+ENV MYSQL_DB="kadry"
 ENV DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASS}@${MYSQL_HOST}:3306/${MYSQL_DB}
 CMD [ "npm", "start" ]
