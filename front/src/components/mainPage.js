@@ -13,9 +13,9 @@ import EnterDataForm from "./enterData";
 const MainPage = () => { 
     return(
         <div>
-            <Grid container spacing={2} sx={{
+            <Grid direction="column" container spacing={2} sx={{
                 marginTop: 1,
-            }} className="grid-container">
+                }} className="grid-container">
                 <Box sx={{ marginLeft: 5}}>
                     <Witness />
                 </Box>

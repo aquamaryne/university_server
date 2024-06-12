@@ -2,7 +2,6 @@ import Authorizations from "./components/keyAuth";
 import MainPage from "./components/mainPage";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "../src/css/theme.css";
-import Witness from "./components/witness";
 
 function App() {
   return (
