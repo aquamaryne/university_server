@@ -47,22 +47,10 @@ const Form = () => {
 
     return (
         <div>
-            <Button onClick={handleClick} sx={{
-                border: 2,
-                fontFamily: 'Daikon',
-                fontWeight: 'bold',
-                borderRadius: 0,
-                color: anchorEl ? "white" : "black",
-                backgroundColor: anchorEl ? '#191970' : 'transparent',
-                '&:hover': {
-                    backgroundColor: anchorEl ? '#191970' : '#191970',
-                    color: 'white',
-                    borderColor: 'orange',
-                    boxShadow: '-4px 2px 2px 0 purple',
-                },
-                transition: 'box-shadow 0.3s'
+            <Button onClick={handleClick} sx={{ 
+                border: 1, 
             }}>
-                <Typography>
+                <Typography sx={{ marginRight: 10 }}>
                     Формуляр
                 </Typography>
             </Button>

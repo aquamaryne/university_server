@@ -5,6 +5,27 @@ import ArchievePage from "../pages/archieve/archievePage";
 import Edit from "../pages/archieve/edit";
 import Fired from "../pages/archieve/firedPeople";
 
+// Массив элементов меню
+const menuItems = [
+    "Перегляд картки в архіві",
+    "Список звільнених вікладачів за вказаний період",
+    "Перегляд і редагування номерів і дат наказів на зарахування і звільнення"
+];
+
+// Функция для рендеринга выбранного содержимого
+const renderSelectedContent = (selectedMenuItem) => {
+    switch (selectedMenuItem) {
+        case "Перегляд картки в архіві":
+            return <ArchievePage />;
+        case "Список звільнених вікладачів за вказаний період":
+            return <Edit />;
+        case "Перегляд і редагування номерів і дат наказів на зарахування і звільнення":
+            return <Fired />;
+        default:
+            return null;
+    }
+};
+
 const Store = () => { 
     const [anchorEl, setAnchorEl] = useState(null);
     const [clicked, setClicked] = useState(false);
@@ -27,7 +48,7 @@ const Store = () => {
 
     return(
         <div>
-            <Button onClick={handleClick} sx={buttonStyles(clicked)}>
+            <Button onClick={handleClick} sx={{ border: 1, paddingLeft: "7.32%" }}>
                 <Typography>Архів</Typography>
             </Button>
             <Menu
@@ -51,42 +72,5 @@ const Store = () => {
     );
 };
 
-// Стили для кнопки
-const buttonStyles = (clicked) => ({
-    border: 2,
-    fontFamily: 'Daikon',
-    fontWeight: 'bold',
-    borderRadius: 0,
-    color: clicked ? "white" : "black",
-    backgroundColor: clicked ? '#191970' : 'transparent',
-    '&:hover': {
-        backgroundColor: clicked ? '#191970' : '#191970',
-        color: clicked ? 'white' : 'white',
-        borderColor: 'orange',
-        boxShadow: '-4px 2px 2px 0 purple',
-    },
-    transition: 'box-shadow 0.3s'
-});
-
-// Массив элементов меню
-const menuItems = [
-    "Перегляд картки в архіві",
-    "Список звільнених вікладачів за вказаний період",
-    "Перегляд і редагування номерів і дат наказів на зарахування і звільнення"
-];
-
-// Функция для рендеринга выбранного содержимого
-const renderSelectedContent = (selectedMenuItem) => {
-    switch (selectedMenuItem) {
-        case "Перегляд картки в архіві":
-            return <ArchievePage />;
-        case "Список звільнених вікладачів за вказаний період":
-            return <Edit />;
-        case "Перегляд і редагування номерів і дат наказів на зарахування і звільнення":
-            return <Fired />;
-        default:
-            return null;
-    }
-};
 
 export default Store;

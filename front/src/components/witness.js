@@ -1,6 +1,23 @@
 import React, { useState } from "react";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
+// Массив элементов меню
+const menuItems = [
+    "Довідник факультетів",
+    "Довідник посад",
+    "Довідник підрозділів",
+    "Довідник причин звільнення",
+    "Довідник родинного стану",
+    "Довідник членів сім'ї",
+    "Довідник трудових угод",
+    "Довідник видів відпусток",
+    "Довідник вчених званнів",
+    "Довідник вчених ступенів",
+    "Довідник іноземних мов",
+    "Довідник наукових галузей",
+    "Довідник почесних званнів"
+];
+
 const Witness = () => { 
     const [anchorEl, setAnchorEl] = useState(null);
     const [clicked, setClicked] = useState(false);
@@ -17,7 +34,7 @@ const Witness = () => {
 
     return(
         <div>
-            <Button onClick={handleClick} sx={buttonStyles(clicked)}>
+            <Button onClick={handleClick} sx={{ border: 1 }}>
                 <Typography>
                     Довідники
                 </Typography> 
@@ -37,38 +54,5 @@ const Witness = () => {
     );
 };
 
-// Стили для кнопки
-const buttonStyles = (clicked) => ({
-    border: 2,
-    fontFamily: 'Daikon',
-    fontWeight: 'bold',
-    borderRadius: 0,
-    color: clicked ? "white" : "black",
-    backgroundColor: clicked ? '#191970' : 'transparent',
-    '&:hover': {
-        backgroundColor: clicked ? '#191970' : '#191970',
-        color: clicked ? 'white' : 'white',
-        borderColor: 'orange',
-        boxShadow: '-4px 2px 2px 0 purple',
-    },
-    transition: 'box-shadow 0.3s'
-});
-
-// Массив элементов меню
-const menuItems = [
-    "Довідник факультетів",
-    "Довідник посад",
-    "Довідник підрозділів",
-    "Довідник причин звільнення",
-    "Довідник родинного стану",
-    "Довідник членів сім'ї",
-    "Довідник трудових угод",
-    "Довідник видів відпусток",
-    "Довідник вчених званнів",
-    "Довідник вчених ступенів",
-    "Довідник іноземних мов",
-    "Довідник наукових галузей",
-    "Довідник почесних званнів"
-];
 
 export default Witness;

@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
+// Массив элементов меню
+const menuItems = [
+    "Внесенні реквізитів для статистичних форм",
+    "Форма №5 - формування даних",
+    "Корегування та друк форми №5",
+    "Форма №6",
+    "Список осіб віком 16-29 років, що підлягають імунизації",
+    "Список працівників віком старше...років",
+    "Список всіх без сумісників і філіалів",
+    "Список кандитатів і докторів з № дипломів"
+];
+
 const Statistics = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [clicked, setClicked] = useState(false);
@@ -17,7 +29,7 @@ const Statistics = () => {
 
     return (
         <div>
-            <Button onClick={handleClick} sx={buttonStyles(clicked)}>
+            <Button onClick={handleClick} sx={{ border: 1 }}>
                 <Typography>Статистика</Typography>
             </Button>
             <Menu
@@ -35,33 +47,5 @@ const Statistics = () => {
     );
 };
 
-// Стили для кнопки
-const buttonStyles = (clicked) => ({
-    border: 2,
-    fontFamily: 'Daikon',
-    fontWeight: 'bold',
-    borderRadius: 0,
-    color: clicked ? "white" : "black",
-    backgroundColor: clicked ? '#191970' : 'transparent',
-    '&:hover': {
-        backgroundColor: clicked ? '#191970' : '#191970',
-        color: clicked ? 'white' : 'white',
-        borderColor: 'orange',
-        boxShadow: '-4px 2px 2px 0 purple',
-    },
-    transition: 'box-shadow 0.3s'
-});
-
-// Массив элементов меню
-const menuItems = [
-    "Внесенні реквізитів для статистичних форм",
-    "Форма №5 - формування даних",
-    "Корегування та друк форми №5",
-    "Форма №6",
-    "Список осіб віком 16-29 років, що підлягають імунизації",
-    "Список працівників віком старше...років",
-    "Список всіх без сумісників і філіалів",
-    "Список кандитатів і докторів з № дипломів"
-];
 
 export default Statistics;

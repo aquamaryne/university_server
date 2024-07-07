@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
+// Массив элементов меню
+const menuItems = [
+    "Внесення особистих карток",
+    "Пошук по прізвищу"
+];
+
 const PersonalCard = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [clicked, setClicked] = useState(false);
@@ -17,7 +23,7 @@ const PersonalCard = () => {
 
     return (
         <div>
-            <Button onClick={handleClick} sx={buttonStyles(clicked)}>
+            <Button onClick={handleClick} sx={{ border: 1 }}>
                 <Typography>Особисті картки</Typography>
             </Button>
             <Menu
@@ -33,27 +39,6 @@ const PersonalCard = () => {
     );
 };
 
-// Стили для кнопки
-const buttonStyles = (clicked) => ({
-    border: 2,
-    fontFamily: 'Daikon',
-    fontWeight: 'bold',
-    borderRadius: 0,
-    color: clicked ? "white" : "black",
-    backgroundColor: clicked ? '#191970' : 'transparent',
-    '&:hover': {
-        backgroundColor: clicked ? '#191970' : '#191970',
-        color: clicked ? 'white' : 'white',
-        borderColor: 'orange',
-        boxShadow: '-4px 2px 2px 0 purple',
-    },
-    transition: 'box-shadow 0.3s'
-});
 
-// Массив элементов меню
-const menuItems = [
-    "Внесення особистих карток",
-    "Пошук по прізвищу"
-];
 
 export default PersonalCard;

@@ -10,41 +10,49 @@ import Store from "./store";
 import "../css/page.css";
 import EnterDataForm from "./enterData";
 
-const MainPage = () => { 
+
+const SideBar = () => {
+    const [selectedItem, setSelectedItem] = React.useState(null);
+
+    const hanfleClick = (item) => {
+        setSelectedItem(item);
+    };
+
     return(
         <div>
-            <Grid direction="column" container spacing={2} sx={{
-                marginTop: 1,
-                }} className="grid-container">
-                <Box sx={{ marginLeft: 5}}>
-                    <Witness />
-                </Box>
-                <Box sx={{ marginLeft: 1}}>
-                    <PersonalCard />
-                </Box>
-                <Box sx={{ marginLeft: 1}}>
-                    <Print />
-                </Box>
-                <Box sx={{ marginLeft: 1}}>
-                    <Statistics />
-                </Box>
-                <Box sx={{ marginLeft: 1}}>
-                    <PrintWitness />
-                </Box>
-                <Box sx={{ marginLeft: 1}}>
-                    <Form />
-                </Box>
-                <Box sx={{ marginLeft: 1}}>
-                    <Store />
-                </Box>
-                <Box sx={{ marginLeft: 1}}>
-                    <EnterDataForm />
-                </Box>
+            <Grid direction="column" container spacing={2} sx={{ marginTop: 1 }} className="grid-container">
+                <Grid item xs={2} sx={{ height: '100vh', overflowY: 'auto'}}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Box >
+                            <Witness />
+                        </Box>
+                        <Box >
+                            <PersonalCard />
+                        </Box>
+                        <Box >
+                            <Print />
+                        </Box>
+                        <Box>
+                            <Statistics />
+                        </Box>
+                        <Box>
+                            <PrintWitness />
+                        </Box>
+                        <Box >
+                            <Form />
+                        </Box>
+                        <Box>
+                            <Store />
+                        </Box>
+                        <Box>
+                            <EnterDataForm />
+                        </Box>
+                    </Box>
+                </Grid>
             </Grid>
-            <div className="line"></div>
         </div>
     )
 };
 
-export default MainPage;
+export default SideBar;
 
