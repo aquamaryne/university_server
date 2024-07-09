@@ -41,10 +41,9 @@ const Print = () => {
     };
 
     return (
-        <div>
+        <React.Fragment>
             <Button onClick={handleClick} sx={{
                 border: 1,
-                paddingLeft: "7%",
             }}>
                 <Typography>Друк</Typography>
             </Button>
@@ -57,7 +56,7 @@ const Print = () => {
                     <MenuItem key={index} onClick={handleClose}>{item}</MenuItem>
                 ))}
             </Menu>
-        </div>
+        </React.Fragment>
     );
 };
 

@@ -33,7 +33,7 @@ const PrintWitness = () => {
     };
 
     return(
-        <div>
+        <React.Fragment>
             <Button onClick={handleClick} sx={{ border: 1 }}>
                 <Typography>
                     Друк довідників
@@ -50,7 +50,7 @@ const PrintWitness = () => {
                     </MenuItem>
                 ))}
             </Menu>
-        </div>
+        </React.Fragment>
     );
 };
 

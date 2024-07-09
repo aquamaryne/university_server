@@ -28,7 +28,7 @@ const Statistics = () => {
     };
 
     return (
-        <div>
+        <React.Fragment>
             <Button onClick={handleClick} sx={{ border: 1 }}>
                 <Typography>Статистика</Typography>
             </Button>
@@ -43,7 +43,7 @@ const Statistics = () => {
                     </MenuItem>
                 ))}
             </Menu>
-        </div>
+        </React.Fragment>
     );
 };
 

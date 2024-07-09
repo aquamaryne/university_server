@@ -46,11 +46,11 @@ const Form = () => {
     );
 
     return (
-        <div>
+        <React.Fragment>
             <Button onClick={handleClick} sx={{ 
                 border: 1, 
             }}>
-                <Typography sx={{ marginRight: 10 }}>
+                <Typography>
                     Формуляр
                 </Typography>
             </Button>
@@ -62,7 +62,7 @@ const Form = () => {
                 {menuItems.map(renderMenuItem)}
             </Menu>
             {selectedMenuItem && (
-                <div>
+                <React.Fragment>
                     <h2>Було обрано: {selectedMenuItem}</h2>
                     {selectedMenuItem === "Внесення звідки прийшов" && <WhereFrom />}
                     {selectedMenuItem === "Внесення даних до формуляру" && <EnterForm />}
@@ -73,9 +73,9 @@ const Form = () => {
                     {selectedMenuItem === "Форма №3" && <FormThree />}
                     {selectedMenuItem === "Форма №4" && <FormFour />}
                     {selectedMenuItem === "Форма №5" && <FormFive />}
-                </div>
+                </React.Fragment>
             )}
-        </div>
+        </React.Fragment>
     );
 };
 

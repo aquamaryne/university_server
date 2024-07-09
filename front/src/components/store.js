@@ -47,8 +47,8 @@ const Store = () => {
     };
 
     return(
-        <div>
-            <Button onClick={handleClick} sx={{ border: 1, paddingLeft: "7.32%" }}>
+        <React.Fragment>
+            <Button onClick={handleClick} sx={{ border: 1 }}>
                 <Typography>Архів</Typography>
             </Button>
             <Menu
@@ -68,7 +68,7 @@ const Store = () => {
                     {renderSelectedContent(selectedMenuItem)}
                 </div>
             )}
-        </div>
+        </React.Fragment>
     );
 };
 

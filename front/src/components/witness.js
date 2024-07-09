@@ -33,7 +33,7 @@ const Witness = () => {
     };
 
     return(
-        <div>
+        <React.Fragment>
             <Button onClick={handleClick} sx={{ border: 1 }}>
                 <Typography>
                     Довідники
@@ -50,7 +50,7 @@ const Witness = () => {
                     </MenuItem>
                 ))}
             </Menu>
-        </div>
+        </React.Fragment>
     );
 };
 

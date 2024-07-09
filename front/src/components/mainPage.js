@@ -19,38 +19,20 @@ const SideBar = () => {
     };
 
     return(
-        <div>
-            <Grid direction="column" container spacing={2} sx={{ marginTop: 1 }} className="grid-container">
-                <Grid item xs={2} sx={{ height: '100vh', overflowY: 'auto'}}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Box >
-                            <Witness />
-                        </Box>
-                        <Box >
-                            <PersonalCard />
-                        </Box>
-                        <Box >
-                            <Print />
-                        </Box>
-                        <Box>
-                            <Statistics />
-                        </Box>
-                        <Box>
-                            <PrintWitness />
-                        </Box>
-                        <Box >
-                            <Form />
-                        </Box>
-                        <Box>
-                            <Store />
-                        </Box>
-                        <Box>
-                            <EnterDataForm />
-                        </Box>
-                    </Box>
+        <React.Fragment>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Witness />
+                    <PersonalCard />   
+                    <Print />
+                    <Statistics />
+                    <PrintWitness />
+                    <Form />
+                    <Store />
+                    <EnterDataForm />          
                 </Grid>
             </Grid>
-        </div>
+        </React.Fragment>
     )
 };
 

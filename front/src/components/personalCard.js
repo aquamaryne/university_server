@@ -22,7 +22,7 @@ const PersonalCard = () => {
     };
 
     return (
-        <div>
+        <React.Fragment>
             <Button onClick={handleClick} sx={{ border: 1 }}>
                 <Typography>Особисті картки</Typography>
             </Button>
@@ -35,7 +35,7 @@ const PersonalCard = () => {
                     <MenuItem key={index} onClick={handleClose}>{item}</MenuItem>
                 ))}
             </Menu>
-        </div>
+        </React.Fragment>
     );
 };
 
