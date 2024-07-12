@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { ReactToPrint } from "react-to-print";
 import "../../css/table.css";
 import axios from "axios";
-import { Paper, TableHead, TableBody, TableRow, TableCell, Table } from "@mui/material";
+import { TableHead, TableBody, TableRow, TableCell, Table } from "@mui/material";
 
 const FullFormPrint = () => {
   const componentRef = React.useRef();
@@ -22,7 +22,7 @@ const FullFormPrint = () => {
         content={() => componentRef.current}
         pageStyle={`
             @page {
-              size: auto;
+              size: 100;
               margin: 2rem; 
               orientation: landscape;
             }
@@ -30,14 +30,14 @@ const FullFormPrint = () => {
             @media print {
               .print-title {
                 width: 100%;
-                margin-bottom: 1rem; /* Уменьшил отступ до 1rem */
-                font-size: 24px; /* Установил размер шрифта в пунктах */
-                text-align: center; /* Выравнивание по центру */
+                margin-bottom: 1rem; 
+                font-size: 24px; 
+                text-align: center;
               }
             
               .print-table {
                 width: 100%;
-                font-size: 16px; /* Установил размер шрифта в пунктах */
+                font-size: 16px; 
                 text-align: center; /* Выравнивание по центру */
               }
             
@@ -53,7 +53,7 @@ const FullFormPrint = () => {
       />
       <div ref={componentRef} className="print-content">
         <h1 className="print-title">Штаний формуляр</h1>
-        <Paper>
+        <>
           <Table className="print-table">
               <TableHead>
                   <TableRow>
@@ -95,7 +95,7 @@ const FullFormPrint = () => {
               ))}
             </TableBody>
           </Table>
-        </Paper>
+        </>
       </div>
     </div>
   );

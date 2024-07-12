@@ -31,7 +31,7 @@ const EnterDataForm = () => {
                 Внесення даних
             </Button>
             {clicked &&(
-                <div>
+                <React.Fragment>
                     <Grid container spacing={2} style={{ marginLeft: '4.4%' }}>
                         <Grid item xs={12} sm={12}>
                             <EmployeerData />
@@ -79,7 +79,7 @@ const EnterDataForm = () => {
                             <SaveButton />
                         </Grid>
                     </Grid>
-                </div>
+                </React.Fragment>
             )}
         </div>
     )

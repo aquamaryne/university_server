@@ -12,23 +12,32 @@ import EnterDataForm from "./enterData";
 
 
 const SideBar = () => {
-    const [selectedItem, setSelectedItem] = React.useState(null);
-
-    const hanfleClick = (item) => {
-        setSelectedItem(item);
-    };
 
     return(
         <React.Fragment>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Witness />
+            <Grid container spacing={1} direction={"row"} >
+                <Grid item>
+                    <Witness /> 
+                </Grid>
+                <Grid item>
                     <PersonalCard />   
+                </Grid>
+                <Grid item>
                     <Print />
+                </Grid>
+                <Grid item>
                     <Statistics />
-                    <PrintWitness />
+                </Grid>
+                <Grid item>
+                    <PrintWitness />    
+                </Grid>
+                <Grid item>
                     <Form />
+                </Grid>
+                <Grid item >
                     <Store />
+                </Grid>
+                <Grid item>
                     <EnterDataForm />          
                 </Grid>
             </Grid>

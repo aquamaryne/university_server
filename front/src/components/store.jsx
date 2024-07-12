@@ -63,10 +63,9 @@ const Store = () => {
                 ))}
             </Menu>
             {selectedMenuItem && (
-                <div>
-                    <h2>Було обрано: {selectedMenuItem}</h2>
+                <React.Fragment>
                     {renderSelectedContent(selectedMenuItem)}
-                </div>
+                </React.Fragment>
             )}
         </React.Fragment>
     );

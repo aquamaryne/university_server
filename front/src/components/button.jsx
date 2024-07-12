@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 const SaveButton = () => {
 
     const handleSubmit = (event) => {
-        fetch('http://localhost:3001', {
+        fetch('http://localhost:3001/family_status', {
             method: 'POST',
         })
         .then(function(responce) {
@@ -15,7 +15,9 @@ const SaveButton = () => {
         event.preventDefault();
     }
     return(
-        <Button onClick={handleSubmit}>Зберегти</Button>
+        <Button onClick={handleSubmit} sx={{
+            border: 1,
+        }}>Зберегти</Button>
     )
 }
 

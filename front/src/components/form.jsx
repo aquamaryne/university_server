@@ -9,6 +9,7 @@ import FormTwo from "../pages/witness/formTwo";
 import FormThree from "../pages/witness/formThree";
 import FormFour from "../pages/witness/formFour";
 import FormFive from "../pages/witness/formFive";
+import FormForAnother from "../pages/witness/formForAnother";
 
 const Form = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -32,6 +33,7 @@ const Form = () => {
         "Внесення даних до формуляру",
         "Керівний склад",
         "Друк штатного формуляру",
+        "Друк формуляру для інших підрозділів",
         "Форма №1",
         "Форма №2",
         "Форма №3",
@@ -62,18 +64,27 @@ const Form = () => {
                 {menuItems.map(renderMenuItem)}
             </Menu>
             {selectedMenuItem && (
-                <React.Fragment>
+                <div style={{
+                    position: "absolute",
+                    top: 100,
+                    left: 0,
+                    width: '100%',
+                    height: '100vh',
+                    padding: 10,
+                    zIndex: 1
+                }}>
                     <h2>Було обрано: {selectedMenuItem}</h2>
                     {selectedMenuItem === "Внесення звідки прийшов" && <WhereFrom />}
                     {selectedMenuItem === "Внесення даних до формуляру" && <EnterForm />}
                     {selectedMenuItem === "Керівний склад" && <ManageTeam />}
                     {selectedMenuItem === "Друк штатного формуляру" && <PrintForm />}
+                    {selectedMenuItem === "Друк формуляру для інших підрозділів" && <FormForAnother />}
                     {selectedMenuItem === "Форма №1" && <FormOne />}
                     {selectedMenuItem === "Форма №2" && <FormTwo />}
                     {selectedMenuItem === "Форма №3" && <FormThree />}
                     {selectedMenuItem === "Форма №4" && <FormFour />}
                     {selectedMenuItem === "Форма №5" && <FormFive />}
-                </React.Fragment>
+                </div>
             )}
         </React.Fragment>
     );
