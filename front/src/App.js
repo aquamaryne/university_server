@@ -1,18 +1,24 @@
-import Authorizations from "./components/keyAuth";
-import SideBar from "./components/mainPage";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import "../src/css/theme.css";
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
   return (
-    <div className="theme">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Authorizations />} />
-          <Route path="/mainPage" element={<SideBar />} />
-        </Routes>
-      </Router> 
-    </div>  
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="nogopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
