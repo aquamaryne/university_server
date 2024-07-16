@@ -1,5 +1,5 @@
 import React from "react";
-import { postDataToTable } from "../../../api/data.api.post";
+import { postDataToTable } from "../api/data.api.post";
 import { TextField, Grid, Paper, Typography, Card } from "@mui/material";
 
 const getRandomColor = () => {
