@@ -1,16 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './components/mainPage';
+import ArchieveRoute from './routes/archieve';
 
 function App() {
   return (
-    <div>
       <Router>
-        <Routes>
-          <Route path='/mainPage' element={<MainPage />} />
-        </Routes>
+        <div>
+          <MainPage />
+        </div>
+        <ArchieveRoute />
       </Router>
-    </div>
   );
 }
 

@@ -1,6 +1,48 @@
-import React from "react";
-import { Menu, MenuItem, Button } from "@mui/material";
+import * as React from 'react';
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 const Archieve: React.FC = () => {
-    return <h1>1</h1>;
+
+    const[anchorEl, setAnchorEl]= React.useState<null | HTMLElement>(null);
+
+    const hadnleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const hadnleClose = () => {
+        setAnchorEl(null);
+    };
+
+    return(
+        <div>
+            <Button sx={{ border: 1 }} onClick={hadnleClick}>
+                <Typography>Архів</Typography>
+            </Button>
+            <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={hadnleClose}
+            >
+                <MenuItem onClick={hadnleClose}>
+                    <Link to="/view/archieve/profile" style={{ textDecoration: 'none', color: 'black' }}>
+                        <Typography sx={{ textDecoration: 'none' }}>Перегляд картки в архіві</Typography>
+                    </Link>
+                </MenuItem>
+                <MenuItem onClick={hadnleClose}>
+                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                        <Typography sx={{ textDecoration: 'none' }}>Списки звільнених викладачів за вказаний період</Typography>
+                    </Link>
+                </MenuItem>
+                <MenuItem onClick={hadnleClose}>
+                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                        <Typography sx={{ textDecoration: 'none' }}>Перегляд і коригування номерів і дат наказів на прийом і звільнення</Typography>
+                    </Link>
+                </MenuItem>
+            </Menu>
+        </div>
+    )
 }
+
+export default Archieve;

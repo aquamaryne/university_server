@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import { Link } from 'react-router-dom';
 
-const Witness_Print: React.FC = () => {
+const Statistic: React.FC = () => {
 
     const[anchorEl, setAnchorEl]= React.useState<null | HTMLElement>(null);
 
@@ -17,7 +17,7 @@ const Witness_Print: React.FC = () => {
     return(
         <div>
             <Button sx={{ border: 1 }} onClick={hadnleClick}>
-                <Typography>Друк довідників</Typography>
+                <Typography>Статистика</Typography>
             </Button>
             <Menu
                 anchorEl={anchorEl}
@@ -27,62 +27,47 @@ const Witness_Print: React.FC = () => {
             >
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника факультетів</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Ввести реквізити для статичних форм</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника підрозділів</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Форма №5 - формування даних</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника посад</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Корегування та друк форми №5</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника звільнення</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Форма №6</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника родинного стану</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Корегування форми №6</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника членів сім'ї</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Список осіб віком 16-29 років, що підлягають імунизації</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника трудових угод</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Список працівників віком старше ... років</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника видів відпусток</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Список всіх без сумісників і філіалів</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника вчених званнів</Typography>
-                    </Link>
-                </MenuItem>
-                <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника вчених ступенів</Typography>
-                    </Link>
-                </MenuItem>
-                <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника іноземних мов</Typography>
-                    </Link>
-                </MenuItem>
-                <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Друк довідника наукових галузей</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Список кандидатів і докторів з № дипломів</Typography>
                     </Link>
                 </MenuItem>
             </Menu>
@@ -90,4 +75,4 @@ const Witness_Print: React.FC = () => {
     )
 }
 
-export default Witness_Print;
+export default Statistic;
