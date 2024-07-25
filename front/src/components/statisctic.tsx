@@ -26,47 +26,47 @@ const Statistic: React.FC = () => {
                 onClose={hadnleClose}
             >
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/enterForStaticForm" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Ввести реквізити для статичних форм</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/formFive" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Форма №5 - формування даних</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/editFormFive" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Корегування та друк форми №5</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/formSix" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Форма №6</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/editFormSix" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Корегування форми №6</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/listOfAges" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Список осіб віком 16-29 років, що підлягають імунизації</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/listOfOlder" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Список працівників віком старше ... років</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/listOfAllWithoutPartTimesAndBranches" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Список всіх без сумісників і філіалів</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/statistic/listOfDoctorsByDiploma" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Список кандидатів і докторів з № дипломів</Typography>
                     </Link>
                 </MenuItem>

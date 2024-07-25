@@ -26,12 +26,12 @@ const Personal_Card: React.FC = () => {
                 onClose={hadnleClose}
             >
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/personal_card/enterPersonalCard" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Ввод особистих карток</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/personal_card/searchBySurname" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Пошук по прізвищу</Typography>
                     </Link>
                 </MenuItem>
