@@ -20,7 +20,11 @@ const MainPage: React.FC = () => {
                 justifyContent: 'center', 
                 padding: "1%",
                 gap: '1rem',
-                borderRadius: 10,
+                border: 2,
+                borderStyle: 'solid',
+                borderRight: 'none',
+                borderLeft: 'none',
+                borderTop: 'none',
             }}> 
                 <Witness />
                 <Personal_Card />
