@@ -9,31 +9,28 @@ import Archieve from "./archieve";
 
 const MainPage: React.FC = () => {
     return(
-        <nav>
-            <ul>
-                <div>
-                    <Witness />
-                </div>
-                <div>
-                    <Personal_Card />
-                </div>
-                <div>
-                    <Print />
-                </div>
-                <div>
-                    <Statistic />
-                </div>
-                <div>
-                    <Witness_Print />
-                </div>
-                <div>
-                    <Form />
-                </div>
-                <div>
-                    <Archieve />
-                </div>
-            </ul>
-        </nav>
+        <div style={{
+            padding: 5,
+            margin: 5,
+        }}>
+            <div style={{ 
+                display: 'flex', 
+                flexDirection: 'row', 
+                backgroundColor: 'white',
+                justifyContent: 'center', 
+                padding: "1%",
+                gap: '1rem',
+                borderRadius: 10,
+            }}> 
+                <Witness />
+                <Personal_Card />
+                <Print />
+                <Statistic />
+                <Witness_Print />
+                <Form />
+                <Archieve />
+            </div>
+        </div>
     )
 }
 
