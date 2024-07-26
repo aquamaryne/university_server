@@ -7,6 +7,7 @@ import WitnessPrintRoute from './routes/witness_print';
 import PersonalCardRoute from './routes/personal_card';
 import StatisticRoute from './routes/statisctic';
 import WitnessRoute from './routes/witness';
+import PrintRoute from './routes/print';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <PersonalCardRoute />
         <StatisticRoute />
         <WitnessRoute />
+        <PrintRoute />
       </Router>
   );
 }

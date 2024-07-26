@@ -7,7 +7,7 @@ const PersonalCardRoute: React.FC = () => {
     return(
         <Routes>
             <Route path="/view/personal_card/enterPersonalCard" element={ <EnterPersonalCard />} />
-            <Route path="/view/personal_card/searchBySurname" element={ <SearchBySurname />} />
+            <Route path="/view/personal_card/searchBySurname"   element={ <SearchBySurname />} />
         </Routes>        
     )
 };

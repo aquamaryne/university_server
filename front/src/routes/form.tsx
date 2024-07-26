@@ -13,15 +13,15 @@ import FormFive from "../view/form/formFive";
 const FormRoute: React.FC = () => {
     return(
         <Routes>
-            <Route path="/view/form/whereFrom" element={ <WhereFrom />} />
-            <Route path="/view/form/enterDataToFrom" element={ <EnterDataToForm />} />
-            <Route path="/view/form/managementTeam" element={ <ManagementTeam />} />
-            <Route path="/view/form/printForm" element={ <PrintForm />} />
-            <Route path="/view/form/formOne" element={ <FormOne />} />
-            <Route path="/view/form/formTwo" element={ <FormTwo />} />
-            <Route path="/view/form/formThree" element={ <FormThree />} />
-            <Route path="/view/form/formFour" element={ <FormFour />} />
-            <Route path="/view/form/formFive" element={ <FormFive />} />
+            <Route path="/view/form/whereFrom"          element={ <WhereFrom />} />
+            <Route path="/view/form/enterDataToFrom"    element={ <EnterDataToForm />} />
+            <Route path="/view/form/managementTeam"     element={ <ManagementTeam />} />
+            <Route path="/view/form/printForm"          element={ <PrintForm />} />
+            <Route path="/view/form/formOne"            element={ <FormOne />} />
+            <Route path="/view/form/formTwo"            element={ <FormTwo />} />
+            <Route path="/view/form/formThree"          element={ <FormThree />} />
+            <Route path="/view/form/formFour"           element={ <FormFour />} />
+            <Route path="/view/form/formFive"           element={ <FormFive />} />
         </Routes>
     )
 }

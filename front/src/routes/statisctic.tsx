@@ -13,15 +13,15 @@ import ListOfDoctorsByDiploma from "../view/statistic/listOfDoctorsByDimploma";
 const StatisticRoute: React.FC = () => {
     return(
         <Routes>
-            <Route path="/view/statistic/enterForStaticForm" element={ <EditForStaticForm />} />
-            <Route path="/view/statistic/formFive" element={ <FormFive />} />
-            <Route path="/view/statistic/editFormFive" element={ <EditFormFive />} />
-            <Route path="/view/statistic/formSix" element={ <FormSix />} />
-            <Route path="/view/statistic/editFormSix" element={ <FormSixEdit />} />
-            <Route path="/view/statistic/listOfAges" element={ <ListOfAges />} />
-            <Route path="/view/statistic/listOfOlder" element={ <ListOfOlder />} />
-            <Route path="/view/statistic/listOfAllWithoutPartTimesAndBranches" element={ <ListOfAllWithoutPartTimesAndBranches />} />
-            <Route path="/view/statistic/listOfDoctorsByDiploma" element={ <ListOfDoctorsByDiploma />} />
+            <Route path="/view/statistic/enterForStaticForm"                    element={ <EditForStaticForm />} />
+            <Route path="/view/statistic/formFive"                              element={ <FormFive />} />
+            <Route path="/view/statistic/editFormFive"                          element={ <EditFormFive />} />
+            <Route path="/view/statistic/formSix"                               element={ <FormSix />} />
+            <Route path="/view/statistic/editFormSix"                           element={ <FormSixEdit />} />
+            <Route path="/view/statistic/listOfAges"                            element={ <ListOfAges />} />
+            <Route path="/view/statistic/listOfOlder"                           element={ <ListOfOlder />} />
+            <Route path="/view/statistic/listOfAllWithoutPartTimesAndBranches"  element={ <ListOfAllWithoutPartTimesAndBranches />} />
+            <Route path="/view/statistic/listOfDoctorsByDiploma"                element={ <ListOfDoctorsByDiploma />} />
         </Routes>
     )
 }

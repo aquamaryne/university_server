@@ -16,18 +16,18 @@ import PrintScienceDomain from "../view/witness_print/printScienceDomain";
 const WitnessPrintRoute: React.FC = () => {
     return(
         <Routes>
-            <Route path="/view/witness_print/PrintFaculty" element={ <PrintFaculty /> } />
-            <Route path="/view/witness_print/PrintDepart" element={ <PrintDepart /> } />
-            <Route path="/view/witness_print/PrintWork" element={ <PrintWork /> } />
-            <Route path="/view/witness_print/PrintFired" element={ <PrintFired /> } />
-            <Route path="/view/witness_print/PrintFamilyStatus" element={ <PrintFamilyStatus /> } />
-            <Route path="/view/witness_print/PrintFamilyMember" element={ <PrintFamilyMember /> } />
+            <Route path="/view/witness_print/PrintFaculty"        element={ <PrintFaculty /> } />
+            <Route path="/view/witness_print/PrintDepart"         element={ <PrintDepart /> } />
+            <Route path="/view/witness_print/PrintWork"           element={ <PrintWork /> } />
+            <Route path="/view/witness_print/PrintFired"          element={ <PrintFired /> } />
+            <Route path="/view/witness_print/PrintFamilyStatus"   element={ <PrintFamilyStatus /> } />
+            <Route path="/view/witness_print/PrintFamilyMember"   element={ <PrintFamilyMember /> } />
             <Route path="/view/witness_print/PrintLaborAgreement" element={ <PrintLaborAgreement /> } />
-            <Route path="/view/witness_print/PrintTypeChill" element={ <PrintTypeChill />} />
-            <Route path="/view/witness_print/PrintScienceRank" element={ <PrintScienceRank />} />
-            <Route path="/view/witness_print/PrintScienceDegree" element={ <PrintScienceDegree />} />
-            <Route path="/view/witness_print/PrintLanguage" element={ <PrintLanguage />} />
-            <Route path="/view/witness_print/PrintScienceDomain" element={ <PrintScienceDomain /> } />
+            <Route path="/view/witness_print/PrintTypeChill"      element={ <PrintTypeChill />} />
+            <Route path="/view/witness_print/PrintScienceRank"    element={ <PrintScienceRank />} />
+            <Route path="/view/witness_print/PrintScienceDegree"  element={ <PrintScienceDegree />} />
+            <Route path="/view/witness_print/PrintLanguage"       element={ <PrintLanguage />} />
+            <Route path="/view/witness_print/PrintScienceDomain"  element={ <PrintScienceDomain /> } />
         </Routes> 
     )
 }

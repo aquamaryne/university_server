@@ -7,9 +7,9 @@ import WatchAndEdit from "../view/archieve/watchAndEdit";
 const ArchieveRoute: React.FC = () => {
     return(
         <Routes>
-            <Route path="/view/archieve/watchCard" element={ <WatchCard />} />
-            <Route path="/view/archieve/listOfFired" element={ <ListOfFired /> } />
-            <Route path="/view/archieve/watchAndEdit" element={ <WatchAndEdit /> } />
+            <Route path="/view/archieve/watchCard"      element={ <WatchCard />} />
+            <Route path="/view/archieve/listOfFired"    element={ <ListOfFired /> } />
+            <Route path="/view/archieve/watchAndEdit"   element={ <WatchAndEdit /> } />
         </Routes>
     )
 }
