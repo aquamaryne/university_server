@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Achieve } from './entity/achieve';
@@ -49,33 +50,21 @@ import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
+      ConfigModule.forRoot({
+        envFilePath: '.env',
+        isGlobal: true,
+      }),
       JwtModule.register({
         secret: 'my-token',
         signOptions: { expiresIn: '1h' },
       }),
-      
-      TypeOrmModule.forFeature([
-        Education,
-        Achieve,
-        Employeers,
-        Family,
-        Fired, 
-        Language,
-        Military_Appearance,
-        Department,
-        Domains,
-        Personal_Info,
-        FamilyStatus,
-        Sex,
-        Work_Experience
-      ]),
       TypeOrmModule.forRoot({
         type: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'root',
-        password: 'toor',
-        database: 'kadry',
+        host: process.env.DATABASE_HOST,
+        port: Number(process.env.DATABASE_PORT),
+        username: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
         entities: [
           Achieve,
           Personal_Info,
@@ -93,7 +82,22 @@ import { AuthService } from './auth/auth.service';
           Positions,
         ],
         synchronize: true
-    }),
+      }),
+      TypeOrmModule.forFeature([
+        Education,
+        Achieve,
+        Employeers,
+        Family,
+        Fired, 
+        Language,
+        Military_Appearance,
+        Department,
+        Domains,
+        Personal_Info,
+        FamilyStatus,
+        Sex,
+        Work_Experience
+      ]),
   ],
   controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController, AuthController],
   providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService, AuthService],
