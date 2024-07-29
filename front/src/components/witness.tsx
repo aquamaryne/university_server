@@ -16,8 +16,16 @@ const Witness: React.FC = () => {
 
     return(
         <div>
-            <Button sx={{ border: 1 }} onClick={hadnleClick}>
-                <Typography>Довідники</Typography>
+            <Button sx={{ 
+                border: 1,
+                borderRadius: 0.5,
+                backgroundColor: '#fdf6e3',
+                borderColor: '#002b36',
+                '&:hover': {
+                    backgroundColor: '#eee8d5',
+                }
+            }} onClick={hadnleClick}>
+                <Typography sx={{ color: 'black' }}>Довідники</Typography>
             </Button>
             <Menu
                 anchorEl={anchorEl}
