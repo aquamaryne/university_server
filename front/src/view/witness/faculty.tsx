@@ -27,8 +27,40 @@ const Faculty: React.FC = () => {
 
     return(
         <Box sx={{ width: '100%', margin: '0 auto', padding: '16px', boxSizing: 'border-box' }}>
-            <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'center' }}>Список факультетів</Typography>
+            <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'center' }}>Довідник факультетів</Typography>
             <Box component='ul' sx={{ display: 'table', width: '100%', padding: 0, margin: 0, listStyleType: 'none', border: 1 }}>
+                <Box
+                    component='li'
+                    sx={{
+                        display: 'table-row',
+                        backgroundColor: '#e0e0e0',
+                    }}
+                >
+                    <Box
+                        component='span'
+                        sx={{
+                            display: 'table-cell',
+                            padding: '8px',
+                            border: '1px solid',
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Код
+                    </Box>
+                    <Box
+                        component='span'
+                        sx={{
+                            display: 'table-cell',
+                            padding: '8px',
+                            border: '1px solid',
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Назва
+                    </Box>
+                </Box>
                 { department.map(dept => (
                     <Box
                         component='li'
@@ -48,7 +80,18 @@ const Faculty: React.FC = () => {
                                 border: '1px solid',
                             }}
                         >
-                            <Typography variant="h6">{ dept.id }. { dept.department_name }</Typography>
+                            <Typography variant="h6">{ dept.id }</Typography>
+                        </Box>
+                        <Box
+                            component='span'
+                            sx={{
+                                display: 'table-cell',
+                                padding: '8px',
+                                border: '1px solid',
+                                verticalAlign: 'top',
+                            }}
+                        >
+                            <Typography variant="h6">{ dept.department_name }</Typography>
                         </Box>
                     </Box>
                 ))}

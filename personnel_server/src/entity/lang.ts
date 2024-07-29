@@ -5,10 +5,12 @@ export class Language{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: true })
     first_lang_name: string;
 
-    @Column()
+    @Column({ nullable: true })
     second_lang_name: string;
 
+    @Column({ nullable: true })
+    language_name: string
 }
