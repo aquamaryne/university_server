@@ -27,5 +27,15 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     
+  front:
+    build: 
+      context: ./front
+      dockerfile: ./front/dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./front:/usr/src/front
+      - /usr/src/front/node_modules
+    
 volumes:
   mysql_data:
