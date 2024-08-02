@@ -48,5 +48,6 @@ services:
     depends_on:
       - app
       - front
+      
 volumes:
   mysql_data:
