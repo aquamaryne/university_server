@@ -10,13 +10,14 @@ services:
       - '3307:3306'
     volumes:
       - mysql_data:/var/lib/mysql
+    restart: 'always'
 
   backend:
     build:
       context: .
       dockerfile: personnel_server/dockerfile
     ports:
-      - '3001:3001'
+      - "3001:3001"
     depends_on:
       - mysql
     environment:
@@ -27,16 +28,18 @@ services:
       DATABASE_NAME: kadry
     volumes:
       - ./personnel_server:/usr/backend/
-    
+    restart: 'always'
+
   front:
     build: 
       context: .
       dockerfile: front/dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - ./front:/usr/front/
-    
+    restart: 'always'
+
   nginx:
     image: nginx:latest
     ports:
@@ -46,6 +49,8 @@ services:
     depends_on:
       - backend
       - front
+    restart: 'always'
+
       
 volumes:
   mysql_data:

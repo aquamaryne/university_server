@@ -20,7 +20,7 @@ const MainPage: React.FC = () => {
                 justifyContent: 'center', 
                 padding: "1%",
                 gap: '1rem',
-                border: 2,
+                border: 1,
                 borderStyle: 'solid',
                 borderRight: 'none',
                 borderLeft: 'none',
