@@ -29,7 +29,7 @@ export class BackupService implements OnModuleDestroy {
     }
 
     @Cron(CronExpression.EVERY_DAY_AT_5PM)
-    async backupDatabse(){
+    async backupDatabase(){
         const backupDir = '/backup';
         const backupFile = `${backupDir}/database-backup-${new Date().toISOString().replace(/[:]/g, '-')}.sql`;
 
@@ -40,7 +40,7 @@ export class BackupService implements OnModuleDestroy {
         const schema = await this.getSchema();
         const data = await this.getData(schema);
 
-        fs.writeFileSync(backupFile, this.generateBAckupSQL(schema, data));
+        fs.writeFileSync(backupFile, this.generateBackupSQL(schema, data));
         console.log(`Database backup saved to ${backupDir}`);
     }
 
@@ -80,11 +80,11 @@ export class BackupService implements OnModuleDestroy {
         return data;
     }
 
-    private generateBAckupSQL(schema: any, data: any){
+    private generateBackupSQL(schema: any, data: any){
         let sql = '';
         
         for(const tableName in schema){
-            sql += `CREATE TABLE ${tableName} (\n)`;
+            sql += `CREATE TABLE ${tableName} (\n`;
 
             for(const fieldName in schema[tableName]){
                 sql += ` ${fieldName} ${schema[tableName][fieldName]},\n`;
