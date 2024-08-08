@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, HttpException } from '@nestjs/common';
 import { BackupService } from './backup.service';
 
 @Controller('backup')
@@ -9,14 +9,25 @@ export class BackupController {
     async runBackup(){
         try{
             await this.backupService.backupDatabase();
-            return { message: 'Backup successfull' };
+            return {
+                statusCode: HttpStatus.OK, 
+                message: 'Backup successfull' 
+            };
         } catch(error){
-            return { message: 'Error while backup', error};
+            console.error('Error during backup', error);
+            throw new HttpException({
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Error while creating backup',
+                error: error.message,
+            }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Get('status')
     getStatus(){
-        return { message: 'Backup working' };
+        return {
+            statusCode: HttpStatus.OK, 
+            message: 'Backup working', 
+        };
     } 
 }
