@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { EmployeersService } from './employeers.service';
 import { Employeers } from 'src/entity/employeers';
 
@@ -28,6 +28,16 @@ export class EmployeersController {
 
     @Delete(':id')
     remove(@Param('id') id: string ): Promise<void>{
-        return this.employeerService.remove(Number(id));
+        return this.employeerService.softRemove(Number(id));
+    }
+
+    @Post(':id/restore')
+    async restore(@Param('id', ParseIntPipe) includeDelete: boolean): Promise<Employeers[]>{
+        return this.employeerService.getAllEmployeers(includeDelete);
+    }
+
+    @Get()
+    async getAll(@Query('includeDeleted') includeDeleted: boolean): Promise<Employeers[]>{
+        return this.employeerService.getAllEmployeers(includeDeleted);
     }
 }

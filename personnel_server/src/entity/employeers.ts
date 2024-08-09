@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne, JoinColumn } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne, JoinColumn, DeleteDateColumn } from "typeorm";
 import { Positions } from "./positions";
 import { Family } from "./family";
 import { Work_Experience } from "./workExperience";
@@ -93,4 +93,7 @@ export class Employeers{
     @ManyToOne(() => Sex)
     @JoinColumn({ name: 'sexId' })
     sex: Sex;
+
+    @DeleteDateColumn()
+    deleteAt?: Date;
 }

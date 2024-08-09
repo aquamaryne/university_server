@@ -24,7 +24,19 @@ export class EmployeersService {
         return this.findOne(id);
     }
 
-    async remove(id: number): Promise<void>{
+    async softRemove(id: number): Promise<void>{
         await this.employersRepository.delete(id);
+    }
+
+    async restore(id: number): Promise<void>{
+        await this.employersRepository.restore(id);
+    }
+
+    async getAllEmployeers(includedDeleted = false): Promise<Employeers[]>{
+        if(includedDeleted){
+            return this.employersRepository.find({ withDeleted: true })
+        } else {
+            return this.employersRepository.find();
+        }
     }
 }

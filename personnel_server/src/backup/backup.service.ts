@@ -28,7 +28,7 @@ export class BackupService implements OnModuleDestroy {
         })
     }
 
-    @Cron(CronExpression.EVERY_DAY_AT_5PM)
+    @Cron('0 19 */2 * *')
     async backupDatabase(){
         const backupDir = '/backup';
         const backupFile = `${backupDir}/database-backup-${new Date().toISOString().replace(/[:]/g, '-')}.sql`;

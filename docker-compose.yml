@@ -12,15 +12,6 @@ services:
       - mysql_data:/var/lib/mysql
     restart: 'always'
 
-  desktop_app:
-    build: 
-      context: .
-      dockerfile: desktop/dockerfile
-    volumes:
-      - ./desktop/:usr/desktop
-    ports:
-      - "3003:3003"
-
   backend:
     build:
       context: .
