@@ -1,0 +1,29 @@
+<Tooltip title={<Typography sx={{ fontSize: '1.5' }}>Видалити</Typography>}>
+        <ClearIcon sx={{ 
+            cursor: 'pointer', 
+            marginRight: '40%', 
+            color: 'red',
+            '&:hover':{
+            border: '1px solid',
+        } 
+    }}/>
+</Tooltip>
+
+interface Department {
+    id: number;
+    department_name: string;
+}
+
+interface DepartmentListProps {
+    departments: Department[];
+    setDepartments: React.Dispatch<React.SetStateAction<Department[]>>;
+}
+
+
+    const handleDelete = async (id: number): Promise<void> => {
+        try {
+            await axios.delete(`/api/employers/${id}`);
+            setDepartments(departments.filter(dept => dept.id !== id));
+        } catch (error) {
+            console.error('Ошибка при удалении:', error);
+        }

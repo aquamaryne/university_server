@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography, Tooltip } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 
 interface Facultys {
     id: number;
@@ -85,14 +86,17 @@ const Faculty: React.FC = () => {
                         <Box
                             component='span'
                             sx={{
-                                display: 'table-cell',
+                                display: 'grid',
                                 padding: '8px',
                                 border: '1px solid',
                                 verticalAlign: 'top',
+                                alignItems: 'center',
+                                gridTemplateColumns: '1fr auto',
+            
                             }}
                         >
                             <Typography variant="h6">{ dept.department_name }</Typography>
-                        </Box>
+                         </Box>
                     </Box>
                 ))}
             </Box>
