@@ -45,10 +45,10 @@ import { SexController } from './sex/sex.controller';
 import { SexService } from './sex/sex.service';
 import { WorkExperienceController } from './work_experience/work_experience.controller';
 import { WorkExperienceService } from './work_experience/work_experience.service';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
 import { BackupController } from './backup/backup.controller';
 import { BackupService } from './backup/backup.service';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
 
 
 @Module({
@@ -103,7 +103,7 @@ import { BackupService } from './backup/backup.service';
       Work_Experience
     ]),
   ],
-  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController, AuthController, BackupController],
-  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService, AuthService, BackupService],
+  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController, BackupController, AuthController],
+  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService, BackupService, AuthService],
 })
 export class AppModule {}

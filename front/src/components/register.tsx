@@ -9,8 +9,10 @@ const Register: React.FC = () => {
 
     const handleLogin = async() => {
         try{
-            const responce = await axios.post('http://localhost:3001/auth/login', { password });
+            const responce = await axios.post('http://localhost:3001/auth', { password });
             if(responce.status === 200){
+                const token = responce.data.access_token;
+                localStorage.setItem('token', token);
                 alert(responce.data.message);
                 navigate('/mainPage');
             } else {
@@ -22,9 +24,9 @@ const Register: React.FC = () => {
     }
 
     return (
-        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
+        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '90vh' }}>
             <Grid item xs={12} sm={6} md={4}>
-                <Box p={3} border={1} borderRadius={0} boxShadow={3}>
+                <Box p={3} border={2} borderRadius={1} boxShadow={4}>
                     <Typography variant="h4" gutterBottom textAlign={'center'}>
                         Авторизація
                     </Typography>

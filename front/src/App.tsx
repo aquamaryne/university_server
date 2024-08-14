@@ -15,10 +15,8 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={ <Register/> } />
+          <Route path='/mainPage' element={ <MainPage /> } /> 
         </Routes>
-        <div>
-          <MainPage />
-        </div>
         <ArchieveRoute />
         <FormRoute />
         <WitnessPrintRoute />

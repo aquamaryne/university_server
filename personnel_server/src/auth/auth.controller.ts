@@ -1,11 +1,14 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { AuthGuards } from './auth.guard';
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { CreateKeyDto } from 'src/dto/create-key.data';
+import { A_Key } from 'src/entity/key';
 
-@Controller('protected')
+@Controller('auth')
 export class AuthController {
-    @Get()
-    @UseGuards(AuthGuards)
-    getProtectedData(){
-        return{ data: 'This is protected' }
+    constructor(private readonly keyService: AuthService) {}
+
+    @Post()
+    async create(@Body() createKeyDto: CreateKeyDto): Promise<A_Key>{
+        return this.keyService.create(createKeyDto);
     }
 }
