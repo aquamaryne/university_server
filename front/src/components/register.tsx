@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
-import { Grid, Box, Typography, TextField, Button } from '@mui/material';
+import { Grid, Box, Typography, TextField, Button, CircularProgress  } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
     const [password, setPassword] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleLogin = async() => {
+        setLoading(true);
+        setError(null);
+
         try{
-            const responce = await axios.post('http://localhost:3001/auth', { password });
+            const responce = await axios.post('http://localhost:3001/auth/login', { password });
             if(responce.status === 200){
                 const token = responce.data.access_token;
                 localStorage.setItem('token', token);
                 alert(responce.data.message);
                 navigate('/mainPage');
             } else {
-                alert('Log failed');
+                alert('Login failed');
             }
         } catch(error: any){
-            alert("Log failed");
+            setError('Login failed.')
+        } finally { 
+            setLoading(false);
         }
     }
 
@@ -39,6 +46,7 @@ const Register: React.FC = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    { error && <Typography color="error" align='center'>{error}</Typography>}
                     <Button
                         variant="contained"
                         color="primary"
@@ -46,7 +54,7 @@ const Register: React.FC = () => {
                         onClick={handleLogin}
                         style={{ marginTop: '16px' }}
                     >
-                        Увійти
+                        { loading ? <CircularProgress  size={24} color='inherit' />: 'Увійти' }
                     </Button>
                 </Box>
             </Grid>

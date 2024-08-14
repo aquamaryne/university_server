@@ -47,8 +47,7 @@ import { WorkExperienceController } from './work_experience/work_experience.cont
 import { WorkExperienceService } from './work_experience/work_experience.service';
 import { BackupController } from './backup/backup.controller';
 import { BackupService } from './backup/backup.service';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
+
 
 
 @Module({
@@ -69,22 +68,6 @@ import { AuthService } from './auth/auth.service';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [
-        Achieve,
-        Personal_Info,
-        Department,
-        Domains,
-        Fired,
-        Language,
-        Employeers,
-        Sex,
-        Work_Experience,
-        Military_Appearance,
-        Family,
-        FamilyStatus,
-        Education,
-        Positions,
-      ],
       synchronize: true
     }),
     TypeOrmModule.forFeature([
@@ -100,10 +83,10 @@ import { AuthService } from './auth/auth.service';
       Personal_Info,
       FamilyStatus,
       Sex,
-      Work_Experience
+      Work_Experience,
     ]),
   ],
-  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController, BackupController, AuthController],
-  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService, BackupService, AuthService],
+  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController, BackupController],
+  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService, BackupService],
 })
 export class AppModule {}
