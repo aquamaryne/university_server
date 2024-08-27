@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Routes, Route, RouteProps } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './components/mainPage';
 import ArchieveRoute from './routes/archieve';
 import FormRoute from './routes/form';
@@ -15,8 +15,11 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={ <Register/> } />
-          <Route path='/mainPage' element={ <MainPage /> } /> 
+          <Route path='/mainPage' /> 
         </Routes>
+        <div>
+          <MainPage />
+        </div>
         <ArchieveRoute />
         <FormRoute />
         <WitnessPrintRoute />

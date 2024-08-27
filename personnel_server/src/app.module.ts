@@ -79,6 +79,7 @@ import { BackupService } from './backup/backup.service';
       Language,
       Military_Appearance,
       Department,
+      Positions,
       Domains,
       Personal_Info,
       FamilyStatus,
