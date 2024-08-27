@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
-const Personal_Card: React.FC = () => {
+const PersonalCard: React.FC = () => {
 
     const[anchorEl, setAnchorEl]= React.useState<null | HTMLElement>(null);
 
@@ -17,15 +17,18 @@ const Personal_Card: React.FC = () => {
     return( 
         <div>
             <Button sx={{ 
-                border: 1,
-                borderRadius: 0.5,
+                border: 2,
+                borderRadius: 1,
                 backgroundColor: '#fdf6e3',
                 borderColor: '#002b36',
+                color: 'black',
+                fontSize: '100%',
                 '&:hover': {
-                    backgroundColor: '#eee8d5',
+                    backgroundColor: 'black',
+                    color: 'white'
                 }
             }} onClick={hadnleClick}>
-                <Typography sx={{ color: 'black' }}>Особисті картки</Typography>
+                Особисті картки
             </Button>
             <Menu
                 anchorEl={anchorEl}
@@ -48,4 +51,4 @@ const Personal_Card: React.FC = () => {
     )
 }
 
-export default Personal_Card;
+export default PersonalCard;

@@ -10,13 +10,13 @@ import WitnessRoute from './routes/witness';
 import PrintRoute from './routes/print';
 import Register from './components/register';
 
+
 function App() {
   return (
       <Router>
-        <Routes>
+        {/* <Routes>
           <Route path='/' element={ <Register/> } />
-          <Route path='/mainPage' /> 
-        </Routes>
+        </Routes> === КОСТЫЛЬ*/}
         <div>
           <MainPage />
         </div>

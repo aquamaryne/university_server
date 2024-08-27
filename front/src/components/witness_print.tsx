@@ -18,14 +18,17 @@ const Witness_Print: React.FC = () => {
         <div>
             <Button sx={{ 
                 border: 1,
-                borderRadius: 0.5,
+                borderRadius: 1,
                 backgroundColor: '#fdf6e3',
                 borderColor: '#002b36',
+                color: 'black',
+                fontSize: '100%',
                 '&:hover': {
-                    backgroundColor: '#eee8d5',
+                    backgroundColor: 'black',
+                    color: 'white'
                 }
             }} onClick={hadnleClick}>
-                <Typography sx={{ color: 'black' }}>Друк довідників</Typography>
+                Друк довідників            
             </Button>
             <Menu
                 anchorEl={anchorEl}

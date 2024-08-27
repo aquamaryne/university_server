@@ -1,9 +1,8 @@
 import React from "react";
 import Witness from "./witness";
-import Personal_Card from "./personal_card";
+import PersonalCard from "./personal_card";
 import Print from "./print";
 import Statistic from "./statisctic";
-import Witness_Print from "./witness_print";
 import Form from "./form";
 import Archieve from "./archieve";
 
@@ -16,21 +15,19 @@ const MainPage: React.FC = () => {
             <div style={{ 
                 display: 'flex', 
                 flexDirection: 'row', 
-                backgroundColor: 'white',
                 justifyContent: 'center', 
                 padding: "1%",
-                gap: '1rem',
-                border: 1,
+                gap: '0.5%',
+                border: 2,
                 borderStyle: 'solid',
                 borderRight: 'none',
                 borderLeft: 'none',
                 borderTop: 'none',
             }}> 
                 <Witness />
-                <Personal_Card />
+                <PersonalCard />
                 <Print />
                 <Statistic />
-                <Witness_Print />
                 <Form />
                 <Archieve />
             </div>

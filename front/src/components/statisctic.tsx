@@ -17,15 +17,18 @@ const Statistic: React.FC = () => {
     return(
         <div>
             <Button sx={{ 
-                border: 1,
-                borderRadius: 0.5,
+                border: 2,
+                borderRadius: 1,
                 backgroundColor: '#fdf6e3',
                 borderColor: '#002b36',
+                color: 'black',
+                fontSize: '100%',
                 '&:hover': {
-                    backgroundColor: '#eee8d5',
+                    backgroundColor: 'black',
+                    color: 'white'
                 }
             }} onClick={hadnleClick}>
-                <Typography sx={{ color: 'black' }}>Статистика</Typography>
+                Статистика
             </Button>
             <Menu
                 anchorEl={anchorEl}
