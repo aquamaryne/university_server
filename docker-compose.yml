@@ -51,6 +51,13 @@ services:
       - front
     restart: 'always'
 
+  postman:
+    image: postman/newman:alpine
+    container_name: newman
+    volumes:
+      - ./collections:/etc/newman
+    command: run collection.json
+    restart: 'always'
       
 volumes:
   mysql_data:

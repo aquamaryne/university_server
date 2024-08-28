@@ -14,12 +14,12 @@ import Register from './components/register';
 function App() {
   return (
       <Router>
-        {/* <Routes>
+        <Routes>
           <Route path='/' element={ <Register/> } />
-        </Routes> === КОСТЫЛЬ*/}
-        <div>
+        </Routes>
+        {/* <div>
           <MainPage />
-        </div>
+        </div> */}
         <ArchieveRoute />
         <FormRoute />
         <WitnessPrintRoute />
