@@ -1,10 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { Achieve } from './entity/achieve';
 import { Personal_Info } from './entity/personalInfo';
 import { Department } from './entity/department';
@@ -19,51 +15,27 @@ import { Family } from './entity/family';
 import { FamilyStatus } from './entity/familyStatus';
 import { Education } from './entity/education';
 import { Positions } from './entity/positions';
-import { EducationController } from './education/education.controller';
-import { EducationService } from './education/education.service';
-import { AchieveController } from './achieve/achieve.controller';
-import { AchieveService } from './achieve/achieve.service';
-import { EmployeersController } from './employeers/employeers.controller';
-import { EmployeersService } from './employeers/employeers.service';
-import { FamilyController } from './family/family.controller';
-import { FamilyService } from './family/family.service';
-import { FiredController } from './fired/fired.controller';
-import { FiredService } from './fired/fired.service';
-import { LangController } from './lang/lang.controller';
-import { LangService } from './lang/lang.service';
-import { MilitaryAppearanceController } from './military_appearance/military_appearance.controller';
-import { MilitaryAppearanceService } from './military_appearance/military_appearance.service';
-import { DepartmentController } from './department/department.controller';
-import { DepartmentService } from './department/department.service';
-import { DomainsController } from './domains/domains.controller';
-import { DomainsService } from './domains/domains.service';
-import { PersonalInfoController } from './personal_info/personal_info.controller';
-import { PersonalInfoService } from './personal_info/personal_info.service';
-import { FamilyStatusController } from './family_status/family_status.controller';
-import { FamilyStatusService } from './family_status/family_status.service';
-import { SexController } from './sex/sex.controller';
-import { SexService } from './sex/sex.service';
-import { WorkExperienceController } from './work_experience/work_experience.controller';
-import { WorkExperienceService } from './work_experience/work_experience.service';
 import { BackupController } from './backup/backup.controller';
 import { BackupService } from './backup/backup.service';
-import { AuthKeyController } from './auth_key/auth_key.controller';
-import { AuthKeyService } from './auth_key/auth_key.service';
 import { Auth_Key } from './entity/key';
-
+import { AchieveModule } from './achieve/achieve.module';
+import { AuthKeyModule } from './auth_key/auth_key.module';
+import { DepartmentModule } from './department/department.module';
+import { DomainsModule } from './domains/domains.module';
+import { EducationModule } from './education/education.module';
+import { EmployeersModule } from './employeers/employeers.module';
+import { FamilyModule } from './family/family.module';
+import { FamilyStatusModule } from './family_status/family_status.module';
+import { FiredModule } from './fired/fired.module';
+import { LangModule } from './lang/lang.module';
+import { MilitaryAppearanceModule } from './military_appearance/military_appearance.module';
+import { PersonalInfoModule } from './personal_info/personal_info.module';
+import { SexModule } from './sex/sex.module';
+import { WorkExperienceModule } from './work_experience/work_experience.module';
 
 
 @Module({
   imports: [
-    ScheduleModule.forRoot(),
-    ConfigModule.forRoot({
-      envFilePath: '.env',
-      isGlobal: true,
-    }),
-    JwtModule.register({
-      secret: 'my-token',
-      signOptions: { expiresIn: '1h' },
-    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
@@ -71,27 +43,43 @@ import { Auth_Key } from './entity/key';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
+      entities: [
+        Education,
+        Achieve,
+        Employeers,
+        Family,
+        Fired, 
+        Language,
+        Military_Appearance,
+        Department,
+        Positions,
+        Domains,
+        Personal_Info,
+        FamilyStatus,
+        Sex,
+        Work_Experience,
+        Auth_Key,
+      ],
       synchronize: true,
+      logging: true,
     }),
-    TypeOrmModule.forFeature([
-      Education,
-      Achieve,
-      Employeers,
-      Family,
-      Fired, 
-      Language,
-      Military_Appearance,
-      Department,
-      Positions,
-      Domains,
-      Personal_Info,
-      FamilyStatus,
-      Sex,
-      Work_Experience,
-      Auth_Key,
-    ]),
+    ScheduleModule.forRoot(),
+    AchieveModule,
+    AuthKeyModule,
+    DepartmentModule,
+    DomainsModule,
+    EducationModule,
+    EmployeersModule,
+    FamilyModule,
+    FamilyStatusModule,
+    FiredModule,
+    LangModule,
+    MilitaryAppearanceModule,
+    PersonalInfoModule,
+    SexModule,
+    WorkExperienceModule,
   ],
-  controllers: [AppController, EducationController, AchieveController, EmployeersController, FamilyController, FiredController, LangController, MilitaryAppearanceController, DepartmentController, DomainsController, PersonalInfoController, FamilyStatusController, SexController, WorkExperienceController, BackupController, AuthKeyController],
-  providers: [AppService, EducationService, AchieveService, EmployeersService, FamilyService, FiredService, LangService, MilitaryAppearanceService, DepartmentService, DomainsService, PersonalInfoService, FamilyStatusService, SexService, WorkExperienceService, BackupService, AuthKeyService],
+  controllers: [BackupController],
+  providers: [BackupService],
 })
 export class AppModule {}
