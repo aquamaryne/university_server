@@ -3,10 +3,15 @@ import { Grid, Box, Typography, TextField, Button, CircularProgress  } from '@mu
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+interface Auth{
+    auth_key: string;
+    message: string;
+};
+
 const Register: React.FC = () => {
-    const [password, setPassword] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+    const[loading, setLoading] = useState<boolean>(false);
+    const[error, setError] = useState<string | null>(null);
+    const[password, setPassword] = useState<string>('');
     const navigate = useNavigate();
 
     const handleLogin = async() => {
@@ -14,22 +19,33 @@ const Register: React.FC = () => {
         setError(null);
 
         try{
-            const responce = await axios.post('http://localhost:3001/auth/login', { password });
+            const responce = await axios.post<Auth>('http://localhost:3001/auth-key', { auth_key: password});
+
             if(responce.status === 200){
-                const token = responce.data.access_token;
-                localStorage.setItem('token', token);
-                alert(responce.data.message);
-                navigate('/mainPage');
+                const { auth_key, message } = responce.data;
+
+                if(auth_key){
+                    localStorage.setItem('token', auth_key);
+                    alert(message);
+                    navigate('/mainPage');
+                } else {
+                    alert('Login failed: No token received');
+                }
             } else {
-                alert('Login failed');
+                alert('Login failed: Unexpected status code.')
             }
         } catch(error: any){
-            setError('Login failed.')
-        } finally { 
+            console.error('Error during login: ', error);
+            if(axios.isAxiosError(error) && error.response){
+                const { message, statusCode } = error.response.data;
+                setError(`Error ${statusCode}: ${message}`);
+            } else {
+                setError('login Failed. Please try again.');
+            }
+        } finally {
             setLoading(false);
         }
     }
-
     return (
         <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '90vh' }}>
             <Grid item xs={12} sm={6} md={4}>
@@ -52,6 +68,7 @@ const Register: React.FC = () => {
                         color="primary"
                         fullWidth
                         onClick={handleLogin}
+                        disabled={loading}
                         style={{ marginTop: '16px' }}
                     >
                         { loading ? <CircularProgress  size={24} color='inherit' />: 'Увійти' }

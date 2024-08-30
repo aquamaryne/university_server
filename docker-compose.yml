@@ -1,20 +1,6 @@
 version: '3.6'
 
 services:
-  debian:
-    build: 
-      context: .
-    container_name: my_debian
-    environment:
-      - ENV_CAR=debian
-    volumes:
-      - ./my_data:/DATABASE_HOST
-    ports:
-      - "8080:80"
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
-    
   mysql:
     image: mysql:latest
     environment:
