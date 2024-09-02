@@ -32,10 +32,14 @@ import { MilitaryAppearanceModule } from './military_appearance/military_appeara
 import { PersonalInfoModule } from './personal_info/personal_info.module';
 import { SexModule } from './sex/sex.module';
 import { WorkExperienceModule } from './work_experience/work_experience.module';
+import { ConfigModule } from '@nestjs/config';
 
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,

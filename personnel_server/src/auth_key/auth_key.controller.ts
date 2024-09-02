@@ -1,4 +1,4 @@
-import { Controller, Post, Body, BadGatewayException, InternalServerErrorException, BadRequestException, ConflictException } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, UnauthorizedException, HttpCode } from '@nestjs/common';
 import { AuthKeyService } from './auth_key.service';
 
 @Controller('auth-key')
@@ -7,33 +7,35 @@ export class AuthKeyController {
         private readonly authKeyService: AuthKeyService
     ) {}
 
+    @HttpCode(HttpStatus.CREATED)
     @Post()
-    async create(@Body('auth-key') authKey: string): Promise<{ access_token: string, message: string }>{
-        if(!authKey){
-            throw new BadRequestException('Auth key is required');
-        }
-
+    async validateAuthKey(@Body('auth_key') authKey: string){
         try{
-            const newAuthKey = await this.authKeyService.create(authKey);
-            const access_token = this.authKeyService.generateToken(newAuthKey);
-            return { access_token, message: 'Auth key created success.' };
-        } catch (error){
-            console.error('Error in create auth key: ', error);
-            if(error instanceof ConflictException){
-                throw error;
+            const authKeyEntity = await this.authKeyService.validateAuthKey(authKey);
+    
+            return{
+                auth_key: authKeyEntity.auth_key,
+                message: 'Login successful!',
+            };
+        } catch(error){
+            if(error instanceof UnauthorizedException){
+                throw new HttpException(
+                    {
+                        statusCode: HttpStatus.UNAUTHORIZED,
+                        message: error.message,
+                    },
+                    HttpStatus.UNAUTHORIZED,
+                );
             }
-            throw new InternalServerErrorException('Failed to create auth key');
-        }
-    }
 
-    @Post('validate')
-    async validate(@Body('auth-key') authKey: string): Promise<{ exists: boolean }>{
-        try{
-            const exists = await this.authKeyService.validateAuthKey(authKey);
-            return { exists };
-        } catch (error) {
-            console.error('Error in validate auth key: ', error);
-            throw new InternalServerErrorException('Failed to validate auth key');
+            throw new HttpException(
+                {
+                    statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                    message: 'An unexpected error occured',
+                },
+
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            )
         }
     }
 }
