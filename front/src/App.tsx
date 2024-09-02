@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './components/mainPage';
 import ArchieveRoute from './routes/archieve';
@@ -9,14 +8,19 @@ import StatisticRoute from './routes/statisctic';
 import WitnessRoute from './routes/witness';
 import PrintRoute from './routes/print';
 import Register from './components/register';
+import PrivateRoute from './routes/privateRoute';
+import { AuthProvider } from './routes/authContext';
 
 
 function App() {
   return (
+    <AuthProvider>
       <Router>
         <Routes>
           <Route path='/' element={ <Register/> } />
-          <Route path='/mainPage' element={ <MainPage /> } />
+          <Route path='/' element={<PrivateRoute />}>
+            <Route path='/mainPage' element={ <MainPage /> } />
+          </Route>
         </Routes>
         {/* <div>
           <MainPage />
@@ -29,6 +33,7 @@ function App() {
         <WitnessRoute />
         <PrintRoute />
       </Router>
+    </AuthProvider>
   );
 }
 

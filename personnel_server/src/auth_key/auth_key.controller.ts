@@ -21,8 +21,8 @@ export class AuthKeyController {
             if(error instanceof UnauthorizedException){
                 throw new HttpException(
                     {
-                        statusCode: HttpStatus.UNAUTHORIZED,
-                        message: error.message,
+                        "statusCode": HttpStatus.UNAUTHORIZED,
+                        "message": error.message,
                     },
                     HttpStatus.UNAUTHORIZED,
                 );
@@ -30,8 +30,8 @@ export class AuthKeyController {
 
             throw new HttpException(
                 {
-                    statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                    message: 'An unexpected error occured',
+                    "statusCode": HttpStatus.INTERNAL_SERVER_ERROR,
+                    "message": 'An unexpected error occured',
                 },
 
                 HttpStatus.INTERNAL_SERVER_ERROR,

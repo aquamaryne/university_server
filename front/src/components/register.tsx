@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, Typography, Grid, CircularProgress } from '@mui/material';
+import { useAuth } from '../routes/authContext';
 
 const Register: React.FC = () => {
     const [authKey, setAuthKey] = useState<string>('');
     const [message, setMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,14 +17,14 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         setLoading(true);
 
         try {
             const response = await axios.post<{ message: string }>('http://localhost:3001/auth-key', { auth_key: authKey });
-
+            
             if (response.status === 201) {
                 setMessage(response.data.message);
+                login();
                 navigate('/mainPage')
             }
         } catch (error: any) {
