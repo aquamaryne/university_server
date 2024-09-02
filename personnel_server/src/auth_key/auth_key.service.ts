@@ -14,7 +14,7 @@ export class AuthKeyService {
         const authKeyEntity = await this.authKeyRepository.findOne({ where: { auth_key: authKey }});
 
         if(!authKeyEntity){
-            throw new UnauthorizedException('Invalid authentication key');
+            throw new UnauthorizedException('Недійсний ключ автентифікації');
         }
 
         return authKeyEntity;
