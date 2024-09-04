@@ -1,81 +1,133 @@
-const axios = require('axios');
-const Docker = require('dockerode');
+const https = require('https');
+const { exec } = require('child_process');
 
-const docker = new Docker({ socketPath: '' });
 const token = "7067024383:AAFT0KE-h5qcMNMl__XsGynkg-ots0enlHc";
 const id = "384450703";
-const name = "";
+const containerName = ["university_server-front-1", "university_server-backend-1", "university_server-mysql-1"];
 
-async function sendMessage(id, message){
-    const url = `https://api/telegram.org/bot${token}/sendMessage`;
-    const payload = {
-        chat_id: id,
-        text: message,
+function sendMessage(id, message){
+    const url = `/bot/${token}/sendMessage?chat_id=${id}&text=${encodeURIComponent(message)}`;
+    const options = {
+        hostname: 'api.telegram.org',
+        port: 443,
+        path: url,
+        method: 'GET',
     };
 
-    try{
-        const responce = await axios.post(url, payload);
-        if(responce.status === 200){
-            console.log("Message send!");
-        } else {
-            console.error(`Error send message: ${responce.data}`);
-        }
-    } catch(error){
-        console.error(`Error while send message: ${error}`)
-    }
+    const req = https.request(options, (res) => {
+        let data = '';
+
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            if(res.statusCode === 200){
+                console.log("Message sent!");
+            } else {
+                console.error(`Error sending message: ${data}`);
+            }
+        });
+    });
+
+    req.on('error', (error) => {
+        console.log(`Error while sending message: ${error.message}`);
+    });
+
+    req.end();
 }
 
-async function getContainerStatus(name){
-    try{
-        const conteiners = await docker.listContainers({ all: true, limit: 10 });
-        const containerInfo = conteiners.find((c) => c.Names.includes(`${name}`));
+function getContainerStatus(name, callback){
+    exec(`docker ps -a`, (error, stdout, stderr) => {
+        if(error){
+            console.error(`Error fetching container status: ${stderr}`);
+            callback(`Error fetching container status: ${stderr}`);
+            return;
+        }
 
+        const lines = stdout.trim().split('\n');
+        const header = lines[0];
+        const containers = lines.slice(1);
+
+        const containerInfo = containers.find(line => line.includes(name));
         if(!containerInfo){
-            return `Container with this name ${name} not found.`;
+            callback(`Container with ${name} not found.`);
+            return;
         }
 
-        const containerState = containerInfo.State;
-        return `Container ${name} in status: ${containerState}`;
-    } catch(error){
-        console.error(`Error while fetch container status: ${error}`);
-        return `Error while fetch container status: ${error.message}`;
-    }
+        const parts = containerInfo.split(/\s{2,}/);
+        const status = parts[4];
+
+        callback(`Container ${name} is in status: ${status}`);
+    });
 }
 
-async function handleCommand(command){
+function handleCommand(command){
     if(command === '/status'){
-        const statusMessage = await getContainerStatus(name);
-        await sendMessage(id, statusMessage);
+        let statusMessages = [];
+        let completed = 0;
+
+        containerName.forEach((name) => {
+            getContainerStatus(name, (statusMessage) => {
+                statusMessages.push(statusMessage);
+                completed++;
+
+                if(completed === containerName.length){
+                    sendMessage(id, statusMessages.join('\n'));
+                }
+            })
+        })
     }
 }
 
-async function pollUpdates(){
-    const url = `https://api/telegram.org/bot${token}/getUpdates`;
+function pollUpdates(){
+    const url = `/bot${token}/getUpdates`;
     let lastUpdateId;
 
-    try{
-        while(true){
-            const responce = await axios.get(url, {
-                params: {
-                    offset: lastUpdateId ? lastUpdateId + 1 : undefined,
-                }
+    function fetchUpdates(){
+        const path = url + (lastUpdateId ? `?offset=${lastUpdateId + 1}` : '');
+        const options = {
+            hostname: 'api.telegram.org',
+            port: 443,
+            path: url,
+            method: 'GET',
+        };
+
+        const req = https.request(options, (res) => {
+            let data = '';
+
+            res.on('data', (chunk) => {
+                data += chunk;
             });
 
-            const updates = responce.data.result;
-            for(const update of updates){
-                const message = update.message;
-                if(message && message.text){
-                    console.log(`Get command: ${message.text}`);
-                    await handleCommand(message.text);
-                    lastUpdateId = update.update_id;
-                }
-            }
+            res.on('end', () => {
+                const updates = JSON.parse(data).result;
 
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-        }
-    } catch(error){
-        console.error(`Error while fetch updates Telegram: ${error}`);
+                updates.forEach((update) => {
+                    const message = update.message;
+                    if(message && message.text){
+                        console.log(`Received command: ${message.text}`);
+                        handleCommand(message.text);
+                        lastUpdateId = update.update_id;
+                    }
+                });
+
+                setTimeout(fetchUpdates, 10000);
+            });
+        });
+
+        req.on('error', (error) => {
+            console.error(`Error while fetching updates: ${error.message}`);
+        })
+
+        req.end();
     }
+
+    fetchUpdates();
 }
 
 pollUpdates();
+
+
+
+

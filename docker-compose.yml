@@ -39,18 +39,6 @@ services:
     volumes:
       - ./front:/usr/front/
     restart: 'always'
-
-  nginx:
-    image: nginx:latest
-    ports:
-      - '80:80'
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - backend
-      - front
-    restart: 'always'
-
-      
+    
 volumes:
   mysql_data:
