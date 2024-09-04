@@ -3,13 +3,14 @@ import { Typography, Select, TextField, Grid, Box, Button, MenuItem, FormControl
 import { postDataToTable } from "../../api/data.api.post";
 
 interface FormData {
+    id: number;
     name: string;
     surname: string;
     fatherly: string;
     date_of_birth: string;
     age: number;
     achieve: string;
-    sex: string;
+    sex_name: string;
     position: string;
     department: string;
     domains: string;
@@ -51,21 +52,16 @@ interface FormData {
     member_of: string;
 };
 
-interface OptionData {
-    id: string;
-    label: string;
-};
-
-
 const EnterPersonalCard: React.FC = () => {
     const [formData, setFormData] = React.useState<FormData>({
+        id: 0,
         name: '',
         surname: '',
         fatherly: '',
         date_of_birth: '',
         age: 0,
         achieve: '',
-        sex: '',
+        sex_name: '',
         position: '',
         department: '',
         domains: '',
@@ -107,14 +103,14 @@ const EnterPersonalCard: React.FC = () => {
         member_of: '',
     });
 
-    const [educationOptions, setEducationOptions] = React.useState<OptionData[]>([]);
-
+    const [sexOptions, setSexOptions] = React.useState<FormData[]>([]);
+    
     React.useEffect(() => {
         const fetchOptions = async () => {
             try{
                 const responce = await fetch('http://localhost:3001/sex');
                 const data = await responce.json();
-                setEducationOptions(data);
+                setSexOptions(data);
             } catch (error){
                 console.error(`Error fetching options ${error}`);
             }
@@ -156,19 +152,13 @@ const EnterPersonalCard: React.FC = () => {
             {/* <TextField label="Achievements" name="achieve" value={formData.achieve} onChange={handleChange} fullWidth /> */}
 
             {/* Sex */}
-            <FormControl fullWidth>
+            <FormControl fullWidth variant="standard">
                 <InputLabel id="sex-label">Стать</InputLabel>
-                <Select labelId="sex-label" name="sex" value={formData.sex} onChange={handleChange}>
-                {educationOptions.map((option) => (
+                <Select  labelId="sex-label" name="sex" value={formData.sex_name} onChange={handleChange}>
+                {sexOptions.map((option) => (
                     <MenuItem
-                        sx={{
-                            fontFamily: '"Arial", "Roboto", "Helvetica", "sans-serif"',
-                            color: 'white',
-                            backgroundColor: 'black',
-                        }} 
                         key={option.id} 
-                        value={option.id}>
-                            {option.label}
+                        value={option.id}>{option.sex_name}
                     </MenuItem>
                 ))}
                 </Select>

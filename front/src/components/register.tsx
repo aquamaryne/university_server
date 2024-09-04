@@ -29,9 +29,9 @@ const Register: React.FC = () => {
             }
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
-                setMessage(error.response?.data.message || 'An unexpected error occurred.');
+                setMessage(error.response?.data.message || 'Сталася неочікувана помилка.');
             } else {
-                setMessage('An unexpected error occurred.');
+                setMessage('Сталася неочікувана помилка.');
             }
         } finally {
             setLoading(false)
@@ -49,13 +49,17 @@ const Register: React.FC = () => {
                         <TextField
                             label="Введіть ключ"
                             type="password"
-                            variant="outlined" 
+                            variant="standard" 
                             fullWidth
+                            focused
+                            color="warning"
                             margin="normal"
                             value={authKey}
                             onChange={handleInputChange}
                         />
-                        {message && <Typography color="error" align="center" variant="body2" sx={{ marginTop: 2 }}>{message}</Typography>}
+                        <Box sx={{ textAlign: 'center' }}>
+                            {message && <Typography color="white" align="center" variant="body1" sx={{ marginTop: 1, backgroundColor: 'red', padding: '4px 16px', display: 'inline-block', borderRadius: '4px' }}>{message}</Typography>}
+                        </Box>
                         <Button
                             variant="contained"
                             color="primary"
@@ -64,7 +68,7 @@ const Register: React.FC = () => {
                             style={{ marginTop: '16px' }}
                             disabled={loading} 
                         >
-                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Увійти'}
+                            {loading ? <CircularProgress size={24} color="success" /> : 'Увійти'}
                         </Button>
                     </form>
                 </Box>

@@ -33,6 +33,8 @@ import { PersonalInfoModule } from './personal_info/personal_info.module';
 import { SexModule } from './sex/sex.module';
 import { WorkExperienceModule } from './work_experience/work_experience.module';
 import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 
 @Module({
@@ -82,8 +84,9 @@ import { ConfigModule } from '@nestjs/config';
     PersonalInfoModule,
     SexModule,
     WorkExperienceModule,
+    AppModule
   ],
-  controllers: [BackupController],
-  providers: [BackupService],
+  controllers: [AppController,BackupController],
+  providers: [AppService,BackupService],
 })
 export class AppModule {}
