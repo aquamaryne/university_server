@@ -4,12 +4,14 @@ import * as fs from 'fs';
 import * as mysql from 'mysql2';
 import { promisify } from 'util';
 import * as dotenv from 'dotenv';
+import * as path from "path";
 
 dotenv.config();
 
 @Injectable()
 export class BackupService implements OnModuleDestroy {
     private dbConnection: mysql.Connection;
+    private backupDir = '/backup';
 
     constructor(){
         this.dbConnection = mysql.createConnection({
@@ -30,18 +32,17 @@ export class BackupService implements OnModuleDestroy {
 
     @Cron('0 19 */2 * *')
     async backupDatabase(){
-        const backupDir = '/backup';
-        const backupFile = `${backupDir}/database-backup-${new Date().toISOString().replace(/[:]/g, '-')}.sql`;
+        const backupFile = `${this.backupDir}/database-backup-${new Date().toISOString().replace(/[:]/g, '-')}.sql`;
 
-        if(!fs.existsSync(backupDir)){
-            fs.mkdirSync(backupDir, { recursive: true });
+        if(!fs.existsSync(this.backupDir)){
+            fs.mkdirSync(this.backupDir, { recursive: true });
         }
 
         const schema = await this.getSchema();
         const data = await this.getData(schema);
 
         fs.writeFileSync(backupFile, this.generateBackupSQL(schema, data));
-        console.log(`Database backup saved to ${backupDir}`);
+        console.log(`Database backup saved to ${this.backupDir}`);
     }
 
     private async getSchema(){
@@ -104,6 +105,31 @@ export class BackupService implements OnModuleDestroy {
         return sql;
     }
 
+    
+    async getBackupsList(): Promise<{ name: string; size: number; date: Date; }[]>{
+        return new Promise((resolve, reject) => {
+            fs.readdir(this.backupDir, (err, files) => {
+                if(err){
+                    return reject('Could not list backups');
+                }
+                
+                const backups = files.filter(file => file.endsWith('.sql'));
+                const backupDetails = backups.map(file => {
+                    const filePath = path.join(this.backupDir, file);
+                    const stats = fs.statSync(filePath);
+                    
+                    return {
+                        name: file,
+                        size: stats.size,
+                        date: stats.mtime,
+                    };
+                });
+                
+                resolve(backupDetails);
+            })
+        })
+    }
+
     onModuleDestroy() {
         this.dbConnection.end((err) => {
             if(err){
@@ -111,4 +137,5 @@ export class BackupService implements OnModuleDestroy {
             }
         })
     }
+    
 }

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, HttpStatus, HttpException } from '@nestjs/common';
 import { BackupService } from './backup.service';
 
-@Controller('backup')
+@Controller('backups')
 export class BackupController {
     constructor(private readonly backupService: BackupService) {}
 
