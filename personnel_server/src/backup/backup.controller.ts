@@ -16,9 +16,9 @@ export class BackupController {
         } catch(error){
             console.error('Error during backup', error);
             throw new HttpException({
-                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Error while creating backup',
-                error: error.message,
+                "statusCode": HttpStatus.INTERNAL_SERVER_ERROR,
+                "message": 'Error while creating backup',
+                "error": error.message,
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -26,8 +26,8 @@ export class BackupController {
     @Get('status')
     getStatus(){
         return {
-            statusCode: HttpStatus.OK, 
-            message: 'Backup working', 
+            "statusCode": HttpStatus.OK, 
+            "message": 'Backup working', 
         };
     } 
 }
