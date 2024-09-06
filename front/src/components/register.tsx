@@ -20,7 +20,13 @@ const Register: React.FC = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post<{ message: string }>('http://212.111.203.173/auth-key', { auth_key: authKey });
+            const response = await axios.post<{ message: string }>(
+                'http://212.111.203.173:3001/auth-key', 
+                { auth_key: authKey },
+                {
+                    withCredentials: true,
+                }
+            );
             
             if (response.status === 201) {
                 setMessage(response.data.message);
