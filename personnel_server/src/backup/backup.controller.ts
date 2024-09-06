@@ -37,10 +37,13 @@ export class BackupController {
     }
 
     @Get('status')
-    getStatus(){
-        return {
-            "statusCode": HttpStatus.OK, 
-            "message": 'Backup working', 
+    async getStatus(){
+        const lastBackup = await this.getLastBackup();
+
+        return{
+            "statusCode": HttpStatus.OK,
+            "message": "Backup service is operational",
+            lastBackup,
         };
     } 
 
@@ -49,5 +52,22 @@ export class BackupController {
     async getBackupList(){
         const backups = await this.backupService.getBackupsList();
         return { backups };
+    }
+
+    private async getLastBackup(): Promise<{ name: string; date: Date } | string>{
+        try{
+            const backups = await this.backupService.getBackupsList();
+            if(backups.length > 0){
+                const lastBackup = backups[backups.length - 1];
+                return{
+                    name: lastBackup.name,
+                    date: lastBackup.date,
+                };
+            }else {
+                return  'No backups found';
+            }
+        } catch(error){
+            return `Error retrieving backups: ${error.message}`;
+        }
     }
 }
