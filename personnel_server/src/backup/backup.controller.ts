@@ -1,4 +1,4 @@
-import { Controller, Get, Post, HttpStatus, HttpException, Render } from '@nestjs/common';
+import { Controller, Get, HttpStatus, HttpException, Render } from '@nestjs/common';
 import { BackupService } from './backup.service';
 
 @Controller('backups')
@@ -18,7 +18,7 @@ export class BackupController {
         }
     }
 
-    @Post('run')
+    @Get('run')
     async runBackup(){
         try{
             await this.backupService.backupDatabase();
