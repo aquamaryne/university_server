@@ -5,6 +5,8 @@ import * as mysql from 'mysql2';
 import { promisify } from 'util';
 import * as dotenv from 'dotenv';
 import * as path from "path";
+import * as Seven from "node-7z";
+import '7zip-bin';
 
 dotenv.config();
 
@@ -12,6 +14,7 @@ dotenv.config();
 export class BackupService implements OnModuleDestroy {
     private dbConnection: mysql.Connection;
     private backupDir = path.join(__dirname, '..', 'backup');
+    private archieveDir = path.join(this.backupDir, 'archives');
 
     constructor(){
         this.dbConnection = mysql.createConnection({
@@ -32,7 +35,8 @@ export class BackupService implements OnModuleDestroy {
 
     @Cron('0 19 */2 * *')
     async backupDatabase(){
-        const backupFile = `${this.backupDir}/database-backup-${new Date().toISOString().replace(/[:]/g, '-')}.sql`;
+        const timeStamp = new Date().toISOString().replace(/[:]/g, '-');
+        const backupFile = `${this.backupDir}/database-backup-${timeStamp}.sql`;
 
         if(!fs.existsSync(this.backupDir)){
             fs.mkdirSync(this.backupDir, { recursive: true });
@@ -43,6 +47,8 @@ export class BackupService implements OnModuleDestroy {
 
         fs.writeFileSync(backupFile, this.generateBackupSQL(schema, data));
         console.log(`Database backup saved to ${this.backupDir}`);
+
+        await this.archieveBackup(backupFile, timeStamp);
     }
 
     private async getSchema(){
@@ -105,15 +111,39 @@ export class BackupService implements OnModuleDestroy {
         return sql;
     }
 
-    
+    private async archieveBackup(backupFile: string, timeStamp: string){
+        if(!fs.existsSync(this.archieveDir)){
+            fs.mkdirSync(this.archieveDir, { recursive: true });
+        }
+
+        const archieveFile = path.join(this.archieveDir, `database-backup-${timeStamp}.7z`);
+        console.log(`Archiving backup to ${archieveFile}`);
+
+        return new Promise((resolve, reject) => {
+            const seven = Seven.add(archieveFile, backupFile, {
+                $bin: Seven.path7za,
+            });
+
+            seven.on('end', () => {
+                console.log(`Backup archieved file at ${archieveFile}`);
+                resolve(true);
+            });
+
+            seven.on('error', (err) => {
+                console.error(`Error createing archieve ${err}`);
+                reject(err);
+            });
+        })
+    };
+
     async getBackupsList(): Promise<{ name: string; size: number; date: Date; }[]>{
         return new Promise((resolve, reject) => {
-            fs.readdir(this.backupDir, (err, files) => {
+            fs.readdir(this.archieveDir, (err, files) => {
                 if(err){
                     return reject('Could not list backups');
                 }
                 
-                const backups = files.filter(file => file.endsWith('.sql'));
+                const backups = files.filter(file => file.endsWith('.7z'));
                 const backupDetails = backups.map(file => {
                     const filePath = path.join(this.backupDir, file);
                     const stats = fs.statSync(filePath);
@@ -126,8 +156,8 @@ export class BackupService implements OnModuleDestroy {
                 });
                 
                 resolve(backupDetails);
-            })
-        })
+            });
+        });
     }
 
     onModuleDestroy() {
@@ -137,5 +167,4 @@ export class BackupService implements OnModuleDestroy {
             }
         })
     }
-    
 }

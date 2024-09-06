@@ -10,8 +10,8 @@ export class BackupController {
         try{
             await this.backupService.backupDatabase();
             return {
-                statusCode: HttpStatus.OK, 
-                message: 'Backup successfull' 
+                "statusCode": HttpStatus.OK, 
+                "message": 'Backup successfull' 
             };
         } catch(error){
             console.error('Error during backup', error);
