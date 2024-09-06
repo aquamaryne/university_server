@@ -5,6 +5,19 @@ import { BackupService } from './backup.service';
 export class BackupController {
     constructor(private readonly backupService: BackupService) {}
 
+    @Get()
+    async getBackups(){
+        try{
+            const backups = await this.backupService.getBackupsList();
+            return backups;
+        } catch(error) {
+            throw new HttpException({
+                "status": HttpStatus.NOT_FOUND,
+                "error": 'Backups not found',
+            }, HttpStatus.NOT_FOUND)
+        }
+    }
+
     @Post('run')
     async runBackup(){
         try{
