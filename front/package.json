@@ -1,5 +1,4 @@
 {
-  "proxy": "http://212.111.203.173:3001",
   "name": "front",
   "version": "0.1.0",
   "private": true,
