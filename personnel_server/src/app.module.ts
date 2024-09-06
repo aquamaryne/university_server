@@ -35,6 +35,7 @@ import { WorkExperienceModule } from './work_experience/work_experience.module';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BackupModule } from './backup/backup.module';
 
 
 @Module({
@@ -84,7 +85,8 @@ import { AppService } from './app.service';
     PersonalInfoModule,
     SexModule,
     WorkExperienceModule,
-    AppModule
+    AppModule,
+    BackupModule,
   ],
   controllers: [AppController,BackupController],
   providers: [AppService,BackupService],
