@@ -50,8 +50,16 @@ export class BackupController {
     @Get('list')
     @Render('backups')
     async getBackupList(){
-        const backups = await this.backupService.getBackupsList();
-        return { backups };
+        try{
+            const backups = await this.backupService.getBackupsList();
+            return { backups };
+        } catch (error) {
+            console.error(`Error fetching backup list ${error}`);
+            throw new HttpException({
+                "statusCode": HttpStatus.INTERNAL_SERVER_ERROR,
+                "error": 'Failed to retrieve backup list',
+            }, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private async getLastBackup(): Promise<{ name: string; date: Date } | string>{

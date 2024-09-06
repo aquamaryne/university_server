@@ -35,6 +35,7 @@ export class BackupService implements OnModuleDestroy {
 
     @Cron('0 19 */2 * *')
     async backupDatabase(){
+        console.log('Backup task started', new Date());
         const timeStamp = new Date().toISOString().replace(/[:]/g, '-');
         const backupFile = `${this.backupDir}/database-backup-${timeStamp}.sql`;
 
@@ -140,6 +141,7 @@ export class BackupService implements OnModuleDestroy {
         return new Promise((resolve, reject) => {
             fs.readdir(this.archieveDir, (err, files) => {
                 if(err){
+                    console.error('Error reading directory', err);
                     return reject('Could not list backups');
                 }
                 
