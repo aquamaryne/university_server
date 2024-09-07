@@ -119,6 +119,7 @@ export class BackupService implements OnModuleDestroy {
     }
 
     private async archieveBackup(backupFile: string, timeStamp: string){
+
         if(!fs.existsSync(this.archieveDir)){
             fs.mkdirSync(this.archieveDir, { recursive: true });
         }
@@ -157,8 +158,12 @@ export class BackupService implements OnModuleDestroy {
                     return reject('Could not list backups');
                 }
                 
+                console.log(`File found ${files}`);
+
                 try{
                     const backups = files.filter(file => file.endsWith('.7z'));
+                    console.log(`Filtered backups: ${backups}`);
+
                     const backupDetails = await Promise.all(
                         backups.map(async (file) => {
                             const filePath = path.join(this.backupDir, file);
@@ -171,7 +176,8 @@ export class BackupService implements OnModuleDestroy {
                             };
                         })
                     );
-
+                    
+                    console.log(`Backup details: ${backupDetails}`);
                     resolve(backupDetails);
 
                 } catch (error) {
