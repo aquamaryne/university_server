@@ -36,15 +36,15 @@
                     <th>Last Modified</th>
                 </tr>
             </thead>
+            <tbody>
+                {{#each backups}}
+                    <tr>
+                        <td>{{this.name}}</td>
+                        <td>{{this.size}}</td>
+                        <td>{{this.date}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
         </table>
-        <tbody>
-            {{#each backups}}
-                <tr>
-                    <td>{{this.name}}</td>
-                    <td>{{this.size}}</td>
-                    <td>{{this.date}}</td>
-                </tr>
-            {{/each}}
-        </tbody>
     </body>
 </html>
