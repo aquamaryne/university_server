@@ -13,8 +13,8 @@ dotenv.config();
 @Injectable()
 export class BackupService implements OnModuleDestroy {
     private dbConnection: mysql.Connection;
-    private backupDir = path.join(__dirname, '..', 'backup');
-    private archieveDir = path.join(this.backupDir, 'archives');
+    private backupDir = path.join(__dirname, '..', '/var/backup');
+    private archieveDir = path.join(this.backupDir, '/var/archives');
 
     constructor(){
         this.dbConnection = mysql.createConnection({
@@ -41,6 +41,10 @@ export class BackupService implements OnModuleDestroy {
 
         if(!fs.existsSync(this.backupDir)){
             fs.mkdirSync(this.backupDir, { recursive: true });
+        }
+
+        if(!fs.existsSync(this.archieveDir)){
+            fs.mkdirSync(this.archieveDir, { recursive: true });
         }
 
         const schema = await this.getSchema();
