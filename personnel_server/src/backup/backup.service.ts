@@ -145,25 +145,40 @@ export class BackupService implements OnModuleDestroy {
 
     async getBackupsList(): Promise<{ name: string; size: number; date: Date; }[]>{
         return new Promise((resolve, reject) => {
-            fs.readdir(this.archieveDir, (err, files) => {
+
+            if(!fs.existsSync(this.archieveDir)){
+                console.error(`Directory ${this.archieveDir} does not exist`);
+                return reject(`Directory ${this.archieveDir} does not exist`)
+            }
+            
+            fs.readdir(this.archieveDir, async (err, files) => {
                 if(err){
                     console.error('Error reading directory', err);
                     return reject('Could not list backups');
                 }
                 
-                const backups = files.filter(file => file.endsWith('.7z'));
-                const backupDetails = backups.map(file => {
-                    const filePath = path.join(this.backupDir, file);
-                    const stats = fs.statSync(filePath);
-                    
-                    return {
-                        name: file,
-                        size: stats.size,
-                        date: stats.mtime,
-                    };
-                });
+                try{
+                    const backups = files.filter(file => file.endsWith('.7z'));
+                    const backupDetails = await Promise.all(
+                        backups.map(async (file) => {
+                            const filePath = path.join(this.backupDir, file);
+                            const stats = await fs.promises.stat(filePath);
+                        
+                            return {
+                                name: file,
+                                size: stats.size,
+                                date: stats.mtime,
+                            };
+                        })
+                    );
+
+                    resolve(backupDetails);
+
+                } catch (error) {
+                    console.error(`Error fetching file stats ${error}`);
+                    reject('Error fetching backup details');
+                }
                 
-                resolve(backupDetails);
             });
         });
     }
