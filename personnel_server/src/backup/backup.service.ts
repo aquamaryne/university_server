@@ -161,7 +161,11 @@ export class BackupService implements OnModuleDestroy {
                 console.log(`File found ${files}`);
 
                 try{
-                    const backups = files.filter(file => file.endsWith('.7z'));
+                    const backups = files.filter(file => 
+                        file.endsWith('.gz') || 
+                        file.endsWith('.7z') || 
+                        file.endsWith('.tar.gz'));
+                        
                     console.log(`Filtered backups: ${backups}`);
 
                     const backupDetails = await Promise.all(
