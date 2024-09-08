@@ -38,13 +38,19 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each backups}}
+                {{#if backups.length}}
+                    {{#each backups}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>{{this.size}}</td>
+                            <td>{{this.date}}</td>
+                        </tr>
+                    {{/each}}
+                {{else}}
                     <tr>
-                        <td>{{this.name}}</td>
-                        <td>{{this.size}}</td>
-                        <td>{{this.date}}</td>
+                        <td colspan="3">No backups found</td>
                     </tr>
-                {{/each}}
+                {{/if}}
             </tbody>
         </table>
     </body>
