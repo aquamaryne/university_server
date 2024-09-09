@@ -1,18 +1,22 @@
 import React from "react";
-import { Box, Button, Typography, Tooltip } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
+import { Box, Typography } from '@mui/material';
 
 interface Facultys {
     id: number;
     department_name: string;
 };
 
+
 const Faculty: React.FC = () => {
     const [department, setDepartment] = React.useState<Facultys[]>([]);
     React.useEffect(() => {
         const fetchDepart = async() => {
+
+            const server = process.env.SERVER_URL;
+            const localhost = process.env.LOCALHOST;
+
             try{
-                const responce = await fetch('http://localhost:3001/department');
+                const responce = await fetch(`${localhost}`);
                 if(!responce.ok){
                     throw new Error('Network not ok');
                 }

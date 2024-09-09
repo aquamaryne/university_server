@@ -41,7 +41,7 @@ export class BackupService implements OnModuleDestroy {
 
         if(!fs.existsSync(this.backupDir)){
             fs.mkdirSync(this.backupDir, { recursive: true });
-            console.log(`Created archieve directory: ${this.backupDir}`);
+            console.log(`Created backup directory: ${this.backupDir}`);
         }
 
         if(!fs.existsSync(this.archieveDir)){
