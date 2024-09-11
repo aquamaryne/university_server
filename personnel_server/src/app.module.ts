@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
+import { APP_GUARD } from '@nestjs/core';
 import { Achieve } from './entity/achieve';
 import { Personal_Info } from './entity/personalInfo';
 import { Department } from './entity/department';
@@ -36,6 +37,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BackupModule } from './backup/backup.module';
+import { ApiKeyGuard } from './api_key/api_key.guard';
 
 
 
@@ -88,6 +90,13 @@ import { BackupModule } from './backup/backup.module';
     BackupModule,
   ],
   controllers: [AppController,BackupController],
-  providers: [AppService,BackupService],
+  providers: [
+    AppService,
+    BackupService,
+    {
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard
+    }
+  ],
 })
 export class AppModule {}
