@@ -14,7 +14,7 @@ dotenv.config();
 export class BackupService implements OnModuleDestroy {
     private dbConnection: mysql.Connection;
     private backupDir =  '/var/backups';
-    private archieveDir = '/var/backups/archieve';
+    private archieveDir = '/var/archieve';
 
     constructor(){
         this.dbConnection = mysql.createConnection({
