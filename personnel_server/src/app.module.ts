@@ -38,11 +38,10 @@ import { AppService } from './app.service';
 import { BackupModule } from './backup/backup.module';
 
 
+
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,

@@ -149,7 +149,7 @@ export class BackupService implements OnModuleDestroy {
 
             if(!fs.existsSync(this.archieveDir)){
                 console.error(`Directory ${this.archieveDir} does not exist`);
-                return reject(`Directory ${this.archieveDir} does not exist`)
+                return reject(`Directory ${this.archieveDir} does not exist`);
             }
             
             fs.readdir(this.archieveDir, async (err, files) => {

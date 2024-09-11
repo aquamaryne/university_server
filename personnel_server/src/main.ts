@@ -4,6 +4,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+import { ApiKeyGuard } from './api_key/api_key.guard';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -15,6 +17,7 @@ async function bootstrap() {
   };
 
   app.enableCors(corsOptions);
+  app.useGlobalGuards(new ApiKeyGuard(app.get(ConfigService)));
 
   const config = new DocumentBuilder()
     .setTitle('API Test')
