@@ -13,7 +13,7 @@ dotenv.config();
 @Injectable()
 export class BackupService implements OnModuleDestroy {
     private dbConnection: mysql.Connection;
-    private backupDir =  '/var';
+    private backupDir =  '/var/';
     private archieveDir = '/var/backups';
 
     constructor(){

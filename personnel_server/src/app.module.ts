@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ExecutionContext, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { APP_GUARD } from '@nestjs/core';
@@ -43,7 +43,6 @@ import { ApiKeyGuard } from './api_key/api_key.guard';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
@@ -71,6 +70,7 @@ import { ApiKeyGuard } from './api_key/api_key.guard';
       synchronize: true,
       logging: true,
     }),
+    ConfigModule.forRoot(),
     ScheduleModule.forRoot(),
     AchieveModule,
     AuthKeyModule,
@@ -89,14 +89,11 @@ import { ApiKeyGuard } from './api_key/api_key.guard';
     AppModule,
     BackupModule,
   ],
-  controllers: [AppController,BackupController],
+  controllers: [AppController, BackupController],
   providers: [
     AppService,
     BackupService,
-    {
-      provide: APP_GUARD,
-      useClass: ApiKeyGuard
-    }
+    ApiKeyGuard
   ],
 })
 export class AppModule {}
