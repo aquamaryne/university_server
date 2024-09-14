@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>IP Input</title>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Arial, sans-serif;
+                background-color: #f0f0f0;
+            }
+
+            #container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+
+            #ipInput {
+                width: 200px;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            button {
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <h1>Введите IP и порт</h1>
+            <form id="ipForm">
+                <input type="text" id="ipInput" placeholder="127.0.0.1:3000" required>
+                <br>
+                <button type="submit">Перейти</button>
+            </form>
+        </div>
+
+        <script>
+            document.getElementById('ipForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const ipAddress = document.getElementById('ipInput').value;
+
+                // Выполняем редирект на введенный IP и порт
+                window.location.href = `http://${ipAddress}`;
+            });
+        </script>
+    </body>
+</html>
