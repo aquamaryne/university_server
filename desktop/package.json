@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "build": "electron-builder",
+    "build": "electron-packager .",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -30,6 +30,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@electron/packager": "^18.3.5",
     "electron-forge": "^5.2.4",
     "electron-squirrel-startup": "^1.0.0"
   }
