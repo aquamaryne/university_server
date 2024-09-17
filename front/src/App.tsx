@@ -10,29 +10,33 @@ import PrintRoute from './routes/print';
 import Register from './components/register';
 import PrivateRoute from './routes/privateRoute';
 import { AuthProvider } from './routes/authContext';
+import Layout from './components/layout';
 
 
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
-          <Route path='/' element={ <Register/> } />
-          <Route path='/' element={<PrivateRoute />}>
-            <Route path='/mainPage' element={ <MainPage /> } />
-          </Route>
-        </Routes>
-        {/* <div>
-          <MainPage />
-        </div> */ }
-        <ArchieveRoute />
-        <FormRoute />
-        <WitnessPrintRoute />
-        <PersonalCardRoute />
-        <StatisticRoute />
-        <WitnessRoute />
-        <PrintRoute />
-      </Router>
+        <Layout>
+          <Routes>
+            <Route path='/' element={ <Register/> } />
+            <Route path='/' element={<PrivateRoute />}>
+              <Route path='/mainPage' element={ <MainPage /> } />
+              
+            </Route>
+            </Routes>
+            {/* <div>
+              <MainPage />
+            </div> */ }
+            <ArchieveRoute />
+            <FormRoute />
+            <WitnessPrintRoute />
+            <PersonalCardRoute />
+            <StatisticRoute />
+            <WitnessRoute />
+            <PrintRoute />
+          </Layout>
+        </Router>
     </AuthProvider>
   );
 }
