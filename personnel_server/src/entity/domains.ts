@@ -1,14 +1,17 @@
 import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Positions } from "./positions";
+import { Employeers } from "./employeers";
 
-@Entity()
+@Entity('domains')
 export class Domains{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        length: 255
+    })
     domain_name: string;
 
-    @ManyToOne(() => Positions, position => position.department)
-    position: Positions;
+    @ManyToOne(() => Employeers, employeers => employeers.domains)
+    employeers: Employeers;
 }

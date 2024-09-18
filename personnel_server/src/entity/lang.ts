@@ -1,16 +1,23 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Employeers } from "./employeers";
 
-@Entity()
+@Entity('lang')
 export class Language{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: true })
+    @Column({ 
+        type: 'varchar',
+        length: 255    
+    })
     first_lang_name: string;
 
-    @Column({ nullable: true })
+    @Column({
+        type: 'varchar',
+        length: 255
+    })
     second_lang_name: string;
 
-    @Column({ nullable: true })
-    language_name: string
+    @ManyToOne(() => Employeers, employeers => employeers.languages)
+    employeers: Employeers;
 }

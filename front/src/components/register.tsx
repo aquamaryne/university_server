@@ -21,7 +21,7 @@ const Register: React.FC = () => {
 
         try {
             const response = await axios.post<{ message: string }>(
-                'http://212.111.203.173:3001/auth-key', 
+                'http://212.111.203.178:3001/auth-key', 
                 { auth_key: authKey },
                 {
                     withCredentials: true,

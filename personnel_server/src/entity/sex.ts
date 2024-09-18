@@ -1,10 +1,17 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Employeers } from "./employeers";
 
-@Entity()
+@Entity('sex')
 export class Sex{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        length: 255
+    })
     sex_name: string;
+
+    @ManyToOne(() => Employeers, employeers => employeers.sex)
+    employeers: Employeers;
 }

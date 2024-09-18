@@ -1,19 +1,31 @@
 import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
 import { FamilyStatus } from "./familyStatus";
+import { Employeers } from "./employeers";
 
-@Entity()
+@Entity('family')
 export class Family{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        type: 'int',
+    })
     count_of_children: string;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        length: 255
+    })
     children_name: string;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        length: 255
+    })
     year_of_birth_children: Date;
+
+    @ManyToOne(() => Employeers, employeers => employeers.family)
+    employeers: Employeers;
 
     @ManyToOne(() => FamilyStatus, familyStatus => familyStatus.status)
     familyStatus: FamilyStatus;

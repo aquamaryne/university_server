@@ -1,16 +1,16 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
-
-@Entity()
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Employeers } from "./employeers";
+@Entity('achieve')
 export class Achieve{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    achieve_name: string;
+    @Column({ 
+        type: 'varchar', 
+        length: 255 
+    })
+    achievement_name: string;
 
-    @Column()
-    academic: string;
-
-    @Column()
-    member_of: string;
+    @ManyToOne(() => Employeers, employeers => employeers.achievement)
+    employeers: Employeers;
 }

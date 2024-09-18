@@ -1,14 +1,17 @@
 import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from "typeorm";
 import { Positions } from "./positions";
 
-@Entity()
+@Entity('department')
 export class Department{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        length: 255
+    })
     department_name: string;
 
-    @OneToMany(() => Positions, position => position.department)
+    @OneToMany(() => Positions, positions => positions.department)
     positions: Positions[];
 }

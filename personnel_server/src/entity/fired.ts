@@ -1,17 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-
-@Entity()
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Employeers } from "./employeers";
+@Entity('fired')
 export class Fired {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ type: 'date' })
     date_of_fired: Date;
-
-    @Column({ unique: true })
-    unique_card: string;
-
-    @Column({ unique: true })
+  
+    @Column({ type: 'int' })
+    unique_card: number;
+  
+    @Column({ type: 'bigint' })
     identify_code: number;
+  
+    @ManyToOne(() => Employeers, employeers => employeers.fired)
+    employeers: Employeers;
 
 }

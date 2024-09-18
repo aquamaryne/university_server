@@ -1,32 +1,35 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Employeers } from "./employeers";
 
-@Entity()
+@Entity('military_appearance')
 export class Military_Appearance{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     accounting_group: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     accounting_category: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     depot: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     military_rank: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     military_accounting_specialty: string;
 
-    @Column()
+    @Column({ type: 'int' })
     num: number;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     suitability_for_military_service: string;
 
-    @Column()
-    name_of_the_military_office_at_the_place_of_residence: string;
+    @Column({ type: 'varchar', length: 255 })
+    name_of_military_office_at_the_place_of_residence: string;
 
+    @ManyToOne(() => Employeers, employeers => employeers.military_appearance)
+    employeers: Employeers;
 }
