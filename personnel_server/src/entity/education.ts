@@ -1,7 +1,7 @@
 import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
 import { Employeers } from "./employeers";
 
-@Entity('education')
+@Entity()
 export class Education{
     @PrimaryGeneratedColumn()
     id: number;

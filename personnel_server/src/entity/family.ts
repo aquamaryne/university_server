@@ -2,7 +2,7 @@ import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
 import { FamilyStatus } from "./familyStatus";
 import { Employeers } from "./employeers";
 
-@Entity('family')
+@Entity()
 export class Family{
     @PrimaryGeneratedColumn()
     id: number;

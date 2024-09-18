@@ -1,6 +1,6 @@
 import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from "typeorm";
 import { Family } from "./family";
-@Entity('family_status')
+@Entity()
 export class FamilyStatus{
     @PrimaryGeneratedColumn()
     id: number;

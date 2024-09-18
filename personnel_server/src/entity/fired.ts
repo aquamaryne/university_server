@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Employeers } from "./employeers";
-@Entity('fired')
+@Entity()
 export class Fired {
     @PrimaryGeneratedColumn()
     id: number;

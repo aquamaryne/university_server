@@ -10,7 +10,7 @@ import { Language } from "./lang";
 import { Sex } from "./sex";
 import { Domains } from "./domains";
 import { Military_Appearance } from "./militaryAppearance";
-@Entity('employeers')
+@Entity()
 export class Employeers{
     @PrimaryGeneratedColumn('increment')
     id: number;

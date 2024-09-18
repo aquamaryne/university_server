@@ -1,7 +1,7 @@
 import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
 import { Employeers } from "./employeers";
 
-@Entity('domains')
+@Entity()
 export class Domains{
     @PrimaryGeneratedColumn()
     id: number;
