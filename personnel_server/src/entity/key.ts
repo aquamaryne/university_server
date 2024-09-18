@@ -5,6 +5,8 @@ export class Auth_Key {
     @PrimaryGeneratedColumn('increment')
     id: number
 
-    @Column({ unique: true })
+    @Column({ 
+        unique: true,
+    })
     auth_key: string
 }

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, Typography, Grid, CircularProgress } from '@mui/material';
 import { useAuth } from '../routes/authContext';
 
+
 const Register: React.FC = () => {
     const [authKey, setAuthKey] = useState<string>('');
     const [message, setMessage] = useState<string>('');
@@ -21,7 +22,7 @@ const Register: React.FC = () => {
 
         try {
             const response = await axios.post<{ message: string }>(
-                'http://212.111.203.178:3001/auth-key', 
+                'http://localhost:3001/auth-key', 
                 { auth_key: authKey },
                 {
                     withCredentials: true,

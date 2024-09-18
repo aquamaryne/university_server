@@ -34,7 +34,8 @@ export class Personal_Info{
     place_of_living: string;
 
     @Column({ 
-        type: 'varchar', length: 255 
+        type: 'varchar', 
+        length: 255 
     })
     mobile_phone_number: string;
 

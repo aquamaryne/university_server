@@ -67,7 +67,7 @@ import { ApiKeyGuard } from './api_key/api_key.guard';
         Work_Experience,
         Auth_Key,
       ],
-      synchronize: true,
+      synchronize: false,
       logging: true,
     }),
     ConfigModule.forRoot(),
