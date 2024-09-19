@@ -1,4 +1,5 @@
 FROM node:21-alpine
+RUN apt-get update && apt-get install -y p7zip-full
 WORKDIR /backend
 COPY personnel_server/package*.json ./
 RUN npm install
