@@ -13,8 +13,8 @@ dotenv.config();
 @Injectable()
 export class BackupService implements OnModuleDestroy {
     private dbConnection: mysql.Connection;
-    private backupDir =  '/home/';
-    private archieveDir = '/home/backups';
+    private backupDir =  '/tmp/';
+    private archieveDir = '/tmp/backups';
 
     constructor(){
         this.dbConnection = mysql.createConnection({
@@ -40,13 +40,21 @@ export class BackupService implements OnModuleDestroy {
         const backupFile = `${this.backupDir}/database-backup-${timeStamp}.sql`;
 
         if(!fs.existsSync(this.backupDir)){
-            fs.mkdirSync(this.backupDir, { recursive: true });
-            console.log(`Created backup directory: ${this.backupDir}`);
+            try{
+                fs.mkdirSync(this.backupDir, { recursive: true });
+                console.log(`Created backup directory: ${this.backupDir}`);
+            } catch(error){
+                console.error(`Failed to create backup directory ${this.backupDir}`)
+            }
         }
 
         if(!fs.existsSync(this.archieveDir)){
-            fs.mkdirSync(this.archieveDir, { recursive: true });
-            console.log(`Created archieve directory: ${this.archieveDir}`);
+            try{
+                fs.mkdirSync(this.archieveDir, { recursive: true });
+                console.log(`Created archieve directory: ${this.archieveDir}`);
+            } catch(error){
+                console.error(`Failed to create archieve directory ${this.archieveDir}`)
+            }
         }
 
         const schema = await this.getSchema();
