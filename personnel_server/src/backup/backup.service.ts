@@ -1,5 +1,5 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import * as fs from 'fs';
 import * as mysql from 'mysql2';
 import { promisify } from 'util';
@@ -33,7 +33,7 @@ export class BackupService implements OnModuleDestroy {
         })
     }
 
-    @Cron('0 3 */2 * *')
+    @Cron(CronExpression.EVERY_10_MINUTES)
     async backupDatabase(){
         console.log('Backup task started', new Date());
         const timeStamp = new Date().toISOString().replace(/[:]/g, '-');
