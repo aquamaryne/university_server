@@ -1,5 +1,6 @@
 import { Controller, Get, HttpStatus, HttpException, Render } from '@nestjs/common';
 import { BackupService } from './backup.service';
+import { Public } from 'src/api_key/public';
 
 @Controller('backups')
 export class BackupController {
@@ -46,7 +47,8 @@ export class BackupController {
             lastBackup,
         };
     } 
-
+    
+    @Public()
     @Get('list')
     @Render('backups')
     async getBackupList(){

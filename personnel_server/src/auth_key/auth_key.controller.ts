@@ -1,5 +1,6 @@
 import { Controller, Post, Body, HttpException, HttpStatus, UnauthorizedException, HttpCode } from '@nestjs/common';
 import { AuthKeyService } from './auth_key.service';
+import { Public } from 'src/api_key/public';
 
 @Controller('auth-key')
 export class AuthKeyController {
@@ -7,6 +8,7 @@ export class AuthKeyController {
         private readonly authKeyService: AuthKeyService
     ) {}
 
+    @Public()
     @HttpCode(HttpStatus.CREATED)
     @Post()
     async validateAuthKey(@Body('auth_key') authKey: string){

@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { join } from 'path';
@@ -17,7 +17,7 @@ async function bootstrap() {
   };
 
   app.enableCors(corsOptions);
-  app.useGlobalGuards(new ApiKeyGuard(app.get(ConfigService)));
+  app.useGlobalGuards(new ApiKeyGuard(app.get(ConfigService), app.get(Reflector)));
 
   const config = new DocumentBuilder()
     .setTitle('API Test')
