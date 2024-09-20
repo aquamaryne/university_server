@@ -67,7 +67,7 @@ export class BackupController {
 
     @Get('download/:filename')
     async downloadBackup(@Param('filename') filename: string, @Res() res: Response){
-        const filePath = path.join('/home/keeper/backups', filename);
+        const filePath = path.join(filename);
         res.download(filePath, (err) => {
             if(err){
                 console.error(`Error downloading file: ${err}`);
