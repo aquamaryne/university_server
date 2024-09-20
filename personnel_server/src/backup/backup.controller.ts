@@ -3,6 +3,7 @@ import { BackupService } from './backup.service';
 import { Public } from 'src/api_key/public';
 import { Response } from 'express';
 import * as path from 'path';
+import * as fs from 'fs';
 @Controller('backups')
 export class BackupController {
     constructor(private readonly backupService: BackupService) {}
@@ -68,7 +69,13 @@ export class BackupController {
     @Public()
     @Get('download/:filename')
     async downloadBackup(@Param('filename') filename: string, @Res() res: Response){
-        const filePath = path.join(filename);
+        const filePath = path.join('/tmp/backups', filename);
+
+        if(!fs.existsSync(filePath)){
+            console.error(`File not found ${filePath}`);
+            return res.status(404).send('File not found')
+        }
+        
         res.download(filePath, (err) => {
             if(err){
                 console.error(`Error downloading file: ${err}`);
