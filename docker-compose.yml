@@ -27,7 +27,7 @@ services:
       DATABASE_NAME: kadry
     volumes:
       - ./personnel_server:/usr/backend/
-      - /home/keeper/bakcups:/tmp/bakcups
+      - /home/keeper/backups:/tmp/backups
     restart: 'always'
 
   front:

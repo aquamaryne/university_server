@@ -1,3 +1,5 @@
-document.getElementById('submit').addEventListener('click', () => {
-    
-});
+const ipcRender = require('electron');
+
+window.saveIP = (ip) => {
+    ipcRender.send('save-ip', ip);
+}

@@ -1,70 +1,104 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>IP Input</title>
-        <style>
-            body, html {
-                height: 100%;
-                margin: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-family: Arial, sans-serif;
-                background-color: #f7f7f7;
-            }
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Input</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
 
-            #container {
-                background-color: white;
-                padding: 20px;
-                border-radius: 10px;
-                text-align: center;
-                border: 1px solid #ddd; /* Четкая граница контейнера */
-            }
+        #container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
 
-            #ipInput {
-                width: 200px;
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                font-size: 16px;
-            }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-            button {
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                cursor: pointer;
-            }
+        #ipInput {
+            width: 220px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
 
-            button:hover {
-                background-color: #0056b3; /* Меняем цвет только при наведении */
-            }
-        </style>
-    </head>
-    <body>
-        <div id="container">
-            <h1>Введите IP и порт</h1>
-            <form id="ipForm">
-                <input type="text" id="ipInput" placeholder="127.0.0.1:3000" required>
-                <br>
-                <button type="submit">Перейти</button>
-            </form>
-        </div>
+        #error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: none;
+        }
 
-        <script>
-            document.getElementById('ipForm').addEventListener('submit', function (event) {
-                event.preventDefault();
-                const ipAddress = document.getElementById('ipInput').value;
+        button {
+            padding: 10px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-                // Выполняем редирект на введенный IP и порт
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Введите IP и порт</h1>
+        <form id="ipForm">
+            <input type="text" id="ipInput" placeholder="127.0.0.1:3000" required>
+            <div id="error">Неверный формат IP или порта!</div>
+            <button type="submit">Перейти</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('ipForm');
+        const ipInput = document.getElementById('ipInput');
+        const errorDiv = document.getElementById('error');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const ipAddress = ipInput.value.trim();
+            
+            // Проверка корректности IP-адреса и порта через регулярное выражение
+            const ipPortRegex = /^(\d{1,3}\.){3}\d{1,3}:\d{1,5}$/;
+
+            if (ipPortRegex.test(ipAddress)) {
+                // Если IP и порт валидны, убираем сообщение об ошибке и редиректим
+                errorDiv.style.display = 'none';
                 window.location.href = `http://${ipAddress}`;
-            });
-        </script>
-    </body>
+            } else {
+                // Если ошибка, показываем сообщение
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
 </html>
+
