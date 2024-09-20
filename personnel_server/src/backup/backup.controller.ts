@@ -64,7 +64,8 @@ export class BackupController {
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    
+    @Public()
     @Get('download/:filename')
     async downloadBackup(@Param('filename') filename: string, @Res() res: Response){
         const filePath = path.join(filename);
