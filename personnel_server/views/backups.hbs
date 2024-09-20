@@ -25,6 +25,11 @@
         th{
             background-color: #f4f4f4;
         }
+        .download-link {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
     </style>
     <body>
         <h1>Бекап бази даних</h1>
@@ -35,6 +40,7 @@
                     <th>Назва файла</th>
                     <th>Розмір (байт)</th>
                     <th>Остання модифікація</th>
+                    <th>Дія</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +50,9 @@
                             <td>{{this.name}}</td>
                             <td>{{this.size}}</td>
                             <td>{{this.date}}</td>
+                            <td>
+                                <a class="download-lin" href="/backups/download.{{this.filename}}">Скачати</a>
+                            </td>
                         </tr>
                     {{/each}}
                 {{else}}

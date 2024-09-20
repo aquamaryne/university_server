@@ -1,7 +1,8 @@
-import { Controller, Get, HttpStatus, HttpException, Render } from '@nestjs/common';
+import { Controller, Get, HttpStatus, HttpException, Render, Param, Res } from '@nestjs/common';
 import { BackupService } from './backup.service';
 import { Public } from 'src/api_key/public';
-
+import { Response } from 'express';
+import * as path from 'path';
 @Controller('backups')
 export class BackupController {
     constructor(private readonly backupService: BackupService) {}
@@ -47,7 +48,7 @@ export class BackupController {
             lastBackup,
         };
     } 
-    
+
     @Public()
     @Get('list')
     @Render('backups')
@@ -62,6 +63,17 @@ export class BackupController {
                 "error": 'Failed to retrieve backup list',
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Get('download/:filename')
+    async downloadBackup(@Param('filename') filename: string, @Res() res: Response){
+        const filePath = path.join('/home/keeper/backups', filename);
+        res.download(filePath, (err) => {
+            if(err){
+                console.error(`Error downloading file: ${err}`);
+                res.status(404).send('File not found')
+            }
+        });
     }
 
     private async getLastBackup(): Promise<{ name: string; date: Date } | string>{
