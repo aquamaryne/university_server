@@ -178,7 +178,7 @@ export class BackupService implements OnModuleDestroy {
 
                     const backupDetails = await Promise.all(
                         backups.map(async (file) => {
-                            const filePath = path.join(this.backupDir, file);
+                            const filePath = path.join(this.archieveDir, file);
                             const stats = await fs.promises.stat(filePath);
                         
                             return {
