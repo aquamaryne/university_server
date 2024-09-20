@@ -33,7 +33,7 @@ export class BackupService implements OnModuleDestroy {
         })
     }
 
-    @Cron(CronExpression.EVERY_10_MINUTES)
+    @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     async backupDatabase(){
         console.log('Backup task started', new Date());
         const timeStamp = new Date().toISOString().replace(/[:]/g, '-');
