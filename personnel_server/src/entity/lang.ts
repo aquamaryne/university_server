@@ -10,13 +10,7 @@ export class Language{
         type: 'varchar',
         length: 255    
     })
-    first_lang_name: string;
-
-    @Column({
-        type: 'varchar',
-        length: 255
-    })
-    second_lang_name: string;
+    language: string;
 
     @ManyToOne(() => Employeers, employeers => employeers.languages)
     employeers: Employeers;
