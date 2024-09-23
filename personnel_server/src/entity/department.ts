@@ -10,7 +10,7 @@ export class Department{
         type: 'varchar',
         length: 255
     })
-    department_name: string;
+    faculty_name: string;
 
     @OneToMany(() => Positions, positions => positions.department)
     positions: Positions[];

@@ -7,7 +7,8 @@ export class Achieve{
 
     @Column({ 
         type: 'varchar', 
-        length: 255 
+        length: 255,
+        nullable: true,
     })
     achievement_name: string;
 

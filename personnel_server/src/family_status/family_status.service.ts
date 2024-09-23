@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FamilyStatus } from 'src/entity/familyStatus';
 import { Repository } from 'typeorm';
-
+import * as fs from 'fs';
+import * as path from 'path';
 @Injectable()
-export class FamilyStatusService {
+export class FamilyStatusService implements OnModuleInit{
     constructor(@InjectRepository(FamilyStatus) private familyStatusRepository: Repository<FamilyStatus>) {}
 
     async findAll(): Promise<FamilyStatus[]>{
@@ -27,5 +28,16 @@ export class FamilyStatusService {
 
     async remove(id: number): Promise<void>{
         await this.familyStatusRepository.delete(id);
+    }
+
+    async executeDomainSqlFile(): Promise<void>{
+        const filePath = path.join('sql/family_status.sql');
+        const sql = fs.readFileSync(filePath, 'utf-8');
+
+        await this.familyStatusRepository.query(sql);
+    }
+
+    async onModuleInit() {
+        await this.executeDomainSqlFile();
     }
 }

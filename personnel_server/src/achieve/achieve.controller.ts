@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { AchieveService } from './achieve.service';
 import { Achieve } from 'src/entity/achieve';
+import { Public } from 'src/api_key/public';
 
 @Controller('achieve')
 export class AchieveController {
@@ -29,5 +30,11 @@ export class AchieveController {
     @Delete(':id')
     remove(@Param('id') id: string): Promise<void>{
         return this.achieveService.remove(Number(id));
+    }
+
+    @Get('execute-sql')
+    async executeSql(): Promise<string>{
+        await this.achieveService.executeAchieveSqlFile();
+        return 'SQL file success';
     }
 }

@@ -38,8 +38,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BackupModule } from './backup/backup.module';
 import { ApiKeyGuard } from './api_key/api_key.guard';
-
-
+import { PositionsModule } from './positions/positions.module';
 
 @Module({
   imports: [
@@ -88,12 +87,13 @@ import { ApiKeyGuard } from './api_key/api_key.guard';
     WorkExperienceModule,
     AppModule,
     BackupModule,
+    PositionsModule,
   ],
   controllers: [AppController, BackupController],
   providers: [
     AppService,
     BackupService,
-    ApiKeyGuard
+    ApiKeyGuard,
   ],
 })
 export class AppModule {}

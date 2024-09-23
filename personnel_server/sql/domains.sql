@@ -1,1 +1,1 @@
-INSERT INTO domains(domain)
+INSERT INTO domains(domain_name)
