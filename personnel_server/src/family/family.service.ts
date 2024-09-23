@@ -5,26 +5,26 @@ import { Family } from 'src/entity/family';
 
 @Injectable()
 export class FamilyService {
-    constructor(@InjectRepository(Family) private readonly familtRepository: Repository<Family>){}
+    constructor(@InjectRepository(Family) private readonly familyRepository: Repository<Family>){}
 
     async create(family: Family): Promise<Family>{
-        return this.familtRepository.save(family);
+        return this.familyRepository.save(family);
     }
 
     async findAll(): Promise<Family[]>{
-        return this.familtRepository.find();
+        return this.familyRepository.find();
     }
 
     async findOne(id: number): Promise<Family>{
-        return this.familtRepository.findOne({ where: {id} });
+        return this.familyRepository.findOne({ where: {id} });
     }
 
     async update(id: number, family: Family): Promise<Family>{
-        await this.familtRepository.update(id, family);
+        await this.familyRepository.update(id, family);
         return this.findOne(id);
     }
 
     async remove(id: number): Promise<void>{
-        await this.familtRepository.delete(id);
+        await this.familyRepository.delete(id);
     }
 }
