@@ -1,1 +1,0 @@
-INSERT INTO family_status(status)

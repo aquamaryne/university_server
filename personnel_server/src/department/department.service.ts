@@ -11,8 +11,8 @@ export class DepartmentService {
         return this.departmentRepository.find();
     }
 
-    async findOne(id: number): Promise<Department | undefined>{
-        return this.departmentRepository.findOne({ where: {id} })
+    async findOne(id: number, department_name: string): Promise<Department | undefined>{
+        return this.departmentRepository.findOne({ where: { id } })
     }
 
     async create(data: Partial<Department>): Promise<Department>{

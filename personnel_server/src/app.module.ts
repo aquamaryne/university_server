@@ -39,6 +39,7 @@ import { AppService } from './app.service';
 import { BackupModule } from './backup/backup.module';
 import { ApiKeyGuard } from './api_key/api_key.guard';
 import { PositionsModule } from './positions/positions.module';
+import { CsvModule } from './csv/csv.module';
 
 @Module({
   imports: [
@@ -88,6 +89,7 @@ import { PositionsModule } from './positions/positions.module';
     AppModule,
     BackupModule,
     PositionsModule,
+    CsvModule,
   ],
   controllers: [AppController, BackupController],
   providers: [

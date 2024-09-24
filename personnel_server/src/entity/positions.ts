@@ -11,29 +11,25 @@ export class Positions{
         type: 'varchar',
         length: 255
     })
-    position_name: string;
+    positions_name: string;
 
     @Column({ 
         type: 'date',
-        nullable: true
     })
     date_of_entry: Date;
     
     @Column({
         type: 'varchar',
-        nullable: true
     })
     type_of_study: string;
 
     @Column({
         type: 'varchar',
-        nullable: true,
     })
     position_where_work_now: number;
 
     @Column({
         type: 'int',
-        nullable: true,
     })
     number_of_order: number;
 
