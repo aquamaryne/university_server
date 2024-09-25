@@ -24,7 +24,7 @@ services:
       DATABASE_HOST: mysql
       DATABASE_PORT: 3306
       DATABASE_USERNAME: keeper 
-      DATABASE_PASSWORD: toor!
+      DATABASE_PASSWORD: 'toor!'
       DATABASE_NAME: kadry
     volumes:
       - ./personnel_server:/usr/backend/
