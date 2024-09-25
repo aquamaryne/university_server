@@ -6,7 +6,7 @@ services:
     environment:
         MYSQL_DATABASE: kadry
     ports:
-      - '3307:3307'
+      - '3306:3306'
     volumes:
       - mysql_data:/var/lib/mysql
     restart: 'always'
@@ -21,8 +21,8 @@ services:
       - mysql
     environment:
       # DATABASE_URL: mysql://keeper:toor%21@172.16.1.35:3307/kadry
-      DATABASE_HOST: 212.111.203.178
-      DATABASE_PORT: 3307 
+      DATABASE_HOST: 172.16.1.35
+      DATABASE_PORT: 3306
       DATABASE_USERNAME: keeper 
       DATABASE_PASSWORD: toor!
       DATABASE_NAME: kadry
