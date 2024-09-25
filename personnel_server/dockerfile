@@ -1,5 +1,5 @@
 FROM node:21-alpine
-RUN apk update && apk add p7zip
+RUN apk --no-cache update && apk add --no-cache p7zip
 WORKDIR /backend
 COPY personnel_server/package*.json ./
 RUN npm install
