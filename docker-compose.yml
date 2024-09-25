@@ -17,8 +17,6 @@ services:
       dockerfile: personnel_server/dockerfile
     ports:
       - "3001:3001"
-    depends_on:
-      - mysql
     environment:
       DATABASE_HOST: 212.111.203.178
       DATABASE_PORT: 3306
