@@ -4,6 +4,7 @@ services:
   mysql:
     image: mysql:latest
     environment:
+        MYSQL_USERNAME: keeper
         MYSQL_DATABASE: kadry
     ports:
       - '3307:3307'
