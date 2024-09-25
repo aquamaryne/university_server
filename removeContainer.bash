@@ -1,6 +1,6 @@
 set -o errexit
 set -p pipefail
-set -0 nounset
+set -o nounset
 
 remove_container(){
     local container
