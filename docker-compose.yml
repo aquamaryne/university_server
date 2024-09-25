@@ -20,12 +20,12 @@ services:
     depends_on:
       - mysql
     environment:
-      DATABASE_URL: mysql://keeper:toor!@172.16.1.35:3307/kadry
-      # DATABASE_HOST: mysql
-      # DATABASE_PORT: 3306 
-      # DATABASE_USERNAME: root 
-      # DATABASE_PASSWORD: toor
-      # DATABASE_NAME: kadry
+      # DATABASE_URL: mysql://keeper:toor!@172.16.1.35:3307/kadry
+      DATABASE_HOST: 172.16.1.35
+      DATABASE_PORT: 3306 
+      DATABASE_USERNAME: keeper 
+      DATABASE_PASSWORD: toor!
+      DATABASE_NAME: kadry
     volumes:
       - ./personnel_server:/usr/backend/
       - /home/keeper/backups:/tmp/backups
