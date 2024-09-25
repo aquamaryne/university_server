@@ -6,7 +6,7 @@ remove_container(){
     local container
     containers=$(docker ps -aq)
 
-    if [[ -n "$containers"]]; then
+    if [[ -n "$containers"]] then
         printf "Removing all containers ...\n"
         docker rm -f "$containers"
     else 
@@ -15,10 +15,10 @@ remove_container(){
 }
 
 remove_images(){
-    local remove_images
+    local images
     images=$(docker images -q)
 
-    if [[ -n "$images" ]]; then
+    if [[ -n "$images" ]] then
         printf "Removing all images...\n"
         docker rmi -f "$images"
     else
