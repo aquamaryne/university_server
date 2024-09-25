@@ -22,7 +22,7 @@ services:
     environment:
       # DATABASE_URL: mysql://keeper:toor%21@172.16.1.35:3307/kadry
       DATABASE_HOST: 172.16.1.35
-      DATABASE_PORT: 3306 
+      DATABASE_PORT: 3307 
       DATABASE_USERNAME: keeper 
       DATABASE_PASSWORD: toor!
       DATABASE_NAME: kadry
