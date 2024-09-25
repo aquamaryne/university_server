@@ -35,6 +35,7 @@ export class BackupService implements OnModuleDestroy {
 
     @Cron(CronExpression.EVERY_DAY_AT_NOON)
     async backupDatabase(){
+
         console.log('Backup task started', new Date());
         const timeStamp = new Date().toISOString().replace(/[:]/g, '-');
         const backupFile = `${this.backupDir}/database-backup-${timeStamp}.sql`;
