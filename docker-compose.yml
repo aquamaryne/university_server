@@ -20,7 +20,7 @@ services:
     depends_on:
       - mysql
     environment:
-      DATABASE_URL: mysql://keeper:toor!@172.16.1.35:3306/kadry
+      DATABASE_URL: mysql://keeper:toor!@172.16.1.35:3307/kadry
       # DATABASE_HOST: mysql
       # DATABASE_PORT: 3306 
       # DATABASE_USERNAME: root 
