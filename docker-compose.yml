@@ -4,7 +4,6 @@ services:
   mysql:
     image: mysql:latest
     environment:
-        MYSQL_USERNAME: keeper
         MYSQL_DATABASE: kadry
     ports:
       - '3307:3307'
@@ -21,12 +20,12 @@ services:
     depends_on:
       - mysql
     environment:
-      # DATABASE_URL: mysql://keeper:toor%21@172.16.1.35:3307/kadry
-      DATABASE_HOST: 172.16.1.35
-      DATABASE_PORT: 3307 
-      DATABASE_USERNAME: keeper 
-      DATABASE_PASSWORD: toor!
-      DATABASE_NAME: kadry
+      DATABASE_URL: mysql://keeper:toor%21@172.16.1.35:3307/kadry
+      # DATABASE_HOST: 172.16.1.35
+      # DATABASE_PORT: 3307 
+      # DATABASE_USERNAME: keeper 
+      # DATABASE_PASSWORD: toor!
+      # DATABASE_NAME: kadry
     volumes:
       - ./personnel_server:/usr/backend/
       - /home/keeper/backups:/tmp/backups
