@@ -14,4 +14,4 @@ export class Sex{
 
     @ManyToOne(() => Employeers, employeers => employeers.sex)
     employeers: Employeers;
-}
+}    

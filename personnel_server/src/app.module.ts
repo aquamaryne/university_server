@@ -40,7 +40,7 @@ import { BackupModule } from './backup/backup.module';
 import { ApiKeyGuard } from './api_key/api_key.guard';
 import { PositionsModule } from './positions/positions.module';
 import { CsvModule } from './csv/csv.module';
-
+import { HealthModule } from './health/health.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -90,6 +90,7 @@ import { CsvModule } from './csv/csv.module';
     BackupModule,
     PositionsModule,
     CsvModule,
+    HealthModule,
   ],
   controllers: [AppController, BackupController],
   providers: [
