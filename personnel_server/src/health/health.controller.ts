@@ -1,10 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 import { 
         HealthCheck, 
         HealthCheckService, 
         HttpHealthIndicator, 
         MemoryHealthIndicator,
-        DiskHealthIndicator, 
+        DiskHealthIndicator,
+        HealthCheckResult, 
 } from '@nestjs/terminus';
 import { DataSource } from 'typeorm'
 import { TypeOrmHealthIndicator } from '@nestjs/terminus';
@@ -23,9 +24,10 @@ export class HealthController {
 
     @Public()
     @Get()
+    @Render('index')
     @HealthCheck()
-    check(){
-        return this.health.check([
+    async check(){
+        const healthChecksResult: HealthCheckResult = await this.health.check([
             async () => this.http.pingCheck('', ''),
             async () => this.db.pingCheck('database', { connection: this.dataSource }),
             async () => this.memory.checkHeap('memory_heap', 300 * 1024 * 1024),
@@ -44,8 +46,15 @@ export class HealthController {
                     database: {
                         status: 'up'
                     }
-                }
-            }         
-        ]) 
-    }
-}
+                };
+            },       
+        ]);
+
+        return {
+            status: healthChecksResult.status,
+            details: healthChecksResult.details,
+            info: healthChecksResult.info || {},
+            error: healthChecksResult.error || {},   
+        }
+    };
+};
