@@ -41,6 +41,7 @@ import { ApiKeyGuard } from './api_key/api_key.guard';
 import { PositionsModule } from './positions/positions.module';
 import { CsvModule } from './csv/csv.module';
 import { HealthModule } from './health/health.module';
+import { EnterFormController } from './enter-form/enter-form.controller';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -92,7 +93,7 @@ import { HealthModule } from './health/health.module';
     CsvModule,
     HealthModule,
   ],
-  controllers: [AppController, BackupController],
+  controllers: [AppController, BackupController, EnterFormController],
   providers: [
     AppService,
     BackupService,

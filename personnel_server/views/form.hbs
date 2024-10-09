@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Key input</title>
+    </head>
+    <body>
+        <h1>Введіть ключ</h1>
+        <form id="api-key-form">
+            <label for="api-key">API KEY:</label>
+            <input type="text" id="api-key" name="apiKey" required>
+            <button type="submit">Увійти</button>
+        </form>
+
+        <script>
+            document.getElementById('api-key-form').addEventListener('submit', function(e){
+                e.preventDefault();
+                
+                const apiKey = document.getElementById('api-key').value;
+                if(apiKey){
+                    localStorage.setItem('apiKey', apiKey);
+                    window.location.href = 'http://localhost:3001'
+                } else {
+                    alert('Please enter a valid API Key');
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', function(){
+                const apiKey = localStorage.getItem('apiKey');
+
+                if(apiKey){
+                    fetch('http://localhost:3001', {
+                        method: 'GET',
+                        headers: {
+                            'X-API-KEY': apiKey
+                        }
+                    })
+                    .then(responce => responce.json())
+                    .then(data => console.log(data))
+                    .catch(err => console.error('Error', err))
+                }
+            });
+        </script>
+    </body>
+</html>

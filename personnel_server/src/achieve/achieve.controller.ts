@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
 import { AchieveService } from './achieve.service';
 import { Achieve } from 'src/entity/achieve';
+import { ApiKeyGuard } from 'src/api_key/api_key.guard';
+
 
 @Controller('achieve')
 export class AchieveController {
