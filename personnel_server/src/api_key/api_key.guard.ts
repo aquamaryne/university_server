@@ -1,4 +1,4 @@
-import { CanActivate, Injectable, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, Injectable, ExecutionContext, UnauthorizedException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
@@ -7,6 +7,7 @@ import { IS_PUBLIC_KEY } from './public';
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
   private readonly apiKeyMap: Record<string, string>;
+  private readonly logger = new Logger(ApiKeyGuard.name);
 
   constructor(
     private readonly configService: ConfigService,
@@ -14,35 +15,37 @@ export class ApiKeyGuard implements CanActivate {
   ) {
     this.apiKeyMap = {
       [this.configService.get<string>('API_KEY_1')]: 'admin',
-      [this.configService.get<string>('API_KEY_2')]: 'USER2',
-      [this.configService.get<string>('API_KEY_3')]: 'user3',
-      [this.configService.get<string>('API_KEY_4')]: 'admin1'
+      [this.configService.get<string>('API_KEY_2')]: 'admin1',
+      [this.configService.get<string>('API_KEY_3')]: 'admin2',
+      [this.configService.get<string>('API_KEY_4')]: 'admin3'
     }
   }
 
   canActivate(context: ExecutionContext): boolean {
       const request: Request = context.switchToHttp().getRequest();
-      const apiKeyFromHeader = request.headers['X-API-KEY'] || request.headers['x-api-key'];
+
+      const apiKeyFromHeader = Array.isArray(request.headers['x-api-key'])
+      ? request.headers['x-api-key'][0]
+      : request.headers['x-api-key'];
       
       const isPublic = this.reflector.get<boolean>(IS_PUBLIC_KEY, context.getHandler());
+
       if(isPublic){
         return true;
       };
       
-      console.log(`
-          Received API key from header: ${apiKeyFromHeader}
-          Type of recieved API key: ${typeof apiKeyFromHeader}
-      `);
+      this.logger.log(`Received API key from header ${apiKeyFromHeader}`);
       
       if(!apiKeyFromHeader){
-        console.log('API key is missing.');
-        throw new UnauthorizedException('API key is missing');
+        this.logger.warn('API key is missing');
+        throw new UnauthorizedException('API key is required');
       }
 
-      if(typeof apiKeyFromHeader === 'string' && this.apiKeyMap[apiKeyFromHeader]){
-        return true;
+      if(!this.apiKeyMap[apiKeyFromHeader]){
+        this.logger.warn(`Invalid API key: ${apiKeyFromHeader}`);
+        throw new UnauthorizedException('Invalid API key');
       }
-
-      throw new UnauthorizedException('Invalid api key');
+        
+      return true;
   }
 }

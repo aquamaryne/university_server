@@ -9,7 +9,6 @@ import {
 } from '@nestjs/terminus';
 import { DataSource } from 'typeorm'
 import { TypeOrmHealthIndicator } from '@nestjs/terminus';
-import { Public } from 'src/api_key/public';
 
 @Controller('health')
 export class HealthController {
@@ -22,7 +21,6 @@ export class HealthController {
         private dataSource: DataSource,
     ) {}
 
-    @Public()
     @Get()
     @Render('index')
     @HealthCheck()

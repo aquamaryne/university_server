@@ -4,7 +4,7 @@ import { Controller, Get, Redirect } from '@nestjs/common';
 export class AppController {
   @Get()
   @Redirect('/enter-form', 302)
-  getHello(): string {
+  root(): string {
     return;
   }
 }

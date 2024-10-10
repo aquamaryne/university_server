@@ -1,6 +1,5 @@
 import { Controller, Get, HttpStatus, HttpException, Render, Param, Res } from '@nestjs/common';
 import { BackupService } from './backup.service';
-import { Public } from 'src/api_key/public';
 import { Response } from 'express';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -50,7 +49,6 @@ export class BackupController {
         };
     } 
 
-    @Public()
     @Get('list')
     @Render('backups')
     async getBackupList(){
@@ -66,7 +64,6 @@ export class BackupController {
         }
     }
     
-    @Public()
     @Get('download/:filename')
     async downloadBackup(@Param('filename') filename: string, @Res() res: Response){
         const filePath = path.join('/tmp/backups', filename);
