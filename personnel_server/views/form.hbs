@@ -181,79 +181,96 @@
         </div>
 
         <script>
-            function EnableButtons(){
-                document.getElementById('backup').disabled = false;
-                document.getElementById('csv').disabled = false;
-                document.getElementById('health').disabled = false;
-
-                document.getElementById('clear-api-key').disabled = false;
-                
-                document.getElementById('backup').addEventListener('click', function(){ 
-                    window.location.href='http://localhost:3001/backups' 
-                });
-                document.getElementById('csv').addEventListener('click', function(){ 
-                    window.location.href='http://localhost:3001/csv/view' 
-                });
-                document.getElementById('health').addEventListener('click', function(){ 
-                    window.location.href='http://localhost:3001/health' 
-                });
-            };
-
-            function disabledButton(){
+            function enableButtons(){
                 document.getElementById('backup').disabled = true;
                 document.getElementById('csv').disabled = true;
                 document.getElementById('health').disabled = true;
-            };
+                document.getElementById('clear-api-key').disabled = true;
+
+                document.getElementById('backup').addEventListener('click', function(){
+                    window.location.href = 'http://localhost:3001/backups';
+                })
+
+                document.getElementById('csv').addEventListener('click', function(){
+                    window.location.href = 'http://localhost:3001/csv/view';
+                })
+
+                document.getElementById('health').addEventListener('click', function(){
+                    window.location.href = 'http://localhost:3001/health';
+                })
+            }
+
+            function disableButtons() {
+                document.getElementById('backup').disabled = false;
+                document.getElementById('csv').disabled = false;
+                document.getElementById('health').disabled = false;
+                document.getElementById('clear-api-key').disabled = false;
+            }
 
             function clearApiKey(){
                 localStorage.removeItem('apiKey');
-                disabledButton();
-                alert('API KEY was removed');
-            };
+                disableButtons();
+                alert('API key deleted');
+            }
 
             function validateApiKey(apiKey){
-                fetch('http://localhost:3001', {
-                    method: 'GET',
-                    headers: {
-                        'x-api-key': apiKey
-                    }
-                })
-                .then(responce => {
-                    if(responce.ok){
-                        EnableButtons();
+
+                const urls = [
+                    'http://localhost:3001/backups',
+                    'http://localhost:3001/csv/view',
+                    'http://localhost:3001/health'
+                ];
+
+                const requests = urls.map(url => {
+                    return fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'x-api-key': apiKey
+                        }
+                    }).then(response => {
+                        console.log(`Request to ${url} returned status: ${response.status}`);
+                        return response;  // Возвращаем response для дальнейшей обработки
+                    })
+                    .catch(error => {
+                        console.error(`Error during request to ${url}:`, error);
+                        throw error;  // Пробрасываем ошибку дальше
+                    });
+                });
+
+                Promise.all(requests).then(responses => {
+                    const allOk = responses.every(response => response.ok);
+                    if(allOk){
+                        enableButtons();
                     } else {
-                        throw new Error('Invalid API key');
+                        throw new Error('One more requests failed');
                     }
-                })
-                .catch(err => {
-                    console.error('Error: ', err);
-                    alert('Invlalid API key.');
+                }).catch(err => {
+                    console.error(`Error: ${err}`);
+                    alert('Invalid API key or error occurred');
                     localStorage.removeItem('apiKey');
-                    disabledButton();
+                    disableButtons();
                 })
             }
-            document.getElementById('api-key-form').addEventListener('submit', function(e) {
+
+            document.getElementById('api-key-form').addEventListener('submit', function(e){
                 e.preventDefault();
-
                 const apiKey = document.getElementById('api-key').value;
-
                 if(apiKey){
                     localStorage.setItem('apiKey', apiKey);
                     validateApiKey(apiKey);
                 } else {
-                    alert('Enter a valid API key');
+                    alert('Enter true API key');
                 }
-            });
+            })
 
             document.addEventListener('DOMContentLoaded', function(){
                 const apiKey = localStorage.getItem('apiKey');
-
                 if(apiKey){
                     validateApiKey(apiKey);
                 } else {
-                    disabledButton();
+                    disableButtons();
                 }
-            });
+            })
 
             document.getElementById('clear-api-key').addEventListener('click', clearApiKey);
         </script>
