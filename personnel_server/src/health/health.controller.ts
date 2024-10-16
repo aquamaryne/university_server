@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Render, UseGuards } from '@nestjs/common';
 import { 
         HealthCheck, 
         HealthCheckService, 
@@ -9,6 +9,7 @@ import {
 } from '@nestjs/terminus';
 import { DataSource } from 'typeorm'
 import { TypeOrmHealthIndicator } from '@nestjs/terminus';
+import { ApiKeyGuard } from 'src/api_key/api_key.guard';
 
 @Controller('health')
 export class HealthController {
@@ -22,6 +23,7 @@ export class HealthController {
     ) {}
 
     @Get()
+    @UseGuards(ApiKeyGuard)
     @Render('index')
     @HealthCheck()
     async check(){
@@ -30,10 +32,6 @@ export class HealthController {
             async () => this.db.pingCheck('database', { connection: this.dataSource }),
             async () => this.memory.checkHeap('memory_heap', 300 * 1024 * 1024),
             async () => this.memory.checkRSS('memory_rss', 300 * 1024 * 1024),
-            async () => this.disk.checkStorage('disk_healt', {
-                thresholdPercent: 0.5,
-                path: 'C:\\'
-            }),
             async () => {
                 const isDbConnected = this.dataSource.isInitialized;
                 if(!isDbConnected){
@@ -50,9 +48,7 @@ export class HealthController {
 
         return {
             status: healthChecksResult.status,
-            details: healthChecksResult.details,
-            info: healthChecksResult.info || {},
-            error: healthChecksResult.error || {},   
+            details: healthChecksResult.details,  
         }
     };
 };

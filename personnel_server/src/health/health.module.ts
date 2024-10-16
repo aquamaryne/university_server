@@ -5,6 +5,7 @@ import { TypeOrmHealthIndicator } from '@nestjs/terminus'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
 import * as dotenv from 'dotenv';
+import { ConfigModule } from '@nestjs/config';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ dotenv.config();
   imports: [
     TerminusModule,
     HttpModule,
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,

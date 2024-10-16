@@ -182,29 +182,17 @@
 
         <script>
             function enableButtons(){
-                document.getElementById('backup').disabled = true;
-                document.getElementById('csv').disabled = true;
-                document.getElementById('health').disabled = true;
-                document.getElementById('clear-api-key').disabled = true;
-
-                document.getElementById('backup').addEventListener('click', function(){
-                    window.location.href = 'http://localhost:3001/backups';
-                })
-
-                document.getElementById('csv').addEventListener('click', function(){
-                    window.location.href = 'http://localhost:3001/csv/view';
-                })
-
-                document.getElementById('health').addEventListener('click', function(){
-                    window.location.href = 'http://localhost:3001/health';
-                })
-            }
-
-            function disableButtons() {
                 document.getElementById('backup').disabled = false;
                 document.getElementById('csv').disabled = false;
                 document.getElementById('health').disabled = false;
                 document.getElementById('clear-api-key').disabled = false;
+            }
+
+            function disableButtons() {
+                document.getElementById('backup').disabled = true;
+                document.getElementById('csv').disabled = true;
+                document.getElementById('health').disabled = true;
+                document.getElementById('clear-api-key').disabled = true;
             }
 
             function clearApiKey(){
@@ -252,6 +240,32 @@
                 })
             }
 
+            function makeRequest(route){
+                const apiKey = localStorage.setItem('apiKey');
+                if(!apiKey){
+                    alert('API key not found');
+                    return;
+                }
+
+                fetch(route, {
+                    method: 'GET',
+                    headers: {
+                        'x-api-key': apiKey
+                    }
+                }).then(responce => {
+                    if(!responce.ok){
+                        throw new Error('Request not complete');
+                    }
+                    return responce.json();
+                }).then(data => {
+                    console.log(`Data from ${route}`, data);
+                    alert('Data success catced');
+                }).catch(error => {
+                    console.error(`Error while requesting to ${route} ${error}`);
+                    alert('Error while complete request');
+                })
+            }
+
             document.getElementById('api-key-form').addEventListener('submit', function(e){
                 e.preventDefault();
                 const apiKey = document.getElementById('api-key').value;
@@ -273,6 +287,18 @@
             })
 
             document.getElementById('clear-api-key').addEventListener('click', clearApiKey);
+
+            document.getElementById('backup').addEventListener('click', function () {
+                window.location.href = 'http://localhost:3001/backups';
+            });
+
+            document.getElementById('csv').addEventListener('click', function () {
+                window.location.href = 'http://localhost:3001/csv/view';
+            });
+
+            document.getElementById('health').addEventListener('click', function () {
+                window.location.href = 'http://localhost:3001/health';
+            });
         </script>
 
     </body>

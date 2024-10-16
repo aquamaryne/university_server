@@ -16,23 +16,26 @@ import { Language } from 'src/entity/lang';
 import { Fired } from 'src/entity/fired';
 import { Achieve } from 'src/entity/achieve';
 import { Education } from 'src/entity/education';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([
-        Education,
-        Achieve,
-        Employeers,
-        Family,
-        Fired, 
-        Language,
-        Military_Appearance,
-        Department,
-        Positions,
-        Domains,
-        Personal_Info,
-        FamilyStatus,
-        Sex,
-        Work_Experience,
+    imports: [
+        ConfigModule.forRoot(),
+        TypeOrmModule.forFeature([
+            Education,
+            Achieve,
+            Employeers,
+            Family,
+            Fired, 
+            Language,
+            Military_Appearance,
+            Department,
+            Positions,
+            Domains,
+            Personal_Info,
+            FamilyStatus,
+            Sex,
+            Work_Experience,
     ])],
     providers: [CsvService],
     controllers: [CsvController],

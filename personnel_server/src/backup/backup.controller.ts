@@ -1,8 +1,9 @@
-import { Controller, Get, HttpStatus, HttpException, Render, Param, Res } from '@nestjs/common';
+import { Controller, Get, HttpStatus, HttpException, Render, Param, Res, UseGuards } from '@nestjs/common';
 import { BackupService } from './backup.service';
 import { Response } from 'express';
 import * as path from 'path';
 import * as fs from 'fs';
+import { ApiKeyGuard } from 'src/api_key/api_key.guard';
 @Controller('backups')
 export class BackupController {
     constructor(private readonly backupService: BackupService) {}
@@ -48,7 +49,8 @@ export class BackupController {
             lastBackup,
         };
     } 
-
+    
+    @UseGuards(ApiKeyGuard)
     @Get('list')
     @Render('backups')
     async getBackupList(){

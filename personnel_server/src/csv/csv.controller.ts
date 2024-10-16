@@ -1,11 +1,13 @@
-import { Controller, Post, Get, Render, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Get, Render, UploadedFile, UseInterceptors, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CsvService } from './csv.service';
+import { ApiKeyGuard } from 'src/api_key/api_key.guard';
 
 @Controller('csv')
 export class CsvController {
     constructor(private readonly csvService: CsvService) {}
 
+    @UseGuards(ApiKeyGuard)
     @Get('view')
     @Render('csv')
     getImportPage(){
