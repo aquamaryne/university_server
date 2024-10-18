@@ -162,26 +162,26 @@
     </head>
     <body>
         <div>
-            <h1>Введіть ключ</h1>
+            <h1>Enter API Key</h1>
             <form id="api-key-form">
-                <label for="api-key">API KEY:</label>
+                <label for="api-key">API Key:</label>
                 <input type="password" id="api-key" name="apiKey" required>
-                <button type="submit">Увійти</button>
+                <button type="submit">Submit</button>
             </form>
 
-            <h2>Маршрут:</h2>
+            <h2>Routes:</h2>
             <div class="button-container">
-                <button id="backup" class="route-button" disabled>Бекапи</button>
-                <button id="csv" class="route-button" disabled>Завантаження данних з CSV</button>
-                <button id="health" class="route-button" disabled>Перевірка статуса програми</button>
+                <button id="backup" class="route-button" disabled>Backups</button>
+                <button id="csv" class="route-button" disabled>CSV Data</button>
+                <button id="health" class="route-button" disabled>Health Check</button>
             </div>
 
-            <h2>Видалити ключі</h2>
-            <button id="clear-api-key" class="route-button" disabled>Видалити ключі</button>
+            <h2>Clear Keys</h2>
+            <button id="clear-api-key" class="route-button" disabled>Clear Keys</button>
         </div>
 
         <script>
-            function enableButtons(){
+            function enableButtons() {
                 document.getElementById('backup').disabled = false;
                 document.getElementById('csv').disabled = false;
                 document.getElementById('health').disabled = false;
@@ -195,14 +195,13 @@
                 document.getElementById('clear-api-key').disabled = true;
             }
 
-            function clearApiKey(){
+            function clearApiKey() {
                 localStorage.removeItem('apiKey');
                 disableButtons();
                 alert('API key deleted');
             }
 
-            function validateApiKey(apiKey){
-
+            function validateApiKey(apiKey) {
                 const urls = [
                     'http://localhost:3001/backups',
                     'http://localhost:3001/csv/view',
@@ -216,75 +215,42 @@
                             'x-api-key': apiKey
                         }
                     }).then(response => {
-                        console.log(`Request to ${url} returned status: ${response.status}`);
-                        return response;  // Возвращаем response для дальнейшей обработки
-                    })
-                    .catch(error => {
-                        console.error(`Error during request to ${url}:`, error);
-                        throw error;  // Пробрасываем ошибку дальше
+                        if (!response.ok) {
+                            throw new Error(`Request to ${url} failed with status ${response.status}`);
+                        }
+                        return response;
                     });
                 });
 
-                Promise.all(requests).then(responses => {
-                    const allOk = responses.every(response => response.ok);
-                    if(allOk){
-                        enableButtons();
-                    } else {
-                        throw new Error('One more requests failed');
-                    }
-                }).catch(err => {
-                    console.error(`Error: ${err}`);
-                    alert('Invalid API key or error occurred');
-                    localStorage.removeItem('apiKey');
-                    disableButtons();
-                })
+                Promise.all(requests)
+                    .then(() => enableButtons())
+                    .catch(err => {
+                        console.error(`Error: ${err}`);
+                        alert('Invalid API key or error occurred');
+                        localStorage.removeItem('apiKey');
+                        disableButtons();
+                    });
             }
 
-            function makeRequest(route){
-                const apiKey = localStorage.setItem('apiKey');
-                if(!apiKey){
-                    alert('API key not found');
-                    return;
-                }
-
-                fetch(route, {
-                    method: 'GET',
-                    headers: {
-                        'x-api-key': apiKey
-                    }
-                }).then(responce => {
-                    if(!responce.ok){
-                        throw new Error('Request not complete');
-                    }
-                    return responce.json();
-                }).then(data => {
-                    console.log(`Data from ${route}`, data);
-                    alert('Data success catced');
-                }).catch(error => {
-                    console.error(`Error while requesting to ${route} ${error}`);
-                    alert('Error while complete request');
-                })
-            }
-
-            document.getElementById('api-key-form').addEventListener('submit', function(e){
+            document.getElementById('api-key-form').addEventListener('submit', function (e) {
                 e.preventDefault();
                 const apiKey = document.getElementById('api-key').value;
-                if(apiKey){
+                if (apiKey) {
                     localStorage.setItem('apiKey', apiKey);
                     validateApiKey(apiKey);
                 } else {
-                    alert('Enter true API key');
+                    alert('Enter a valid API key');
                 }
-            })
+            });
 
-            document.addEventListener('DOMContentLoaded', function(){
+            document.addEventListener('DOMContentLoaded', function () {
                 const apiKey = localStorage.getItem('apiKey');
-                if(apiKey){
+                if (apiKey) {
                     validateApiKey(apiKey);
                 } else {
                     disableButtons();
                 }
-            })
+            });
 
             document.getElementById('clear-api-key').addEventListener('click', clearApiKey);
 
@@ -300,6 +266,5 @@
                 window.location.href = 'http://localhost:3001/health';
             });
         </script>
-
     </body>
 </html>

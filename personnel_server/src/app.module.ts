@@ -1,4 +1,4 @@
-import { ExecutionContext, Module } from '@nestjs/common';
+import { ExecutionContext, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { APP_GUARD } from '@nestjs/core';
@@ -42,6 +42,7 @@ import { PositionsModule } from './positions/positions.module';
 import { CsvModule } from './csv/csv.module';
 import { HealthModule } from './health/health.module';
 import { EnterFormController } from './enter-form/enter-form.controller';
+import { ApiKeyMiddleware } from './api_key/api_key.middleware';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -100,4 +101,8 @@ import { EnterFormController } from './enter-form/enter-form.controller';
     ApiKeyGuard,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+      consumer.apply(ApiKeyMiddleware).forRoutes('submit_key');
+  }
+}

@@ -1,27 +1,18 @@
-import { Controller, Get, Render, Res, Post, Body } from '@nestjs/common';
-import { Public } from 'src/api_key/public';
+import { Controller, Get, Render, Res, Post, UseGuards, Req } from '@nestjs/common';
 import { Response } from 'express';
+import { ApiKeyGuard } from 'src/api_key/api_key.guard';
 @Controller('enter-form')
 export class EnterFormController {
     @Get()
-    @Public()
     @Render('form')
     apiKeyForm(){
         return {};
     }
 
-    @Post('/submit_key')
-    submitKey(@Body('apiKey') apiKey: string, @Res() res: Response){
-        res.cookie('authKey', apiKey, { httpOnly: true });
-        return res.status(200).json({ message: 'API key saved' });
-    }
-
-    @Get('/validate_key')
-    validateKey(@Res() res: Response){
-        const apiKey = res.req.cookies['authKey'];
-        if(apiKey){
-            return res.status(200).json({ message: 'API deleted' });
-        }
-        return res.status(401).json({ message: 'API key not found' });
+    @Post('submit_key')
+    @UseGuards(ApiKeyGuard)
+    submitKey(@Req() req: Request, @Res() res: Response){
+        const userRole = req['userRole'];
+        return res.render('submit_key', { userRole });
     }
 }

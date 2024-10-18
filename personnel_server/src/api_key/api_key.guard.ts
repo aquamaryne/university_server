@@ -23,29 +23,34 @@ export class ApiKeyGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
       const request: Request = context.switchToHttp().getRequest();
+      const apiKeyFromHeader = this.extractApiKey(request);
 
-      const apiKeyFromHeader = Array.isArray(request.headers['x-api-key'])
-      ? request.headers['x-api-key'][0]
-      : request.headers['x-api-key'];
-      
       const isPublic = this.reflector.get<boolean>(IS_PUBLIC_KEY, context.getHandler());
-
-      if(isPublic){
+      if (isPublic){
         return true;
-      };
-      
-      this.logger.log(`Received API key from header ${apiKeyFromHeader}`);
-      
+      }
+
+      this.logger.log(`Received API key: ${apiKeyFromHeader}`);
+
       if(!apiKeyFromHeader){
         this.logger.warn('API key is missing');
         throw new UnauthorizedException('API key is required');
       }
 
-      if(!this.apiKeyMap[apiKeyFromHeader]){
+      const userRole = this.apiKeyMap[apiKeyFromHeader];
+      if(!userRole){
         this.logger.warn(`Invalid API key: ${apiKeyFromHeader}`);
         throw new UnauthorizedException('Invalid API key');
       }
-        
+
+      request['userRole'] = userRole;
+      this.logger.log(`Access granted with role: ${userRole}`);
+
       return true;
+  }
+
+  private extractApiKey(request: Request): string | undefined {
+    const apiKeyHeader = request.headers['x-api-key'];
+    return Array.isArray(apiKeyHeader) ? apiKeyHeader[0] : apiKeyHeader;
   }
 }
