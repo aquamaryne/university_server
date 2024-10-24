@@ -40,4 +40,17 @@ export class EmployeersController {
     async getAll(@Query('includeDeleted') includeDeleted: boolean): Promise<Employeers[]>{
         return this.employeerService.getAllEmployeers(includeDeleted);
     }
+
+    @Get()
+    async getSurnames(@Query('letter') letter: string, @Query('query') query: string){
+        if(letter){
+            return this.employeerService.findByLetter(letter);
+        }
+
+        if(query){
+            return this.employeerService.findByQuery(query);
+        }
+
+        return this.employeerService.findAll();
+    }
 }

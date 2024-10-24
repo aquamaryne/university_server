@@ -18,7 +18,7 @@ const EnterPersonalCard: React.FC = () => {
 
     return(
         <React.Fragment>
-            <
+            <h1>hello</h1>
         </React.Fragment>
     )
 } 

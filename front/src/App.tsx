@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MainPage from './components/mainPage';
 import ArchieveRoute from './routes/archieve';
 import FormRoute from './routes/form';
 import PersonalCardRoute from './routes/personal_card';
@@ -20,13 +19,9 @@ function App() {
           <Routes>
             <Route path='/' element={ <Register/> } />
             <Route path='/' element={<PrivateRoute />}>
-              <Route path='/mainPage' element={ <MainPage /> } />
-              
+              <Route path='/mainPage' />              
             </Route>
             </Routes>
-            {/* <div>
-              <MainPage />
-            </div> */ }
             <ArchieveRoute />
             <FormRoute />
             <PersonalCardRoute />

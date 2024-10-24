@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Employeers } from 'src/entity/employeers';
 
 @Injectable()
 export class EmployeersService {
-    constructor(@InjectRepository(Employeers) private readonly employersRepository: Repository<Employeers>){}
+    constructor(@InjectRepository(Employeers) private employersRepository: Repository<Employeers>){}
     
     async create(employeer: Employeers): Promise<Employeers>{
         return this.employersRepository.save(employeer);
@@ -38,5 +38,17 @@ export class EmployeersService {
         } else {
             return this.employersRepository.find();
         }
+    }
+
+    async findByLetter(letter: string): Promise<Employeers[]>{
+        return this.employersRepository.find({
+            where: { sname: Like(`^${letter}%`) },
+        });
+    }
+
+    async findByQuery(query: string): Promise<Employeers[]>{
+        return this.employersRepository.find({
+            where: { sname: Like(`^%${query}%`) },
+        });
     }
 }

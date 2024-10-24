@@ -11,7 +11,7 @@ import * as hbs from 'hbs';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const corsOptions: CorsOptions = {
-    origin: ['http://172.16.1.35:4000', "http://localhost:3000"],
+    origin: ['http://172.16.1.35:4000', "http://localhost:4000"],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   };
@@ -21,7 +21,7 @@ async function bootstrap() {
   });
   
   app.enableCors(corsOptions);
-  app.useGlobalGuards(new ApiKeyGuard(app.get(ConfigService), app.get(Reflector)));
+  // app.useGlobalGuards(new ApiKeyGuard(app.get(ConfigService), app.get(Reflector)));
 
   const config = new DocumentBuilder()
     .setTitle('API Test')
