@@ -25,7 +25,7 @@ export class EmployeersService {
     }
 
     async softRemove(id: number): Promise<void>{
-        await this.employersRepository.delete(id);
+        await this.employersRepository.softDelete(id);
     }
 
     async restore(id: number): Promise<void>{
@@ -42,13 +42,13 @@ export class EmployeersService {
 
     async findByLetter(letter: string): Promise<Employeers[]>{
         return this.employersRepository.find({
-            where: { sname: Like(`^${letter}%`) },
+            where: { sname: Like(`${letter}%`) },
         });
     }
 
     async findByQuery(query: string): Promise<Employeers[]>{
         return this.employersRepository.find({
-            where: { sname: Like(`^%${query}%`) },
+            where: { sname: Like(`%${query}%`) },
         });
     }
 }
