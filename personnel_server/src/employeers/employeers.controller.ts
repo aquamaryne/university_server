@@ -31,26 +31,41 @@ export class EmployeersController {
         return this.employeerService.softRemove(Number(id));
     }
 
-    @Post(':id/restore')
-    async restore(@Param('id', ParseIntPipe) includeDelete: boolean): Promise<Employeers[]>{
-        return this.employeerService.getAllEmployeers(includeDelete);
+    @Get('restore/:id')
+    async restore(@Param('id', ParseIntPipe) id: number): Promise<void>{
+        await this.employeerService.restore(id);
     }
 
-    @Get()
+    @Get('include-deleted')
     async getAll(@Query('includeDeleted') includeDeleted: boolean): Promise<Employeers[]>{
         return this.employeerService.getAllEmployeers(includeDeleted);
     }
 
     @Get()
-    async getSurnames(@Query('letter') letter: string, @Query('query') query: string){
-        if(letter){
-            return this.employeerService.findByLetter(letter);
-        }
+    async getSurnames(
+        @Query('letter') letter?: string,
+        @Query('query') query?: string,
+    ): Promise<Employeers[]> {
+        console.log(`Received letter: ${letter}, query: ${query}`);
 
-        if(query){
-            return this.employeerService.findByQuery(query);
+        try {
+            if (letter) {
+                const results = await this.employeerService.findByLetter(letter);
+                console.log(`Found ${results.length} results for letter: ${letter}`);
+                return results;
+            } else if (query) {
+                const results = await this.employeerService.findByQuery(query);
+                console.log(`Found ${results.length} results for query: ${query}`);
+                return results;
+            } else {
+                const results = await this.employeerService.getAllEmployeers();
+                console.log(`Returning all employeers, total: ${results.length}`);
+                return results;
+            }
+        } catch (error) {
+            console.error("Error fetching surnames:", error);
+            throw new Error("Unable to fetch surnames");
         }
-
-        return this.employeerService.findAll();
     }
+
 }

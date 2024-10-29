@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity, OneToMany, DeleteDateColumn } from "typeorm";
 import { Positions } from "./positions";
 import { Family } from "./family";
 import { Work_Experience } from "./workExperience";
@@ -24,8 +24,11 @@ export class Employeers{
     @Column({ nullable: true })
     fatherly: string;
 
-    @Column({ nullable: true })
+    @Column({ type: 'date', nullable: true })
     date_of_birth: Date;
+
+    // @DeleteDateColumn()
+    // deleteAt: Date;
 
     @OneToMany(() => Positions, positions => positions.employeers)
     positions: Positions[];

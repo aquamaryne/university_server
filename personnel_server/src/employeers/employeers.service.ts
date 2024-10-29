@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Employeers } from 'src/entity/employeers';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class EmployeersService {
     }
 
     async findOne(id: number): Promise<Employeers>{
-        return this.employersRepository.findOne({ where: {id} });
+        return this.employersRepository.findOne({ where: { id } });
     }
 
     async update(id: number, employeer: Employeers): Promise<Employeers>{
@@ -34,21 +34,31 @@ export class EmployeersService {
 
     async getAllEmployeers(includedDeleted = false): Promise<Employeers[]>{
         if(includedDeleted){
-            return this.employersRepository.find({ withDeleted: true })
+            return this.employersRepository.find()
         } else {
             return this.employersRepository.find();
         }
     }
 
     async findByLetter(letter: string): Promise<Employeers[]>{
-        return this.employersRepository.find({
-            where: { sname: Like(`${letter}%`) },
-        });
+        console.log(`Finding by letter: ${letter}`);
+        const result = this.employersRepository
+            .createQueryBuilder('employeer')
+            .where('employeer.deleteAt IS NULL')
+            .andWhere('SUBSTRING(employeer.sname, 1, 1) = :letter', { letter })
+            .getMany();
+        console.log(`Result for letter ${letter}`, result);
+        return result;
     }
 
     async findByQuery(query: string): Promise<Employeers[]>{
-        return this.employersRepository.find({
-            where: { sname: Like(`%${query}%`) },
-        });
+        console.log(`Finding by query: ${query}`);
+        const result = this.employersRepository
+            .createQueryBuilder('employeer')
+            .where('employeer.deleteAt IS NULL')
+            .andWhere('LOCATE(:query, employeer.sname) > 0', { query })
+            .getMany();
+        console.log(`results for query: ${query}`, result);
+        return result;
     }
 }

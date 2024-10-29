@@ -5,7 +5,6 @@ import {
     Button, 
     CircularProgress, 
     Table, 
-    List, 
     Paper, 
     TableContainer,
     TableRow,
@@ -27,24 +26,33 @@ const SearchBySurname: React.FC = () => {
         setLoading(true);
         let url = "http://localhost:3001/employeers"
 
-        if(queryType === 'letter'){
-            url += `?letter=${value}`;
-        } else if (queryType === 'search'){
-            url += `?query=${value}`;
+        if(queryType === 'letter' && value){
+            url += `?letter=${encodeURIComponent(value)}`;
+        } else if (queryType === 'search' && value){
+            url += `?query=${encodeURIComponent(value)}`;
+        } else {
+            url += `?all=true`
         }
+
+        console.log('Query URL', url);
 
         try{
             const responce = await fetch(url);
+            const text = await responce.text();
+            console.log("Responce status: ", responce.status)
             if(!responce.ok){
                 throw new Error('Error while loading data');
             }
-            const data = await responce.json();
+
+            const data = await JSON.parse(text);
+            console.log("Receive data", data);
             setSname(data);
         } catch(error){
             console.error("Error while loading data", error);
             setSname([]);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleLetterClick = (letter: string) => {
@@ -57,6 +65,7 @@ const SearchBySurname: React.FC = () => {
         const query = e.target.value;
         setSearchQuery(query);
         setSelectedLetter(null);
+
         if(query.length > 0){
             fetchSname('search', query);
         } else {
@@ -70,7 +79,6 @@ const SearchBySurname: React.FC = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-
             <Box justifyContent={'center'} sx={{ display: 'flex', flexWrap: 'wrap', mt: 2 }}>
                 {alphabet.map((letter) => (
                     <Button
@@ -81,7 +89,7 @@ const SearchBySurname: React.FC = () => {
                             m: 0.5,
                             px: 2, 
                             py: 1, 
-                            borderRadius: '8px', 
+                            borderRadius: '4px', 
                             minWidth: '50px', 
                             minHeight: '50px', 
                             color: selectedLetter === letter ? 'white' : '#1976d2', 
@@ -132,13 +140,13 @@ const SearchBySurname: React.FC = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
-                                        Фамилия
+                                        Прізвище
                                     </TableCell>
                                     <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
-                                        Имя
+                                        Ім'я
                                     </TableCell>
                                     <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
-                                        Отчество
+                                        По батькові
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
