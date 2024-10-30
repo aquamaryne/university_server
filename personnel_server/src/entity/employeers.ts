@@ -27,9 +27,6 @@ export class Employeers{
     @Column({ type: 'date', nullable: true })
     date_of_birth: Date;
 
-    // @DeleteDateColumn()
-    // deleteAt: Date;
-
     @OneToMany(() => Positions, positions => positions.employeers)
     positions: Positions[];
 

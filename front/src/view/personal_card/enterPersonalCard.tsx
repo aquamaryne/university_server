@@ -4,21 +4,13 @@ import { Typography, Select, TextField, Grid, Box, Button, MenuItem, FormControl
 import { postDataToTable } from "../../api/data.api.post";
 
 const EnterPersonalCard: React.FC = () => {
-    const { register, handleSubmit, reset } = useForm();
-    const onSubmit = async(data: any) => {
-        try{
-            await postDataToTable(data);
-            reset();
-            alert('Data enter success');
-        } catch(error) {
-            console.error('Error while send data', error);
-            alert('Error sending data');
-        };
-    };
-
     return(
         <React.Fragment>
-            <h1>hello</h1>
+            <Box>
+                <Box>
+                    <Typography></Typography>
+                </Box>
+            </Box>
         </React.Fragment>
     )
 } 

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { EmployeersService } from './employeers.service';
 import { Employeers } from 'src/entity/employeers';
 
@@ -16,32 +16,7 @@ export class EmployeersController {
         return this.employeerService.create(employeer);
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: number): Promise<Employeers>{
-        return this.employeerService.findOne(id);
-    }
-
-    @Put(':id')
-    update(@Param('id') id: number, @Body() employeer: Employeers): Promise<Employeers>{
-        return this.employeerService.update(id, employeer);
-    }
-
-    @Delete(':id')
-    remove(@Param('id') id: string ): Promise<void>{
-        return this.employeerService.softRemove(Number(id));
-    }
-
-    @Get('restore/:id')
-    async restore(@Param('id', ParseIntPipe) id: number): Promise<void>{
-        await this.employeerService.restore(id);
-    }
-
-    @Get('include-deleted')
-    async getAll(@Query('includeDeleted') includeDeleted: boolean): Promise<Employeers[]>{
-        return this.employeerService.getAllEmployeers(includeDeleted);
-    }
-
-    @Get()
+    @Get('search')
     async getSurnames(
         @Query('letter') letter?: string,
         @Query('query') query?: string,
@@ -66,6 +41,26 @@ export class EmployeersController {
             console.error("Error fetching surnames:", error);
             throw new Error("Unable to fetch surnames");
         }
+    }
+    
+    @Get(':id')
+    findOne(@Param('id') id: number): Promise<Employeers>{
+        return this.employeerService.findOne(id);
+    }
+
+    @Put(':id')
+    update(@Param('id') id: number, @Body() employeer: Employeers): Promise<Employeers>{
+        return this.employeerService.update(id, employeer);
+    }
+
+    @Delete(':id')
+    remove(@Param('id') id: string ): Promise<void>{
+        return this.employeerService.softRemove(Number(id));
+    }
+
+    @Get('restore/:id')
+    async restore(@Param('id', ParseIntPipe) id: number): Promise<void>{
+        await this.employeerService.restore(id);
     }
 
 }

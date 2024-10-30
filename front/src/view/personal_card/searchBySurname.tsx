@@ -13,25 +13,24 @@ import {
     TableBody
 } from "@mui/material";
 import React from "react";
+import Employeer from "../../interface/employeer";
 
 const alphabet = 'АБВГҐДЕЄЖЗІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ'.split('');
 
 const SearchBySurname: React.FC = () => {
     const [selectedLetter, setSelectedLetter] = React.useState<string | null>(null);
     const [searchQuery, setSearchQuery] = React.useState<string>("");
-    const [sname, setSname] = React.useState<any[]>([]);
+    const [sname, setSname] = React.useState<Employeer[]>([]);
     const [loading, setLoading] = React.useState<boolean>(false);
 
     const fetchSname = async(queryType: 'letter' | 'search' | 'all', value: string='') => {
         setLoading(true);
-        let url = "http://localhost:3001/employeers"
+        let url = `http://localhost:3001/employeers/search`
 
         if(queryType === 'letter' && value){
             url += `?letter=${encodeURIComponent(value)}`;
         } else if (queryType === 'search' && value){
             url += `?query=${encodeURIComponent(value)}`;
-        } else {
-            url += `?all=true`
         }
 
         console.log('Query URL', url);

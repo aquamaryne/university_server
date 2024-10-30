@@ -5,60 +5,58 @@ import { Employeers } from 'src/entity/employeers';
 
 @Injectable()
 export class EmployeersService {
-    constructor(@InjectRepository(Employeers) private employersRepository: Repository<Employeers>){}
+    constructor(@InjectRepository(Employeers) private employeersRepository: Repository<Employeers>){}
     
     async create(employeer: Employeers): Promise<Employeers>{
-        return this.employersRepository.save(employeer);
+        return this.employeersRepository.save(employeer);
     }
 
     async findAll(): Promise<Employeers[]>{
-        return this.employersRepository.find();
+        return this.employeersRepository.find();
     }
 
     async findOne(id: number): Promise<Employeers>{
-        return this.employersRepository.findOne({ where: { id } });
+        return this.employeersRepository.findOne({ where: { id } });
     }
 
     async update(id: number, employeer: Employeers): Promise<Employeers>{
-        await this.employersRepository.update(id, employeer);
+        await this.employeersRepository.update(id, employeer);
         return this.findOne(id);
     }
 
     async softRemove(id: number): Promise<void>{
-        await this.employersRepository.softDelete(id);
+        await this.employeersRepository.softDelete(id);
     }
 
     async restore(id: number): Promise<void>{
-        await this.employersRepository.restore(id);
+        await this.employeersRepository.restore(id);
     }
 
-    async getAllEmployeers(includedDeleted = false): Promise<Employeers[]>{
-        if(includedDeleted){
-            return this.employersRepository.find()
-        } else {
-            return this.employersRepository.find();
-        }
-    }
-
+    
     async findByLetter(letter: string): Promise<Employeers[]>{
         console.log(`Finding by letter: ${letter}`);
-        const result = this.employersRepository
+        const result = await this.employeersRepository
             .createQueryBuilder('employeer')
-            .where('employeer.deleteAt IS NULL')
-            .andWhere('SUBSTRING(employeer.sname, 1, 1) = :letter', { letter })
+            .where('employeer.sname LIKE :letter', { letter: `${letter}%` })
             .getMany();
         console.log(`Result for letter ${letter}`, result);
         return result;
     }
-
+    
     async findByQuery(query: string): Promise<Employeers[]>{
         console.log(`Finding by query: ${query}`);
-        const result = this.employersRepository
+        const result = await this.employeersRepository
             .createQueryBuilder('employeer')
-            .where('employeer.deleteAt IS NULL')
-            .andWhere('LOCATE(:query, employeer.sname) > 0', { query })
+            .where('employeer.sname LIKE :query', { query: `%${query}%` })
             .getMany();
-        console.log(`results for query: ${query}`, result);
+        console.log(`Results for query: ${query}`, result);
+        return result;
+    }
+
+    async getAllEmployeers(): Promise<Employeers[]>{
+        console.log(`Fetching all employeers`);
+        const result = await this.employeersRepository.find();
+        console.log(`Total employeers fetched: ${result.length}`);
         return result;
     }
 }
