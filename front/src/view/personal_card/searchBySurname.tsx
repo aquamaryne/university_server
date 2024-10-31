@@ -12,25 +12,29 @@ import {
     TableCell,
     TableBody
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import React from "react";
-import Employeer from "../../interface/employeer";
 
 const alphabet = 'АБВГҐДЕЄЖЗІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ'.split('');
 
 const SearchBySurname: React.FC = () => {
     const [selectedLetter, setSelectedLetter] = React.useState<string | null>(null);
     const [searchQuery, setSearchQuery] = React.useState<string>("");
-    const [sname, setSname] = React.useState<Employeer[]>([]);
+    const [sname, setSname] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState<boolean>(false);
+
+    const navigate = useNavigate();
 
     const fetchSname = async(queryType: 'letter' | 'search' | 'all', value: string='') => {
         setLoading(true);
-        let url = `http://localhost:3001/employeers/search`
+        let url = "http://localhost:3001/employeers/search"
 
         if(queryType === 'letter' && value){
             url += `?letter=${encodeURIComponent(value)}`;
         } else if (queryType === 'search' && value){
             url += `?query=${encodeURIComponent(value)}`;
+        } else {
+            url += `?all=true`
         }
 
         console.log('Query URL', url);
@@ -147,6 +151,9 @@ const SearchBySurname: React.FC = () => {
                                     <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
                                         По батькові
                                     </TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
+                                        Взаємодія
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -160,6 +167,24 @@ const SearchBySurname: React.FC = () => {
                                         </TableCell>
                                         <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd' }}>
                                             {surname.fatherly}
+                                        </TableCell>
+                                        <TableCell sx={{ padding: 0, border: '2.5px solid #ddd'}}>
+                                            <Button
+                                                fullWidth
+                                                sx={{
+                                                    height: '100%',
+                                                    color: 'white',
+                                                    backgroundColor: '#4169E1',
+                                                    border: 'none',
+                                                    '&:hover' : {
+                                                        backgroundColor: '#365E9B',
+                                                    },
+                                                    borderRadius: 0
+                                                }}
+                                                onClick={() => navigate(`/personalCard/${surname.id}`)}
+                                            >
+                                                Редагування
+                                            </Button> 
                                         </TableCell>
                                     </TableRow>
                                 ))}
