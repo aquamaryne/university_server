@@ -11,7 +11,7 @@ const PersonalCard: React.FC = () => {
     React.useEffect(() => {
         const fetchStaffMember = async() => {
             try{
-                const responce = await fetch(`http://localhost:3001/employeers/:${id}`);
+                const responce = await fetch(`http://localhost:3001/employeers/${id}`);
                 if(!responce.ok){
                     throw new Error('Не знайдено');
                 }
@@ -23,8 +23,9 @@ const PersonalCard: React.FC = () => {
                 setLoading(true);
             }
         };
-
-        fetchStaffMember();
+        if(id){
+            fetchStaffMember();
+        }
     }, [id]);
 
     if (loading) {
@@ -45,6 +46,16 @@ const PersonalCard: React.FC = () => {
         );
     }
 
+    if(!staffMember){
+        return(
+            <Container maxWidth="sm" sx={{ marginTop: "2rem" }}>
+                <Typography variant='h6' color={"error"}>
+                    Дані не знайдено
+                </Typography>
+            </Container>
+        )
+    }
+
     return (
         <Container maxWidth="sm" sx={{ marginTop: "2rem" }}>
             <Card variant='outlined'>
@@ -52,19 +63,28 @@ const PersonalCard: React.FC = () => {
                     <Typography variant='h4' component="div" gutterBottom>
                         Сторінка персонала
                     </Typography>
-                    <Typography variant='body1' paragraph>
-                        <strong>Фамилия:</strong> {staffMember.surname}
-                    </Typography>
-                    <Typography variant='body1' paragraph>
-                        <strong>Имя:</strong> {staffMember.name}
-                    </Typography>
-                    <Typography variant='body1' paragraph>
-                        <strong>Должность:</strong> {staffMember.position}
-                    </Typography>
+                    {staffMember ? (
+                        <>
+                            <Typography variant='body1' paragraph>
+                                <strong>Прізвище:</strong> {staffMember.sname || 'Нет данных'}
+                            </Typography>
+                            <Typography variant='body1' paragraph>
+                                <strong>Ім'я:</strong> {staffMember.fname || 'Нет данных'}
+                            </Typography>
+                            <Typography variant='body1' paragraph>
+                                <strong>По батькові:</strong> {staffMember.fatherly || 'Нет данных'}
+                            </Typography>
+                        </>
+                    ) : (
+                        <Typography variant='body2' color="error">
+                            Данные не загружены. Проверьте состояние: {JSON.stringify(staffMember)}
+                        </Typography>
+                    )}
                 </CardContent>
             </Card>
         </Container>
     );
+    
 };
 
 export default PersonalCard;

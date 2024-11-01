@@ -181,7 +181,7 @@ const SearchBySurname: React.FC = () => {
                                                     },
                                                     borderRadius: 0
                                                 }}
-                                                onClick={() => navigate(`/personalCard/${surname.id}`)}
+                                                onClick={() => navigate(`/view/personal_card/personalCard/${surname.id}`)}
                                             >
                                                 Редагування
                                             </Button> 

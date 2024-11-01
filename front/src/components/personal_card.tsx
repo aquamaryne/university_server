@@ -37,7 +37,7 @@ const PersonalCard: React.FC = () => {
                 onClose={hadnleClose}
             >
                 <MenuItem onClick={hadnleClose}>
-                    <Link to="/view/personal_card/enterPersonalCard" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/view/personal_card/personalCard" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Ввод особистих карток</Typography>
                     </Link>
                 </MenuItem>
