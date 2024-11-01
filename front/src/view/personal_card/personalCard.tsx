@@ -13,7 +13,7 @@ const PersonalCard: React.FC = () => {
             try{
                 const responce = await fetch(`http://localhost:3001/employeers/${id}`);
                 if(!responce.ok){
-                    throw new Error('Не знайдено');
+                    throw new Error(`Не знайдено ${responce.statusText}`);
                 }
                 const data = await responce.json();
                 setStaffMember(data);
