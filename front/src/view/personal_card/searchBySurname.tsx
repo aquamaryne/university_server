@@ -142,6 +142,9 @@ const SearchBySurname: React.FC = () => {
                         <Table stickyHeader>
                             <TableHead>
                                 <TableRow>
+                                    <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center'}}>
+                                        Номер картки
+                                    </TableCell>
                                     <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
                                         Прізвище
                                     </TableCell>
@@ -157,37 +160,40 @@ const SearchBySurname: React.FC = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sname.map((surname) => (
-                                    <TableRow key={surname.id}>
-                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd' }}>
-                                            {surname.sname}
-                                        </TableCell>
-                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd' }}>
-                                            {surname.fname}
-                                        </TableCell>
-                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd' }}>
-                                            {surname.fatherly}
-                                        </TableCell>
-                                        <TableCell sx={{ padding: 0, border: '2.5px solid #ddd'}}>
-                                            <Button
-                                                fullWidth
-                                                sx={{
-                                                    height: '100%',
-                                                    color: 'white',
-                                                    backgroundColor: '#4169E1',
-                                                    border: 'none',
-                                                    '&:hover' : {
-                                                        backgroundColor: '#365E9B',
-                                                    },
-                                                    borderRadius: 0
-                                                }}
-                                                onClick={() => navigate(`/view/personal_card/personalCard/${surname.id}`)}
-                                            >
-                                                Редагування
-                                            </Button> 
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                            {sname.map((surname) => (
+                                <TableRow key={surname.id}>
+                                    <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                        {surname.unique_card}
+                                    </TableCell>
+                                    <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                        {surname.sname}
+                                    </TableCell>
+                                    <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                        {surname.fname}
+                                    </TableCell>
+                                    <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                        {surname.fatherly}
+                                    </TableCell>
+                                    <TableCell sx={{ padding: 0, border: '2.5px solid #ddd', width: '20%' }}>
+                                        <Button
+                                            fullWidth
+                                            sx={{
+                                                height: '100%',
+                                                color: 'white',
+                                                backgroundColor: '#4169E1',
+                                                border: 'none',
+                                                '&:hover': {
+                                                    backgroundColor: '#365E9B',
+                                                },
+                                                borderRadius: 0
+                                            }}
+                                            onClick={() => navigate(`/view/personal_card/personalCard/${surname.id}`)}
+                                        >
+                                            Редагування
+                                        </Button> 
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                             </TableBody>
                         </Table>
                     </TableContainer>

@@ -39,6 +39,11 @@ export class Personal_Info{
     })
     mobile_phone_number: string;
 
+    @Column({ 
+        type: 'bigint' 
+    })
+    identify_code: number;
+
     @ManyToOne(() => Employeers, employeers => employeers.personal_info)
     employeers: Employeers;
 }

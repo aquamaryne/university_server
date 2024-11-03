@@ -24,6 +24,13 @@ export class Employeers{
     @Column({ nullable: true })
     fatherly: string;
 
+    @Column({ 
+        type: 'varchar', 
+        length: 255, 
+        unique: true,
+    })
+    unique_card: string;
+
     @Column({ type: 'date', nullable: true })
     date_of_birth: Date;
 

@@ -6,7 +6,8 @@ import PersonalCard from "../view/personal_card/personalCard";
 const PersonalCardRoute: React.FC = () => {
     return(
         <Routes>
-            <Route path="/view/personal_card/personalCard/:id" element={ <PersonalCard />} />
+            <Route path="/view/personal_card/personalCard"      element={ <PersonalCard />} />
+            <Route path="/view/personal_card/personalCard/:id"  element={ <PersonalCard />} />
             <Route path="/view/personal_card/searchBySurname"   element={ <SearchBySurname />} />
         </Routes>        
     )

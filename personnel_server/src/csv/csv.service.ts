@@ -42,6 +42,7 @@ export class CsvService {
                 const newEmployeer = this.employeerRepository.create({
                     fname: row.fname,
                     sname: row.sname,
+                    unique_card: row.unique_card,
                     fatherly: row.fatherly,
                     date_of_birth: new Date(row.date_of_birth),
                 });
@@ -135,9 +136,7 @@ export class CsvService {
                 await this.domainsRepository.save(newDomains);
 
                 const newFired = this.firedRepository.create({
-                    unique_card: row.unique_card,
                     date_of_fired: row.date_of_fired,
-                    identify_code: row.identify_code,
                     employeers: savedEmployeer,
                 });
 
@@ -150,6 +149,8 @@ export class CsvService {
                     continuous_work_exp: row.continuous_work_exp,
                     employeers: savedEmployeer,
                 })
+
+                await this.workExpierenceRepository.save(newWorkExp);
             })
 
 

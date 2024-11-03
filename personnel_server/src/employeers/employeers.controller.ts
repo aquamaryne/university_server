@@ -43,6 +43,11 @@ export class EmployeersController {
         }
     }
     
+    @Get('unique/:uniqueCard')
+    async findByUniqueCard(@Param('uniqueCard') uniqueCard: string): Promise<Employeers>{
+        return this.employeerService.findByUniqueCard(uniqueCard);
+    }
+
     @Get(':id')
     findOne(@Param('id') id: number): Promise<Employeers>{
         return this.employeerService.findOne(id);

@@ -1,32 +1,45 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, Typography, Container, CircularProgress } from "@mui/material";
+import { Card, CardContent, Typography, Container, CircularProgress, Grid, Box, Button, TextField } from "@mui/material";
 
 const PersonalCard: React.FC = () => {
     const { id } = useParams<{ id: string }>(); 
     const [staffMember, setStaffMember] = React.useState<any>(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState<string | null>(null);
-    
+    const [unique_card, setUniqueCard] = React.useState<string>('');
+
     React.useEffect(() => {
         const fetchStaffMember = async() => {
+            setLoading(true);
             try{
-                const responce = await fetch(`http://localhost:3001/employeers/${id}`);
-                if(!responce.ok){
-                    throw new Error(`Не знайдено ${responce.statusText}`);
-                }
+                const url = id ? `http://localhost:3001/employeers/${id}` : `http://localhost:3001/employeers/unique/${unique_card}`;
+                const responce = await fetch(url);
+                if(!responce.ok) throw new Error(`Not found ${responce.statusText}`);
+
                 const data = await responce.json();
                 setStaffMember(data);
+                setError(null);
             } catch(err: any){
                 setError(err.message);
             } finally {
-                setLoading(true);
+                setLoading(false);
             }
         };
-        if(id){
-            fetchStaffMember();
+        if(id || unique_card) {
+        } else {
+            setLoading(false);
         }
-    }, [id]);
+    }, [id, unique_card]);
+
+    const handleFetchByUniqueCard = () => {
+        if(unique_card){
+            setStaffMember(null);
+            setError(null);
+            setLoading(true);
+            setUniqueCard(unique_card);
+        }
+    }
 
     if (loading) {
         return (
@@ -36,55 +49,69 @@ const PersonalCard: React.FC = () => {
         );
     }
 
-    if (error) {
+    if (!id) {
         return (
-            <Container maxWidth="sm" sx={{ marginTop: "2rem" }}>
-                <Typography variant="h6" color="error">
-                    {error}
-                </Typography>
+            <Container maxWidth="md" sx={{ marginTop: "2rem" }}>
+                <Card variant="outlined">
+                    <CardContent>
+                        <Typography variant="h5" component="div" gutterBottom>
+                            Пошук співробітника за унікальним номером карти
+                        </Typography>
+                        <TextField
+                            label="Унікальний номер картки"
+                            value={unique_card}
+                            onChange={(e) => setUniqueCard(e.target.value)}
+                            variant="outlined"
+                            fullWidth
+                            sx={{ mb: 2 }}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleFetchByUniqueCard}
+                            disabled={!unique_card}
+                        >
+                            Пошук
+                        </Button>
+                        {error && (
+                            <Typography variant="body2" color="error" sx={{ mt: 2 }}>
+                                {error}
+                            </Typography>
+                        )}
+                    </CardContent>
+                </Card>
             </Container>
         );
     }
 
-    if(!staffMember){
-        return(
-            <Container maxWidth="sm" sx={{ marginTop: "2rem" }}>
-                <Typography variant='h6' color={"error"}>
-                    Дані не знайдено
-                </Typography>
-            </Container>
-        )
-    }
-
     return (
-        <Container maxWidth="sm" sx={{ marginTop: "2rem" }}>
-            <Card variant='outlined'>
+        <Container maxWidth="md" sx={{ marginTop: "2rem" }}>
+            <Card variant="outlined">
                 <CardContent>
-                    <Typography variant='h4' component="div" gutterBottom>
+                    <Typography variant="h4" component="div" gutterBottom>
                         Сторінка персонала
                     </Typography>
                     {staffMember ? (
                         <>
-                            <Typography variant='body1' paragraph>
+                            <Typography variant="body1" paragraph>
                                 <strong>Прізвище:</strong> {staffMember.sname || 'Нет данных'}
                             </Typography>
-                            <Typography variant='body1' paragraph>
+                            <Typography variant="body1" paragraph>
                                 <strong>Ім'я:</strong> {staffMember.fname || 'Нет данных'}
                             </Typography>
-                            <Typography variant='body1' paragraph>
+                            <Typography variant="body1" paragraph>
                                 <strong>По батькові:</strong> {staffMember.fatherly || 'Нет данных'}
                             </Typography>
                         </>
                     ) : (
-                        <Typography variant='body2' color="error">
-                            Данные не загружены. Проверьте состояние: {JSON.stringify(staffMember)}
+                        <Typography variant="body2" color="error">
+                            Дані не знайдено
                         </Typography>
                     )}
                 </CardContent>
             </Card>
         </Container>
     );
-    
 };
 
 export default PersonalCard;

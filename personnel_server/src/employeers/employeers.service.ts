@@ -34,29 +34,31 @@ export class EmployeersService {
 
     
     async findByLetter(letter: string): Promise<Employeers[]>{
-        console.log(`Finding by letter: ${letter}`);
         const result = await this.employeersRepository
             .createQueryBuilder('employeer')
             .where('employeer.sname LIKE :letter', { letter: `${letter}%` })
             .getMany();
-        console.log(`Result for letter ${letter}`, result);
         return result;
     }
     
     async findByQuery(query: string): Promise<Employeers[]>{
-        console.log(`Finding by query: ${query}`);
         const result = await this.employeersRepository
             .createQueryBuilder('employeer')
             .where('employeer.sname LIKE :query', { query: `%${query}%` })
             .getMany();
-        console.log(`Results for query: ${query}`, result);
         return result;
     }
 
     async getAllEmployeers(): Promise<Employeers[]>{
-        console.log(`Fetching all employeers`);
         const result = await this.employeersRepository.find();
-        console.log(`Total employeers fetched: ${result.length}`);
+        return result;
+    }
+
+    async findByUniqueCard(uniqueCard: string): Promise<Employeers>{
+        const result = await this.employeersRepository
+            .createQueryBuilder('employeer')
+            .where('employeer.unique_card = :uniqueCard', { uniqueCard })
+            .getOne();
         return result;
     }
 }

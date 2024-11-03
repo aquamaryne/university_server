@@ -8,12 +8,6 @@ export class Fired {
     @Column({ type: 'date' })
     date_of_fired: Date;
   
-    @Column({ type: 'int' })
-    unique_card: number;
-  
-    @Column({ type: 'bigint' })
-    identify_code: number;
-  
     @ManyToOne(() => Employeers, employeers => employeers.fired)
     employeers: Employeers;
 
