@@ -1,19 +1,23 @@
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
-import { Card, CardContent, Typography, Container, CircularProgress, Grid, Box, Button, TextField } from "@mui/material";
+import { useNavigate, useParams } from 'react-router-dom';
+import { Card, CardContent, Typography, Container, CircularProgress, Button, TextField } from "@mui/material";
 
 const PersonalCard: React.FC = () => {
-    const { id } = useParams<{ id: string }>(); 
+    const { id, unique } = useParams<{ id: string, unique: string }>(); 
     const [staffMember, setStaffMember] = React.useState<any>(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState<string | null>(null);
     const [unique_card, setUniqueCard] = React.useState<string>('');
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const fetchStaffMember = async() => {
             setLoading(true);
             try{
-                const url = id ? `http://localhost:3001/employeers/${id}` : `http://localhost:3001/employeers/unique/${unique_card}`;
+                const url = id 
+                ? `http://localhost:3001/employeers/${id}` 
+                : `http://localhost:3001/employeers/unique/${unique}`;
+
                 const responce = await fetch(url);
                 if(!responce.ok) throw new Error(`Not found ${responce.statusText}`);
 
@@ -26,7 +30,8 @@ const PersonalCard: React.FC = () => {
                 setLoading(false);
             }
         };
-        if(id || unique_card) {
+        if(id || unique) {
+            fetchStaffMember();
         } else {
             setLoading(false);
         }
@@ -34,10 +39,7 @@ const PersonalCard: React.FC = () => {
 
     const handleFetchByUniqueCard = () => {
         if(unique_card){
-            setStaffMember(null);
-            setError(null);
-            setLoading(true);
-            setUniqueCard(unique_card);
+            navigate(`/view/personal_card/personalCard/unique/${unique_card}`);
         }
     }
 
@@ -49,7 +51,7 @@ const PersonalCard: React.FC = () => {
         );
     }
 
-    if (!id) {
+    if (!id && !unique) {
         return (
             <Container maxWidth="md" sx={{ marginTop: "2rem" }}>
                 <Card variant="outlined">
@@ -93,6 +95,9 @@ const PersonalCard: React.FC = () => {
                     </Typography>
                     {staffMember ? (
                         <>
+                            <Typography variant="body1" paragraph>
+                                <strong>Прізвище:</strong> {staffMember.unique_card || 'Нет данных'}
+                            </Typography>
                             <Typography variant="body1" paragraph>
                                 <strong>Прізвище:</strong> {staffMember.sname || 'Нет данных'}
                             </Typography>

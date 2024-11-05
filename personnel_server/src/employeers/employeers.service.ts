@@ -32,7 +32,6 @@ export class EmployeersService {
         await this.employeersRepository.restore(id);
     }
 
-    
     async findByLetter(letter: string): Promise<Employeers[]>{
         const result = await this.employeersRepository
             .createQueryBuilder('employeer')
