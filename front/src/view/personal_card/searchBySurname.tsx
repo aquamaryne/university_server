@@ -10,7 +10,8 @@ import {
     TableRow,
     TableHead,
     TableCell,
-    TableBody
+    TableBody,
+    Checkbox
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React from "react";
@@ -22,6 +23,7 @@ const SearchBySurname: React.FC = () => {
     const [searchQuery, setSearchQuery] = React.useState<string>("");
     const [sname, setSname] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState<boolean>(false);
+    const [selectedCard, setSelectedCards] = React.useState<Set<number>>(new Set());
 
     const navigate = useNavigate();
 
@@ -80,6 +82,28 @@ const SearchBySurname: React.FC = () => {
         fetchSname('all');
     }, []);
 
+    const handleSelectAll = () => {
+        if(selectedCard.size === sname.length){
+            setSelectedCards(new Set());
+        } else {
+            setSelectedCards(new Set(sname.map((item) => item.id)));
+        }
+    }
+
+    const handleDuplicate = () => {
+        console.log('Duplicate selected cards:', Array.from(selectedCard));
+    };
+
+    const handlePrint = () => {
+        console.log("Printing selected cards:", Array.from(selectedCard));
+        // Добавьте логику для печати выбранных карточек
+    };
+
+    const handleDelete = () => {
+        console.log("Deleting selected cards:", Array.from(selectedCard));
+        // Добавьте логику для удаления выбранных карточек
+    };
+
     return (
         <Box sx={{ p: 2 }}>
             <Box justifyContent={'center'} sx={{ display: 'flex', flexWrap: 'wrap', mt: 2 }}>
@@ -130,73 +154,86 @@ const SearchBySurname: React.FC = () => {
                         <CircularProgress />
                     </Box>
                 ) : sname.length > 0 ? (
-                    <TableContainer 
-                        component={Paper} 
-                        sx={{ 
-                            mt: 2, bgcolor: '#f9f9f9',
-                            backgroundColor: '#f9f9f9',
-                            maxHeight: 500,
-                            overflowY: 'auto',
-                        }}
-                    >
-                        <Table stickyHeader>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center'}}>
-                                        Номер картки
-                                    </TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
-                                        Прізвище
-                                    </TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
-                                        Ім'я
-                                    </TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
-                                        По батькові
-                                    </TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
-                                        Взаємодія
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                            {sname.map((surname) => (
-                                <TableRow key={surname.id}>
-                                    <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
-                                        {surname.unique_card}
-                                    </TableCell>
-                                    <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
-                                        {surname.sname}
-                                    </TableCell>
-                                    <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
-                                        {surname.fname}
-                                    </TableCell>
-                                    <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
-                                        {surname.fatherly}
-                                    </TableCell>
-                                    <TableCell sx={{ padding: 0, border: '2.5px solid #ddd', width: '20%' }}>
-                                        <Button
-                                            fullWidth
-                                            sx={{
-                                                height: '100%',
-                                                color: 'white',
-                                                backgroundColor: '#4169E1',
-                                                border: 'none',
-                                                '&:hover': {
-                                                    backgroundColor: '#365E9B',
-                                                },
-                                                borderRadius: 0
-                                            }}
-                                            onClick={() => navigate(`/view/personal_card/personalCard/${surname.id}`)}
-                                        >
-                                            Редагування
-                                        </Button> 
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <>
+                        <TableContainer 
+                            component={Paper} 
+                            sx={{ 
+                                mt: 2, bgcolor: '#f9f9f9',
+                                backgroundColor: '#f9f9f9',
+                                maxHeight: 500,
+                                overflowY: 'auto',
+                            }}
+                        >
+                            <Table stickyHeader>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center'}}>
+                                            Номер картки
+                                        </TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
+                                            Прізвище
+                                        </TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
+                                            Ім'я
+                                        </TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
+                                            По батькові
+                                        </TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold', color: '#555', border: '1px solid #ddd', textAlign: 'center' }}>
+                                            Взаємодія
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {sname.map((surname) => (
+                                    <TableRow key={surname.id}>
+                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                            {surname.unique_card}
+                                        </TableCell>
+                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                            {surname.sname}
+                                        </TableCell>
+                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                            {surname.fname}
+                                        </TableCell>
+                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                            {surname.fatherly}
+                                        </TableCell>
+                                        <TableCell sx={{ padding: 0, border: '2.5px solid #ddd', width: '20%' }}>
+                                            <Button
+                                                fullWidth
+                                                sx={{
+                                                    height: '100%',
+                                                    color: 'white',
+                                                    backgroundColor: '#4169E1',
+                                                    border: 'none',
+                                                    '&:hover': {
+                                                        backgroundColor: '#365E9B',
+                                                    },
+                                                    borderRadius: 0
+                                                }}
+                                                onClick={() => navigate(`/view/personal_card/personalCard/${surname.id}`)}
+                                            >
+                                                Редагування
+                                            </Button> 
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, gap: 2 }}>
+                            <Button variant="outlined" color="primary" sx={{ minWidth: '150px'}}>
+                                Зробити дубль
+                            </Button>
+                            <Button variant="outlined" color="primary" sx={{ minWidth: '150px'}}>
+                                Друк довідки
+                            </Button>
+                            <Button variant="outlined" color="primary" sx={{ minWidth: '150px'}}>
+                                Видалити картку
+                            </Button>
+                        </Box>
+                    </>
                 ) : (
                     <Typography variant="body1" sx={{ color: '#777', mt: 2 }}>
                         Нема результату
