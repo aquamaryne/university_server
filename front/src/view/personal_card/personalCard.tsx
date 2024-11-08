@@ -96,7 +96,7 @@ const PersonalCard: React.FC = () => {
                     {staffMember ? (
                         <>
                             <Typography variant="body1" paragraph>
-                                <strong>Прізвище:</strong> {staffMember.unique_card || 'Нет данных'}
+                                <strong>Номер картки:</strong> {staffMember.unique_card || 'Нет данных'}
                             </Typography>
                             <Typography variant="body1" paragraph>
                                 <strong>Прізвище:</strong> {staffMember.sname || 'Нет данных'}
