@@ -11,7 +11,8 @@ import {
     TableHead,
     TableCell,
     TableBody,
-    Checkbox
+    Checkbox,
+    Grid
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React from "react";
@@ -76,6 +77,17 @@ const SearchBySurname: React.FC = () => {
         } else {
             fetchSname('all');
         }
+    }
+
+    const handleSelectedCard = (id: number) => {
+        const updatedSelected = new Set(selectedCard);
+        if(updatedSelected.has(id)){
+            updatedSelected.delete(id);
+        } else {
+            updatedSelected.add(id);
+        }
+
+        setSelectedCards(updatedSelected);
     }
 
     React.useEffect(() => {
@@ -188,6 +200,12 @@ const SearchBySurname: React.FC = () => {
                                 {sname.map((surname) => (
                                     <TableRow key={surname.id}>
                                         <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                            <Checkbox 
+                                                checked={selectedCard.has(surname.id)}
+                                                onChange={() => handleSelectedCard(surname.id)}
+                                                color="primary"
+                                                sx={{ marginRight: 1 }}
+                                            />
                                             {surname.unique_card}
                                         </TableCell>
                                         <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
@@ -203,7 +221,6 @@ const SearchBySurname: React.FC = () => {
                                             <Button
                                                 fullWidth
                                                 sx={{
-                                                    height: '100%',
                                                     color: 'white',
                                                     backgroundColor: '#4169E1',
                                                     border: 'none',
