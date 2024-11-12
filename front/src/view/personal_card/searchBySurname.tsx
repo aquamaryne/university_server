@@ -198,8 +198,18 @@ const SearchBySurname: React.FC = () => {
                                 </TableHead>
                                 <TableBody>
                                 {sname.map((surname) => (
-                                    <TableRow key={surname.id}>
-                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
+                                    <TableRow 
+                                        key={surname.id}
+                                        sx={{
+                                            backgroundColor: selectedCard.has(surname.id) ? '#e3f2fc' : 'transparent',
+                                            transition: 'background-color 0.1s ease',
+                                            padding: 0,
+                                            '&:not(:last-child) td': {
+                                                borderBottom: '1px solid #ddd'
+                                            }
+                                        }}
+                                    >
+                                        <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd' }}>
                                             <Checkbox 
                                                 checked={selectedCard.has(surname.id)}
                                                 onChange={() => handleSelectedCard(surname.id)}
@@ -217,17 +227,20 @@ const SearchBySurname: React.FC = () => {
                                         <TableCell sx={{ padding: '10px', color: '#333', border: '1px solid #ddd', width: '20%' }}>
                                             {surname.fatherly}
                                         </TableCell>
-                                        <TableCell sx={{ padding: 0, border: '2.5px solid #ddd', width: '20%' }}>
+                                        <TableCell sx={{ padding: 0, border: '1px solid #ddd', width: '20%' }}>
                                             <Button
                                                 fullWidth
                                                 sx={{
+                                                    flex: 1,                                              
                                                     color: 'white',
                                                     backgroundColor: '#4169E1',
                                                     border: 'none',
                                                     '&:hover': {
                                                         backgroundColor: '#365E9B',
                                                     },
-                                                    borderRadius: 0
+                                                    padding: 0,
+                                                    borderRadius: 0,
+                                                    minHeight: '65px',
                                                 }}
                                                 onClick={() => navigate(`/view/personal_card/personalCard/${surname.id}`)}
                                             >
@@ -239,14 +252,26 @@ const SearchBySurname: React.FC = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, gap: 2 }}>
-                            <Button variant="outlined" color="primary" sx={{ minWidth: '150px'}}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, gap: 2, width: '100%' }}>
+                            <Button 
+                                variant="outlined" 
+                                color="primary" 
+                                sx={{ width: '100%', fontSize: '16px', padding: '10px 24px' }}
+                            >
                                 Зробити дубль
                             </Button>
-                            <Button variant="outlined" color="primary" sx={{ minWidth: '150px'}}>
+                            <Button 
+                                variant="outlined" 
+                                color="primary" 
+                                sx={{ width: '100%', fontSize: '16px', padding: '10px 24px' }}
+                            >
                                 Друк довідки
                             </Button>
-                            <Button variant="outlined" color="primary" sx={{ minWidth: '150px'}}>
+                            <Button 
+                                variant="outlined" 
+                                color="primary" 
+                                sx={{ width: '100%', fontSize: '16px', padding: '10px 24px' }}
+                            >
                                 Видалити картку
                             </Button>
                         </Box>
