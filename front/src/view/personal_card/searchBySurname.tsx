@@ -12,9 +12,13 @@ import {
     TableCell,
     TableBody,
     Checkbox,
-    Grid
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 import React from "react";
 
 const alphabet = 'АБВГҐДЕЄЖЗІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ'.split('');
@@ -25,6 +29,9 @@ const SearchBySurname: React.FC = () => {
     const [sname, setSname] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [selectedCard, setSelectedCards] = React.useState<Set<number>>(new Set());
+    const [isPreviewOpen, setIsPreviewOpen] = React.useState(false);
+
+    const printRef = React.useRef<HTMLDivElement>(null);
 
     const navigate = useNavigate();
 
@@ -94,26 +101,37 @@ const SearchBySurname: React.FC = () => {
         fetchSname('all');
     }, []);
 
-    const handleSelectAll = () => {
-        if(selectedCard.size === sname.length){
-            setSelectedCards(new Set());
-        } else {
-            setSelectedCards(new Set(sname.map((item) => item.id)));
-        }
-    }
-
     const handleDuplicate = () => {
-        console.log('Duplicate selected cards:', Array.from(selectedCard));
+        const duplicate = Array.from(selectedCard).map((id) => {
+            const original = sname.find((item) => item.id === id);
+            console.log("Original item", original);
+            
+            if(original){
+                return {
+                    ...original,
+                    id: `Duplicate-${Date.now()}-${Math.random()}`,
+                };
+            }
+
+            return null;
+        }).filter((item) => item !== null);
+        console.log("Duplicate items", duplicate);
+
+        if(duplicate.length > 0){
+            setSname((prevSname) => [...sname, ...duplicate]);
+            console.log("Updated sname", [...sname, ...duplicate]);
+        }
     };
 
-    const handlePrint = () => {
-        console.log("Printing selected cards:", Array.from(selectedCard));
-        // Добавьте логику для печати выбранных карточек
-    };
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+        documentTitle: 'Personal Card',
+    });
 
     const handleDelete = () => {
-        console.log("Deleting selected cards:", Array.from(selectedCard));
-        // Добавьте логику для удаления выбранных карточек
+        const updatedSname = sname.filter((item) => !selectedCard.has(item.id));
+        setSname(updatedSname);
+        setSelectedCards(new Set());
     };
 
     return (
@@ -257,6 +275,7 @@ const SearchBySurname: React.FC = () => {
                                 variant="outlined" 
                                 color="primary" 
                                 sx={{ width: '100%', fontSize: '16px', padding: '10px 24px' }}
+                                onClick={handleDuplicate}
                             >
                                 Зробити дубль
                             </Button>
@@ -264,6 +283,7 @@ const SearchBySurname: React.FC = () => {
                                 variant="outlined" 
                                 color="primary" 
                                 sx={{ width: '100%', fontSize: '16px', padding: '10px 24px' }}
+                                onClick={handlePrint}
                             >
                                 Друк довідки
                             </Button>
@@ -271,6 +291,7 @@ const SearchBySurname: React.FC = () => {
                                 variant="outlined" 
                                 color="primary" 
                                 sx={{ width: '100%', fontSize: '16px', padding: '10px 24px' }}
+                                onClick={handleDelete}
                             >
                                 Видалити картку
                             </Button>
