@@ -102,6 +102,17 @@ async function handleCommand(command: string): Promise<void> {
     } else if (command === '/changes') {
         const commitMessages = await getLatestCommits();
         sendMessage(TELEGRAM_CHAT_ID, commitMessages);
+    } else if (command === '/help') {
+        `
+            Доступные команды:
+            /status - Получить статус контейнеров
+            /changes - Получить последние изменения из GitHub
+            /start <container_name> - Запустить указанный контейнер
+            /stop <container_name> - Остановить указанный контейнер
+            /restart <container_name> - Перезапустить указанный контейнер
+            /logs <container_name> - Получить последние логи контейнера
+            /help - Показать это сообщение
+            `;
     } else {
         sendMessage(TELEGRAM_CHAT_ID, `Unknown command: ${command}`);
     }
