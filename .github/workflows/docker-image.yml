@@ -26,7 +26,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          file: ./Dockerfile
+          file: ./personnel_server/dockerfile
           context: .
           push: true
           tags: keeper322/nestjs:latest
