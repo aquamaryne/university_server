@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@nestjs/terminus": "^10.2.3",
-    "fast-csv": "^5.0.1"
-  }
-}
