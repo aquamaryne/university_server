@@ -20,13 +20,10 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          file: ./personnel_server/dockerfile
-          context: .
-          push: true
-          tags: keeper322/nestjs:latest
+        run: |
+          docker-compose build
+          docker-compose push 
