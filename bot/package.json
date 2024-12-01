@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@types/node": "^22.10.1",
+    "dockerode": "^4.0.2",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/dockerode": "^3.3.32"
+  }
+}
