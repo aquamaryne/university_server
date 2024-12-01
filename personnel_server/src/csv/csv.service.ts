@@ -153,7 +153,6 @@ export class CsvService {
                 await this.workExpierenceRepository.save(newWorkExp);
             })
 
-
             .on('end', () => {
                 console.log('Import ended');
             });
