@@ -1,0 +1,1 @@
+![Build Status](https://github.com/aquamaryne/university_server/actions/workflows/dokcer-image.yml/badge.svg)

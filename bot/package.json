@@ -1,9 +1,16 @@
 {
+  "name": "docker-monitor",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
   "dependencies": {
     "@types/node": "^22.10.1",
     "dockerode": "^4.0.2",
     "http": "^0.0.1-security",
-    "https": "^1.0.0"
+    "https": "^1.0.0",
+    "typescript": "^5.7.2"
   },
   "devDependencies": {
     "@types/axios": "^0.9.36",
