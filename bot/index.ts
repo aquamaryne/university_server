@@ -111,7 +111,7 @@ async function handleCommand(command: string): Promise<void> {
             /restart <container_name> - Перезапустить указанный контейнер
             /logs <container_name> - Получить последние логи контейнера
             /help - Показать это сообщение
-            `;
+        `;
     } else {
         sendMessage(TELEGRAM_CHAT_ID, `Unknown command: ${command}`);
     }
