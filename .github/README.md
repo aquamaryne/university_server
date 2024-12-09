@@ -1,1 +1,4 @@
-![Build Status](https://github.com/aquamaryne/university_server/actions/workflows/dokcer-image.yml/badge.svg)
+# University Server
+
+![Build Status](https://github.com/aquamaryne/university_server/actions/workflows/docker-image.yml/badge.svg)
+
