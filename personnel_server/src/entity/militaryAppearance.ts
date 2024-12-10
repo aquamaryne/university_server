@@ -29,7 +29,4 @@ export class Military_Appearance{
 
     @Column({ type: 'varchar', length: 255 })
     name_of_military_office_at_the_place_of_residence: string;
-
-    @ManyToOne(() => Employeers, employeers => employeers.military_appearance)
-    employeers: Employeers;
 }
