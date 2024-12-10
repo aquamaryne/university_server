@@ -26,7 +26,6 @@ export class CsvService {
         @InjectRepository(Personal_Info)        private readonly personalInfoRepository: Repository<Personal_Info>, 
         @InjectRepository(Domains)              private readonly domainsRepository: Repository<Domains>,
         @InjectRepository(Family)               private readonly familyRepository: Repository<Family>,
-        @InjectRepository(Military_Appearance)  private readonly militaryRepository: Repository<Military_Appearance>,
         @InjectRepository(Education)            private readonly educationRepository: Repository<Education>,
         @InjectRepository(Sex)                  private readonly sexRepository: Repository<Sex>,
         @InjectRepository(Fired)                private readonly firedRepository: Repository<Fired>,
@@ -87,20 +86,6 @@ export class CsvService {
                 });
 
                 await this.educationRepository.save(newEducation);
-
-                const newMilitary = this.militaryRepository.create({
-                    accounting_category: row.accounting_category,
-                    accounting_group: row.accounting_group,
-                    suitability_for_military_service: row.suitability_for_military_service,
-                    military_accounting_specialty: row.military_accounting_specialty,
-                    military_rank: row.military_rank,
-                    depot: row.depot,
-                    num: row.num,
-                    name_of_military_office_at_the_place_of_residence: row.name_of_military_office_at_the_place_of_residence,
-                    employeers: savedEmployeer,
-                });
-
-                await this.militaryRepository.save(newMilitary);
 
                 const familyStatus = await this.familyStatusRepository.findOne({ where: { status: row.status }});
                 const newFamily = this.familyRepository.create({
