@@ -2,6 +2,7 @@ import { ExecutionContext, MiddlewareConsumer, Module, NestModule } from '@nestj
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { APP_GUARD } from '@nestjs/core';
+import { DataSource } from 'typeorm';
 import { Achieve } from './entity/achieve';
 import { Personal_Info } from './entity/personalInfo';
 import { Department } from './entity/department';
@@ -11,7 +12,6 @@ import { Language } from './entity/lang';
 import { Employeers } from './entity/employeers';
 import { Sex } from './entity/sex';
 import { Work_Experience } from './entity/workExperience';
-import { Military_Appearance } from './entity/militaryAppearance';
 import { Family } from './entity/family';
 import { FamilyStatus } from './entity/familyStatus';
 import { Education } from './entity/education';
@@ -29,7 +29,6 @@ import { FamilyModule } from './family/family.module';
 import { FamilyStatusModule } from './family_status/family_status.module';
 import { FiredModule } from './fired/fired.module';
 import { LangModule } from './lang/lang.module';
-import { MilitaryAppearanceModule } from './military_appearance/military_appearance.module';
 import { PersonalInfoModule } from './personal_info/personal_info.module';
 import { SexModule } from './sex/sex.module';
 import { WorkExperienceModule } from './work_experience/work_experience.module';
@@ -59,7 +58,6 @@ import { ApiKeyMiddleware } from './api_key/api_key.middleware';
         Family,
         Fired, 
         Language,
-        Military_Appearance,
         Department,
         Positions,
         Domains,
@@ -71,6 +69,11 @@ import { ApiKeyMiddleware } from './api_key/api_key.middleware';
       ],
       synchronize: true,
       logging: true,
+      retryAttempts: 5,
+      retryDelay: 3000,
+      extra: {
+        connectTimeout: 20000,
+      }
     }),
     ConfigModule.forRoot(),
     ScheduleModule.forRoot(),
@@ -84,7 +87,6 @@ import { ApiKeyMiddleware } from './api_key/api_key.middleware';
     FamilyStatusModule,
     FiredModule,
     LangModule,
-    MilitaryAppearanceModule,
     PersonalInfoModule,
     SexModule,
     WorkExperienceModule,

@@ -9,7 +9,6 @@ import { Achieve } from "./achieve";
 import { Language } from "./lang";
 import { Sex } from "./sex";
 import { Domains } from "./domains";
-import { Military_Appearance } from "./militaryAppearance";
 @Entity()
 export class Employeers{
     @PrimaryGeneratedColumn('increment')
@@ -63,7 +62,4 @@ export class Employeers{
 
     @OneToMany(() => Domains, domains => domains.employeers)
     domains: Domains[];
-
-    @OneToMany(() => Military_Appearance, militaryAppearance => militaryAppearance.employeers)
-    military_appearance: Military_Appearance[];
 }
