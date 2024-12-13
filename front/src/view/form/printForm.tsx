@@ -1,11 +1,6 @@
 import React from 'react';
 import { Table, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
-// interface TableRowData {
-//     id: number;
-//     data: string[];
-// };
-
 const PrintForm: React.FC = () => {
     return (
         <TableContainer 
