@@ -29,15 +29,15 @@ services:
       - ./front:/usr/front/
     restart: 'always'
   
-  # bot:
-  #   build:
-  #     context: ./bot
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
-  #     TELEGRAM_CHAT_ID: ${TELEGRAM_ID}
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    environment:
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_ID}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       
 volumes:
   mysql_data:

@@ -11,7 +11,6 @@ const GITHUB_REPO = process.env.GITHUB_REPO || '';
 const CONTAINER_NAMES = [
     'university_server-front-1',
     'university_server-backend-1',
-    'university_server-mysql-1',
 ];
 
 const container_status: Record<string, string> = {};
