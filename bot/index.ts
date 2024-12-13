@@ -92,10 +92,10 @@ async function handleCommand(command: string): Promise<void> {
                 const container = docker.getContainer(name);
                 const data = await container.inspect();
                 const status = data.State.Status;
-                statusMessages.push(`Container ${name} is ${status}`);
+                statusMessages.push(`🟢 Container ${name} is ${status}`);
             } catch(error: any) {
-                console.error(`Error while checking container status ${name}: ${error.message}`);
-                statusMessages.push(`Container ${name}: Error while checking status`);
+                console.error(`🔴 Error while checking container status ${name}: ${error.message}`);
+                statusMessages.push(`🔴 Container ${name}: Error while checking status`);
             }
         }
 
