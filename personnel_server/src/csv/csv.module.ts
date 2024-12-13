@@ -6,7 +6,6 @@ import { Employeers } from 'src/entity/employeers';
 import { Department } from 'src/entity/department';
 import { Domains } from 'src/entity/domains';
 import { Work_Experience } from 'src/entity/workExperience';
-import { Military_Appearance } from 'src/entity/militaryAppearance';
 import { Family } from 'src/entity/family';
 import { FamilyStatus } from 'src/entity/familyStatus';
 import { Positions } from 'src/entity/positions';
@@ -28,7 +27,6 @@ import { ConfigModule } from '@nestjs/config';
             Family,
             Fired, 
             Language,
-            Military_Appearance,
             Department,
             Positions,
             Domains,

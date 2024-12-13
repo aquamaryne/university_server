@@ -9,7 +9,6 @@ import { Positions } from 'src/entity/positions';
 import { Domains } from 'src/entity/domains';
 import { Education } from 'src/entity/education';
 import { Family } from 'src/entity/family';
-import { Military_Appearance } from 'src/entity/militaryAppearance';
 import { Department } from 'src/entity/department';
 import { Work_Experience } from 'src/entity/workExperience';
 import { Sex } from 'src/entity/sex';
