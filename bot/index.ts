@@ -179,15 +179,20 @@ function pollUpdates(): void {
                         setTimeout(fetchUpdates, 1000);
                         return;
                     }
-            
-                    for(const update of updates) {
-                        const message = update.message;
-                        if (message && message.text) {
-                            console.log(`Received command: ${message.text}`);
-                            await handleCommand(message.text);
-                            lastUpdateId = update.update_id;
+
+                    if(updates.length === 0){
+                        console.log("No new updates");
+                    } else {
+                        for(const update of updates) {
+                            const message = update.message;
+                            if (message && message.text) {
+                                console.log(`Received command: ${message.text}`);
+                                await handleCommand(message.text);
+                                lastUpdateId = update.update_id;
+                            }
                         }
                     }
+            
                 } catch(error: any) {
                     console.error(`Error while parsing updates: ${error.message}`);
                 } finally {
