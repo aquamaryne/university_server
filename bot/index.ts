@@ -163,11 +163,26 @@ function pollUpdates(): void {
             });
 
             res.on('end', async () => {
-                try{
-                    const updates = JSON.parse(data).result;
-                    for(const update of updates){
+                console.log("Raw data from Telegram:", data); 
+                try {
+                    const parsedData = JSON.parse(data);
+            
+                    if (!parsedData.ok) {
+                        console.error(`Telegram API returned error: ${parsedData.description || 'Unknown error'}`);
+                        setTimeout(fetchUpdates, 1000);
+                        return;
+                    }
+            
+                    const updates = parsedData.result;
+                    if (!Array.isArray(updates)) {
+                        console.error(`"result" is not an array. Full response: ${JSON.stringify(parsedData)}`);
+                        setTimeout(fetchUpdates, 1000);
+                        return;
+                    }
+            
+                    for(const update of updates) {
                         const message = update.message;
-                        if(message && message.text){
+                        if (message && message.text) {
                             console.log(`Received command: ${message.text}`);
                             await handleCommand(message.text);
                             lastUpdateId = update.update_id;
@@ -178,7 +193,7 @@ function pollUpdates(): void {
                 } finally {
                     setTimeout(fetchUpdates, 1000);
                 }
-            });            
+            });                        
         });
 
         req.on('error', (error) => {
