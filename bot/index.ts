@@ -2,6 +2,9 @@ import * as https from "https";
 import { IncomingMessage } from "http";
 import Docker from "dockerode";
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_TOKEN || '';
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_ID || '';
