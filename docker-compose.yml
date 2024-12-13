@@ -8,7 +8,7 @@ services:
     ports:
       - "3001:3001"
     environment:
-      DATABASE_HOST: 212.111.203.178
+      DATABASE_HOST: 172.16.1.35
       DATABASE_PORT: 3306
       DATABASE_USERNAME: admin
       DATABASE_PASSWORD: 'enE@^3e86pH3V-'
