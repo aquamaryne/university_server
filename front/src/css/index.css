@@ -1,0 +1,30 @@
+@media print {
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  
+    table {
+      width: 100% !important;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+  
+    th, td {
+      border: 1px solid black !important;
+      text-align: center;
+      vertical-align: middle;
+      word-wrap: break-word;
+    }
+  
+    /* Убираем ненужные элементы при печати */
+    .no-print {
+      display: none;
+    }
+  
+    /* Настройка разрыва страницы */
+    .page-break {
+      page-break-before: always;
+    }
+  }
+  
