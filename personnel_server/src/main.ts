@@ -11,7 +11,7 @@ import * as hbs from 'hbs';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const corsOptions: CorsOptions = {
-    origin: ['http://172.16.1.35:4000', "http://localhost:3000"],
+    origin: ['http://172.16.1.35:3000', "http://localhost:3000"],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   };

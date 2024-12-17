@@ -1,4 +1,4 @@
-import { ExecutionContext, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { APP_GUARD } from '@nestjs/core';
@@ -42,6 +42,7 @@ import { CsvModule } from './csv/csv.module';
 import { HealthModule } from './health/health.module';
 import { EnterFormController } from './enter-form/enter-form.controller';
 import { ApiKeyMiddleware } from './api_key/api_key.middleware';
+import { ExcelModule } from './excel/excel.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -69,11 +70,7 @@ import { ApiKeyMiddleware } from './api_key/api_key.middleware';
       ],
       synchronize: true,
       logging: true,
-      retryAttempts: 5,
-      retryDelay: 3000,
-      extra: {
-        connectTimeout: 20000,
-      }
+      autoLoadEntities: true,      
     }),
     ConfigModule.forRoot(),
     ScheduleModule.forRoot(),
@@ -95,6 +92,7 @@ import { ApiKeyMiddleware } from './api_key/api_key.middleware';
     PositionsModule,
     CsvModule,
     HealthModule,
+    ExcelModule,
   ],
   controllers: [AppController, BackupController, EnterFormController],
   providers: [
