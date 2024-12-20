@@ -20,12 +20,9 @@ export class ExcelService {
                 'domains',
                 'education',
                 'family',
-                'department',
                 'work_experience',
                 'sex',
                 'fired',
-                'language',
-                'family_status'
             ],
         });
 
@@ -34,16 +31,6 @@ export class ExcelService {
             fname: employee.fname,
             sname: employee.sname,
             fatherly: employee.fatherly,
-            date_of_birth: employee.date_of_birth?.toISOString().split('T')[0] || '',
-            position_name: employee.positions?.[0]?.positions_name || '',
-            degree_of_education: employee.education?.[0]?.degree_of_education || '',
-            diploma: employee.education?.[0]?.diploma || '',
-            count_of_children: employee.family?.[0]?.count_of_children || '',
-            global_work_experience: employee.work_experience?.[0]?.global_work_exp || '',
-            scientific_in_this_institute: employee.work_experience?.[0] || '',
-            sex_name: employee.sex?.[0]?.sex_name || '',
-            domain_name: employee.domains?.[0]?.domain_name || '',
-            achievement_name: employee.achievement?.[0]?.achievement_name || '',
         }));
 
         const workbook = new ExcelJS.Workbook();
