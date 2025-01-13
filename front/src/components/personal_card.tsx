@@ -6,7 +6,7 @@ const PersonalCard: React.FC = () => {
 
     const[anchorEl, setAnchorEl]= React.useState<null | HTMLElement>(null);
 
-    const hadnleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -16,19 +16,33 @@ const PersonalCard: React.FC = () => {
 
     return( 
         <div>
-            <Button sx={{ 
-                border: 2,
-                borderRadius: 1,
-                backgroundColor: '#fdf6e3',
-                borderColor: '#002b36',
-                color: 'black',
-                fontSize: '100%',
-                '&:hover': {
-                    backgroundColor: 'black',
-                    color: 'white'
-                }
-            }} onClick={hadnleClick}>
-                Особисті картки
+            <Button
+                sx={{
+                    border: '2px solid',
+                    borderRadius: '8px',
+                    padding: '10px 20px',
+                    backgroundColor: '#ffffff',
+                    borderColor: '#1976d2', // Синий цвет
+                    color: '#1976d2',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    textTransform: 'none', // Убираем заглавные буквы
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                    backgroundColor: '#1976d2',
+                    color: '#ffffff',
+                    transform: 'translateY(-2px)', // Лёгкий "всплывающий" эффект
+                    boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
+                    },
+                    '&:active': {
+                    transform: 'translateY(0)', // Убираем всплытие при нажатии
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    },
+                }}
+                onClick={handleClick}
+                >
+                    Особисті картки
             </Button>
             <Menu
                 anchorEl={anchorEl}
