@@ -43,7 +43,7 @@ const PersonalCard: React.FC = () => {
                 onClick={handleClick}
                 >
                     Особисті картки
-            </Button>
+            </Button>           
             <Menu
                 anchorEl={anchorEl}
                 keepMounted
