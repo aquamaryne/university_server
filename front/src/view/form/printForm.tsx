@@ -1,33 +1,73 @@
 import React from 'react';
-import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import ReactToPrint, { useReactToPrint } from 'react-to-print';
 import PrintIcon from '@mui/icons-material/Print';
 
+
+interface Department { 
+    id: number;
+    name: string;
+}
+
 const PrintForm: React.FC = () => {
     const componentRef = React.useRef<HTMLDivElement>(null);
+    const[department, setDepartment] = React.useState<Department[]>([]);
+    const[selecterdDepartment, ssetSelectedDepartment] = React.useState<string | number>("");
+    const[loading, setLoading] = React.useState<boolean>(true);
 
     const handlePrint = useReactToPrint({
-      content: () => componentRef.current,
-      documentTitle: 'Друк формуляра',
-      onAfterPrint: () => console.log('Друк завершено'),
+        content: () => componentRef.current,
+        documentTitle: 'Друк формуляра',
+        onAfterPrint: () => console.log('Друк завершено'),
     });
 
     return (
         <div style={{ justifyContent: 'center', padding: '16px' }}>
+            <FormControl>
+                <Select 
+                    label='Кафедра'
+                    variant="standard" 
+                    sx={{ 
+                        width: '200px', 
+                        height: "40px", 
+                        marginBottom: '20px', 
+                        marginRight: "10px" 
+                    }} 
+                >
+                    <MenuItem value="" disabled>
+                        {loading ? 'Завантаження...' : 'Виберіть кафедру'}
+                    </MenuItem>
+                    {department.map((dep) => (
+                        <MenuItem key={dep.id} value={dep.id}>
+                            {dep.name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+            <Button
+                variant='contained'
+                onClick={handlePrint}
+                color='primary'
+                endIcon={<PrintIcon />}
+                sx={{
+                    border: '1px solid #3f51b5',
+                    borderRadius: 0,
+                }}
+            >
+                Друк
+            </Button>
             <TableContainer 
                 ref={componentRef}
                 component={Paper}
                 sx={{
                     '@media print': {
-                        transform: 'scale(0.95)',
-                        transformOrigin: 'top left',
+                        transform: 'scale(1)',
+                        margin: '3mm',
                         border: '1px solid black',
-                        margin: '0',
-                        width: '100%',
+                        width: 'calc(100% - 5mm)',
                     },
                     '@page': {
                         size: 'A4 landscape',
-                        margin: '10mm',
                     }
                 }}
             >
@@ -39,16 +79,12 @@ const PrintForm: React.FC = () => {
                         padding: 'center',
                         '& th, & td': {
                             border: '1px solid black',
-                            wordWrap: 'break-word',
-                            whiteSpace: 'normal',
                             padding: '4px',
-                            fontSize: '0.8rem',
                             textAlign: 'center',
-                            verticalAlign: 'middle',
                         },
                         '@media print': {
                             '& th, & td': {
-                                fontSize: '7px',
+                                fontSize: '9px',
                             }
                         }
                     }}
@@ -91,15 +127,6 @@ const PrintForm: React.FC = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button
-                variant='contained'
-                onClick={handlePrint}
-                color='primary'
-                sx={{ marginTop: '30px' }}
-                endIcon={<PrintIcon />}
-            >
-                Друк
-            </Button>
         </div>
     )
 }

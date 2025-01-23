@@ -19,7 +19,7 @@ const Archieve: React.FC = () => {
             <Button
                 sx={{
                     border: '2px solid',
-                    borderRadius: '8px',
+                    borderRadius: '0px',
                     padding: '10px 20px',
                     backgroundColor: '#ffffff',
                     borderColor: '#1976d2', // Синий цвет
