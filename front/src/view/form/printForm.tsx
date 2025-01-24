@@ -1,6 +1,11 @@
 import React from 'react';
 import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent } from "@mui/material";
 import ReactToPrint, { useReactToPrint } from 'react-to-print';
+import { LocalizationProvider  } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import uk from "date-fns/locale/uk";
+import enUS from 'date-fns/locale/en-US';
 import PrintIcon from '@mui/icons-material/Print';
 
 interface Domain { 
@@ -13,7 +18,7 @@ const PrintForm: React.FC = () => {
     const[department, setDepartment] = React.useState<Domain[]>([]);
     const[selecterdDepartment, ssetSelectedDepartment] = React.useState<string | number>("");
     const[loading, setLoading] = React.useState<boolean>(true);
-    const[selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+    const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
 
     const handleChangeDate = (newValue: Date | null) => {
         setSelectedDate(newValue);
@@ -77,10 +82,29 @@ const PrintForm: React.FC = () => {
                 sx={{
                     border: '1px solid #3f51b5',
                     borderRadius: 0,
+                    height: '40.5px',
                 }}
             >
                 Друк
             </Button>
+            <LocalizationProvider 
+                dateAdapter={AdapterDateFns} 
+                adapterLocale={{ ...enUS, ...uk}}
+            >
+                <DatePicker 
+                    value={selectedDate}
+                    onChange={handleChangeDate}
+                    sx={{
+                        width: '150px',
+                        marginLeft: '10px',
+                        '& .MuiInputBase-root': {
+                            borderRadius: 0,
+                            border: '1px solid #3f51b5',
+                            height: '40.5px',
+                        }
+                    }}
+                />
+            </LocalizationProvider>
             <TableContainer 
                 ref={componentRef}
                 component={Paper}

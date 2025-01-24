@@ -19,6 +19,7 @@ const MainPage: React.FC = () => {
                 padding: "1%",
                 gap: '0.5%',
                 border: 2,
+                borderColor: '#3f51b5',
                 borderStyle: 'solid',
                 borderRight: 'none',
                 borderLeft: 'none',
