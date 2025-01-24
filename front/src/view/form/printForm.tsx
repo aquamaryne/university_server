@@ -1,19 +1,23 @@
 import React from 'react';
-import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent } from "@mui/material";
 import ReactToPrint, { useReactToPrint } from 'react-to-print';
 import PrintIcon from '@mui/icons-material/Print';
 
-
-interface Department { 
+interface Domain { 
     id: number;
-    name: string;
+    domain_name: string;
 }
 
 const PrintForm: React.FC = () => {
     const componentRef = React.useRef<HTMLDivElement>(null);
-    const[department, setDepartment] = React.useState<Department[]>([]);
+    const[department, setDepartment] = React.useState<Domain[]>([]);
     const[selecterdDepartment, ssetSelectedDepartment] = React.useState<string | number>("");
     const[loading, setLoading] = React.useState<boolean>(true);
+    const[selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+
+    const handleChangeDate = (newValue: Date | null) => {
+        setSelectedDate(newValue);
+    };
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -21,12 +25,33 @@ const PrintForm: React.FC = () => {
         onAfterPrint: () => console.log('Друк завершено'),
     });
 
+    const handleChange = (e: SelectChangeEvent<{ value: unknown }>) => {
+        ssetSelectedDepartment(e.target.value as string);
+    };
+
+    React.useEffect(() => {
+        const fetchDomain = async () => {
+            try{
+                const response = await fetch('http://localhost:3001/domains');
+                const data = await response.json();
+                setDepartment(data);
+            } catch(error){
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDomain();
+    }, []);
+
     return (
         <div style={{ justifyContent: 'center', padding: '16px' }}>
             <FormControl>
                 <Select 
                     label='Кафедра'
                     variant="standard" 
+                    onChange={handleChange}
                     sx={{ 
                         width: '200px', 
                         height: "40px", 
@@ -39,7 +64,7 @@ const PrintForm: React.FC = () => {
                     </MenuItem>
                     {department.map((dep) => (
                         <MenuItem key={dep.id} value={dep.id}>
-                            {dep.name}
+                            {dep.domain_name}
                         </MenuItem>
                     ))}
                 </Select>
