@@ -30,14 +30,14 @@ const Statistic: React.FC = () => {
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                     transition: 'all 0.3s ease',
                     '&:hover': {
-                    backgroundColor: '#1976d2',
-                    color: '#ffffff',
-                    transform: 'translateY(-2px)', // Лёгкий "всплывающий" эффект
-                    boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
+                        backgroundColor: '#1976d2',
+                        color: '#ffffff',
+                        transform: 'translateY(-2px)', // Лёгкий "всплывающий" эффект
+                        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
                     },
-                    '&:active': {
-                    transform: 'translateY(0)', // Убираем всплытие при нажатии
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                        '&:active': {
+                        transform: 'translateY(0)', // Убираем всплытие при нажатии
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                     },
                 }}
                 onClick={handleClick}

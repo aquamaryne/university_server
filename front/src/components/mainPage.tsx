@@ -5,6 +5,7 @@ import Print from "./print";
 import Statistic from "./statisctic";
 import Form from "./form";
 import Archieve from "./archieve";
+import PageButton from "./button";
 
 const MainPage: React.FC = () => {
     return(
@@ -19,12 +20,20 @@ const MainPage: React.FC = () => {
                 padding: "1%",
                 gap: '0.5%',
                 border: 2,
-                borderColor: '#3f51b5',
+                borderColor: '#1976d2',
                 borderStyle: 'solid',
                 borderRight: 'none',
                 borderLeft: 'none',
                 borderTop: 'none',
+                position: 'relative',
             }}> 
+            <div style={{
+                display: 'flex',
+                right: 0,
+                top: 0,
+            }}>
+                <PageButton />
+            </div>
                 <Witness />
                 <PersonalCard />
                 <Print />

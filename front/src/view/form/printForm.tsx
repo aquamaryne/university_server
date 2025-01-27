@@ -105,77 +105,87 @@ const PrintForm: React.FC = () => {
                     }}
                 />
             </LocalizationProvider>
-            <TableContainer 
-                ref={componentRef}
-                component={Paper}
-                sx={{
-                    '@media print': {
-                        transform: 'scale(1)',
-                        margin: '3mm',
-                        border: '1px solid black',
-                        width: 'calc(100% - 5mm)',
-                    },
-                    '@page': {
-                        size: 'A4 landscape',
-                    }
-                }}
-            >
-                <Table
-                    size="small"
-                    sx={{
-                        tableLayout: 'fixed',
-                        borderCollapse: 'collapse',
-                        padding: 'center',
-                        '& th, & td': {
-                            border: '1px solid black',
-                            padding: '4px',
-                            textAlign: 'center',
-                        },
-                        '@media print': {
-                            '& th, & td': {
-                                fontSize: '9px',
+            <div ref={componentRef}>
+                <div style={{ textAlign: "center", marginBottom: "20px", fontSize: "18px", fontFamily: 'Roboto, sans-serif' }}>
+                    <h4 style={{margin: 0, marginBottom: "5px"}}>ШТАТНИЙ ФОРМУЛЯР</h4>
+                    <p style={{ margin: 0, marginBottom: "5px"}}>науково-педагогічного складу Національного транспортного університету</p>
+                    <p style={{ margin: 0, marginBottom: "15px"}}>
+                        на {selectedDate?.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </p>
+                    <TableContainer 
+                        ref={componentRef}
+                        component={Paper}
+                        sx={{
+                            '@media print': {
+                                transform: 'scale(1)',
+                                margin: '3mm',
+                                border: '1px solid black',
+                                width: 'calc(100% - 5mm)',
+                            },
+                            '@page': {
+                                size: 'A4 landscape',
                             }
-                        }
-                    }}
-                >
-                    <TableHead>
-                        <TableRow>
-                            <TableCell rowSpan={2}>№ п/п</TableCell>
-                            <TableCell rowSpan={2}>Прізвище, ім'я та по-батькові</TableCell>
-                            <TableCell rowSpan={2}>Посада</TableCell>
-                            <TableCell rowSpan={2}>Дата вступу на посаду</TableCell>
-                            <TableCell rowSpan={2}>Дисципліна, яку читає</TableCell>
-                            <TableCell rowSpan={2}>Штат чи сумісник</TableCell>
-                            <TableCell rowSpan={2}>Вчене звання</TableCell>
-                            <TableCell rowSpan={2}>Вчений ступінь</TableCell>
-                            <TableCell colSpan={2}>Стаж науково-пед. роботи</TableCell>
-                            <TableCell rowSpan={2}>Рік останнього підвищення кваліфікації</TableCell>
-                            <TableCell colSpan={3}>Загальні дані</TableCell>
-                            <TableCell rowSpan={2}>Почесне звання</TableCell>
-                            <TableCell rowSpan={2}>Іноземна мова, якою володіє</TableCell>
-                            <TableCell rowSpan={2}>Звільнення, у який навч. заклад</TableCell>
-                            <TableCell rowSpan={2}>Дата закінчення трудового договору або контракту</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell align="center">Загальний</TableCell>
-                            <TableCell align="center">У даному ВНЗ</TableCell>
-                            <TableCell align="center">Рік народження</TableCell>
-                            <TableCell align="center">Стать</TableCell>
-                            <TableCell align="center">Освіта (який навч. заклад закінч. і коли)</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            {Array(18).fill(0).map((_, index) => (
-                                <TableCell key={index} align="center">
-                                    {index + 1}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
+                        }}
+                    >
+                        <Table
+                            size="small"
+                            sx={{
+                                tableLayout: 'fixed',
+                                borderCollapse: 'collapse',
+                                padding: 'center',
+                                fontFamily: 'Roboto, sans-serif',
+                                '& th, & td': {
+                                    border: '1px solid black',
+                                    padding: '4px',
+                                    textAlign: 'center',
+                                },
+                                '@media print': {
+                                    '& th, & td': {
+                                        fontSize: '9px',
+                                    }
+                                }
+                            }}
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell rowSpan={2}>№ п/п</TableCell>
+                                    <TableCell rowSpan={2}>Прізвище, ім'я та по-батькові</TableCell>
+                                    <TableCell rowSpan={2}>Посада</TableCell>
+                                    <TableCell rowSpan={2}>Дата вступу на посаду</TableCell>
+                                    <TableCell rowSpan={2}>Дисципліна, яку читає</TableCell>
+                                    <TableCell rowSpan={2}>Штат чи сумісник</TableCell>
+                                    <TableCell rowSpan={2}>Вчене звання</TableCell>
+                                    <TableCell rowSpan={2}>Вчений ступінь</TableCell>
+                                    <TableCell colSpan={2}>Стаж науково-пед. роботи</TableCell>
+                                    <TableCell rowSpan={2}>Рік останнього підвищення кваліфікації</TableCell>
+                                    <TableCell colSpan={3}>Загальні дані</TableCell>
+                                    <TableCell rowSpan={2}>Почесне звання</TableCell>
+                                    <TableCell rowSpan={2}>Іноземна мова, якою володіє</TableCell>
+                                    <TableCell rowSpan={2}>Звільнення, у який навч. заклад</TableCell>
+                                    <TableCell rowSpan={2}>Дата закінчення трудового договору або контракту</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell align="center">Загальний</TableCell>
+                                    <TableCell align="center">У даному ВНЗ</TableCell>
+                                    <TableCell align="center">Рік народження</TableCell>
+                                    <TableCell align="center">Стать</TableCell>
+                                    <TableCell align="center">Освіта (який навч. заклад закінч. і коли)</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    {Array(18).fill(0).map((_, index) => (
+                                        <TableCell key={index} align="center">
+                                            {index + 1}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
 
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+            </div>
         </div>
     )
 }
