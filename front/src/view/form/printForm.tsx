@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent } from "@mui/material";
+import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent, Typography } from "@mui/material";
 import ReactToPrint, { useReactToPrint } from 'react-to-print';
 import { LocalizationProvider  } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -7,6 +7,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import uk from "date-fns/locale/uk";
 import enUS from 'date-fns/locale/en-US';
 import PrintIcon from '@mui/icons-material/Print';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 interface Domain { 
     id: number;
@@ -19,6 +20,15 @@ const PrintForm: React.FC = () => {
     const[selecterdDepartment, ssetSelectedDepartment] = React.useState<string | number>("");
     const[loading, setLoading] = React.useState<boolean>(true);
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
+    const[startPage, setStartPage] = React.useState<string>('');
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const value = e.target.value;
+
+        if(!isNaN(Number(value)) && Number(value) >= 0){
+            setStartPage(value);
+        }
+    };
 
     const handleChangeDate = (newValue: Date | null) => {
         setSelectedDate(newValue);
@@ -74,19 +84,23 @@ const PrintForm: React.FC = () => {
                     ))}
                 </Select>
             </FormControl>
-            <Button
-                variant='contained'
-                onClick={handlePrint}
+            <TextField
                 color='primary'
-                endIcon={<PrintIcon />}
-                sx={{
-                    border: '1px solid #3f51b5',
-                    borderRadius: 0,
-                    height: '40.5px',
+                variant='outlined'
+                label="Введіть початок сторінки"
+                sx={{ 
+                    borderColor: '#1976d2',
+                    width: '200px',
+                    '& .MuiInputBase-root': {
+                        borderRadius: 0,
+                        height: '40.5px',
+                    },
+                    '& .MuiInputLabel-root': {
+                        marginTop: '-6px',
+                    }
                 }}
-            >
-                Друк
-            </Button>
+                onChange={handleInputChange}
+            />
             <LocalizationProvider 
                 dateAdapter={AdapterDateFns} 
                 adapterLocale={{ ...enUS, ...uk}}
@@ -99,12 +113,37 @@ const PrintForm: React.FC = () => {
                         marginLeft: '10px',
                         '& .MuiInputBase-root': {
                             borderRadius: 0,
-                            border: '1px solid #3f51b5',
+                            border: '1px solid #1976d2',
                             height: '40.5px',
                         }
                     }}
                 />
             </LocalizationProvider>
+            <Button
+                variant='contained'
+                onClick={handlePrint}
+                color='primary'
+                endIcon={<PrintIcon />}
+                sx={{
+                    border: '1px solid #1976d2',
+                    borderRadius: 0,
+                    height: '40.5px',
+                    marginLeft: '10px',
+                }}
+            >
+                Друк
+            </Button>
+            <Button
+                variant='contained'
+                endIcon={<ArrowDownwardIcon />}
+                sx={{
+                    border: '1px solid #1976d2',
+                    borderRadius: 0,
+                    marginLeft: '10px',
+                }}
+            >
+                Зміст
+            </Button>
             <div ref={componentRef}>
                 <div style={{ textAlign: "center", marginBottom: "20px", fontSize: "18px", fontFamily: 'Roboto, sans-serif' }}>
                     <h4 style={{margin: 0, marginBottom: "5px"}}>ШТАТНИЙ ФОРМУЛЯР</h4>
@@ -184,6 +223,11 @@ const PrintForm: React.FC = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <div style={{ marginTop: '20px'}}>
+                        <Typography variant="body1" sx={{ fontFamily: 'Roboto, sans-serif' }}>
+                            {`[${startPage}]`}
+                        </Typography>
+                    </div>
                 </div>
             </div>
         </div>
