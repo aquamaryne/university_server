@@ -1,0 +1,59 @@
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { lastValueFrom } from 'rxjs';
+import * as fs from 'fs';
+import * as path from 'path';
+import PDFDocument = require('pdfkit');
+
+@Injectable()
+export class ContentDownloadService {
+    constructor(private readonly httpService: HttpService) {}
+
+    async generatePdf(): Promise<string> {
+        const downloadDir = path.join(process.env.USERPROFILE || '', 'Downloads');
+        const filePath = path.join(downloadDir, 'Зміст.pdf');
+
+        try{
+            const response = await lastValueFrom(this.httpService.get('http://localhost:3001/domains'));
+            const domains = response.data;
+            
+            if(!Array.isArray(domains) || domains.length === 0){
+                throw new Error('Domains not found');
+            };
+
+
+            
+            const doc = new PDFDocument({ layout: 'landscape', size: 'A4' }); 
+            const stream = fs.createWriteStream(filePath);
+            doc.pipe(stream);
+            
+            
+            const fontPath = path.join(__dirname, '../../fonts/RobotoMono-Variablefont_wght.ttf');
+            if(fs.existsSync(fontPath)){
+                doc.font(fontPath);
+                console.log('Font loaded');
+            } else {
+                console.error('Font not found');
+                doc.font('Helvetica');
+            }
+            
+            doc.fontSize(16).text('Зміст', { align: 'center' }).moveDown(2);
+
+            domains.forEach((domains: any, index: number) => {
+                const domain = domains.domain_name; 
+                doc.fontSize(10).text(`${index + 1}. ${domain}`, { align: '-10rem' });
+            });
+
+            doc.end();
+
+            return new Promise((resolve, reject) => {
+                stream.on('finish', () => resolve(filePath));
+                stream.on('error', reject);
+            })
+
+        } catch(error){
+            console.error(error);
+            throw new Error('Failed to generate PDF');
+        }
+    } 
+}

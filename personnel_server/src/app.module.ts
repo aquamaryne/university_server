@@ -43,7 +43,6 @@ import { HealthModule } from './health/health.module';
 import { EnterFormController } from './enter-form/enter-form.controller';
 import { ApiKeyMiddleware } from './api_key/api_key.middleware';
 import { ExcelModule } from './excel/excel.module';
-import { ContentDownloadController } from './content-download/content-download.controller';
 import { ContentDownloadModule } from './content-download/content-download.module';
 @Module({
   imports: [
@@ -97,7 +96,7 @@ import { ContentDownloadModule } from './content-download/content-download.modul
     ExcelModule,
     ContentDownloadModule,
   ],
-  controllers: [AppController, BackupController, EnterFormController, ContentDownloadController],
+  controllers: [AppController, BackupController, EnterFormController ],
   providers: [
     AppService,
     BackupService,

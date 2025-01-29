@@ -1,22 +1,23 @@
-import { Controller, Get, Res, Body } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
-import PDFDocument from "pdfkit";
-
+import { ContentDownloadService } from './content-download.service';
 @Controller('content-download')
 export class ContentDownloadController {
-    @Get('generate')
-    generatePdf(@Res() res: Response, @Body() body: { content: string } ){
-        const { content } = body;
+    constructor(private readonly contentDownloadService: ContentDownloadService) {}
 
-        const doc = new PDFDocument();
-
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename="зміст.pdf"');
-
-        doc.pipe(res);
-
-        doc.font("Roboto").fontSize(14).text("ЗМІСТ", { align: 'center' });
-        doc.font("Roboto").fontSize(12).text(content, { align: 'left' });
-        doc.end();
+    @Get()
+    async downloadContent(@Res() res: Response) {
+        try{
+            const filePath = await this.contentDownloadService.generatePdf();
+            res.download(filePath, 'зміст.pdf', (err) => {
+                if(err){
+                    console.error('Помилка при завантаженні PDF: ', err);
+                    res.status(500).send('Помилка при завантаженні PDF');
+                }
+            });
+        } catch (error){ 
+            console.error('❌ Помилка при генерації PDF: ', error);
+            res.status(500).send('Помилка при генерації PDF');
+        }
     }
 }

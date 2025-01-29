@@ -60,6 +60,15 @@ const PrintForm: React.FC = () => {
         fetchDomain();
     }, []);
 
+    const handleDownload = () => {
+        const link = document.createElement('a');
+        link.href = 'http://localhost:3001/content-download';
+        link.download = 'зміст.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div style={{ justifyContent: 'center', padding: '16px' }}>
             <FormControl>
@@ -141,6 +150,7 @@ const PrintForm: React.FC = () => {
                     borderRadius: 0,
                     marginLeft: '10px',
                 }}
+                onClick={handleDownload}
             >
                 Зміст
             </Button>
@@ -225,7 +235,7 @@ const PrintForm: React.FC = () => {
                     </TableContainer>
                     <div style={{ marginTop: '20px'}}>
                         <Typography variant="body1" sx={{ fontFamily: 'Roboto, sans-serif' }}>
-                            {`[${startPage}]`}
+                            {`---|${startPage}|---`}
                         </Typography>
                     </div>
                 </div>
