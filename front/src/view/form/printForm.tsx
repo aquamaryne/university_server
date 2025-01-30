@@ -12,7 +12,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 interface Domain { 
     id: number;
     domain_name: string;
-}
+};
 
 const PrintForm: React.FC = () => {
     const componentRef = React.useRef<HTMLDivElement>(null);
@@ -183,10 +183,14 @@ const PrintForm: React.FC = () => {
                                 borderCollapse: 'collapse',
                                 padding: 'center',
                                 fontFamily: 'Roboto, sans-serif',
-                                '& th, & td': {
+                                '& th': {
                                     border: '1px solid black',
                                     padding: '4px',
                                     textAlign: 'center',
+                                },
+                                "& td": {
+                                    border: 'none',
+
                                 },
                                 '@media print': {
                                     '& th, & td': {
@@ -229,13 +233,13 @@ const PrintForm: React.FC = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-
+                                
                             </TableBody>
                         </Table>
                     </TableContainer>
                     <div style={{ marginTop: '20px'}}>
                         <Typography variant="body1" sx={{ fontFamily: 'Roboto, sans-serif' }}>
-                            {`---|${startPage}|---`}
+                            {`「${startPage}」`}
                         </Typography>
                     </div>
                 </div>

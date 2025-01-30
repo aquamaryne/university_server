@@ -23,7 +23,7 @@ export class ContentDownloadService {
 
 
             
-            const doc = new PDFDocument({ layout: 'landscape', size: 'A4' }); 
+            const doc = new PDFDocument({ layout: 'landscape', size: 'A4', margins: { top: 50, left: 50, right: 50, bottom: 50 } }); 
             const stream = fs.createWriteStream(filePath);
             doc.pipe(stream);
             
@@ -39,9 +39,21 @@ export class ContentDownloadService {
             
             doc.fontSize(16).text('Зміст', { align: 'center' }).moveDown(2);
 
+            const maxLineWidth  = doc.page.width - doc.x - 100;
+            const fontSize = 8;
+            const dotSpacing = '.';
+
             domains.forEach((domains: any, index: number) => {
-                const domain = domains.domain_name; 
-                doc.fontSize(10).text(`${index + 1}. ${domain}`, { align: '-10rem' });
+                const domain = domains.domain_name;
+                const text = `${index + 1}. ${domain}`;
+
+                const textWidth = doc.widthOfString(text, { size: fontSize });
+
+                const dotsCount = Math.floor((maxLineWidth  - textWidth) / doc.widthOfString(dotSpacing, { size: fontSize }));
+                const dots = dotSpacing.repeat(dotsCount > 0 ? dotsCount : 0);
+
+                const fullText = `${text}${dots}`;
+                doc.fontSize(fontSize).text(fullText, { align: 'left', width: maxLineWidth }).moveDown(0.5);
             });
 
             doc.end();

@@ -146,7 +146,7 @@ const SearchBySurname: React.FC = () => {
                             m: 0.5,
                             px: 2, 
                             py: 1, 
-                            borderRadius: '4px', 
+                            borderRadius: 0, 
                             minWidth: '50px', 
                             minHeight: '50px', 
                             color: selectedLetter === letter ? 'white' : '#1976d2', 

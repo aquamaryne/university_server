@@ -1,6 +1,9 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig} from "@nestjs/apollo";
+import { join } from 'path';
 import { APP_GUARD } from '@nestjs/core';
 import { DataSource } from 'typeorm';
 import { Achieve } from './entity/achieve';
@@ -46,6 +49,11 @@ import { ExcelModule } from './excel/excel.module';
 import { ContentDownloadModule } from './content-download/content-download.module';
 @Module({
   imports: [
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    //   sortSchema: true,
+    // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
