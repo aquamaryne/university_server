@@ -49,11 +49,6 @@ import { ExcelModule } from './excel/excel.module';
 import { ContentDownloadModule } from './content-download/content-download.module';
 @Module({
   imports: [
-    // GraphQLModule.forRoot<ApolloDriverConfig>({
-    //   driver: ApolloDriver,
-    //   autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-    //   sortSchema: true,
-    // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
@@ -81,6 +76,11 @@ import { ContentDownloadModule } from './content-download/content-download.modul
       logging: true,
       autoLoadEntities: true,      
     }),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    //   sortSchema: true,
+    // }),
     ConfigModule.forRoot(),
     ScheduleModule.forRoot(),
     AchieveModule,

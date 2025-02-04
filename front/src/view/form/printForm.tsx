@@ -16,8 +16,8 @@ interface Domain {
 
 const PrintForm: React.FC = () => {
     const componentRef = React.useRef<HTMLDivElement>(null);
-    const[department, setDepartment] = React.useState<Domain[]>([]);
-    const[selecterdDepartment, ssetSelectedDepartment] = React.useState<string | number>("");
+    const[domains, setDomains] = React.useState<Domain[]>([]);
+    const[selecterdDepartment, setSelectedDepartment] = React.useState<string | number>("");
     const[loading, setLoading] = React.useState<boolean>(true);
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
     const[startPage, setStartPage] = React.useState<string>('');
@@ -41,7 +41,7 @@ const PrintForm: React.FC = () => {
     });
 
     const handleChange = (e: SelectChangeEvent<{ value: unknown }>) => {
-        ssetSelectedDepartment(e.target.value as string);
+        setSelectedDepartment(e.target.value as string);
     };
 
     React.useEffect(() => {
@@ -49,7 +49,7 @@ const PrintForm: React.FC = () => {
             try{
                 const response = await fetch('http://localhost:3001/domains');
                 const data = await response.json();
-                setDepartment(data);
+                setDomains(data);
             } catch(error){
                 console.error(error);
             } finally {
@@ -86,9 +86,9 @@ const PrintForm: React.FC = () => {
                     <MenuItem value="" disabled>
                         {loading ? 'Завантаження...' : 'Виберіть кафедру'}
                     </MenuItem>
-                    {department.map((dep) => (
-                        <MenuItem key={dep.id} value={dep.id}>
-                            {dep.domain_name}
+                    {domains.map((dom) => (
+                        <MenuItem key={dom.id} value={dom.id}>
+                            {dom.domain_name}
                         </MenuItem>
                     ))}
                 </Select>
