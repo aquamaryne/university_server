@@ -6,15 +6,15 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ConfigService } from '@nestjs/config';
 import * as hbs from 'hbs';
-import rateLimit from 'express-rate-limit';
-import RedisStore from 'rate-limit-redis';
-import Redis, { RedisKey, RedisValue } from "ioredis";
+// import rateLimit from 'express-rate-limit';
+// import RedisStore from 'rate-limit-redis';
+// import Redis, { RedisKey, RedisValue } from "ioredis";
 import { ApiKeyGuard } from './api_key/api_key.guard';
 
-const redisClient = new Redis({
-  host: 'localhost',
-  port: 6379,
-});
+// const redisClient = new Redis({
+//   host: 'localhost',
+//   port: 6379,
+// });
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -39,18 +39,18 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  app.use(
-    rateLimit({
-      store: new RedisStore({
-        sendCommand: async(command: string, ...args: (string | number | Buffer)[]) => {
-          return (await redisClient.call(command, ...args)) as any;
-        },
-      }),
-      windowMs: 60 * 1000,
-      max: 10,
-      message: 'Too many requests, please try again later',
-    })
-  );
+  // app.use(
+  //   rateLimit({
+  //     store: new RedisStore({
+  //       sendCommand: async(command: string, ...args: (string | number | Buffer)[]) => {
+  //         return (await redisClient.call(command, ...args)) as any;
+  //       },
+  //     }),
+  //     windowMs: 60 * 1000,
+  //     max: 10,
+  //     message: 'Too many requests, please try again later',
+  //   })
+  // );
 
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
