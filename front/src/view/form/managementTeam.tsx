@@ -40,10 +40,6 @@ const ManagmentTeam: React.FC = () => {
         onAfterPrint: () => console.log('Друк завершено'),
     });
 
-    const handleChange = (e: SelectChangeEvent<{ value: unknown }>) => {
-        setSelectedDepartment(e.target.value as string);
-    };
-
     const handleDownload = () => {
         const link = document.createElement('a');
         link.href = 'http://localhost:3001/content-download';

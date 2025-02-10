@@ -22,7 +22,6 @@ export class ContentDownloadService {
             };
 
 
-            
             const doc = new PDFDocument({ layout: 'landscape', size: 'A4', margins: { top: 50, left: 50, right: 50, bottom: 50 } }); 
             const stream = fs.createWriteStream(filePath);
             doc.pipe(stream);
