@@ -232,7 +232,15 @@ const PrintForm: React.FC = () => {
                                     ))}
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
+                            <TableBody
+                                sx={{
+                                    transition: 'background-color 0.3s ease-in-out',
+                                    "&:hover": {
+                                        backgroundColor: "rgba(25, 118, 210, 0.2)",
+                                        cursor: 'pointer',
+                                    }
+                                }}
+                            >
                                 
                             </TableBody>
                         </Table>
