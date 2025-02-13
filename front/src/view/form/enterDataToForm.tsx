@@ -136,9 +136,6 @@ const IdenticalForm: React.FC = () => {
             <Grid item xs={6} sm={4}>
               <Typography variant="h6">Введіть дані :</Typography>
             </Grid>
-            <Grid item xs={6} sm={2}>
-              <Button variant="contained">Довідка</Button>
-            </Grid>
             <Grid item xs={12} sm={4}>
               <FormControl fullWidth>
                 <InputLabel id="subdivision-label">Виберіть підрозділ</InputLabel>
@@ -157,9 +154,6 @@ const IdenticalForm: React.FC = () => {
                   <MenuItem value="Кафедра 3">Кафедра 3</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={2}>
-              <Button variant="outlined">Показати всіх</Button>
             </Grid>
             {/* Календарь "На дату" */}
             <Grid item xs={12} sm={12} md={2}>

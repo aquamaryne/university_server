@@ -71,6 +71,11 @@ const Form: React.FC = () => {
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
+                    <Link to="/view/form/formForAnother" style={{ textDecoration: 'none', color: 'black' }}>
+                        <Typography sx={{ textDecoration: 'none' }}>Формуляр для інших</Typography>
+                    </Link>
+                </MenuItem>
+                <MenuItem onClick={hadnleClose}>
                     <Link to="/view/form/formOne" style={{ textDecoration: 'none', color: 'black' }}>
                         <Typography sx={{ textDecoration: 'none' }}>Форма №1. Список академікі, член-корів</Typography>
                     </Link>

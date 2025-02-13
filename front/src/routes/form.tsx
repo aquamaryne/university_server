@@ -9,6 +9,7 @@ import FormTwo from "../view/form/formTwo";
 import FormThree from "../view/form/formThree";
 import FormFour from "../view/form/formFour";
 import FormFive from "../view/form/formFive";
+import FormForAnother from "../view/form/formForAnother";
 
 const FormRoute: React.FC = () => {
     return(
@@ -22,6 +23,7 @@ const FormRoute: React.FC = () => {
             <Route path="/view/form/formThree"          element={ <FormThree />} />
             <Route path="/view/form/formFour"           element={ <FormFour />} />
             <Route path="/view/form/formFive"           element={ <FormFive />} />
+            <Route path="/view/form/formForAnother"     element={ <FormForAnother />} />
         </Routes>
     )
 }

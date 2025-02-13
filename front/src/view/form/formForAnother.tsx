@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent, Typography } from "@mui/material";
+import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent, Typography, InputLabel } from "@mui/material";
 import ReactToPrint, { useReactToPrint } from 'react-to-print';
 import { LocalizationProvider  } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -56,7 +56,7 @@ const PrintForm: React.FC = () => {
     React.useEffect(() => {
         const fetchDomain = async () => {
             try{
-                const response = await fetch('http://localhost:3001/domains');
+                const response = await fetch('http://localhost:3001/');
                 const data = await response.json();
                 setDomains(data);
             } catch(error){
@@ -85,13 +85,14 @@ const PrintForm: React.FC = () => {
     return (
         <div style={{ justifyContent: 'center', padding: '16px' }}>
             <FormControl>
+                <InputLabel>Вкажіть підрозділ</InputLabel>
                 <Select 
                     label='Кафедра'
                     variant="standard" 
                     onChange={handleChange}
                     sx={{ 
                         width: '200px', 
-                        height: "40px", 
+                        height: "25px", 
                         marginBottom: '20px', 
                         marginRight: "10px" 
                     }} 
@@ -170,7 +171,6 @@ const PrintForm: React.FC = () => {
             <div ref={componentRef}>
                 <div style={{ textAlign: "center", marginBottom: "20px", fontSize: "18px", fontFamily: 'Roboto, sans-serif' }}>
                     <h4 style={{margin: 0, marginBottom: "5px"}}>ШТАТНИЙ ФОРМУЛЯР</h4>
-                    <p style={{ margin: 0, marginBottom: "5px"}}>науково-педагогічного складу Національного транспортного університету</p>
                     <p style={{ margin: 0, marginBottom: "15px"}}>
                         на {selectedDate?.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}
                     </p>
