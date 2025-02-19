@@ -72,7 +72,7 @@ const Form: React.FC = () => {
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>
                     <Link to="/view/form/formForAnother" style={{ textDecoration: 'none', color: 'black' }}>
-                        <Typography sx={{ textDecoration: 'none' }}>Формуляр для інших</Typography>
+                        <Typography sx={{ textDecoration: 'none' }}>Формуляр підрозділів</Typography>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={hadnleClose}>

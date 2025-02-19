@@ -98,7 +98,7 @@ const PrintForm: React.FC = () => {
                     }} 
                 >
                     <MenuItem value="" disabled>
-                        {loading ? 'Завантаження...' : 'Виберіть кафедру'}
+                        {loading ? 'Завантаження...' : 'Вкажіть підрозділ'}
                     </MenuItem>
                     {domains.map((dom) => (
                         <MenuItem key={dom.id} value={dom.id}>
