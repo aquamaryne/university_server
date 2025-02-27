@@ -6,7 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "prebuild": "export TIMESTAMP=$(date +%s) && echo \"VERSION=1.0.$TIMESTAMP\" >.env",
+    "build": "nest build && npm run prebuild",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nodemon --watch src --exec ts-node -r tsconfig-paths/register src/main.ts",

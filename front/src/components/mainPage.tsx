@@ -8,6 +8,14 @@ import Archieve from "./archieve";
 import PageButton from "./button";
 
 const MainPage: React.FC = () => {
+    const[version, setVersion] = React.useState("");
+
+    React.useEffect(() => {
+        fetch("http://localhost:3001")
+        .then((res) => res.json())
+        .then((data) => setVersion(data.version))
+    }, []);
+
     return(
         <div style={{
             padding: 5,
@@ -41,6 +49,7 @@ const MainPage: React.FC = () => {
                 <Form />
                 <Archieve />
             </div>
+            <footer>{version}</footer>
         </div>
     )
 }
