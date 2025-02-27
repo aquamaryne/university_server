@@ -47,6 +47,8 @@ import { EnterFormController } from './enter-form/enter-form.controller';
 import { ApiKeyMiddleware } from './api_key/api_key.middleware';
 import { ExcelModule } from './excel/excel.module';
 import { ContentDownloadModule } from './content-download/content-download.module';
+import { Staff } from './entity/staff';
+import { StaffModule } from './staff/staff.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -71,6 +73,7 @@ import { ContentDownloadModule } from './content-download/content-download.modul
         Sex,
         Work_Experience,
         Auth_Key,
+        Staff
       ],
       synchronize: true,
       logging: true,
@@ -103,6 +106,7 @@ import { ContentDownloadModule } from './content-download/content-download.modul
     HealthModule,
     ExcelModule,
     ContentDownloadModule,
+    StaffModule,
   ],
   controllers: [AppController, BackupController, EnterFormController ],
   providers: [

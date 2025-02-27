@@ -9,138 +9,6 @@ import enUS from 'date-fns/locale/en-US';
 import PrintIcon from '@mui/icons-material/Print';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
-interface People { 
-    id: number;
-    domain_name: string;
-};
-
-const FacultyData = [
-    {
-        id: 1,
-        fullName: "Іваненко Петро Васильович",
-        position: "Доцент",
-        entryDate: "15.09.2010",
-        discipline: "Математичний аналіз",
-        staffType: "Штатний",
-        academicTitle: "Кандидат наук",
-        academicDegree: "Доцент",
-        totalExperience: 20,
-        universityExperience: 15,
-        lastQualificationYear: 2022,
-        birthYear: 1980,
-        gender: "Чоловік",
-        education: "КНУ ім. Шевченка, 2002",
-        honoraryTitle: "Заслужений викладач",
-        foreignLanguage: "Англійська",
-        dismissal: "",
-        contractEndDate: "31.08.2030"
-    },
-    {
-        id: 2,
-        fullName: "Сидоренко Марина Олександрівна",
-        position: "Старший викладач",
-        entryDate: "01.02.2015",
-        discipline: "Фізика",
-        staffType: "Штатний",
-        academicTitle: "-",
-        academicDegree: "Кандидат наук",
-        totalExperience: 12,
-        universityExperience: 9,
-        lastQualificationYear: 2021,
-        birthYear: 1985,
-        gender: "Жінка",
-        education: "ХНУ ім. Каразіна, 2008",
-        honoraryTitle: "",
-        foreignLanguage: "Німецька",
-        dismissal: "",
-        contractEndDate: "31.08.2028"
-    },
-    {
-        id: 3,
-        fullName: "Коваленко Андрій Ігорович",
-        position: "Професор",
-        entryDate: "12.07.2005",
-        discipline: "Програмування",
-        staffType: "Штатний",
-        academicTitle: "Доктор наук",
-        academicDegree: "Професор",
-        totalExperience: 25,
-        universityExperience: 18,
-        lastQualificationYear: 2023,
-        birthYear: 1975,
-        gender: "Чоловік",
-        education: "Львівська політехніка, 1997",
-        honoraryTitle: "Академік НАН України",
-        foreignLanguage: "Французька",
-        dismissal: "",
-        contractEndDate: "31.08.2035"
-    },
-    {
-        id: 4,
-        fullName: "Григоренко Ольга Миколаївна",
-        position: "Асистент",
-        entryDate: "05.09.2020",
-        discipline: "Хімія",
-        staffType: "Сумісник",
-        academicTitle: "-",
-        academicDegree: "Магістр",
-        totalExperience: 5,
-        universityExperience: 3,
-        lastQualificationYear: 2023,
-        birthYear: 1995,
-        gender: "Жінка",
-        education: "КПІ, 2018",
-        honoraryTitle: "",
-        foreignLanguage: "Англійська, Польська",
-        dismissal: "",
-        contractEndDate: "31.08.2025"
-    },
-    {
-        id: 5,
-        fullName: "Мельник Дмитро Віталійович",
-        position: "Доцент",
-        entryDate: "20.03.2012",
-        discipline: "Електротехніка",
-        staffType: "Штатний",
-        academicTitle: "Кандидат наук",
-        academicDegree: "Доцент",
-        totalExperience: 18,
-        universityExperience: 12,
-        lastQualificationYear: 2020,
-        birthYear: 1982,
-        gender: "Чоловік",
-        education: "Одеський національний університет, 2004",
-        honoraryTitle: "",
-        foreignLanguage: "Іспанська",
-        dismissal: "",
-        contractEndDate: "31.08.2029"
-    }
-];
-
-interface FacultyMember {
-    id: number;
-    fullName: string;
-    position: string;
-    entryDate: string;
-    discipline: string;
-    staffType: string;
-    academicTitle: string;
-    academicDegree: string;
-    totalExperience: number;
-    universityExperience: number;
-    lastQualificationYear: number;
-    birthYear: number;
-    gender: string;
-    education: string;
-    honoraryTitle: string;
-    foreignLanguage: string;
-    dismissal: string;
-    contractEndDate: string;
-}
-
-interface FacultyTableProps {
-    facultyData: FacultyMember[];
-}
 
 const FormOne: React.FC = () => {
     const componentRef = React.useRef<HTMLDivElement>(null);
@@ -149,7 +17,6 @@ const FormOne: React.FC = () => {
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
     const[startPage, setStartPage] = React.useState<string>('');
     const[menuArchor, setMenuArchor] = React.useState<null | HTMLElement>(null);
-    const[selectedRow, setSelectedRow] = React.useState<FacultyMember | null>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const value = e.target.value;
@@ -182,16 +49,7 @@ const FormOne: React.FC = () => {
         document.body.removeChild(link);
     };
 
-    const handleContextMenu = (e: React.MouseEvent<HTMLTableRowElement>, row: FacultyMember) => {
-        e.preventDefault();
-        setSelectedRow(row);
-        setMenuArchor(e.currentTarget);
-    }
-
-    const handleCloseMenu = () => {
-        setMenuArchor(null);
-        setSelectedRow(null);
-    };
+    
 
     return (
         <div style={{ justifyContent: 'center', padding: '16px' }}>
@@ -337,54 +195,10 @@ const FormOne: React.FC = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {FacultyData.map((row) => (
-                                    <TableRow 
-                                        key={row.id}
-                                        onContextMenu={(e) => handleContextMenu(e, row)}
-                                        sx={{
-                                            transition: 'background-color 0.3s ease-in-out',
-                                            "&:hover": {
-                                                backgroundColor: "rgba(25, 118, 210, 0.2)",
-                                                cursor: 'pointer',
-                                            }
-                                        }}
-                                    >
-                                        <TableCell>{row.id}</TableCell>
-                                        <TableCell>{row.fullName}</TableCell>
-                                        <TableCell>{row.position}</TableCell>
-                                        <TableCell>{row.entryDate}</TableCell>
-                                        <TableCell>{row.discipline}</TableCell>
-                                        <TableCell>{row.staffType}</TableCell>
-                                        <TableCell>{row.academicTitle}</TableCell>
-                                        <TableCell>{row.academicDegree}</TableCell>
-                                        <TableCell>{row.totalExperience}</TableCell>
-                                        <TableCell>{row.universityExperience}</TableCell>
-                                        <TableCell>{row.lastQualificationYear}</TableCell>
-                                        <TableCell>{row.birthYear}</TableCell>
-                                        <TableCell>{row.gender}</TableCell>
-                                        <TableCell>{row.education}</TableCell>
-                                        <TableCell>{row.honoraryTitle}</TableCell>
-                                        <TableCell>{row.foreignLanguage}</TableCell>
-                                        <TableCell>{row.dismissal || '-'}</TableCell>
-                                        <TableCell>{row.contractEndDate}</TableCell>
-                                    </TableRow>
-                                ))}
+                                
+                                    
                             </TableBody>
-                            <Menu
-                                anchorEl={menuArchor}
-                                open={Boolean(menuArchor)}
-                                onClose={handleCloseMenu}
-                            >
-                                <MenuItem onClick={() => alert(`👀 Просмотр: ${selectedRow?.fullName}`)}>
-                                    Просмотр
-                                </MenuItem>
-                                <MenuItem onClick={() => alert(`✏️ Редактирование: ${selectedRow?.fullName}`)}>
-                                    Редактировать
-                                </MenuItem>
-                                <MenuItem onClick={() => alert(`🗑️ Удаление: ${selectedRow?.fullName}`)}>
-                                    Удалить
-                                </MenuItem>
-                            </Menu>
+                            
                         </Table>
                     </TableContainer>
                     <div style={{ marginTop: '20px'}}>

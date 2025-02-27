@@ -1,5 +1,5 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToMany, DeleteDateColumn } from "typeorm";
-import { Positions } from "./positions";
+import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from "typeorm";
+import { Staff } from "./staff";
 import { Family } from "./family";
 import { Work_Experience } from "./workExperience";
 import { Personal_Info } from "./personalInfo";
@@ -9,6 +9,7 @@ import { Achieve } from "./achieve";
 import { Language } from "./lang";
 import { Sex } from "./sex";
 import { Domains } from "./domains";
+import { Positions } from "./positions";
 @Entity()
 export class Employeers{
     @PrimaryGeneratedColumn('increment')
@@ -33,7 +34,10 @@ export class Employeers{
     @Column({ type: 'date', nullable: true })
     date_of_birth: Date;
 
-    @OneToMany(() => Positions, positions => positions.employeers)
+    @OneToMany(() => Staff, staffPositions => staffPositions.employeers)
+    staff_positions: Staff[];
+
+    @OneToMany(() => Positions, (positions) => positions.employeers)
     positions: Positions[];
 
     @OneToMany(() => Family, family => family.employeers)

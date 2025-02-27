@@ -20,7 +20,7 @@ import { FamilyStatus } from 'src/entity/familyStatus';
 export class CsvService {
     constructor(
         @InjectRepository(Employeers)           private readonly employeerRepository: Repository<Employeers>,
-        @InjectRepository(Positions)            private readonly positionsRepository: Repository<Positions>,
+        // @InjectRepository(Positions)            private readonly positionsRepository: Repository<Positions>,
         @InjectRepository(Department)           private readonly departmentRepository: Repository<Department>,
         @InjectRepository(Personal_Info)        private readonly personalInfoRepository: Repository<Personal_Info>, 
         @InjectRepository(Domains)              private readonly domainsRepository: Repository<Domains>,
@@ -53,16 +53,16 @@ export class CsvService {
                     department = await this.departmentRepository.save(department);
                 }
 
-                const newPositions = this.positionsRepository.create({
-                    positions_name: row.positions_name,
-                    position_where_work_now: row.position_where_work_now,
-                    date_of_entry: new Date(row.date_of_entry),
-                    type_of_study: row.type_of_study,
-                    number_of_order: row.number_of_order,
-                    employeers: savedEmployeer,
-                    department: department,
-                });
-                await this.positionsRepository.save(newPositions);
+                // const newPositions = this.positionsRepository.create({
+                //     positions_name: row.positions_name,
+                //     position_where_work_now: row.position_where_work_now,
+                //     date_of_entry: new Date(row.date_of_entry),
+                //     type_of_study: row.type_of_study,
+                //     number_of_order: row.number_of_order,
+                //     employeers: savedEmployeer,
+                //     department: department,
+                // });
+                // await this.positionsRepository.save(newPositions);
 
                 const newPersonalInfo = this.personalInfoRepository.create({
                     date_of_issue: row.date_of_issue,

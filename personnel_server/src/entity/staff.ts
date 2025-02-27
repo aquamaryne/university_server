@@ -3,7 +3,7 @@ import { Department } from "./department";
 import { Employeers } from "./employeers";
 
 @Entity()
-export class Positions{
+export class Staff{
     @PrimaryGeneratedColumn()
     id: number
 
@@ -33,10 +33,6 @@ export class Positions{
     })
     number_of_order: number;
 
-    @ManyToOne(() => Department, department => department.positions)
-    department: Department;
-
-    @ManyToOne(() => Employeers, (employeer) => employeer.positions)
+    @ManyToOne(() => Employeers, (employeer) => employeer.staff_positions)
     employeers: Employeers;
-
 }

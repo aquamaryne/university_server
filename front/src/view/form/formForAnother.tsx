@@ -23,7 +23,7 @@ interface DataItem {
 
 const ITEMS_PER_PAGE = 7;
 
-const PrintForm: React.FC = () => {
+const StaffForm: React.FC = () => {
     const componentRef = React.useRef<HTMLDivElement>(null);
     const[domains, setDomains] = React.useState<Domain[]>([]);
     const[selecterdDepartment, setSelectedDepartment] = React.useState<string | number>("");
@@ -170,7 +170,7 @@ const PrintForm: React.FC = () => {
             </Button>
             <div ref={componentRef}>
                 <div style={{ textAlign: "center", marginBottom: "20px", fontSize: "18px", fontFamily: 'Roboto, sans-serif' }}>
-                    <h4 style={{margin: 0, marginBottom: "5px"}}>ШТАТНИЙ ФОРМУЛЯР</h4>
+                    <h4 style={{margin: 0, marginBottom: "5px"}}>ФОРМУЛЯР ПІДРОЗДІЛІВ</h4>
                     <p style={{ margin: 0, marginBottom: "15px"}}>
                         на {selectedDate?.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}
                     </p>
@@ -271,4 +271,4 @@ const PrintForm: React.FC = () => {
     )
 }
 
-export default PrintForm;
+export default StaffForm;

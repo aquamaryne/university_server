@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent, Typography } from "@mui/material";
+import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, InputLabel, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent, Typography } from "@mui/material";
 import ReactToPrint, { useReactToPrint } from 'react-to-print';
 import { LocalizationProvider  } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -85,13 +85,14 @@ const PrintForm: React.FC = () => {
     return (
         <div style={{ justifyContent: 'center', padding: '16px' }}>
             <FormControl>
+                <InputLabel>Вкажіть кафедру</InputLabel>
                 <Select 
                     label='Кафедра'
                     variant="standard" 
                     onChange={handleChange}
                     sx={{ 
                         width: '200px', 
-                        height: "40px", 
+                        height: "24px", 
                         marginBottom: '20px', 
                         marginRight: "10px" 
                     }} 
