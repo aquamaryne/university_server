@@ -16,9 +16,20 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
+    AppBar,
+    Toolbar,
+    IconButton,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
+import MinimizeIcon from '@mui/icons-material/Minimize';
+import CropSquareIcon from '@mui/icons-material/CropSquare';
+import CloseIcon from '@mui/icons-material/Close';
 import React from "react";
 
 const alphabet = 'АБВГҐДЕЄЖЗІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ'.split('');
@@ -30,10 +41,20 @@ const SearchBySurname: React.FC = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const [selectedCard, setSelectedCards] = React.useState<Set<number>>(new Set());
     const [isPreviewOpen, setIsPreviewOpen] = React.useState(false);
+    const [isFormOpen, setIsFormOpen] = React.useState(false);
+    const [selectedCategory, setSelectedCategory] = React.useState<string>("1");
 
     const printRef = React.useRef<HTMLDivElement>(null);
 
     const navigate = useNavigate();
+
+    const categories = [
+        { id: '1', label: '1 - Професорсько-викладацький склад',        highlighted: true  },
+        { id: 'У', label: 'У - Навчально-допоміжний склад',             highlighted: false },
+        { id: 'A', label: 'A - Адміністративно-господарський склад',    highlighted: false },
+        { id: 'C', label: 'C - Сумісники з сторони',                    highlighted: false },
+        { id: 'Д', label: 'Д - НДІ',                                    highlighted: false }
+    ]
 
     const fetchSname = async(queryType: 'letter' | 'search' | 'all', value: string='') => {
         setLoading(true);
@@ -134,8 +155,120 @@ const SearchBySurname: React.FC = () => {
         setSelectedCards(new Set());
     };
 
+    const handleOpenForm = () => {
+        setIsFormOpen(true)
+    }
+
+    const handleCloseForm = () => {
+        setIsFormOpen(false);
+    }
+
+    const handleCategorySelect = (id: string) => {
+        setSelectedCategory(id);
+        setIsFormOpen(false);
+        setSelectedLetter(null);
+        setSearchQuery("");
+    }
+
     return (
         <Box sx={{ p: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6">Пошук за прізвищем</Typography>
+                <Button 
+                    variant="outlined" 
+                    onClick={handleOpenForm}
+                    sx={{ borderRadius: 0 }}
+                >
+                    {categories.find(c => c.id === selectedCategory)?.label || 'Обрати категорію'}
+                </Button>
+            </Box>
+
+            {/* Category Selection Dialog */}
+            <Dialog 
+                open={isFormOpen} 
+                onClose={handleCloseForm}
+                PaperProps={{
+                    style: {
+                        borderRadius: 0,
+                        maxWidth: 500,
+                        width: '100%',
+                        margin: 0,
+                        padding: 0
+                    }
+                }}
+            >
+                <Paper 
+                    elevation={3} 
+                    sx={{ 
+                        width: 500, 
+                        borderRadius: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        overflow: 'hidden'
+                    }}
+                >
+                    {/* Window title bar */}
+                    <AppBar position="static" color="default" elevation={0} sx={{ height: 30, backgroundColor: '#e6e6e6' }}>
+                        <Toolbar variant="dense" sx={{ minHeight: 30, padding: '0 8px', justifyContent: 'space-between' }}>
+                            <Box display="flex" alignItems="center">
+                                <img src="/api/placeholder/16/16" alt="Icon" style={{ width: 16, height: 16 }} />
+                            </Box>
+                            <Box>
+                                <IconButton size="small" sx={{ padding: 0.5 }} onClick={handleCloseForm}>
+                                    <MinimizeIcon fontSize="small" />
+                                </IconButton>
+                                <IconButton size="small" sx={{ padding: 0.5 }} onClick={handleCloseForm}>
+                                    <CropSquareIcon fontSize="small" />
+                                </IconButton>
+                                <IconButton size="small" sx={{ padding: 0.5 }} onClick={handleCloseForm}>
+                                    <CloseIcon fontSize="small" />
+                                </IconButton>
+                            </Box>
+                        </Toolbar>
+                    </AppBar>
+
+                    {/* Main content */}
+                    <Box sx={{ flexGrow: 1, backgroundColor: '#f5f5f5', padding: 2 }}>
+                        <List sx={{ width: '100%', padding: 0 }}>
+                            {categories.map((category) => (
+                                <ListItem 
+                                    key={category.id} 
+                                    disablePadding 
+                                    sx={{ 
+                                        marginBottom: 1,
+                                        padding: 0
+                                    }}
+                                >
+                                    <ListItemButton 
+                                        onClick={() => handleCategorySelect(category.id)} 
+                                        sx={{ 
+                                            border: '1px solid #ccc',
+                                            backgroundColor: 'white', 
+                                            height: 60,
+                                            padding: 0,
+                                            justifyContent: 'center',
+                                            borderStyle: category.id === selectedCategory ? 'dashed' : 'solid',
+                                        }}
+                                    >
+                                        <ListItemText 
+                                            primary={
+                                                <Typography 
+                                                    align="center" 
+                                                    variant="body1"
+                                                >
+                                                    {category.label}
+                                                </Typography>
+                                            } 
+                                            sx={{ margin: 0 }}
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
+                </Paper>
+            </Dialog>
+
             <Box justifyContent={'center'} sx={{ display: 'flex', flexWrap: 'wrap', mt: 2 }}>
                 {alphabet.map((letter) => (
                     <Button
@@ -177,7 +310,7 @@ const SearchBySurname: React.FC = () => {
 
             <Box sx={{ mt: 4, p: 2}}>
                 <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: '#222', textAlign: 'center' }}>
-                    Результат пошуку
+                    Результат пошуку ({categories.find(c => c.id === selectedCategory)?.label})
                 </Typography>
                 {loading ? (
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -303,8 +436,40 @@ const SearchBySurname: React.FC = () => {
                     </Typography>
                 )}
             </Box>
+            
+            {/* Hidden print div */}
+            <div style={{ display: 'none' }}>
+                <div ref={printRef}>
+                    {/* Content for printing */}
+                    <h2>Довідка персональних карток</h2>
+                    <p>Категорія: {categories.find(c => c.id === selectedCategory)?.label}</p>
+                    <table border={1} style={{ borderCollapse: 'collapse', width: '100%' }}>
+                        <thead>
+                            <tr>
+                                <th style={{ padding: '8px', textAlign: 'center' }}>Номер картки</th>
+                                <th style={{ padding: '8px', textAlign: 'center' }}>Прізвище</th>
+                                <th style={{ padding: '8px', textAlign: 'center' }}>Ім'я</th>
+                                <th style={{ padding: '8px', textAlign: 'center' }}>По батькові</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Array.from(selectedCard).map(id => {
+                                const item = sname.find(s => s.id === id);
+                                return item ? (
+                                    <tr key={item.id}>
+                                        <td style={{ padding: '8px', textAlign: 'center' }}>{item.unique_card}</td>
+                                        <td style={{ padding: '8px', textAlign: 'center' }}>{item.sname}</td>
+                                        <td style={{ padding: '8px', textAlign: 'center' }}>{item.fname}</td>
+                                        <td style={{ padding: '8px', textAlign: 'center' }}>{item.fatherly}</td>
+                                    </tr>
+                                ) : null;
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </Box>
-    )
+    );
 }
 
 export default SearchBySurname;
