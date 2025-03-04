@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CssBaseline, Box, Paper, Typography, TextField, MenuItem, Button, Grid } from '@mui/material';
+import { CssBaseline, Box, Paper, Typography, TextField, MenuItem, Button, Grid, Select } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 
@@ -136,7 +136,7 @@ const EmployeeForm: React.FC = () => {
               variant="outlined" 
               size="small" 
               sx={{ 
-                borderRadius: '4px 4px 0 0', 
+                borderRadius: '0px 0px 0 0', 
                 borderBottomColor: 'transparent', 
                 m: 0.2,
                 py: 0.5
@@ -144,11 +144,48 @@ const EmployeeForm: React.FC = () => {
             >
               Загальні відомості
             </Button>
-            <Button size="small" sx={{ m: 0.2, py: 0.5 }}>Загальні відомості-2</Button>
-            <Button size="small" sx={{ m: 0.2, py: 0.5 }}>Військовий облік</Button>
-            <Button size="small" sx={{ m: 0.2, py: 0.5 }}>Призначення і переведення</Button>
-            <Button size="small" sx={{ m: 0.2, py: 0.5 }}>Відпустки</Button>
-            <Button size="small" sx={{ m: 0.2, py: 0.5 }}>Додат. відомості</Button>
+            <Button variant="outlined" 
+              size="small" 
+              sx={{ 
+                borderRadius: '0px 0px 0 0', 
+                borderBottomColor: 'transparent', 
+                m: 0.2,
+                py: 0.5
+              }}>
+                Загальні відомості-2
+            </Button>
+            <Button variant="outlined" 
+              size="small" 
+              sx={{ 
+                borderRadius: '0px 0px 0 0', 
+                borderBottomColor: 'transparent', 
+                m: 0.2,
+                py: 0.5
+              }}>
+                Призначення і переведення
+              </Button>
+            <Button 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                borderRadius: '0px 0px 0 0', 
+                borderBottomColor: 'transparent', 
+                m: 0.2,
+                py: 0.5
+              }}>
+                Відпустки
+              </Button>
+            <Button 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                borderRadius: '0px 0px 0 0', 
+                borderBottomColor: 'transparent', 
+                m: 0.2,
+                py: 0.5
+              }}>
+                Додат. відомості
+            </Button>
           </Box>
 
           <Grid container spacing={1}>
