@@ -1,9 +1,22 @@
 import * as React from 'react';
-import { CssBaseline, Box, Paper, Typography, TextField, MenuItem, Button, Grid, Select } from '@mui/material';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { 
+  Box, 
+  Paper, 
+  Typography, 
+  TextField, 
+  MenuItem, 
+  Button, 
+  Grid, 
+  Container,
+  FormControl,
+  InputLabel,
+  Select,
+  SelectChangeEvent,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
 
-// Define types for our form data
+// Define types for our form data (exactly the same as original)
 interface EmployeeData {
   identificationCode: string;
   taxNumber: string;
@@ -76,8 +89,9 @@ const EmployeeForm: React.FC = () => {
     terminationReason: ''
   });
 
-  // Handle text field changes with proper typing
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  const[activeTab, setActiveTab] = React.useState<string>("Загальні відомості");
+  // Handle text field changes
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>): void => {
     const { name, value } = event.target;
     setEmployeeData({
       ...employeeData,
@@ -85,13 +99,9 @@ const EmployeeForm: React.FC = () => {
     });
   };
 
-  // Handle date changes with proper typing
-  const handleDateChange = (name: string) => (date: Date | null): void => {
-    setEmployeeData({
-      ...employeeData,
-      [name]: date
-    });
-  };
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  }
 
   // Education options
   const educationOptions = [
@@ -121,516 +131,456 @@ const EmployeeForm: React.FC = () => {
     { value: 'contract-end', label: 'Закінчення строку контракту' }
   ];
 
+  const tabs = [
+    'Загальні відомості', 
+    'Загальні відомості-2', 
+    'Призначення і переведення', 
+    'Відпустки', 
+    'Додат. відомості'
+  ]
+
   return (
-    <>
-      <CssBaseline />
-      <Box sx={{ width: '100%', height: '100vh', p: 0 }}>
-        <Paper sx={{ p: 1.5, position: 'relative', width: '100%', height: '100%', overflow: 'auto' }}>
-          <Box sx={{ position: 'absolute', right: 8, top: 8 }}>
-            <Typography variant="subtitle2">Форма № П-2</Typography>
-          </Box>
-          
-          {/* Tabs */}
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', borderBottom: 1, borderColor: 'divider', mb: 1.5 }}>
+    <Container maxWidth="xl" sx={{ py: 2 }}>
+      <Paper elevation={3} sx={{ p: 2 }}>
+        {/* Form Header */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Особова картка працівника</Typography>
+          <Typography variant="caption">Форма № П-2</Typography>
+        </Box>
+
+        {/* Tab-like Buttons */}
+        <Box sx={{ 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          gap: 1, 
+          borderBottom: 1, 
+          borderColor: 'divider', 
+          mb: 2, 
+          pb: 1 
+        }}>
+          {tabs.map((tab) => (
             <Button 
-              variant="outlined" 
-              size="small" 
+              key={tab} 
+              variant={activeTab === tab ? "outlined" : "contained"}
+              size="small"
+              onClick={() => handleTabChange(tab)}
               sx={{ 
-                borderRadius: '0px 0px 0 0', 
-                borderBottomColor: 'transparent', 
-                m: 0.2,
-                py: 0.5
+                textTransform: 'none',
+                borderRadius: 0
               }}
             >
-              Загальні відомості
+              {tab}
             </Button>
-            <Button variant="outlined" 
-              size="small" 
-              sx={{ 
-                borderRadius: '0px 0px 0 0', 
-                borderBottomColor: 'transparent', 
-                m: 0.2,
-                py: 0.5
-              }}>
-                Загальні відомості-2
-            </Button>
-            <Button variant="outlined" 
-              size="small" 
-              sx={{ 
-                borderRadius: '0px 0px 0 0', 
-                borderBottomColor: 'transparent', 
-                m: 0.2,
-                py: 0.5
-              }}>
-                Призначення і переведення
-              </Button>
-            <Button 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
-                borderRadius: '0px 0px 0 0', 
-                borderBottomColor: 'transparent', 
-                m: 0.2,
-                py: 0.5
-              }}>
-                Відпустки
-              </Button>
-            <Button 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
-                borderRadius: '0px 0px 0 0', 
-                borderBottomColor: 'transparent', 
-                m: 0.2,
-                py: 0.5
-              }}>
-                Додат. відомості
-            </Button>
-          </Box>
-
-          <Grid container spacing={1}>
-            {/* Left column */}
+          ))}
+        </Box>
+        {activeTab === 'Загальні відомості' && (
+          <Grid container spacing={2}>
+            {/* Left Column */}
             <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Typography variant="body2" sx={{ width: 150 }}>Ідентифікаційний код</Typography>
+              {/* Identification Codes */}
+              <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
                 <TextField 
+                  label="Ідентифікаційний код"
                   name="identificationCode"
                   value={employeeData.identificationCode}
                   onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 180, mr: 1 }}
+                  size="small" 
+                  fullWidth 
                 />
-                <Typography variant="body2" sx={{ width: 40 }}>Таб №</Typography>
                 <TextField 
+                  label="Таб №"
                   name="taxNumber"
                   value={employeeData.taxNumber}
                   onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 80 }}
+                  size="small" 
+                  sx={{ width: 100 }} 
                 />
               </Box>
 
-              <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Typography variant="body2" sx={{ width: 150 }}>Страхове свідоцтво №</Typography>
+              {/* Insurance and Personal Card Numbers */}
+              <TextField 
+                label="Страхове свідоцтво №"
+                name="insuranceNumber"
+                value={employeeData.insuranceNumber}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
+
+              <TextField 
+                label="Особова картка №"
+                name="personalCardNumber"
+                value={employeeData.personalCardNumber}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
+
+              {/* Personal Information */}
+              <TextField 
+                label="1. Прізвище"
+                name="lastName"
+                value={employeeData.lastName}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
+
+              <TextField 
+                label="Ім'я"
+                name="firstName"
+                value={employeeData.firstName}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
+
+              <TextField 
+                label="По батькові"
+                name="patronymic"
+                value={employeeData.patronymic}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
+
+              {/* Birth Date */}
+              <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
                 <TextField 
-                  name="insuranceNumber"
-                  value={employeeData.insuranceNumber}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 'calc(100% - 150px)', maxWidth: 300 }}
+                  label="2. Рік народження"
+                  name="birthYear"
+                  size="small" 
+                  sx={{ width: 100 }} 
                 />
-              </Box>
-
-              <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Typography variant="body2" sx={{ width: 150 }}>Особова картка №</Typography>
                 <TextField 
-                  name="personalCardNumber"
-                  value={employeeData.personalCardNumber}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 150 }}
+                  label="Місяць"
+                  name="birthMonth"
+                  size="small" 
+                  sx={{ width: 100 }} 
+                />
+                <TextField 
+                  label="Число"
+                  name="birthDay"
+                  size="small" 
+                  sx={{ width: 100 }} 
                 />
               </Box>
 
+              {/* Birth Place */}
+              <TextField 
+                label="3. Місце народження"
+                name="birthPlace"
+                value={employeeData.birthPlace}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
+
+              {/* Education Section */}
               <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">1. Прізвище</Typography>
-                <TextField 
-                  name="lastName"
-                  value={employeeData.lastName}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
-                />
-              </Box>
-
-              <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">Ім'я</Typography>
-                <TextField 
-                  name="firstName"
-                  value={employeeData.firstName}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
-                />
-              </Box>
-
-              <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">По батькові</Typography>
-                <TextField 
-                  name="patronymic"
-                  value={employeeData.patronymic}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
-                />
-              </Box>
-
-              <Box sx={{ mb: 1.5 }}>
-                <Typography variant="body2">2. Рік народження</Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                  <TextField 
-                    name="birthYear"
-                    placeholder="Рік"
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    sx={{ width: 80, mr: 1 }}
-                  />
-                  <Typography variant="body2" sx={{ mr: 1 }}>місяць</Typography>
-                  <TextField 
-                    name="birthMonth"
-                    placeholder="ММ"
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    sx={{ width: 60, mr: 1 }}
-                  />
-                  <Typography variant="body2" sx={{ mr: 1 }}>число</Typography>
-                  <TextField 
-                    name="birthDay"
-                    placeholder="ДД"
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    sx={{ width: 60 }}
-                  />
-                </Box>
-              </Box>
-
-              <Box sx={{ mb: 1.5 }}>
-                <Typography variant="body2">3. Місце народження</Typography>
-                <TextField 
-                  name="birthPlace"
-                  value={employeeData.birthPlace}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
-                />
-              </Box>
-
-              <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">4. Освіта</Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', mb: 0.5 }}>
-                  <Typography variant="body2" sx={{ width: 20 }}>а)</Typography>
-                  <TextField
-                    select
+                <Typography variant="subtitle2" sx={{ mb: 1 }}>4. Освіта</Typography>
+                
+                <FormControl fullWidth size="small" sx={{ mb: 1 }}>
+                  <InputLabel>а) Рівень освіти</InputLabel>
+                  <Select
                     name="education"
                     value={employeeData.education}
+                    label="а) Рівень освіти"
                     onChange={handleChange}
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    sx={{ width: '100%', maxWidth: 220 }}
                   >
                     {educationOptions.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.label}
                       </MenuItem>
                     ))}
-                  </TextField>
-                </Box>
+                  </Select>
+                </FormControl>
 
-                <Box sx={{ mb: 0.5 }}>
-                  <Typography variant="body2">б) Назва і дата закінчення ВУЗу:</Typography>
-                  <TextField 
-                    name="educationInstitution"
-                    value={employeeData.educationInstitution}
-                    onChange={handleChange}
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    fullWidth
-                  />
-                </Box>
+                <TextField 
+                  label="б) Назва і дата закінчення ВУЗу"
+                  name="educationInstitution"
+                  value={employeeData.educationInstitution}
+                  onChange={handleChange}
+                  size="small" 
+                  fullWidth 
+                  sx={{ mb: 1 }}
+                />
 
-                <Box sx={{ mb: 0.5 }}>
-                  <Typography variant="body2">в) Назва і дата закінчення ПТУ:</Typography>
-                  <TextField 
-                    name="vocationalSchool"
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    fullWidth
-                  />
-                </Box>
+                <TextField 
+                  label="в) Назва і дата закінчення ПТУ"
+                  name="vocationalSchool"
+                  size="small" 
+                  fullWidth 
+                  sx={{ mb: 1 }}
+                />
 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                  <Typography variant="body2" sx={{ width: 100 }}>г) Вид навчання</Typography>
-                  <TextField
-                    select
+                <FormControl fullWidth size="small">
+                  <InputLabel>г) Вид навчання</InputLabel>
+                  <Select
                     name="educationType"
                     value={employeeData.educationType}
+                    label="г) Вид навчання"
                     onChange={handleChange}
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    sx={{ width: 'calc(100% - 100px)', maxWidth: 220 }}
                   >
                     {educationTypeOptions.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.label}
                       </MenuItem>
                     ))}
-                  </TextField>
-                </Box>
+                  </Select>
+                </FormControl>
               </Box>
 
-              <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">Підрозділ, де працює зараз:</Typography>
-                <TextField
-                  select
-                  name="department"
-                  value={employeeData.department}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 80 }}
-                >
-                  <MenuItem value="08">08</MenuItem>
-                  <MenuItem value="01">01</MenuItem>
-                  <MenuItem value="02">02</MenuItem>
-                </TextField>
-              </Box>
+              {/* Department and Position */}
+              <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                <FormControl size="small" sx={{ width: 120 }}>
+                  <InputLabel>Підрозділ</InputLabel>
+                  <Select
+                    name="department"
+                    value={employeeData.department}
+                    label="Підрозділ"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="08">08</MenuItem>
+                    <MenuItem value="01">01</MenuItem>
+                    <MenuItem value="02">02</MenuItem>
+                  </Select>
+                </FormControl>
 
-              <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">Посада:</Typography>
-                <TextField
-                  select
-                  name="position"
-                  value={employeeData.position}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: '100%', maxWidth: 220 }}
-                >
-                  <MenuItem value="senior_lecturer">старший викладач</MenuItem>
-                  <MenuItem value="lecturer">викладач</MenuItem>
-                  <MenuItem value="assistant">асистент</MenuItem>
-                </TextField>
+                <FormControl size="small" sx={{ flexGrow: 1 }}>
+                  <InputLabel>Посада</InputLabel>
+                  <Select
+                    name="position"
+                    value={employeeData.position}
+                    label="Посада"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="senior_lecturer">Старший викладач</MenuItem>
+                    <MenuItem value="lecturer">Викладач</MenuItem>
+                    <MenuItem value="assistant">Асистент</MenuItem>
+                  </Select>
+                </FormControl>
               </Box>
             </Grid>
 
-            {/* Right column */}
+            {/* Right Column */}
             <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Typography variant="body2" sx={{ width: 40 }}>Стать</Typography>
-                <Typography variant="body2" sx={{ width: 50 }}>♀ ♂ ✓</Typography>
-                <Typography variant="body2" sx={{ width: 130 }}>В інституті працює з</Typography>
+              {/* Gender and Working Since */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                <Typography variant="body2">Стать</Typography>
+                <FormControlLabel 
+                  control={
+                    <Checkbox />
+                  }
+                  label="Чоловічий"
+                />
+                <FormControlLabel 
+                  control={
+                    <Checkbox />
+                  }
+                  label="Жіночий"
+                />
                 <TextField 
+                  label="В інституті працює з"
                   name="workingSince"
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 70, mx: 1 }}
+                  value={employeeData.workingSince}
+                  onChange={handleChange}
+                  size="small" 
+                  sx={{ ml: 2, width: 100 }}
                 />
                 <Typography variant="body2">року</Typography>
               </Box>
 
-              <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">5. Спеціальність за дипломом</Typography>
-                <TextField 
-                  name="specialization"
-                  value={employeeData.specialization}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
-                />
-              </Box>
+              {/* Specialization and Qualification */}
+              <TextField 
+                label="5. Спеціальність за дипломом"
+                name="specialization"
+                value={employeeData.specialization}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
 
-              <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">6. Кваліфікація за дипломом(свідоцтвом)</Typography>
-                <TextField 
-                  name="qualification"
-                  value={employeeData.qualification}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
-                />
-              </Box>
+              <TextField 
+                label="6. Кваліфікація за дипломом"
+                name="qualification"
+                value={employeeData.qualification}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
 
-              <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Typography variant="body2" sx={{ width: 80 }}>Диплом №</Typography>
+              {/* Diploma Details */}
+              <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
                 <TextField 
+                  label="Диплом №"
                   name="diplomaNumber"
                   value={employeeData.diplomaNumber}
                   onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 120, mr: 1 }}
+                  size="small" 
+                  sx={{ flexGrow: 1 }} 
                 />
-                <Typography variant="body2" sx={{ width: 20 }}>від</Typography>
                 <TextField 
+                  label="Дата"
                   name="diplomaDate"
                   placeholder="ДД.ММ.РРРР"
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 120 }}
+                  size="small" 
+                  sx={{ width: 150 }} 
                 />
               </Box>
 
-              <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Typography variant="body2" sx={{ width: 170 }}>7. Загальний стаж роботи</Typography>
-                <TextField 
-                  name="totalExperience"
-                  value={employeeData.totalExperience}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 120 }}
-                />
-              </Box>
+              {/* Experience */}
+              <TextField 
+                label="7. Загальний стаж роботи"
+                name="totalExperience"
+                value={employeeData.totalExperience}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
 
               <Box sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', mb: 0.5 }}>
-                  <Typography variant="body2" sx={{ width: 170 }}>8. Безперервний стаж роботи</Typography>
-                  <TextField 
-                    name="continuousExperience"
-                    value={employeeData.continuousExperience}
-                    onChange={handleChange}
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    sx={{ width: 120 }}
-                  />
-                </Box>
+                <TextField 
+                  label="8. Безперервний стаж роботи"
+                  name="continuousExperience"
+                  value={employeeData.continuousExperience}
+                  onChange={handleChange}
+                  size="small" 
+                  fullWidth 
+                  sx={{ mb: 1 }}
+                />
 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', mb: 0.5 }}>
-                  <Typography variant="body2" sx={{ width: 130 }}>Дата прийому в НТУ</Typography>
+                <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
                   <TextField 
+                    label="Дата прийому в НТУ"
                     name="hiringDate"
                     placeholder="ДД.ММ.РРРР"
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    sx={{ width: 120 }}
+                    size="small" 
+                    sx={{ flexGrow: 1 }}
                   />
-                </Box>
-
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', mb: 0.5 }}>
-                  <Typography variant="body2" sx={{ width: 130 }}>№ наказу на прийом</Typography>
                   <TextField 
+                    label="№ наказу"
                     name="hiringOrderNumber"
                     value={employeeData.hiringOrderNumber}
                     onChange={handleChange}
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
+                    size="small" 
                     sx={{ width: 120 }}
                   />
                 </Box>
 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                  <Typography variant="body2" sx={{ width: 130 }}>Дата наказу на прийом</Typography>
-                  <TextField 
-                    name="hiringOrderDate"
-                    placeholder="ДД.ММ.РРРР"
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    sx={{ width: 120 }}
-                  />
-                </Box>
-              </Box>
-
-              <Box sx={{ mb: 1 }}>
-                <Typography variant="body2">9. Останнє місце роботи, посада, професія</Typography>
                 <TextField 
-                  name="lastWorkplace"
-                  value={employeeData.lastWorkplace}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  fullWidth
+                  label="Дата наказу на прийом"
+                  name="hiringOrderDate"
+                  placeholder="ДД.ММ.РРРР"
+                  size="small" 
+                  fullWidth 
                 />
               </Box>
 
-              <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Typography variant="body2" sx={{ width: 120 }}>10. Дата звільнення</Typography>
+              {/* Last Workplace */}
+              <TextField 
+                label="9. Останнє місце роботи, посада, професія"
+                name="lastWorkplace"
+                value={employeeData.lastWorkplace}
+                onChange={handleChange}
+                size="small" 
+                fullWidth 
+                sx={{ mb: 1 }}
+              />
+
+              {/* Termination Details */}
+              <Box sx={{ mb: 1 }}>
                 <TextField 
+                  label="10. Дата звільнення"
                   name="terminationDate"
                   placeholder="ДД.ММ.РРРР"
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 120 }}
+                  size="small" 
+                  fullWidth 
+                  sx={{ mb: 1 }}
                 />
+
+                <FormControl fullWidth size="small">
+                  <InputLabel>Причина звільнення</InputLabel>
+                  <Select
+                    name="terminationReason"
+                    value={employeeData.terminationReason}
+                    label="Причина звільнення"
+                    onChange={handleChange}
+                  >
+                    {terminationReasonOptions.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Box>
 
-              <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                <Typography variant="body2" sx={{ width: 120 }}>Причина звільнення</Typography>
-                <TextField
-                  select
-                  name="terminationReason"
-                  value={employeeData.terminationReason}
-                  onChange={handleChange}
-                  variant="outlined"
-                  size="small"
-                  margin="dense"
-                  sx={{ width: 'calc(100% - 120px)', maxWidth: 300 }}
-                >
-                  {terminationReasonOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Box>
-
-              <Box sx={{ mb: 1 }}>
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={4}>
-                    <Typography variant="body2">Трудова угода</Typography>
-                    <TextField
-                      select
+              {/* Contract Details */}
+              <Grid container spacing={1}>
+                <Grid item xs={12} sm={5}>
+                  <FormControl fullWidth size="small">
+                    <InputLabel>Трудова угода</InputLabel>
+                    <Select
                       name="contractType"
                       value={employeeData.contractType}
+                      label="Трудова угода"
                       onChange={handleChange}
-                      variant="outlined"
-                      size="small"
-                      margin="dense"
-                      fullWidth
                     >
                       {contractTypeOptions.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
-                    </TextField>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={7}>
+                  <TextField 
+                    label="Термін закінч. труд угоди"
+                    name="contractEndDate"
+                    placeholder="ДД.ММ.РРРР"
+                    size="small" 
+                    fullWidth 
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+
+        {activeTab === 'Загальні відомості-2' && (
+          <Grid container spacing={2}>
+            <Grid item xs={12}> 
+              <Typography variant='h6' sx={{ mb: 2 }}>Додаткові відомості</Typography>
+              <Box sx = {{ mb:2 }}>
+                <Typography variant='subtitle1'>11. Родинний стан</Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth size='small'>
+                      <InputLabel>Члени сім'ї</InputLabel>
+                      <Select
+                        label="Члени сім'ї"
+                      >
+                        <MenuItem value="spouse">Дружина/Чоловік</MenuItem>
+                        <MenuItem value="child">Дитина</MenuItem>
+                        <MenuItem value="parent">Батько/Мати</MenuItem>
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={8}>
-                    <Typography variant="body2">Термін закінч. труд угоди</Typography>
                     <TextField 
-                      name="contractEndDate"
-                      placeholder="ДД.ММ.РРРР"
-                      variant="outlined"
-                      size="small"
-                      margin="dense"
+                      label="ПІБ"
+                      size='small'
                       fullWidth
                     />
                   </Grid>
@@ -638,16 +588,38 @@ const EmployeeForm: React.FC = () => {
               </Box>
             </Grid>
           </Grid>
-
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', mt: 2 }}>
-            <Button variant="contained" size="small" sx={{ m: 0.3 }}>Видалити</Button>
-            <Button variant="contained" size="small" sx={{ m: 0.3 }}>Друк 1-ї сторінки</Button>
-            <Button variant="contained" size="small" sx={{ m: 0.3 }}>Друк 2-ї сторінки</Button>
-            <Button variant="contained" size="small" sx={{ m: 0.3 }}>Вихід</Button>
-          </Box>
-        </Paper>
-      </Box>
-    </>
+        )}
+        {/* Action Buttons */}
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          gap: 2, 
+          mt: 2 
+        }}>
+          <Button 
+            variant="contained" 
+            color="error" 
+            size="small"
+          >
+            Видалити
+          </Button>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            size="small"
+          >
+            Друк 1-ї сторінки
+          </Button>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            size="small"
+          >
+            Друк 2-ї сторінки
+          </Button>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 
