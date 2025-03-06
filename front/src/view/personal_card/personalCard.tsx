@@ -14,6 +14,13 @@ import {
   SelectChangeEvent,
   Checkbox,
   FormControlLabel,
+  TableContainer,
+  Table,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  FormGroup,
 } from '@mui/material';
 
 // Define types for our form data (exactly the same as original)
@@ -89,7 +96,40 @@ const EmployeeForm: React.FC = () => {
     terminationReason: ''
   });
 
+  const [checkboxes, setCheckboxes] = React.useState({
+    fullTime: true,
+    partTime25: false,
+    partTime50: false,
+    partTime75: false,
+    coWorker: false,
+    externalCoWorker: false,
+    temporaryWorker: false,
+    postalPaidTeacher: false,
+    scientificCandidate: false,
+    scientificDoctor: true,
+    academician: false,
+    chernobyl1: false,
+    chernobyl2: false,
+    chernobyl3: false,
+    chernobyl4: false,
+    disability1: false,
+    disability2: false,
+    disability3: false
+  });
+
   const[activeTab, setActiveTab] = React.useState<string>("Загальні відомості");
+  const [scientificDegree, setScientificDegree] = React.useState('008');
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckboxes({
+      ...checkboxes,
+      [event.target.name]: event.target.checked
+    });
+  }
+
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    setScientificDegree(event.target.value);
+  }
   // Handle text field changes
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>): void => {
     const { name, value } = event.target;
@@ -586,10 +626,389 @@ const EmployeeForm: React.FC = () => {
                   </Grid>
                 </Grid>
               </Box>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle1">12. Паспорт</Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={4}>
+                    <TextField 
+                      label="Серія"
+                      size='small'
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      label="Ким виданий"
+                      size='small'
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField 
+                      label="Дата видачі"
+                      size='small'
+                      fullWidth
+                      placeholder='ДД.ММ.РРРР'
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant='subtitle1'>13-14. Контактна інформація</Typography>
+                <TextField 
+                  label='Домашня адреса'
+                  size='small'
+                  fullWidth
+                  sx={{ mb: 1 }}
+                />
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label='Телефон'
+                      size='small'
+                      fullWidth 
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField 
+                      label='Мобільний телефон'
+                      size='small'
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
             </Grid>
           </Grid>
         )}
-        {/* Action Buttons */}
+
+        { activeTab === 'Призначення і переведення' && (
+          <TableContainer sx={{ border: 1, borderColor: 'divider', mb: 1, maxHeight: 400 }}>
+            <Table size='small' stickyHeader>
+              <TableHead>
+                <TableRow sx={{ backgroundColor: '#f5f5f5'}}>
+                  <TableCell sx={{ width: 30}}>#</TableCell>
+                  <TableCell>Дата</TableCell>
+                  <TableCell>Підрозділ</TableCell>
+                  <TableCell>Посада</TableCell>
+                  <TableCell>Вид труд.договору</TableCell>
+                  <TableCell>Оклад</TableCell>
+                  <TableCell>Наказ №</TableCell>
+                  <TableCell>від</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {[...Array(5)].map((_, i) => (
+                  <TableRow key={`empty-${i}`} sx={{
+                    '&:nth-of-type(odd)': { backgroundColor: '#f5f5f5' },
+                    '&:hover': { backgroundColor: '#e0e0e0'}
+                  }}>
+                    <TableCell>{i + 1}</TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+
+        { activeTab === 'Відпустки' && (
+          <TableContainer sx={{ border: 1, borderColor: 'divider', mb: 1, maxHeight: 400 }}>
+            <Table size='small' stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Вид</TableCell>
+                  <TableCell sx={{ backgroundColor: '#f0f0f0', width: '10%' }}>Період</TableCell>
+                  <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Початок</TableCell>
+                  <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Кінець</TableCell>
+                  <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Наказ</TableCell>
+                  <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Від</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {[...Array(15)].map((_, index) => (
+                  <TableRow key={index} sx={{ backgroundColor: '#d8f0d8' }}>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+
+        { activeTab === 'Додат. відомості' && (
+          <Box sx={{ border: 1, borderColor: 'divider', p: 1 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: 'flex', mb: 2 }}>
+                  <FormGroup sx={{ mr: 4 }}>
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.fullTime} onChange={handleCheckboxChange} name='fullTime' />}
+                      label='Повна ставка'
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.fullTime} onChange={handleCheckboxChange} name='pathTime25' />}
+                      label='0.25 ставки'
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.fullTime} onChange={handleCheckboxChange} name='partTime50' />}
+                      label='0.50 ставки'
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.fullTime} onChange={handleCheckboxChange} name='partTime75' />}
+                      label='0.75 ставки'
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.coWorker} onChange={handleCheckboxChange} name='coWorker' />}
+                      label='Сумісник'
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.externalCoWorker} onChange={handleCheckboxChange} name='externalCoWorker' />}
+                      label='Сумісник зі сторони'
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.temporaryWorker} onChange={handleCheckboxChange} name='temporaryWorker' />}
+                      label='Працює тимчасово'
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.postalPaidTeacher} onChange={handleCheckboxChange} name='postalPaidTeacher' />}
+                      label='Викладач з почасовою оплатою'
+                    />
+                  </FormGroup>
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant='body2'>Вчене звання</Typography>
+                  <TextField 
+                    size='small'
+                    fullWidth
+                    sx={{ mb: 1 }}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="body2" sx={{ minWidth: 150 }}>Розширена зона</Typography>
+                  <TextField
+                    size="small"
+                    defaultValue="0.00"
+                    sx={{ width: 80 }}
+                  />
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={<Checkbox checked={checkboxes.scientificCandidate} onChange={handleCheckboxChange} name="scientificCandidate" />} 
+                    label="Кандидат наук" 
+                    sx={{ minWidth: 150 }}
+                  />
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    sx={{ width: 100 }}
+                  >
+                    Карта канд.
+                  </Button>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={<Checkbox checked={checkboxes.scientificDoctor} onChange={handleCheckboxChange} name="scientificDoctor" />} 
+                    label="Доктор наук" 
+                    sx={{ minWidth: 150 }}
+                  />
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    sx={{ width: 100 }}
+                  >
+                    Карта докт.
+                  </Button>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={<Checkbox checked={checkboxes.academician} onChange={handleCheckboxChange} name="academician" />} 
+                    label="Академік" 
+                    sx={{ minWidth: 150 }}
+                  />
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="body2" sx={{ minWidth: 150 }}>Галузь вчен.ступені:</Typography>
+                  <FormControl size="small" sx={{ width: 120 }}>
+                    <Select
+                      value={scientificDegree}
+                      onChange={handleSelectChange}
+                      displayEmpty
+                    >
+                      <MenuItem value="008">008</MenuItem>
+                      <MenuItem value="007">007</MenuItem>
+                      <MenuItem value="009">009</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="body2" sx={{ minWidth: 150 }}>Рік присвоєння останнього вченого звання:</Typography>
+                  <TextField
+                    size="small"
+                    defaultValue="2004"
+                    sx={{ width: 80 }}
+                  />
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="body2" sx={{ minWidth: 150 }}>Рік останнього підвищення кваліфікації</Typography>
+                  <TextField
+                    size="small"
+                    defaultValue="2023"
+                    sx={{ width: 80 }}
+                  />
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="body2" sx={{ minWidth: 150 }}>Загальний науково-педагогічний стаж</Typography>
+                  <TextField
+                    size="small"
+                    defaultValue="24"
+                    sx={{ width: 80 }}
+                  />
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="body2" sx={{ minWidth: 70 }}>Філія</Typography>
+                  <TextField
+                    size="small"
+                    fullWidth
+                  />
+                </Box>
+              </Grid>
+
+              {/* Chernobyl section */}
+              <Grid item xs={12} md={6}>
+                <Box sx={{ border: 1, borderColor: 'divider', p: 1 }}>
+                  <Typography variant="body2" sx={{ mb: 1 }}>Чорнобилець:</Typography>
+                  <FormGroup sx={{ display: 'flex', flexDirection: 'row', mb: 1 }}>
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.chernobyl1} onChange={handleCheckboxChange} name="chernobyl1" />} 
+                      label="1 кат." 
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.chernobyl2} onChange={handleCheckboxChange} name="chernobyl2" />} 
+                      label="2 кат." 
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.chernobyl3} onChange={handleCheckboxChange} name="chernobyl3" />} 
+                      label="3 кат." 
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.chernobyl4} onChange={handleCheckboxChange} name="chernobyl4" />} 
+                      label="4 кат." 
+                    />
+                  </FormGroup>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="body2" sx={{ minWidth: 270 }}>№ посвідчення чорнобильця, коли і ким видане:</Typography>
+                    <TextField
+                      size="small"
+                      fullWidth
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+
+              {/* Disability section */}
+              <Grid item xs={12} md={6}>
+                <Box sx={{ border: 1, borderColor: 'divider', p: 1 }}>
+                  <Typography variant="body2" sx={{ mb: 1 }}>Інвалід:</Typography>
+                  <FormGroup sx={{ display: 'flex', flexDirection: 'row', mb: 1 }}>
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.disability1} onChange={handleCheckboxChange} name="disability1" />} 
+                      label="1 групи" 
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.disability2} onChange={handleCheckboxChange} name="disability2" />} 
+                      label="2 групи" 
+                    />
+                    <FormControlLabel 
+                      control={<Checkbox checked={checkboxes.disability3} onChange={handleCheckboxChange} name="disability3" />} 
+                      label="3 групи" 
+                    />
+                  </FormGroup>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="body2" sx={{ minWidth: 200 }}>№ посвідчення, коли і ким видане:</Typography>
+                    <TextField
+                      size="small"
+                      fullWidth
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+
+              {/* Additional Information */}
+              <Grid item xs={12}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
+                  <Typography variant="body2" sx={{ minWidth: 120 }}>Додаткові відомості</Typography>
+                  <Box sx={{ flexGrow: 1 }}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      sx={{ mb: 1 }}
+                    />
+                    <TextField
+                      size="small"
+                      fullWidth
+                    />
+                  </Box>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="body2" sx={{ minWidth: 120 }}>Дата звільнення</Typography>
+                  <TextField
+                    size="small"
+                    sx={{ width: 120 }}
+                  />
+                  <Typography variant="body2" sx={{ ml: 2, minWidth: 120 }}>Причина звільнення</Typography>
+                  <FormControl size="small" sx={{ flexGrow: 1 }}>
+                    <Select
+                      displayEmpty
+                    >
+                      <MenuItem value="">Виберіть причину</MenuItem>
+                      <MenuItem value="voluntary">За власним бажанням</MenuItem>
+                      <MenuItem value="agreement">За згодою сторін</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography variant="body2" sx={{ minWidth: 120 }}>№ наказу на звільнення</Typography>
+                  <TextField
+                    size="small"
+                    sx={{ width: 120 }}
+                  />
+                  <Typography variant="body2" sx={{ ml: 2, minWidth: 120 }}>Дата наказу на звільнення</Typography>
+                  <TextField
+                    size="small"
+                    sx={{ width: 120 }}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        )}
+        
         <Box sx={{ 
           display: 'flex', 
           justifyContent: 'center', 
