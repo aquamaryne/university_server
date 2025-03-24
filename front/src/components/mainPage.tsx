@@ -5,7 +5,7 @@ import Print from "./print";
 import Statistic from "./statisctic";
 import Form from "./form";
 import Archieve from "./archieve";
-import PageButton from "./button";
+// import PageButton from "./button";
 
 const MainPage: React.FC = () => {
     return(
@@ -32,7 +32,7 @@ const MainPage: React.FC = () => {
                 right: 0,
                 top: 0,
             }}>
-                <PageButton />
+                {/* <PageButton /> */}
             </div>
                 <Witness />
                 <PersonalCard />

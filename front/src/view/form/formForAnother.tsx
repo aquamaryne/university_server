@@ -218,16 +218,9 @@ const StaffForm: React.FC = () => {
                                     <TableCell rowSpan={2}>Прізвище, ім'я та по-батькові</TableCell>
                                     <TableCell rowSpan={2}>Посада</TableCell>
                                     <TableCell rowSpan={2}>Дата вступу на посаду</TableCell>
-                                    <TableCell rowSpan={2}>Дисципліна, яку читає</TableCell>
                                     <TableCell rowSpan={2}>Штат чи сумісник</TableCell>
-                                    <TableCell rowSpan={2}>Вчене звання</TableCell>
-                                    <TableCell rowSpan={2}>Вчений ступінь</TableCell>
                                     <TableCell colSpan={2}>Стаж науково-пед. роботи</TableCell>
-                                    <TableCell rowSpan={2}>Рік останнього підвищення кваліфікації</TableCell>
                                     <TableCell colSpan={3}>Загальні дані</TableCell>
-                                    <TableCell rowSpan={2}>Почесне звання</TableCell>
-                                    <TableCell rowSpan={2}>Іноземна мова, якою володіє</TableCell>
-                                    <TableCell rowSpan={2}>Звільнення, у який навч. заклад</TableCell>
                                     <TableCell rowSpan={2}>Дата закінчення трудового договору або контракту</TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -238,7 +231,7 @@ const StaffForm: React.FC = () => {
                                     <TableCell align="center">Освіта (який навч. заклад закінч. і коли)</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    {Array(18).fill(0).map((_, index) => (
+                                    {Array(11).fill(0).map((_, index) => (
                                         <TableCell key={index} align="center">
                                             {index + 1}
                                         </TableCell>
@@ -254,6 +247,12 @@ const StaffForm: React.FC = () => {
                                     }
                                 }}
                             >
+                                {/**
+                                 * тут короче надо сделать
+                                 * вывод из базы данных для административных сотрудников
+                                 * вот да
+                                 * и ура победа
+                                 */}
                                 {displayedData.map((item) => (
                                     <h1></h1>
                                 ))}

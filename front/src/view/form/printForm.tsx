@@ -179,57 +179,89 @@ const PrintForm: React.FC = () => {
                         ref={componentRef}
                         component={Paper}
                         sx={{
+                            width: '100%',
+                            maxWidth: 'none',
+                            overflowX: 'auto',
+                            margin: 0,
+                            padding: 0,
+                            '& .MuiTable-root': {
+                                width: '100%',
+                                minWidth: '100%',
+                                tableLayout: 'fixed',
+                            },
                             '@media print': {
-                                transform: 'scale(1)',
-                                margin: '3mm',
-                                border: '1px solid black',
-                                width: 'calc(100% - 5mm)',
+                                width: '100% !important',
+                                maxWidth: 'none !important',
+                                margin: 0,
+                                padding: 0,
+                                overflow: 'visible',
+                                boxShadow: 'none',
+
+                                '& .MuiTable-root': {
+                                    width: '100% !important',
+                                    minWidth: '100% !important',
+                                    maxWidth: 'none !important',
+                                },
+
+                                '& .MuitableCell-root': {
+                                    padding: '2pt',
+                                    fontSize: '8pt',
+                                }
                             },
                             '@page': {
                                 size: 'A4 landscape',
+                                margin: '5mm'
                             }
                         }}
                     >
                         <Table
                             size="small"
                             sx={{
+                                width: '100%',
                                 tableLayout: 'fixed',
                                 borderCollapse: 'collapse',
-                                padding: 'center',
                                 fontFamily: 'Roboto, sans-serif',
-                                '& th': {
+                                transform: 'scale(1)',
+                                transformOrigin: 'top left',
+                                '& th, & rd': {
                                     border: '1px solid black',
-                                    padding: '4px',
                                     textAlign: 'center',
-                                },
-                                "& td": {
-                                    border: 'none',
-
+                                    verticalAlign: 'middle',
+                                    padding: '4px',
+                                    fontSize: '10px',
+                                    lineHeight: 1.3,
+                                    wordWrap: 'break-word',
                                 },
                                 '@media print': {
-                                    '& th, & td': {
-                                        fontSize: '9px',
-                                    }
+                                    width: '100%',
+                                    transform: 'scale(0.98)',
+                                    margin: '0 auto',
+                                    '& th, & rd': {
+                                        fontSize: '8pt',
+                                        padding: '3pt',
+                                    },
+                                    breakInside: 'aviod',
+                                    pageBreakInside: 'avoid',
                                 }
                             }}
-                        >
+                            >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell rowSpan={2}>№ п/п</TableCell>
-                                    <TableCell rowSpan={2}>Прізвище, ім'я та по-батькові</TableCell>
-                                    <TableCell rowSpan={2}>Посада</TableCell>
-                                    <TableCell rowSpan={2}>Дата вступу на посаду</TableCell>
-                                    <TableCell rowSpan={2}>Дисципліна, яку читає</TableCell>
-                                    <TableCell rowSpan={2}>Штат чи сумісник</TableCell>
-                                    <TableCell rowSpan={2}>Вчене звання</TableCell>
-                                    <TableCell rowSpan={2}>Вчений ступінь</TableCell>
-                                    <TableCell colSpan={2}>Стаж науково-пед. роботи</TableCell>
-                                    <TableCell rowSpan={2}>Рік останнього підвищення кваліфікації</TableCell>
-                                    <TableCell colSpan={3}>Загальні дані</TableCell>
-                                    <TableCell rowSpan={2}>Почесне звання</TableCell>
-                                    <TableCell rowSpan={2}>Іноземна мова, якою володіє</TableCell>
-                                    <TableCell rowSpan={2}>Звільнення, у який навч. заклад</TableCell>
-                                    <TableCell rowSpan={2}>Дата закінчення трудового договору або контракту</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>№ п/п</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '8%' }}>Прізвище, ім'я та по-батькові</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '5%' }}>Посада</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '5%' }}>Дата вступу на посаду</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '5%' }}>Дисципліна, яку читає</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Штат чи сумісник</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Вчене звання</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Вчений ступінь</TableCell>
+                                    <TableCell colSpan={2} sx={{ width: '10%' }}>Стаж науково-пед. роботи</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Рік останнього підвищення кваліфікації</TableCell>
+                                    <TableCell colSpan={3} sx={{ width: '20%' }}>Загальні дані</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Почесне звання</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Іноземна мова, якою володіє</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Звільнення, у який навч. заклад</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Дата закінчення трудового договору або контракту</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell align="center">Загальний</TableCell>
