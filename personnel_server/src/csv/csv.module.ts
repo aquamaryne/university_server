@@ -3,8 +3,8 @@ import { CsvController } from './csv.controller';
 import { CsvService } from './csv.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Employeers } from 'src/entity/employeers';
+import { Faculty } from 'src/entity/faculty';
 import { Department } from 'src/entity/department';
-import { Domains } from 'src/entity/domains';
 import { Work_Experience } from 'src/entity/workExperience';
 import { Family } from 'src/entity/family';
 import { FamilyStatus } from 'src/entity/familyStatus';
@@ -27,9 +27,9 @@ import { ConfigModule } from '@nestjs/config';
             Family,
             Fired, 
             Language,
-            Department,
+            Faculty,
             Positions,
-            Domains,
+            Department,
             Personal_Info,
             FamilyStatus,
             Sex,

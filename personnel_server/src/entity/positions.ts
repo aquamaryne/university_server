@@ -1,5 +1,5 @@
 import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Department } from "./department";
+import { Faculty } from "./faculty";
 import { Employeers } from "./employeers";
 
 @Entity()
@@ -33,8 +33,8 @@ export class Positions{
     })
     number_of_order: number;
 
-    @ManyToOne(() => Department, department => department.positions)
-    department: Department;
+    @ManyToOne(() => Faculty, faculty => faculty.positions)
+    faculty: Faculty;
 
     @ManyToOne(() => Employeers, (employeer) => employeer.positions)
     employeers: Employeers;

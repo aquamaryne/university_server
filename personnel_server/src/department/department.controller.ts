@@ -1,7 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { DepartmentService } from './department.service';
 import { Department } from 'src/entity/department';
-import { ApiKeyGuard } from 'src/api_key/api_key.guard';
 
 @Controller('department')
 export class DepartmentController {
@@ -18,17 +17,18 @@ export class DepartmentController {
     }
 
     @Post()
-    create(@Body() department: Partial<Department>): Promise<Department>{
-        return this.departmentService.create(department);
+    create(@Body() domains: Partial<Department>): Promise<Department>{
+        return this.departmentService.create(domains);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() department: Partial<Department>): Promise<Department>{
-        return this.departmentService.update(Number(id), department);
+    update(@Param('id') id: string, @Body() domains: Partial<Department>): Promise<Department>{
+        return this.departmentService.update(Number(id), domains);
     }
 
     @Delete(':id')
     remove(@Param('id') id: string): Promise<void>{
         return this.departmentService.remove(Number(id));
     }
+
 }

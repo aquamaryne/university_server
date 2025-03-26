@@ -8,8 +8,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { DataSource } from 'typeorm';
 import { Achieve } from './entity/achieve';
 import { Personal_Info } from './entity/personalInfo';
+import { Faculty } from './entity/faculty';
 import { Department } from './entity/department';
-import { Domains } from './entity/domains';
 import { Fired } from './entity/fired';
 import { Language } from './entity/lang';
 import { Employeers } from './entity/employeers';
@@ -24,8 +24,8 @@ import { BackupService } from './backup/backup.service';
 import { Auth_Key } from './entity/key';
 import { AchieveModule } from './achieve/achieve.module';
 import { AuthKeyModule } from './auth_key/auth_key.module';
+import { FacultyModule } from './faculty/faculty.module';
 import { DepartmentModule } from './department/department.module';
-import { DomainsModule } from './domains/domains.module';
 import { EducationModule } from './education/education.module';
 import { EmployeersModule } from './employeers/employeers.module';
 import { FamilyModule } from './family/family.module';
@@ -65,9 +65,9 @@ import { StaffModule } from './staff/staff.module';
         Family,
         Fired, 
         Language,
-        Department,
+        Faculty,
         Positions,
-        Domains,
+        Department,
         Personal_Info,
         FamilyStatus,
         Sex,
@@ -88,8 +88,8 @@ import { StaffModule } from './staff/staff.module';
     ScheduleModule.forRoot(),
     AchieveModule,
     AuthKeyModule,
+    FacultyModule,
     DepartmentModule,
-    DomainsModule,
     EducationModule,
     EmployeersModule,
     FamilyModule,

@@ -8,7 +8,7 @@ import { Fired } from "./fired";
 import { Achieve } from "./achieve";
 import { Language } from "./lang";
 import { Sex } from "./sex";
-import { Domains } from "./domains";
+import { Department } from "./department";
 import { Positions } from "./positions";
 @Entity()
 export class Employeers{
@@ -64,6 +64,6 @@ export class Employeers{
     @OneToMany(() => Sex, sex => sex.employeers)
     sex: Sex[];
 
-    @OneToMany(() => Domains, domains => domains.employeers)
-    domains: Domains[];
+    @OneToMany(() => Department, department => department.domain_name)
+    department: Department[];
 }

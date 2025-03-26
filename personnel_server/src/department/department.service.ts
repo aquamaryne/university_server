@@ -4,20 +4,20 @@ import { Department } from 'src/entity/department';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class DepartmentService {
+export class DepartmentService  {
     constructor(@InjectRepository(Department) private readonly departmentRepository: Repository<Department>) {}
 
     async findAll(): Promise<Department[]>{
-        return this.departmentRepository.find();
+        return this.departmentRepository.find()
     }
 
     async findOne(id: number): Promise<Department | undefined>{
-        return this.departmentRepository.findOne({ where: { id } })
+        return this.departmentRepository.findOne({ where: {id} });
     }
 
     async create(data: Partial<Department>): Promise<Department>{
-        const department = this.departmentRepository.create(data);
-        return this.departmentRepository.save(department);
+        const domains = this.departmentRepository.create(data)
+        return this.departmentRepository.save(data);
     }
 
     async update(id: number, data: Partial<Department>): Promise<Department>{

@@ -1,5 +1,5 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from "typeorm";
-import { Positions } from "./positions";
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
+import { Employeers } from "./employeers";
 
 @Entity()
 export class Department{
@@ -10,8 +10,8 @@ export class Department{
         type: 'varchar',
         length: 255
     })
-    faculty_name: string;
+    domain_name: string;
 
-    @OneToMany(() => Positions, positions => positions.department)
-    positions: Positions[];
+    @ManyToOne(() => Employeers, employeers => employeers.department)
+    employeers: Employeers;
 }

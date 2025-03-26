@@ -6,10 +6,10 @@ import * as fastCsv from 'fast-csv';
 import { Employeers } from 'src/entity/employeers';
 import { Personal_Info } from 'src/entity/personalInfo';
 import { Positions } from 'src/entity/positions';
-import { Domains } from 'src/entity/domains';
+import { Department } from 'src/entity/department';
 import { Education } from 'src/entity/education';
 import { Family } from 'src/entity/family';
-import { Department } from 'src/entity/department';
+import { Faculty } from 'src/entity/faculty';
 import { Work_Experience } from 'src/entity/workExperience';
 import { Sex } from 'src/entity/sex';
 import { Fired } from 'src/entity/fired';
@@ -21,9 +21,9 @@ export class CsvService {
     constructor(
         @InjectRepository(Employeers)           private readonly employeerRepository: Repository<Employeers>,
         // @InjectRepository(Positions)            private readonly positionsRepository: Repository<Positions>,
-        @InjectRepository(Department)           private readonly departmentRepository: Repository<Department>,
+        @InjectRepository(Faculty)           private readonly departmentRepository: Repository<Faculty>,
         @InjectRepository(Personal_Info)        private readonly personalInfoRepository: Repository<Personal_Info>, 
-        @InjectRepository(Domains)              private readonly domainsRepository: Repository<Domains>,
+        @InjectRepository(Department)              private readonly domainsRepository: Repository<Department>,
         @InjectRepository(Family)               private readonly familyRepository: Repository<Family>,
         @InjectRepository(Education)            private readonly educationRepository: Repository<Education>,
         @InjectRepository(Sex)                  private readonly sexRepository: Repository<Sex>,
