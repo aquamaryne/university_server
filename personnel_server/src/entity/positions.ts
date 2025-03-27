@@ -1,6 +1,6 @@
 import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
 import { Faculty } from "./faculty";
-import { Employeers } from "./employeers";
+import { Staff } from "./staff";
 
 @Entity()
 export class Positions{
@@ -19,7 +19,7 @@ export class Positions{
     date_of_entry: Date;
     
     @Column({
-        type: 'varchar',
+        type: 'int',
     })
     type_of_study: string;
 
@@ -36,7 +36,7 @@ export class Positions{
     @ManyToOne(() => Faculty, faculty => faculty.positions)
     faculty: Faculty;
 
-    @ManyToOne(() => Employeers, (employeer) => employeer.positions)
-    employeers: Employeers;
+    @ManyToOne(() => Staff, staff => staff.positions_name)
+    staff: Staff[];
 
 }

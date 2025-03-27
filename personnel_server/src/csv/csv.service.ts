@@ -112,12 +112,12 @@ export class CsvService {
                     await this.sexRepository.save(newSex);
                 };
 
-                const newDomains = this.domainsRepository.create({
-                    domain_name: row.domain_name,
-                    employeers: savedEmployeer,
-                });
+                // const newDomains = this.domainsRepository.create({
+                //     department_name: row.departments,
+                //     employeers: savedEmployeer,
+                // });
 
-                await this.domainsRepository.save(newDomains);
+                // await this.domainsRepository.save(newDomains);
 
                 const newFired = this.firedRepository.create({
                     date_of_fired: row.date_of_fired,

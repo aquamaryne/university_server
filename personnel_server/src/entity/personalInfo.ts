@@ -6,9 +6,9 @@ export class Personal_Info{
     id: number;
 
     @Column({ 
-        type: 'int' 
+        type: 'varchar' 
     })
-    unique_card: number;
+    unique_card: string;
 
     @Column({ 
         type: 'varchar', 

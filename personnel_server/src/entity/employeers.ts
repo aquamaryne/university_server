@@ -37,7 +37,7 @@ export class Employeers{
     @OneToMany(() => Staff, staffPositions => staffPositions.employeers)
     staff_positions: Staff[];
 
-    @OneToMany(() => Positions, (positions) => positions.employeers)
+    @OneToMany(() => Positions, (positions) => positions.positions_name)
     positions: Positions[];
 
     @OneToMany(() => Family, family => family.employeers)
@@ -64,6 +64,6 @@ export class Employeers{
     @OneToMany(() => Sex, sex => sex.employeers)
     sex: Sex[];
 
-    @OneToMany(() => Department, department => department.domain_name)
+    @OneToMany(() => Department, department => department.department_name)
     department: Department[];
 }

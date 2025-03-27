@@ -19,8 +19,7 @@ export class Family{
     children_name: string;
 
     @Column({
-        type: 'varchar',
-        length: 255
+        type: 'date',
     })
     year_of_birth_children: Date;
 

@@ -24,7 +24,7 @@ export class Staff{
     type_of_study: string;
 
     @Column({
-        type: 'varchar',
+        type: 'int',
     })
     position_where_work_now: number;
 
