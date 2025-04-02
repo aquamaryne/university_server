@@ -1,17 +1,18 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Employeers } from "./employeers";
-@Entity()
-export class Achieve{
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import { EmployeeAchievement } from "./employee-achivement";
+
+@Entity("achieve")
+export class Achieve {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ 
-        type: 'varchar', 
+    @Column({
+        type: "varchar",
         length: 255,
-        nullable: true,
+        nullable: false,
     })
-    achievement_name: string;
+    name: string;
 
-    @ManyToOne(() => Employeers, employeers => employeers.achievement)
-    employeers: Employeers;
+    @OneToMany(() => EmployeeAchievement, achievement => achievement.achievementType)
+    employeeAchievement: EmployeeAchievement[];
 }

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as ExcelJS from 'exceljs';
 import { Repository } from 'typeorm';
 import { Response } from 'express';
-import { Employeers } from 'src/entity/employeers';
+import { Employeers } from 'src/entity/employees';
 
 @Injectable()
 export class ExcelService {

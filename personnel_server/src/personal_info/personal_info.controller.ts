@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { PersonalInfoService } from './personal_info.service';
-import { Personal_Info } from 'src/entity/personalInfo';
+import { Personal_Info } from 'src/entity/personal-info';
 
 @Controller('personal-info')
 export class PersonalInfoController {

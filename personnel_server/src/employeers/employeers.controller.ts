@@ -1,18 +1,18 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { EmployeersService } from './employeers.service';
-import { Employeers } from 'src/entity/employeers';
+import { Employee } from 'src/entity/employees';
 
 @Controller('employeers')
 export class EmployeersController {
     constructor(private readonly employeerService: EmployeersService) {}
 
     @Get()
-    findAll(): Promise<Employeers[]>{
+    findAll(): Promise<Employee[]>{
         return this.employeerService.findAll();
     }
 
     @Post()
-    create(@Body() employeer: Employeers): Promise<Employeers>{
+    create(@Body() employeer: Employee): Promise<Employee>{
         return this.employeerService.create(employeer);
     }
 
@@ -20,7 +20,7 @@ export class EmployeersController {
     async getSurnames(
         @Query('letter') letter?: string,
         @Query('query') query?: string,
-    ): Promise<Employeers[]> {
+    ): Promise<Employee[]> {
         console.log(`Received letter: ${letter}, query: ${query}`);
 
         try {
@@ -44,17 +44,17 @@ export class EmployeersController {
     }
     
     @Get('unique/:uniqueCard')
-    async findByUniqueCard(@Param('uniqueCard') uniqueCard: string): Promise<Employeers>{
+    async findByUniqueCard(@Param('uniqueCard') uniqueCard: string): Promise<Employee>{
         return this.employeerService.findByUniqueCard(uniqueCard);
     }
 
     @Get(':id')
-    findOne(@Param('id') id: number): Promise<Employeers>{
+    findOne(@Param('id') id: number): Promise<Employee>{
         return this.employeerService.findOne(id);
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() employeer: Employeers): Promise<Employeers>{
+    update(@Param('id') id: number, @Body() employeer: Employee): Promise<Employee>{
         return this.employeerService.update(id, employeer);
     }
 

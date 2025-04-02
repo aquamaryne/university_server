@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FamilyStatus } from 'src/entity/familyStatus';
+import { FamilyStatus } from 'src/entity/family-status';
 import { Repository } from 'typeorm';
 
 @Injectable()

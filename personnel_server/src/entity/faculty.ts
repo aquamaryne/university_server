@@ -1,21 +1,26 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from "typeorm";
-import { Positions } from "./positions";
+import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from "typeorm";
 import { Department } from "./department";
 
-@Entity()
-export class Faculty{
+@Entity("faculty")
+export class Faculty {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column({
         type: 'varchar',
-        length: 255
+        name: 'faculty_name',
+        length: 255,
+        nullable: false,
     })
     faculty_name: string;
 
-    @OneToMany(() => Positions, positions => positions.faculty)
-    positions: Positions[];
+    @Column({
+        type: 'varchar',
+        name: 'short_name',
+        length: 255,
+        nullable: true,
+    })
 
-    @OneToMany(() => Department, department => department.faculty)
+    @OneToMany(() => Department, (department) => department.faculty)
     departments: Department[];
 }

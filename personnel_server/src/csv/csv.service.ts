@@ -3,18 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as fs from 'fs';
 import * as fastCsv from 'fast-csv';
-import { Employeers } from 'src/entity/employeers';
-import { Personal_Info } from 'src/entity/personalInfo';
+import { Employeers } from 'src/entity/employees';
+import { Personal_Info } from 'src/entity/personal-info';
 import { Positions } from 'src/entity/positions';
 import { Department } from 'src/entity/department';
 import { Education } from 'src/entity/education';
 import { Family } from 'src/entity/family';
 import { Faculty } from 'src/entity/faculty';
-import { Work_Experience } from 'src/entity/workExperience';
+import { Work_Experience } from 'src/entity/work-experience';
 import { Sex } from 'src/entity/sex';
 import { Fired } from 'src/entity/fired';
 import { Language } from 'src/entity/lang';
-import { FamilyStatus } from 'src/entity/familyStatus';
+import { FamilyStatus } from 'src/entity/family-status';
 
 @Injectable()
 export class CsvService {

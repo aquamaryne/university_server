@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { FamilyStatusService } from './family_status.service';
-import { FamilyStatus } from 'src/entity/familyStatus';
+import { FamilyStatus } from 'src/entity/family-status';
 
 @Controller('family-status')
 export class FamilyStatusController {

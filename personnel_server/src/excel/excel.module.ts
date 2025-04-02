@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExcelController } from './excel.controller';
 import { ExcelService } from './excel.service';
 import { ConfigModule } from '@nestjs/config';
-import { Employeers } from 'src/entity/employeers';
+import { Employeers } from 'src/entity/employees';
 
 @Module({
     imports: [

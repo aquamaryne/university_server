@@ -1,32 +1,21 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { FamilyStatus } from "./familyStatus";
-import { Employeers } from "./employeers";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Employee } from './employees';
 
-@Entity()
-export class Family{
-    @PrimaryGeneratedColumn()
-    id: number;
+@Entity('family_members')
+export class Family {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({
-        type: 'int',
-    })
-    count_of_children: string;
+  @Column({ name: 'employee_id', nullable: true })
+  employeeId: number;
 
-    @Column({
-        type: 'varchar',
-        length: 255
-    })
-    children_name: string;
+  @Column({ name: 'relation_type', type: 'varchar', length: 255, nullable: true })
+  relationType: string;
 
-    @Column({
-        type: 'date',
-    })
-    year_of_birth_children: Date;
+  @Column({ name: 'full_name', type: 'varchar', length: 255, nullable: true })
+  fullName: string;
 
-    @ManyToOne(() => Employeers, employeers => employeers.family)
-    employeers: Employeers;
-
-    @ManyToOne(() => FamilyStatus, familyStatus => familyStatus.status)
-    familyStatus: FamilyStatus;
-
+  @ManyToOne(() => Employee, employee => employee.familyMembers)
+  @JoinColumn({ name: 'employee_id' })
+  employee: Employee;
 }

@@ -3,20 +3,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig} from "@nestjs/apollo";
-import { join } from 'path';
 import { APP_GUARD } from '@nestjs/core';
 import { DataSource } from 'typeorm';
 import { Achieve } from './entity/achieve';
-import { Personal_Info } from './entity/personalInfo';
+import { PersonalInfo } from './entity/personal-info';
 import { Faculty } from './entity/faculty';
 import { Department } from './entity/department';
 import { Fired } from './entity/fired';
-import { Language } from './entity/lang';
-import { Employeers } from './entity/employeers';
+import { EmployeeLanguage } from './entity/lang';
+import { Employee } from './entity/employees';
 import { Sex } from './entity/sex';
-import { Work_Experience } from './entity/workExperience';
+import { WorkExperience } from './entity/work-experience';
 import { Family } from './entity/family';
-import { FamilyStatus } from './entity/familyStatus';
+import { FamilyStatus } from './entity/family-status';
 import { Education } from './entity/education';
 import { Positions } from './entity/positions';
 import { BackupController } from './backup/backup.controller';
@@ -61,17 +60,17 @@ import { StaffModule } from './staff/staff.module';
       entities: [
         Education,
         Achieve,
-        Employeers,
+        Employee,
         Family,
         Fired, 
-        Language,
+        EmployeeLanguage,
         Faculty,
         Positions,
         Department,
-        Personal_Info,
+        PersonalInfo,
         FamilyStatus,
         Sex,
-        Work_Experience,
+        WorkExperience,
         Auth_Key,
         Staff
       ],

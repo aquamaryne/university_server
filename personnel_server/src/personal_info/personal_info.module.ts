@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Personal_Info } from 'src/entity/personalInfo';
+import { Personal_Info } from 'src/entity/personal-info';
 import { PersonalInfoService } from './personal_info.service';
 import { PersonalInfoController } from './personal_info.controller';
 

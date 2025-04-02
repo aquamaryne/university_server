@@ -1,42 +1,32 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Faculty } from "./faculty";
-import { Staff } from "./staff";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { UniversityEmployment } from "./university-employment";
 
-@Entity()
-export class Positions{
+@Entity("positions")
+export class Positions {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column({
-        type: 'varchar',
-        length: 255
+        type: "varchar",
+        length: 255,
+        nullable: false,
     })
-    positions_name: string;
-
-    @Column({ 
-        type: 'date',
-    })
-    date_of_entry: Date;
-    
-    @Column({
-        type: 'int',
-    })
-    type_of_study: string;
+    name: string;
 
     @Column({
-        type: 'varchar',
+        name: 'is_academic',
+        type: 'boolean',
+        default: false,
     })
-    position_where_work_now: number;
+    isAcademic: boolean;
 
     @Column({
-        type: 'int',
+        name: 'is_admin',
+        type: 'boolean',
+        default: false,
     })
-    number_of_order: number;
+    isAdministrative: boolean;
 
-    @ManyToOne(() => Faculty, faculty => faculty.positions)
-    faculty: Faculty;
-
-    @ManyToOne(() => Staff, staff => staff.positions_name)
-    staff: Staff[];
-
+    @OneToMany(() => UniversityEmployment, universityEmployement => universityEmployement.position)
+    universityEmployement: UniversityEmployment[];
 }

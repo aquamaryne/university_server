@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FamilyStatus } from 'src/entity/familyStatus';
+import { FamilyStatus } from 'src/entity/family-status';
 import { FamilyStatusService } from './family_status.service';
 import { FamilyStatusController } from './family_status.controller';
 

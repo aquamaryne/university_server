@@ -1,38 +1,26 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from "typeorm";
-import { Faculty } from "./faculty";
-import { Employeers } from "./employeers";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
+import { Employee } from './employees';
+import { Department } from './department';
 
-@Entity()
-export class Staff{
-    @PrimaryGeneratedColumn()
-    id: number
+@Entity('staff')
+export class Staff {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({
-        type: 'varchar',
-        length: 255
-    })
-    positions_name: string;
+  @Column({ name: 'employee_id', nullable: true })
+  employeeId: number;
 
-    @Column({ 
-        type: 'date',
-    })
-    date_of_entry: Date;
-    
-    @Column({
-        type: 'varchar',
-    })
-    type_of_study: string;
+  @Column({ name: 'staff_category', type: 'varchar', length: 255, nullable: true })
+  staffCategory: string;
 
-    @Column({
-        type: 'int',
-    })
-    position_where_work_now: number;
+  @Column({ name: 'department_id', nullable: true })
+  departmentId: number;
 
-    @Column({
-        type: 'int',
-    })
-    number_of_order: number;
+  @OneToOne(() => Employee, employee => employee.staff)
+  @JoinColumn({ name: 'employee_id' })
+  employee: Employee;
 
-    @ManyToOne(() => Employeers, (employeer) => employeer.staff_positions)
-    employeers: Employeers;
+  @ManyToOne(() => Department, department => department.staffMembers)
+  @JoinColumn({ name: 'department_id' })
+  department: Department;
 }

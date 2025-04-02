@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { WorkExperienceService } from './work_experience.service';
-import { Work_Experience } from 'src/entity/workExperience';
+import { Work_Experience } from 'src/entity/work-experience';
 
 @Controller('work-experience')
 export class WorkExperienceController {

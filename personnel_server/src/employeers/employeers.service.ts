@@ -1,25 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Employeers } from 'src/entity/employeers';
+import { Employee } from 'src/entity/employees';
 
 @Injectable()
 export class EmployeersService {
-    constructor(@InjectRepository(Employeers) private employeersRepository: Repository<Employeers>){}
+    constructor(@InjectRepository(Employee) private employeersRepository: Repository<Employee>){}
     
-    async create(employeer: Employeers): Promise<Employeers>{
+    async create(employeer: Employee): Promise<Employee>{
         return this.employeersRepository.save(employeer);
     }
 
-    async findAll(): Promise<Employeers[]>{
+    async findAll(): Promise<Employee[]>{
         return this.employeersRepository.find();
     }
 
-    async findOne(id: number): Promise<Employeers>{
+    async findOne(id: number): Promise<Employee>{
         return this.employeersRepository.findOne({ where: { id } });
     }
 
-    async update(id: number, employeer: Employeers): Promise<Employeers>{
+    async update(id: number, employeer: Employee): Promise<Employee>{
         await this.employeersRepository.update(id, employeer);
         return this.findOne(id);
     }
@@ -32,7 +32,7 @@ export class EmployeersService {
         await this.employeersRepository.restore(id);
     }
 
-    async findByLetter(letter: string): Promise<Employeers[]>{
+    async findByLetter(letter: string): Promise<Employee[]>{
         const result = await this.employeersRepository
             .createQueryBuilder('employeer')
             .where('employeer.sname LIKE :letter', { letter: `${letter}%` })
@@ -40,7 +40,7 @@ export class EmployeersService {
         return result;
     }
     
-    async findByQuery(query: string): Promise<Employeers[]>{
+    async findByQuery(query: string): Promise<Employee[]>{
         const result = await this.employeersRepository
             .createQueryBuilder('employeer')
             .where('employeer.sname LIKE :query', { query: `%${query}%` })
@@ -48,12 +48,12 @@ export class EmployeersService {
         return result;
     }
 
-    async getAllEmployeers(): Promise<Employeers[]>{
+    async getAllEmployeers(): Promise<Employee[]>{
         const result = await this.employeersRepository.find();
         return result;
     }
 
-    async findByUniqueCard(uniqueCard: string): Promise<Employeers>{
+    async findByUniqueCard(uniqueCard: string): Promise<Employee>{
         const result = await this.employeersRepository
             .createQueryBuilder('employeer')
             .where('employeer.unique_card = :uniqueCard', { uniqueCard })

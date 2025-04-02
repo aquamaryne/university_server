@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Personal_Info } from 'src/entity/personalInfo';
+import { Personal_Info } from 'src/entity/personal-info';
 import { Repository } from 'typeorm';
 @Injectable()
 export class PersonalInfoService {
