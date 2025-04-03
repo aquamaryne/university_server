@@ -14,5 +14,5 @@ export class Location {
     name: string;
 
     @OneToMany(() => PersonalInfo, personalInfo => personalInfo.birthPlace)
-    personalInfo: PersonalInfo[];
+    birthPlace: PersonalInfo[];
 }

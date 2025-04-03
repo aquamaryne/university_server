@@ -57,7 +57,7 @@ export class PersonalInfo {
     })
     employee: Employee;
 
-    @ManyToOne(() => Location, location => location.personalInfo)
+    @ManyToOne(() => Location, location => location.birthPlace)
     @JoinColumn({
         name: 'birth_place_id'
     })

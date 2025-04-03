@@ -3,13 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as ExcelJS from 'exceljs';
 import { Repository } from 'typeorm';
 import { Response } from 'express';
-import { Employeers } from 'src/entity/employees';
+import { Employee } from 'src/entity/employees';
 
 @Injectable()
 export class ExcelService {
     constructor(
-        @InjectRepository(Employeers)
-        private readonly employeersRepositoty: Repository<Employeers>
+        @InjectRepository(Employee)
+        private readonly employeersRepositoty: Repository<Employee>
     ) {}
 
     async generateCombinedExcel(responce: Response){
@@ -26,12 +26,12 @@ export class ExcelService {
             ],
         });
 
-        const data = employeers.map((employee) => ({
-            unique_card: employee.unique_card || '',
-            fname: employee.fname,
-            sname: employee.sname,
-            fatherly: employee.fatherly,
-        }));
+        // const data = employeers.map((employee) => ({
+        //     unique_card: employee.unique_card || '',
+        //     fname: employee.fname,
+        //     sname: employee.sname,
+        //     fatherly: employee.fatherly,
+        // }));
 
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Усі дані');
@@ -53,7 +53,7 @@ export class ExcelService {
             { header: 'Досягнення', key: 'achievement_name', width: 20 },
         ];
 
-        worksheet.addRows(data);
+        // worksheet.addRows(data);
         responce.setHeader(
             'Content-Type',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

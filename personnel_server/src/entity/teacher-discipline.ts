@@ -6,13 +6,23 @@ export class TeacherDiscipline {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'employee_id', nullable: true })
+  @Column({ 
+    name: 'employee_id', 
+    nullable: true 
+  })
   employeeId: number;
 
-  @Column({ name: 'discipline_name', type: 'varchar', length: 255, nullable: true })
+  @Column({ 
+    name: 'discipline_name', 
+    type: 'varchar', 
+    length: 255, 
+    nullable: true 
+  })
   disciplineName: string;
 
   @ManyToOne(() => Employee, employee => employee.teacherDisciplines)
-  @JoinColumn({ name: 'employee_id' })
+  @JoinColumn({ 
+    name: 'employee_id' 
+  })
   employee: Employee;
 }

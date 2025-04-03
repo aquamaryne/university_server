@@ -12,7 +12,6 @@ import { Department } from './entity/department';
 import { Fired } from './entity/fired';
 import { EmployeeLanguage } from './entity/lang';
 import { Employee } from './entity/employees';
-import { Sex } from './entity/sex';
 import { WorkExperience } from './entity/work-experience';
 import { Family } from './entity/family';
 import { FamilyStatus } from './entity/family-status';
@@ -32,7 +31,6 @@ import { FamilyStatusModule } from './family_status/family_status.module';
 import { FiredModule } from './fired/fired.module';
 import { LangModule } from './lang/lang.module';
 import { PersonalInfoModule } from './personal_info/personal_info.module';
-import { SexModule } from './sex/sex.module';
 import { WorkExperienceModule } from './work_experience/work_experience.module';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -47,7 +45,16 @@ import { ApiKeyMiddleware } from './api_key/api_key.middleware';
 import { ExcelModule } from './excel/excel.module';
 import { ContentDownloadModule } from './content-download/content-download.module';
 import { Staff } from './entity/staff';
+import { Location } from './entity/location';
 import { StaffModule } from './staff/staff.module';
+import { UniversityEmployment } from './entity/university-employment';
+import { WorkMode } from './entity/work-mode';
+import { Vacation } from './entity/vacation';
+import { TeacherDiscipline } from './entity/teacher-discipline';
+import { PassportData } from './entity/passport-data';
+import { EmployeeAchievement } from './entity/employee-achivement';
+import { AcademicStatus } from './entity/academic-status';
+import { EmployeeType } from './entity/employee-type';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -62,17 +69,25 @@ import { StaffModule } from './staff/staff.module';
         Achieve,
         Employee,
         Family,
-        Fired, 
         EmployeeLanguage,
         Faculty,
         Positions,
         Department,
         PersonalInfo,
         FamilyStatus,
-        Sex,
         WorkExperience,
         Auth_Key,
-        Staff
+        Staff,
+        Location,
+        UniversityEmployment,
+        WorkMode,
+        Vacation, 
+        TeacherDiscipline, 
+        PassportData, 
+        Fired,
+        EmployeeAchievement,
+        AcademicStatus, 
+        EmployeeType,
       ],
       synchronize: true,
       logging: true,
@@ -96,7 +111,6 @@ import { StaffModule } from './staff/staff.module';
     FiredModule,
     LangModule,
     PersonalInfoModule,
-    SexModule,
     WorkExperienceModule,
     AppModule,
     BackupModule,

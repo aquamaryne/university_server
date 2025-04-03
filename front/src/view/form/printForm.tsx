@@ -100,11 +100,11 @@ const PrintForm: React.FC = () => {
                     <MenuItem value="" disabled>
                         {loading ? 'Завантаження...' : 'Виберіть кафедру'}
                     </MenuItem>
-                    {domains.map((dom) => (
+                    {/* {domains.map((dom) => (
                         <MenuItem key={dom.id} value={dom.id}>
                             {dom.domain_name}
                         </MenuItem>
-                    ))}
+                    ))} */}
                 </Select>
             </FormControl>
             <TextField

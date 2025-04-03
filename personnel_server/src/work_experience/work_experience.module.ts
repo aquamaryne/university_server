@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Work_Experience } from 'src/entity/work-experience';
+import { WorkExperience } from 'src/entity/work-experience';
 import { WorkExperienceService } from './work_experience.service';
 import { WorkExperienceController } from './work_experience.controller';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Work_Experience])
+        TypeOrmModule.forFeature([WorkExperience])
     ],
     providers: [WorkExperienceService],
     controllers: [WorkExperienceController],

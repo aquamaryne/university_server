@@ -18,11 +18,11 @@ export class CsvController {
     @UseInterceptors(FileInterceptor('file'))
     @Render('csv')
     async importCsv(@UploadedFile() file: Express.Multer.File){
-        try{
-            await this.csvService.importCsv(file.path);
-            return { message: 'Data import success! '};
-        } catch(error){
-            return { 'errorMessage': 'Data import failed'}
-        }
+        // try{
+        //     await this.csvService.importCsv(file.path);
+        //     return { message: 'Data import success! '};
+        // } catch(error){
+        //     return { 'errorMessage': 'Data import failed'}
+        // }
     }
 }

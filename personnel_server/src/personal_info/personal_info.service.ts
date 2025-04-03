@@ -1,25 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Personal_Info } from 'src/entity/personal-info';
+import { PersonalInfo } from 'src/entity/personal-info';
 import { Repository } from 'typeorm';
 @Injectable()
 export class PersonalInfoService {
-    constructor(@InjectRepository(Personal_Info) private personalInfoRepository: Repository<Personal_Info>) {}
+    constructor(@InjectRepository(PersonalInfo) private personalInfoRepository: Repository<PersonalInfo>) {}
 
-    async findAll(): Promise<Personal_Info[]>{
+    async findAll(): Promise<PersonalInfo[]>{
         return this.personalInfoRepository.find();
     }
 
-    async findOne(id: number): Promise<Personal_Info | undefined>{
+    async findOne(id: number): Promise<PersonalInfo | undefined>{
         return this.personalInfoRepository.findOne({ where: {id} });
     }
 
-    async create(data: Partial<Personal_Info>): Promise<Personal_Info>{
+    async create(data: Partial<PersonalInfo>): Promise<PersonalInfo>{
         const personalInfo = this.personalInfoRepository.create(data);
         return this.personalInfoRepository.save(personalInfo);
     }
 
-    async update(id: number, data: Partial<Personal_Info>): Promise<Personal_Info>{
+    async update(id: number, data: Partial<PersonalInfo>): Promise<PersonalInfo>{
         await this.personalInfoRepository.update(id, data);
         return this.personalInfoRepository.findOne({ where: {id} });
     }

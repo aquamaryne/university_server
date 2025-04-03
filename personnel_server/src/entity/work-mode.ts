@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { UniversityEmployment } from "./university-employment";
 
+@Entity('work-mode')
 export class WorkMode {
     @PrimaryGeneratedColumn()
     id: number;
@@ -10,6 +11,7 @@ export class WorkMode {
         length: 255,
         nullable: false,
     })
+
     @OneToMany(() => UniversityEmployment, universityEmployement => universityEmployement.workMode)
     univarsityEmployement: UniversityEmployment[];
 }
