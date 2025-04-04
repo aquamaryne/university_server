@@ -36,4 +36,4 @@ jobs:
             docker stop || true 
             docker rm || true
 
-            docker pull $ {{ secrets.DOCKER_USERNAME }}/
+            docker pull ${{ secrets.DOCKER_USERNAME }}/

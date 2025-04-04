@@ -33,7 +33,7 @@ const PrintForm: React.FC = () => {
     const[startPage, setStartPage] = React.useState<number>(1);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const value = parseInt(e.target.value, 7);
+        const value = parseInt(e.target.value);
         if(!isNaN(value) && value >= 0){
             setStartPage(value);
         }
@@ -228,7 +228,7 @@ const PrintForm: React.FC = () => {
                                     textAlign: 'center',
                                     verticalAlign: 'middle',
                                     padding: '4px',
-                                    fontSize: '10px',
+                                    fontSize: '13px',
                                     lineHeight: 1.3,
                                     wordWrap: 'break-word',
                                 },
@@ -237,7 +237,7 @@ const PrintForm: React.FC = () => {
                                     transform: 'scale(0.98)',
                                     margin: '0 auto',
                                     '& th, & rd': {
-                                        fontSize: '8pt',
+                                        fontSize: '6pt',
                                         padding: '3pt',
                                     },
                                     breakInside: 'aviod',
@@ -248,7 +248,7 @@ const PrintForm: React.FC = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell rowSpan={2} sx={{ width: '3%' }}>№ п/п</TableCell>
-                                    <TableCell rowSpan={2} sx={{ width: '8%' }}>Прізвище, ім'я та по-батькові</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '5%' }}>Прізвище, ім'я та по-батькові</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: '5%' }}>Посада</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: '5%' }}>Дата вступу на посаду</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: '5%' }}>Дисципліна, яку читає</TableCell>
@@ -256,8 +256,8 @@ const PrintForm: React.FC = () => {
                                     <TableCell rowSpan={2} sx={{ width: '3%' }}>Вчене звання</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: '3%' }}>Вчений ступінь</TableCell>
                                     <TableCell colSpan={2} sx={{ width: '10%' }}>Стаж науково-пед. роботи</TableCell>
-                                    <TableCell rowSpan={2} sx={{ width: '3%' }}>Рік останнього підвищення кваліфікації</TableCell>
-                                    <TableCell colSpan={3} sx={{ width: '20%' }}>Загальні дані</TableCell>
+                                    <TableCell rowSpan={2} sx={{ width: '4%' }}>Рік останнього підвищення кваліфікації</TableCell>
+                                    <TableCell colSpan={3} sx={{ width: '15%' }}>Загальні дані</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: '3%' }}>Почесне звання</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: '3%' }}>Іноземна мова, якою володіє</TableCell>
                                     <TableCell rowSpan={2} sx={{ width: '3%' }}>Звільнення, у який навч. заклад</TableCell>
@@ -294,7 +294,7 @@ const PrintForm: React.FC = () => {
                         </Table>
                     </TableContainer>
                     <div style={{ marginTop: '20px'}}>
-                        <Typography variant="body1" sx={{ fontFamily: 'Roboto, sans-serif' }}>
+                        <Typography variant="body1" sx={{ fontFamily: 'Roboto, sans-serif', fontSize: '13px' }}>
                             {`「${startPage}」`}
                         </Typography>
                     </div>

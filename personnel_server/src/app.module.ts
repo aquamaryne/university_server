@@ -55,6 +55,7 @@ import { PassportData } from './entity/passport-data';
 import { EmployeeAchievement } from './entity/employee-achivement';
 import { AcademicStatus } from './entity/academic-status';
 import { EmployeeType } from './entity/employee-type';
+import { AcademicStatusModule } from './academic-status/academic-status.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -120,6 +121,7 @@ import { EmployeeType } from './entity/employee-type';
     ExcelModule,
     ContentDownloadModule,
     StaffModule,
+    AcademicStatusModule,
   ],
   controllers: [AppController, BackupController, EnterFormController ],
   providers: [
