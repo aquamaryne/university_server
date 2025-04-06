@@ -1,4 +1,101 @@
-import { Injectable } from '@nestjs/common';
- 
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AcademicStatus } from '../entity/academic-status';
 @Injectable()
-export class AcademicStatusService {}
+export class AcademicStatusService {
+    constructor(
+        @InjectRepository(AcademicStatus)
+        private readonly academicStatusRepo: Repository<AcademicStatus>,
+    ) {}
+
+    async findAll(): Promise<AcademicStatus[]>{
+        return this.academicStatusRepo.find({ relations: ['employee'] });
+    }
+
+    async findOne(id: number): Promise<AcademicStatus>{
+        const academicStatus = await this.academicStatusRepo.findOne({
+            where: { id },
+            relations: ['employee'],
+        });
+
+        if(!academicStatus){
+            throw new NotFoundException(`AcademicStatus with ID ${id} not found`);
+        }
+
+        return academicStatus;
+    }
+
+    async findByEmployeeId(employeeId: number): Promise<AcademicStatus> {
+        const academicStatus = await this.academicStatusRepo.findOne({
+            where: { employeeId },
+            relations: ['employee'],
+        });
+
+        if(!academicStatus){
+            throw new NotFoundException(`AcademicStatus with Employee ID ${employeeId} not found`);
+        }
+
+        return academicStatus;
+    }
+
+    async create(academicStatus: AcademicStatus): Promise<AcademicStatus> {
+        const newAcademicStatus = this.academicStatusRepo.create(academicStatus);
+        return this.academicStatusRepo.save(newAcademicStatus);
+    }
+
+    async update(
+        id: number,
+        academicStatusData: Partial<AcademicStatus>,
+    ): Promise<AcademicStatus> {
+        const academicStatus = await this.findOne(id);
+        Object.assign(academicStatus, academicStatusData);
+        return this.academicStatusRepo.save(academicStatus);
+    }
+
+    async remove(id: number): Promise<void>{
+        const academicStatus = await this.findOne(id);
+        await this.academicStatusRepo.remove(academicStatus);
+    }
+
+    async getAcademicStats(): Promise<{
+        totalAcademics: number;
+        TotalDoctors: number;
+        totalCandidates: number;
+    }>{
+        const [academics, doctors, candidates] = await Promise.all([
+            this.academicStatusRepo.count({ where: { isAcademic: true } }),
+            this.academicStatusRepo.count({ where: { isDoctor: true } }),
+            this.academicStatusRepo.count({ where: { isCandidate: true } }),
+        ])
+
+        return {
+            totalAcademics: academics,
+            TotalDoctors: doctors,
+            totalCandidates: candidates,
+        };
+    }
+
+    async getAverageExperience(): Promise<{
+        acerageAcademicExperience: number;
+        averageInstituteExperience: number;
+    }> {
+        const result = await this.academicStatusRepo
+            .createQueryBuilder('academicStatus')
+            .select(
+                'AVG(academicStatus.totalAcademicExperience)', 
+                'averageAcademicExperience'
+            )
+            .addSelect(
+                'AVG(academicStatus.instituteAcademicExperience)', 'averageInstituteExperience',
+            )
+            .where('academic_status.isAcademic = :isAcademic', { isAcademic: true })
+            .getRawOne();
+
+            return {
+                acerageAcademicExperience: parseFloat(result.averageAcademicExperience),
+                averageInstituteExperience: parseFloat(result.averageInstituteExperience),
+            }
+    }
+    
+}
