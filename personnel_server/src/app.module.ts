@@ -58,6 +58,8 @@ import { AcademicStatus }            from './entity/academic-status';
 import { EmployeeType }              from './entity/employee-type';
 import { AcademicStatusModule }      from './academic-status/academic-status.module';
 import { EmployeeAchievementModule } from './employee-achievement/employee-achievement.module';
+import { VacationModule }            from './vacation/vacation.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -125,8 +127,9 @@ import { EmployeeAchievementModule } from './employee-achievement/employee-achie
     StaffModule,
     AcademicStatusModule,
     EmployeeAchievementModule,
+    VacationModule,
   ],
-  controllers: [AppController, BackupController, EnterFormController  ],
+  controllers: [AppController, BackupController, EnterFormController ],
   providers: [
     AppService,
     BackupService,
