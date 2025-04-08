@@ -58,6 +58,7 @@ import { AcademicStatus }            from './entity/academic-status';
 import { EmployeeType }              from './entity/employee-type';
 import { AcademicStatusModule }      from './academic-status/academic-status.module';
 import { EmployeeAchievementModule } from './employee-achievement/employee-achievement.module';
+import { PassportDataModule }        from './passport-data/passport-data.module';
 import { VacationModule }            from './vacation/vacation.module';
 
 @Module({
@@ -128,6 +129,7 @@ import { VacationModule }            from './vacation/vacation.module';
     AcademicStatusModule,
     EmployeeAchievementModule,
     VacationModule,
+    PassportDataModule,
   ],
   controllers: [AppController, BackupController, EnterFormController ],
   providers: [
