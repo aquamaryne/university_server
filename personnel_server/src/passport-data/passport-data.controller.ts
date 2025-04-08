@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PassportDataService } from './passport-data.service';
 import { PassportData } from 'src/entity/passport-data';
 import { CreatePassportDataDto } from 'src/dto/passport/create';
@@ -10,12 +10,13 @@ export class PassportDataController {
     constructor(private readonly passportDataService: PassportDataService){}
 
     @Post()
-    create(@Body() passportDataDto: Partial<PassportData>): Promise<PassportData>{
-        return this.passportDataService.create(passportDataDto);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    create(@Body() createPassportDataDto: CreatePassportDataDto): Promise<PassportDataResponceDto>{
+        return this.passportDataService.create(createPassportDataDto);
     }
 
     @Get()
-    findAll(): Promise<PassportData[]>{
+    findAll(): Promise<PassportDataResponceDto[]>{
         return this.passportDataService.findAll();
     }
 
@@ -30,21 +31,22 @@ export class PassportDataController {
     }
 
     @Get('search')
-    findByPassportNumber(@Query('number') passport: string): Promise<PassportData>{
+    findByPassportNumber(@Query('number') passport: string): Promise<PassportDataResponceDto>{
         return this.passportDataService.findByPassportNumber(passport);
     }
 
     @Get('employee/:employeeId')
-    findOne(@Param('id', ParseIntPipe) id: number): Promise<PassportData>{
+    findOne(@Param('id', ParseIntPipe) id: number): Promise<PassportDataResponceDto>{
         return this.passportDataService.findOne(id);
     }
 
     @Patch(':id')
+    @UsePipes(new ValidationPipe({ transform: true }))
     update(
         @Param('id', ParseIntPipe) id: number,
-        @Body() passportDataDto: Partial<PassportData>
-    ): Promise<PassportData>{
-        return this.passportDataService.update(id, passportDataDto);
+        @Body() updatePassportDataDto: UpdatePassportDataDto
+    ): Promise<PassportDataResponceDto>{
+        return this.passportDataService.update(id, updatePassportDataDto);
     }
 
     @Delete(':id')
