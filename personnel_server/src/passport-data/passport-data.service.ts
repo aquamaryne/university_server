@@ -2,6 +2,9 @@ import { Injectable, NotFoundException, ConflictException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PassportData } from 'src/entity/passport-data';
+import { CreatePassportDataDto } from 'src/dto/passport/create';
+import { UpdatePassportDataDto } from 'src/dto/passport/update';
+import { PassportDataResponceDto } from 'src/dto/passport/responce';
 
 @Injectable()
 export class PassportDataService {
@@ -10,13 +13,15 @@ export class PassportDataService {
         private passportDataRepository: Repository<PassportData>
     ){}
 
-    async findAll(): Promise<PassportData[]>{
-        return this.passportDataRepository.find({
+    async findAll(): Promise<PassportDataResponceDto[]>{
+        const passports = await this.passportDataRepository.find({
             relations: ['employee'],
-        })
+        });
+
+        return passports.map(passport => new PassportDataResponceDto(passport));
     }
 
-    async findOne(id: number): Promise<PassportData>{
+    async findOne(id: number): Promise<PassportDataResponceDto>{
         const passportData = await this.passportDataRepository.findOne({
             where: { id },
             relations: [ 'employee' ]
@@ -26,10 +31,10 @@ export class PassportDataService {
             throw new NotFoundException(`Passport data with ID ${id} not found`);
         }
 
-        return passportData;
+        return new PassportDataResponceDto(passportData);
     }
 
-    async findByEmployee(employeeId: number): Promise<PassportData>{
+    async findByEmployee(employeeId: number): Promise<PassportDataResponceDto>{
         const passportData = await this.passportDataRepository.findOne({
             where: { employeeId },
             relations: ['employee'],
@@ -39,10 +44,10 @@ export class PassportDataService {
             throw new NotFoundException(`Passport data for employee with ID ${employeeId} not found`);
         }
 
-        return passportData;
+        return new PassportDataResponceDto(passportData);
     }
 
-    async findByPassportNumber(passport: string): Promise<PassportData>{
+    async findByPassportNumber(passport: string): Promise<PassportDataResponceDto>{
         const passportData = await this.passportDataRepository.findOne({
             where: { passport },
             relations: ['employee'],
@@ -52,10 +57,10 @@ export class PassportDataService {
             throw new NotFoundException(`Passport data with number ${passport} not found`);
         }
 
-        return passportData;
+        return new PassportDataResponceDto(passportData);
     }
 
-    async create(passportDataDto: Partial<PassportData>): Promise<PassportData>{
+    async create(passportDataDto: CreatePassportDataDto): Promise<PassportDataResponceDto>{
         if(passportDataDto.passport){
             const existingPassport = await this.passportDataRepository.findOne({
                 where: { passport: passportDataDto.passport },
@@ -77,14 +82,16 @@ export class PassportDataService {
         }
 
         const passportData = this.passportDataRepository.create(passportDataDto);
-        return this.passportDataRepository.save(passportData);
+        const savedPassport = await this.passportDataRepository.save(passportData);
+        return new PassportDataResponceDto(savedPassport);
     }
 
     async update(
         id: number,
-        passportDataDto: Partial<PassportData>,
-    ): Promise<PassportData>{
+        passportDataDto: UpdatePassportDataDto,
+    ): Promise<PassportDataResponceDto>{
         const passportData = await this.findOne(id);
+
         if(passportDataDto.passport && passportDataDto.passport !== passportData.passport){
             const existingPassport = await this.passportDataRepository.findOne({
                 where: { passport: passportDataDto.passport }
@@ -95,7 +102,7 @@ export class PassportDataService {
             }
         }
 
-        if(passportDataDto.employeeId && passportDataDto.employeeId !== passportData.employeeId){
+        if(passportDataDto.employeeId && passportDataDto.employeeId !== passportDataDto.employeeId){
             const existingEmployeePassport = await this.passportDataRepository.findOne({
                 where: { employeeId: passportDataDto.employeeId },
             });
@@ -108,12 +115,21 @@ export class PassportDataService {
         }
 
         Object.assign(passportData, passportDataDto);
-        return this.passportDataRepository.save(passportData);
+
+        const updatePassport = await this.passportDataRepository.save(passportData);
+        return new PassportDataResponceDto(updatePassport);
     }
 
     async remove(id: number): Promise<void>{
-        const passportData = await this.findOne(id);
-        await this.passportDataRepository.remove(passportData);
+        const passportData = await this.passportDataRepository.findOne({
+            where: { id },
+        });
+
+        if(!passportData){
+            throw new NotFoundException(`Passport data with ID ${id} not found`);
+        }
+
+        await this.passportDataRepository.remove(passportData)
     }
 
     async getPassportsIssuedByYear(): Promise<any[]>{

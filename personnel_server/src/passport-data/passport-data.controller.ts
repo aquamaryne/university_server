@@ -1,6 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
 import { PassportDataService } from './passport-data.service';
 import { PassportData } from 'src/entity/passport-data';
+import { CreatePassportDataDto } from 'src/dto/passport/create';
+import { UpdatePassportDataDto } from 'src/dto/passport/update';
+import { PassportDataResponceDto } from 'src/dto/passport/responce';
 
 @Controller('passport-data')
 export class PassportDataController {
