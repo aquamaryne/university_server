@@ -58,7 +58,10 @@ import { AcademicStatus }            from './entity/academic-status';
 import { EmployeeType }              from './entity/employee-type';
 import { AcademicStatusModule }      from './academic-status/academic-status.module';
 import { EmployeeAchievementModule } from './employee-achievement/employee-achievement.module';
-import { EmployeeTypeModule } from './employee-type/employee-type.module';
+import { LocationModule }            from './location/location.module';
+import { WorkModeModule }            from './work-mode/work-mode.module';
+import { EmployeeTypeModule }        from './employee-type/employee-type.module';
+import { TeacherDisciplineModule }   from './teacher-discipline/teacher-discipline.module';
 import { PassportDataModule }        from './passport-data/passport-data.module';
 import { VacationModule }            from './vacation/vacation.module';
 
@@ -132,6 +135,9 @@ import { VacationModule }            from './vacation/vacation.module';
     VacationModule,
     PassportDataModule,
     EmployeeTypeModule,
+    TeacherDisciplineModule,
+    LocationModule,
+    WorkModeModule,
   ],
   controllers: [AppController, BackupController, EnterFormController ],
   providers: [

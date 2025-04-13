@@ -11,6 +11,7 @@ export class WorkMode {
         length: 255,
         nullable: false,
     })
+    name: string
 
     @OneToMany(() => UniversityEmployment, universityEmployement => universityEmployement.workMode)
     univarsityEmployement: UniversityEmployment[];
