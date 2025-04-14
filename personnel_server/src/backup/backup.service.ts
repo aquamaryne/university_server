@@ -13,10 +13,15 @@ dotenv.config();
 @Injectable()
 export class BackupService implements OnModuleDestroy {
     private dbConnection: mysql.Connection;
-    private backupDir =  '/tmp/';
-    private archieveDir = '/tmp/backups';
+    private backupDir: string;
+    private archieveDir: string;
+    private maxBackups: number;
 
     constructor(){
+        this.backupDir = process.env.BACKUP_DIR || '/tmp/';
+        this.archieveDir = process.env.ARCHIEVE_DIR || '/tmp/backups';
+        this.maxBackups = parseInt(process.env.MAX_BACKUPS || '30', 10);
+
         this.dbConnection = mysql.createConnection({
             host: process.env.DATABASE_HOST,
             port: Number(process.env.DATABASE_PORT),
@@ -31,15 +36,11 @@ export class BackupService implements OnModuleDestroy {
                 throw err;
             }
         })
+
+        this.ensureDirectories();
     }
 
-    @Cron(CronExpression.EVERY_DAY_AT_NOON)
-    async backupDatabase(){
-
-        console.log('Backup task started', new Date());
-        const timeStamp = new Date().toISOString().replace(/[:]/g, '-');
-        const backupFile = `${this.backupDir}/database-backup-${timeStamp}.sql`;
-
+    ensureDirectories(): void {
         if(!fs.existsSync(this.backupDir)){
             try{
                 fs.mkdirSync(this.backupDir, { recursive: true });
@@ -57,14 +58,36 @@ export class BackupService implements OnModuleDestroy {
                 console.error(`Failed to create archieve directory ${this.archieveDir}`)
             }
         }
+    }
 
-        const schema = await this.getSchema();
-        const data = await this.getData(schema);
+    @Cron(CronExpression.EVERY_DAY_AT_NOON)
+    async backupDatabase(){
 
-        fs.writeFileSync(backupFile, this.generateBackupSQL(schema, data));
-        console.log(`Database backup saved to ${this.backupDir}`);
+        console.log('Backup task started', new Date());
+        const timeStamp = new Date().toISOString().replace(/[:]/g, '-');
+        const backupFile = `${this.backupDir}/database-backup-${timeStamp}.sql`;
 
-        await this.archieveBackup(backupFile, timeStamp);
+        this.ensureDirectories();
+
+        try{
+            const schema = await this.getSchema();
+            const data = await this.getData(schema);
+
+            fs.writeFileSync(backupFile, this.generateBackupSQL(schema, data));
+            console.log(`Backup file created: ${backupFile}`);
+
+            await this.archieveBackup(backupFile, timeStamp);
+
+            fs.unlinkSync(backupFile);
+            console.log(`Backup file deleted: ${backupFile}`);
+
+            await this.rotateBackups();
+
+            return true;
+        } catch(error){
+            console.error(`Error creating backup: ${error}`);
+            throw error;
+        }
     }
 
     private async getSchema(){
@@ -77,6 +100,8 @@ export class BackupService implements OnModuleDestroy {
             const tableName = row[`Tables_in_${this.dbConnection.config.database}`];
             schema[tableName] = await this.getTableName(tableName);
         }
+
+        return schema;
     }
 
     private async getTableName(tableName: string){
@@ -103,22 +128,47 @@ export class BackupService implements OnModuleDestroy {
         return data;
     }
 
+    private async rotateBackups(){
+        try{
+            const backups = await this.getBackupsList();
+
+            if(backups.length > this.maxBackups){
+                backups.sort((a, b) => a.date.getTime() - b.date.getTime());
+                const backupsToDelete = backups.slice(0, backups.length - this.maxBackups);
+
+                for(const backup of backupsToDelete){
+                    const filePath = path.join(this.archieveDir, backup.name);
+                    fs.unlinkSync(filePath);
+                    console.log(`Deleted old backup: ${backup.name}`);
+                }
+            }
+        } catch(error){
+            console.error('Error rotating backups', error);
+        }
+    }
+
     private generateBackupSQL(schema: any, data: any){
         let sql = '';
         
         for(const tableName in schema){
+
+            sql += `DROP TABLE IF EXISTS ${tableName};\n`;
             sql += `CREATE TABLE ${tableName} (\n`;
+            
+            const columns = [];
 
             for(const fieldName in schema[tableName]){
                 sql += ` ${fieldName} ${schema[tableName][fieldName]},\n`;
             }
 
-            sql = sql.replace(/,\n$/, '\n');
-            sql += `);\n\n`;
+            sql = columns.join(',\n');
+            sql += `\n);\n\n`;
 
-            for(const row of data[tableName]){
-                const escapedValues = Object.values(row).map((value) => this.dbConnection.escape(value));
-                sql += `INSERT INTO ${tableName} VALUES (${escapedValues.join(', ')});\n`;
+            if(data[tableName] && data[tableName].length > 0){
+                for(const row of data[tableName]){
+                    const escapedValues = Object.values(row).map((value) => this.dbConnection.escape(value));
+                    sql += `INSERT INTO ${tableName} VALUES (${escapedValues.join(', ')}); \n`
+                };
             }
 
             sql += '\n';
