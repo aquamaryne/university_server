@@ -6,17 +6,24 @@ import * as fs from 'fs';
 import { ApiKeyGuard } from 'src/api_key/api_key.guard';
 @Controller('backups')
 export class BackupController {
-    constructor(private readonly backupService: BackupService) {}
+    private readonly archieveDir: string;
+    constructor(private readonly backupService: BackupService) {
+        this.archieveDir = process.env.ARCHIEVE_DIR || '/tmp/backups';
+    }
 
     @Get()
     async getBackups(){
         try{
             const backups = await this.backupService.getBackupsList();
-            return backups;
+            return {
+                statusCode: HttpStatus.OK,
+                data: backups,
+            };
         } catch(error) {
             throw new HttpException({
-                "status": HttpStatus.NOT_FOUND,
-                "error": 'Backups not found',
+                statusCode: HttpStatus.NOT_FOUND, 
+                message: 'No backups found',
+                error: error.message,
             }, HttpStatus.NOT_FOUND)
         }
     }
@@ -32,22 +39,30 @@ export class BackupController {
         } catch(error){
             console.error('Error during backup', error);
             throw new HttpException({
-                "statusCode": HttpStatus.INTERNAL_SERVER_ERROR,
-                "message": 'Error while creating backup',
-                "error": error.message,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Error while creating backup',
+                error: error.message,
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Get('status')
     async getStatus(){
-        const lastBackup = await this.getLastBackup();
-
-        return{
-            "statusCode": HttpStatus.OK,
-            "message": "Backup service is operational",
-            lastBackup,
-        };
+        try{
+            const lastBackup = await this.getLastBackup();
+    
+            return{
+                statusCode: HttpStatus.OK,
+                message: "Backup service is operational",
+                lastBackup,
+            };
+        } catch(error){
+            throw new HttpException({
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Error while checking backup status',
+                error: error.message,
+            }, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     } 
     
     @UseGuards(ApiKeyGuard)
@@ -60,27 +75,45 @@ export class BackupController {
         } catch (error) {
             console.error(`Error fetching backup list ${error}`);
             throw new HttpException({
-                "statusCode": HttpStatus.INTERNAL_SERVER_ERROR,
-                "error": 'Failed to retrieve backup list',
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                error: 'Failed to retrieve backup list',
+                message: error.message,
             }, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
     @Get('download/:filename')
     async downloadBackup(@Param('filename') filename: string, @Res() res: Response){
-        const filePath = path.join('/tmp/backups', filename);
-
-        if(!fs.existsSync(filePath)){
-            console.error(`File not found ${filePath}`);
-            return res.status(404).send('File not found')
-        }
-        
-        res.download(filePath, (err) => {
-            if(err){
-                console.error(`Error downloading file: ${err}`);
-                res.status(404).send('File not found')
+        try{
+            if(filename.includes('/') || filename.includes('..')){
+                return res.status(HttpStatus.BAD_REQUEST).send('Invalid filename');
             }
-        });
+
+            const filePath = path.join(this.archieveDir, filename);
+
+            if(!fs.existsSync(filePath)){
+                console.error(`File ${filePath} does not exist`);
+                return res.status(HttpStatus.NOT_FOUND).send('File not found');
+            }
+
+            res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+            res.setHeader('Content-Type', 'application/octet-stream');
+
+            const fileStream = fs.createReadStream(filePath);
+            fileStream.pipe(res);
+
+            fileStream.on('error', (err) => {
+                console.error(`Error streamin file: ${err}`);
+                if(!res.headersSent){
+                    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send('Error streaming file');
+                }
+            });
+        } catch(error){
+            console.error(`Error downloading file: ${error}`);
+            if(!res.headersSent){
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR).send('Error processing download request');
+            }
+        }
     }
 
     private async getLastBackup(): Promise<{ name: string; date: Date } | string>{

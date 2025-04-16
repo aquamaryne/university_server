@@ -179,10 +179,6 @@ export class BackupService implements OnModuleDestroy {
 
     private async archieveBackup(backupFile: string, timeStamp: string){
 
-        if(!fs.existsSync(this.archieveDir)){
-            fs.mkdirSync(this.archieveDir, { recursive: true });
-        }
-
         const archieveFile = path.join(this.archieveDir, `database-backup-${timeStamp}.7z`);
         console.log(`Archiving backup to ${archieveFile}`);
 
