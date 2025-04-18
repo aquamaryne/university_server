@@ -1,71 +1,86 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { EmployeersService } from './employeers.service';
 import { Employee } from 'src/entity/employees';
+import { EmployeeResponceDto } from 'src/dto/employee/responce';
+import { CreateEmployeeDto } from 'src/dto/employee/create';
+import { UpdateEmployeeDto } from 'src/dto/employee/update';
 
 @Controller('employeers')
 export class EmployeersController {
     constructor(private readonly employeerService: EmployeersService) {}
 
     @Get()
-    findAll(): Promise<Employee[]>{
-        return this.employeerService.findAll();
+    async findAll(): Promise<EmployeeResponceDto[]>{
+        const employees = await this.employeerService.findAll();
+        return employees.map(employee => this.employeerService.toResponceDto(employee));
     }
 
     @Post()
-    create(@Body() employeer: Employee): Promise<Employee>{
-        return this.employeerService.create(employeer);
+    @UsePipes(new ValidationPipe())
+    async create(@Body() createEmployeeDto: CreateEmployeeDto): Promise<EmployeeResponceDto>{
+        const employee = await this.employeerService.create(createEmployeeDto);
+        return this.employeerService.toResponceDto(employee);
     }
 
     @Get('search')
     async getSurnames(
         @Query('letter') letter?: string,
         @Query('query') query?: string,
-    ): Promise<Employee[]> {
-        console.log(`Received letter: ${letter}, query: ${query}`);
-
-        try {
-            if (letter) {
-                const results = await this.employeerService.findByLetter(letter);
-                console.log(`Found ${results.length} results for letter: ${letter}`);
-                return results;
-            } else if (query) {
-                const results = await this.employeerService.findByQuery(query);
-                console.log(`Found ${results.length} results for query: ${query}`);
-                return results;
+    ): Promise<EmployeeResponceDto[]>{
+        try{
+            let employees: Employee[] = [];
+            if(letter){
+                employees = await this.employeerService.findByLetter(letter);
+            } else if(query){
+                employees = await this.employeerService.findByQuery(query);
             } else {
-                const results = await this.employeerService.getAllEmployeers();
-                console.log(`Returning all employeers, total: ${results.length}`);
-                return results;
+                employees = await this.employeerService.getAllEmployeers();
             }
-        } catch (error) {
-            console.error("Error fetching surnames:", error);
-            throw new Error("Unable to fetch surnames");
+
+            return employees.map(employee => this.employeerService.toResponceDto(employee));
+        } catch(error){
+            throw new HttpException('Error fetching employees', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @Get('unique/:uniqueCard')
-    async findByUniqueCard(@Param('uniqueCard') uniqueCard: string): Promise<Employee>{
-        return this.employeerService.findByUniqueCard(uniqueCard);
+    async findByUniqueCard(@Param('uniqueCard') uniqueCard: string): Promise<EmployeeResponceDto>{
+        const employee = await this.employeerService.findByUniqueCard(uniqueCard);
+        if(!employee){
+            throw new HttpException(`Employee with uniqu card ${uniqueCard} not found`, HttpStatus.NOT_FOUND);
+
+        }
+        return this.employeerService.toResponceDto(employee);
     }
 
     @Get(':id')
-    findOne(@Param('id') id: number): Promise<Employee>{
-        return this.employeerService.findOne(id);
+    async findOne(@Param('id', ParseIntPipe) id: number): Promise<EmployeeResponceDto>{
+        const employee = await this.employeerService.findOne(id);
+        if(!employee){
+            throw new HttpException(`Employee with id ${id} not found`, HttpStatus.NOT_FOUND);
+        }
+        return this.employeerService.toResponceDto(employee);
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() employeer: Employee): Promise<Employee>{
-        return this.employeerService.update(id, employeer);
+    @UsePipes(new ValidationPipe())
+    async update(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() updateEmployeeDto: UpdateEmployeeDto,
+    ): Promise<EmployeeResponceDto>{
+        const employee = await this.employeerService.update(id, updateEmployeeDto);
+        return this.employeerService.toResponceDto(employee);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string ): Promise<void>{
-        return this.employeerService.softRemove(Number(id));
+    async remove(@Param('id', ParseIntPipe) id: number): Promise<{ message: string }>{
+        await this.employeerService.softRemove(id);
+        return { message: `Employee with id ${id} removed` };
     }
 
     @Get('restore/:id')
-    async restore(@Param('id', ParseIntPipe) id: number): Promise<void>{
+    async restore(@Param('id', ParseIntPipe) id: number): Promise<{ message: string }>{
         await this.employeerService.restore(id);
+        return { message: `Employee with id ${id} restored` };
     }
-
 }

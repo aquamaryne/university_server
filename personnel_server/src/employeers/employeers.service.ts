@@ -1,63 +1,102 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from 'src/entity/employees';
-
+import { CreateEmployeeDto } from 'src/dto/employee/create';
+import { UpdateEmployeeDto } from 'src/dto/employee/update';
+import { EmployeeResponceDto } from 'src/dto/employee/responce';
+import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class EmployeersService {
     constructor(@InjectRepository(Employee) private employeersRepository: Repository<Employee>){}
     
-    async create(employeer: Employee): Promise<Employee>{
-        return this.employeersRepository.save(employeer);
+    async create(CreateEmployeeDto: CreateEmployeeDto): Promise<Employee>{
+        const employee = this.employeersRepository.create(CreateEmployeeDto);
+        return this.employeersRepository.save(employee);
     }
 
     async findAll(): Promise<Employee[]>{
-        return this.employeersRepository.find();
+        return this.employeersRepository.find({
+            relations: ['employeeType'],
+        });
     }
 
     async findOne(id: number): Promise<Employee>{
-        return this.employeersRepository.findOne({ where: { id } });
+        const employee = await this.employeersRepository.findOne({
+            where: { id },
+            relations: ['employeeType'],
+        });
+
+        if(!employee){
+            throw new NotFoundException(`Employee with id ${id} not found`); 
+        }
+        return employee;
     }
 
-    async update(id: number, employeer: Employee): Promise<Employee>{
-        await this.employeersRepository.update(id, employeer);
+    async update(id: number, UpdateEmployeeDto: UpdateEmployeeDto): Promise<Employee>{
+        const employee = await this.findOne(id);
+        if(!employee){
+            throw new NotFoundException(`Employee with id ${id} not found`); 
+        }
+        Object.assign(employee, UpdateEmployeeDto);
+        await this.employeersRepository.save(employee);
         return this.findOne(id);
     }
 
     async softRemove(id: number): Promise<void>{
+        const employee = await this.employeersRepository.softDelete(id);
+        if(!employee){
+            throw new NotFoundException(`Employee with id ${id} not found`); 
+        }
+
         await this.employeersRepository.softDelete(id);
     }
 
     async restore(id: number): Promise<void>{
-        await this.employeersRepository.restore(id);
-    }
+        const result = await this.employeersRepository.restore(id);
+        if(result.affected === 0){
+            throw new NotFoundException(`Employee with id ${id} not found or alredy restored`); 
+        }
+    } 
 
     async findByLetter(letter: string): Promise<Employee[]>{
-        const result = await this.employeersRepository
-            .createQueryBuilder('employeer')
-            .where('employeer.sname LIKE :letter', { letter: `${letter}%` })
+        return this.employeersRepository
+            .createQueryBuilder('employee')
+            .leftJoinAndSelect('employee.employeeType', 'employeeType')
+            .where('employee.secondName LIKE :letter', { letter: `${letter}%` })
             .getMany();
-        return result;
     }
-    
+
     async findByQuery(query: string): Promise<Employee[]>{
-        const result = await this.employeersRepository
-            .createQueryBuilder('employeer')
-            .where('employeer.sname LIKE :query', { query: `%${query}%` })
+        return this.employeersRepository
+            .createQueryBuilder('employee')
+            .leftJoinAndSelect('employee.employeeType', 'employeeType')
+            .where('employee.secondName LIKE :query OR employee.firstName LIKE :query', 
+                  { query: `%${query}%` })
             .getMany();
-        return result;
     }
 
     async getAllEmployeers(): Promise<Employee[]>{
-        const result = await this.employeersRepository.find();
-        return result;
+        return this.employeersRepository.find({
+            relations: ['employeeType'],
+        });
     }
 
     async findByUniqueCard(uniqueCard: string): Promise<Employee>{
-        const result = await this.employeersRepository
-            .createQueryBuilder('employeer')
-            .where('employeer.unique_card = :uniqueCard', { uniqueCard })
+        const employee = await this.employeersRepository
+            .createQueryBuilder('employee')
+            .leftJoinAndSelect('employee.employeeType', 'employeeType')
+            .where('employee.uniqueCard = :uniqueCard', { uniqueCard })
             .getOne();
-        return result;
+        if(!employee){
+            throw new NotFoundException(`Employee with uniqueCard ${uniqueCard} not found`); 
+        }
+        return employee;
+    }
+
+    toResponceDto(employee: Employee): EmployeeResponceDto{
+        return plainToInstance(EmployeeResponceDto, employee, {
+            excludeExtraneousValues: true,
+        })
     }
 }
