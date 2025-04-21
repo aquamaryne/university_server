@@ -2,7 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WorkMode } from 'src/entity/work-mode';
-
+import { CreateWorkModeDto } from 'src/dto/work-mode/create';
+import { UpdateWorkModeDto } from 'src/dto/work-mode/update';
+import { ResponceWorkModeDto } from 'src/dto/work-mode/responce';
+import { WorkModeStatsDto, PopularWorkModeDto } from 'src/dto/work-mode/stats';
+import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class WorkModeService {
     constructor(@InjectRepository(WorkMode) private workModerepository: Repository<WorkMode>){}
@@ -31,14 +35,15 @@ export class WorkModeService {
             .getMany();
     }
 
-    async create(workModeData: Partial<WorkMode>): Promise<WorkMode>{
-        const workMode = this.workModerepository.create(workModeData);
-        return this.workModerepository.save(workMode);
+    async create(createWorkModeData: CreateWorkModeDto): Promise<WorkMode>{
+        const workMode = this.workModerepository.create(createWorkModeData);
+        const savedWorkMode = await this.workModerepository.save(workMode);
+        return this.findOne(savedWorkMode.id);
     }
 
-    async update(id: number, workModeData: Partial<WorkMode>): Promise<WorkMode>{
+    async update(id: number, updateWorkModeData: UpdateWorkModeDto): Promise<WorkMode>{
         await this.findOne(id);
-        await this.workModerepository.update(id, workModeData);
+        await this.workModerepository.update(id, updateWorkModeData);
         return await this.findOne(id);
     }
 
@@ -49,8 +54,8 @@ export class WorkModeService {
         }
     }
 
-    async getWorkModeStats(): Promise<any[]>{
-        return this.workModerepository
+    async getWorkModeStats(): Promise<WorkModeStatsDto[]>{
+        const stats = await this.workModerepository
             .createQueryBuilder('workMode')
             .leftJoin('workMode.univarsityEmployement', 'employment')
             .select('workMode.id', 'id')
@@ -59,10 +64,14 @@ export class WorkModeService {
             .groupBy('workMode.id')
             .orderBy('employmentCount', 'DESC')
             .getRawMany();
+        
+        return plainToInstance(WorkModeStatsDto, stats, {
+            excludeExtraneousValues: true,
+        })
     }
 
-    async getPopularWorkModes(limit: number = 5): Promise<any>{
-        return this.workModerepository
+    async getPopularWorkModes(limit: number = 5): Promise<PopularWorkModeDto[]>{
+        const popularWorks = await this.workModerepository
             .createQueryBuilder('workMode')
             .leftJoin('workMode.univarsityEmployement', 'employment')
             .select('workMode.id', 'id')
@@ -72,5 +81,21 @@ export class WorkModeService {
             .orderBy('employeeCount', 'DESC')
             .limit(limit)
             .getRawMany();
+        
+        return plainToInstance(PopularWorkModeDto, popularWorks, {
+            excludeExtraneousValues: true,
+        });
+    }
+
+    toResponceDto(workMode: WorkMode): ResponceWorkModeDto{
+        return plainToInstance(ResponceWorkModeDto, workMode, {
+            excludeExtraneousValues: true,
+        });
+    }
+
+    toResponceDtoArray(workModes: WorkMode[]): ResponceWorkModeDto[]{
+        return plainToInstance(ResponceWorkModeDto, workModes, {
+            excludeExtraneousValues: true,
+        })
     }
 }

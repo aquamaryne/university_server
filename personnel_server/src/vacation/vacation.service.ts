@@ -2,7 +2,11 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import { Vacation } from 'src/entity/vacation';
-
+import { CreateVacationDto } from 'src/dto/vacation/create';
+import { UpdateVacationDto } from 'src/dto/vacation/update';
+import { VacationResponceDto } from 'src/dto/vacation/responce';
+import { VacationTypeStatsDto, VacationEmployeeStatsDto, VacationMonthlyStatsDto } from 'src/dto/vacation/stats';
+import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class VacationService {
     constructor(
@@ -112,21 +116,21 @@ export class VacationService {
         });
     }
 
-    async create(vacationDate: Partial<Vacation>): Promise<Vacation>{
-        if(vacationDate.start_date && vacationDate.end_Date){
-            const startDate = new Date(vacationDate.start_date);
-            const end_Date = new Date(vacationDate.end_Date);
+    async create(createVacationDate: CreateVacationDto): Promise<Vacation>{
+        if(createVacationDate.start_date && createVacationDate.end_date){
+            const startDate = new Date(createVacationDate.start_date);
+            const end_Date = new Date(createVacationDate.end_date);
 
             if(startDate > end_Date){
                 throw new BadRequestException('Start date cannot be after end date');
             }
         }
 
-        if(vacationDate.employee_id && vacationDate.start_date && vacationDate.end_Date){
+        if(createVacationDate.employementId && createVacationDate.start_date && createVacationDate.end_date){
             const overlappingVacations = await this.checkOverlappingVacations(
-                vacationDate.employee_id,
-                new Date(vacationDate.start_date),
-                new Date(vacationDate.end_Date),
+                createVacationDate.employementId,
+                new Date(createVacationDate.start_date),
+                new Date(createVacationDate.end_date),
                 null,
             );
 
@@ -135,30 +139,33 @@ export class VacationService {
             }
         }
 
-        const vacation = this.vacationRepository.create(vacationDate);
-        return this.vacationRepository.save(vacation);
+        const vacation = this.vacationRepository.create(createVacationDate);
+        const savedVacation = await this.vacationRepository.save(vacation);
+
+        return this.findOne(savedVacation.id);
     }
 
     async update(
         id: number,
-        vacationData: Partial<Vacation>,
+        updateVacationData: UpdateVacationDto,
     ): Promise<Vacation>{
         const vacation = await this.findOne(id);
-        if(vacationData.start_date && vacationData.end_Date){
-            const startDate = new Date(vacationData.start_date);
-            const endDate = new Date(vacationData.end_Date);
+
+        if(updateVacationData.start_date && updateVacationData.end_date){
+            const startDate = new Date(updateVacationData.start_date);
+            const endDate = new Date(updateVacationData.end_date);
 
             if(startDate > endDate){
                 throw new BadRequestException('Start date cannot be after end date');
             }
-        } else if(vacationData.start_date && !vacationData.end_Date) {
-            const startDate = new Date(vacationData.start_date);
+        } else if(updateVacationData.start_date && !updateVacationData.end_date) {
+            const startDate = new Date(updateVacationData.start_date);
             const endDate = new Date(vacation.end_Date);
 
             if(startDate > endDate){
                 throw new BadRequestException('Start date cannot be after end date');
             }
-        } else if(!vacationData.start_date && vacationData.end_Date){
+        } else if(!updateVacationData.start_date && updateVacationData.end_date){
             const startDate = new Date(vacation.start_date);
             const endDate = new Date(vacation.end_Date);
 
@@ -167,10 +174,10 @@ export class VacationService {
             }
         }
 
-        if((vacationData.start_date || vacationData.end_Date || vacationData.employee_id) && (vacation.employee_id || vacationData.employee_id)){
-            const employeeId = vacationData.employee_id || vacation.employee_id;
-            const startDate = vacationData.start_date ? new Date(vacationData.start_date): new Date(vacation.start_date);
-            const endDate = vacationData.end_Date ? new Date(vacationData.end_Date): new Date(vacation.end_Date);
+        if((updateVacationData.start_date || updateVacationData.end_date || updateVacationData.employementId) && (vacation.employee_id || updateVacationData.employementId)){
+            const employeeId = updateVacationData.employementId || vacation.employee_id;
+            const startDate = updateVacationData.start_date ? new Date(updateVacationData.start_date): new Date(vacation.start_date);
+            const endDate = updateVacationData.end_date ? new Date(updateVacationData.end_date): new Date(vacation.end_Date);
 
             const overlappingVacations = await this.checkOverlappingVacations(
                 employeeId,
@@ -184,7 +191,8 @@ export class VacationService {
             }
         }
 
-        Object.assign(vacation, vacationData);
+        Object.assign(vacation, updateVacationData);
+        await this.vacationRepository.save(vacation);
 
         return this.vacationRepository.save(vacation);
     }
@@ -194,17 +202,21 @@ export class VacationService {
         await this.vacationRepository.remove(vacation);
     }
 
-    async getVacationStatsByType(): Promise<any[]>{
-        return this.vacationRepository
+    async getVacationStatsByType(): Promise<VacationTypeStatsDto[]>{
+        const stats = await this.vacationRepository
             .createQueryBuilder('vacation')
             .select('vacation.vacation_type', 'type')
             .addSelect('COUNT(vacation.id)', 'count')
             .addSelect('AVG(DATEDIFF(vacation.end_Date, vacation.start_date) + 1)', 'avgDuration')
             .groupBy('vacation.vacation_type')
             .getRawMany();
+        
+        return plainToInstance(VacationTypeStatsDto, stats, {
+            excludeExtraneousValues: true,
+        })
     }
 
-    async getVacationStatsByEmployee(employeeId: number): Promise<any>{
+    async getVacationStatsByEmployee(employeeId: number): Promise<VacationEmployeeStatsDto>{
         const totalCount = await this.vacationRepository.count({
             where: { employee_id: employeeId },
         });
@@ -238,7 +250,7 @@ export class VacationService {
             })
             .getRawOne();
 
-        return {
+        const stats = {
             totalCount,
             paidCount,
             unpaidCount,
@@ -246,10 +258,14 @@ export class VacationService {
             paidDays: paidDuration.paidDays ? parseInt(paidDuration.paidDays) : 0,
             unpaidDays: vacationDuration.totalDays && paidDuration.paidDays ? parseInt(vacationDuration.totalDays) - parseInt(paidDuration.paidDays) : 0,
         };
+
+        return plainToInstance(VacationEmployeeStatsDto, stats, {
+            excludeExtraneousValues: true,
+        })
     }
 
-    async getVacationStatsByMonth(): Promise<any[]>{
-        return this.vacationRepository
+    async getVacationStatsByMonth(): Promise<VacationMonthlyStatsDto[]>{
+        const monthlyStats = await this.vacationRepository
             .createQueryBuilder('vacation')
             .select('MONTH(vacation.start_date)', 'month')
             .addSelect('YEAR(vacation.start_date)', 'year')
@@ -258,5 +274,21 @@ export class VacationService {
             .orderBy('year', 'ASC')
             .addOrderBy('month', 'ASC')
             .getRawMany();
+
+        return plainToInstance(VacationMonthlyStatsDto, monthlyStats, {
+            excludeExtraneousValues: true,
+        })
+    }
+
+    toResponseDto(vacation: Vacation): VacationResponceDto{
+        return plainToInstance(VacationResponceDto, vacation, {
+            excludeExtraneousValues: true,
+        })
+    }
+
+    toReponseDtoArray(vacations: Vacation[]): VacationResponceDto[]{
+        return plainToInstance(VacationResponceDto, vacations, {
+            excludeExtraneousValues: true,
+        })
     }
 }

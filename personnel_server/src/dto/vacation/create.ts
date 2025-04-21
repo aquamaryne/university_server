@@ -1,23 +1,41 @@
-import { IsString, IsNumber, IsDate, IsOptional, Length, IsNotEmpty } from 'class-validator'
-import { Type } from 'class-transformer'
+import { IsNotEmpty, IsOptional, IsNumber, IsString, IsDate, IsBoolean, MinDate, ValidateIf } from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class CreatePassportDataDto{
-    @IsOptional()
+export class CreateVacationDto{
     @IsNumber()
-    employeeId?: number
+    @IsNotEmpty()
+    employementId: number;
 
     @IsString()
-    @IsNotEmpty({ message: 'Passport number cannot be empty '})
-    @Length(5, 255, { message: 'Passport number must be between 2 and 255 characters '})
-    passport: string;
-
-    @IsString()
-    @IsNotEmpty({ message: 'Passport issued by cannot be empty '})
-    @Length(3 , 255, { message: 'Passport issued by must be between 3 and 255 characters '})
-    passportIssuedBy: string;
+    @IsNotEmpty()
+    vacation_type: string;
 
     @IsDate()
+    @IsNotEmpty()
     @Type(() => Date)
-    @IsNotEmpty({ message: 'Passport issued date cannot be empty' })
-    passportDateIssued: Date;
+    start_date: Date;
+
+    @IsDate()
+    @IsNotEmpty()
+    @Type(() => Date)
+    @ValidateIf((o) => o.start_date)
+    @MinDate(new Date('start_date'))
+    end_date: Date;
+
+    @IsNumber()
+    @IsNotEmpty()
+    order_number: number;
+
+    @IsDate()
+    @IsNotEmpty()
+    @Type(() => Date)
+    order_date: Date;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    is_paid: boolean;
+
+    @IsString()
+    @IsOptional()
+    notes?: string;
 }

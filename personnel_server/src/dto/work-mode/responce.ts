@@ -1,35 +1,22 @@
-import { Exclude, Expose, Transform } from "class-transformer";
-export class PassportDataResponceDto{
+import { Expose, Exclude, Type } from 'class-transformer';
+
+export class ResponceWorkModeDto{
     @Expose()
     id: number;
 
     @Expose()
-    emloyeeId: number;
+    name: string;
 
-    @Expose()
-    passport: string;
+    // @Expose()
+    // @Type(() => UniversityEmployementResponceDto)
+    // universityEmployement?: UniversityEmployementResponceDto[];
 
-    @Expose()
-    passportIssuedBy: string;
+    @Exclude()
+    createdAt?: Date;
 
-    @Expose()
-    passportDateIssued: Date;
+    @Exclude()
+    updatedAt?: Date;
 
-    @Expose()
-    @Transform(({ obj }) => {
-        if(obj.employee){
-            return{
-                id: obj.employee.id,
-                firstName: obj.employee.firstName,
-                secondName: obj.employee.secondName,
-            }
-        }
-
-        return null;
-    })
-    employee: any;
-
-    constructor(partial: Partial<PassportDataResponceDto>){
-        Object.assign(this, partial)
-    }
+    @Exclude()
+    deleteAt?: Date;
 }

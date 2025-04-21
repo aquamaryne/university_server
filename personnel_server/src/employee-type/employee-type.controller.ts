@@ -1,45 +1,56 @@
-import { Controller, Get, Post, Patch, Delete, Body, Query, Param, HttpException, HttpStatus, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Query, Param, HttpException, HttpStatus, ParseIntPipe, UsePipes, ValidationPipe } from '@nestjs/common';
 import { EmployeeTypeService } from './employee-type.service';
 import { EmployeeType } from 'src/entity/employee-type';
+import { EmployeeTypeResponceDto } from 'src/dto/employee-type/responce';
+import { EmployeeTypeStatsDto } from 'src/dto/employee-type/stats';
+import { EmployeeTypeUpdateDto } from 'src/dto/employee-type/update';
+import { EmployeeTypeCreateDto } from 'src/dto/employee-type/create';
 @Controller('employee-type')
 export class EmployeeTypeController {
     constructor(private readonly employeeTypeSeervice: EmployeeTypeService){}
 
     @Get()
-    findAll(): Promise<EmployeeType[]>{
-        return this.employeeTypeSeervice.findAll();
+    async findAll(): Promise<EmployeeTypeResponceDto[]>{
+        const types = await this.employeeTypeSeervice.findAll();
+        return types.map(type => this.employeeTypeSeervice.toResponceDto(type));
     }
 
     @Get('stats')
-    getEmployeeStats(){
+    async getEmployeeStats(): Promise<EmployeeTypeStatsDto[]>{
         return this.employeeTypeSeervice.getEmployeeTypeStats();
     }
 
     @Get('search')
-    async findTypeName(@Query('name') name: string): Promise<EmployeeType>{
+    async findTypeName(@Query('name') name: string): Promise<EmployeeTypeResponceDto>{
         try{
-            return await this.employeeTypeSeervice.findByTypeName(name);
+            const type = await this.employeeTypeSeervice.findByTypeName(name);
+            return this.employeeTypeSeervice.toResponceDto(type);
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.NOT_FOUND);
         }
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number): Promise<EmployeeType>{
-        return this.employeeTypeSeervice.findOne(id);
+    async findOne(@Param('id', ParseIntPipe) id: number): Promise<EmployeeTypeResponceDto>{
+        const type = await this.employeeTypeSeervice.findOne(id);
+        return this.employeeTypeSeervice.toResponceDto(type);
     }
 
     @Post()
-    create(@Body('id', ParseIntPipe) id: number): Promise<EmployeeType>{
-        return this.employeeTypeSeervice.findOne(id);
+    @UsePipes(new ValidationPipe())
+    async create(@Body() createEmployeeTypeDto: EmployeeTypeCreateDto): Promise<EmployeeTypeResponceDto>{
+        const type = await this.employeeTypeSeervice.create(createEmployeeTypeDto);
+        return this.employeeTypeSeervice.toResponceDto(type);
     }
 
     @Patch(':id')
-    update(
+    @UsePipes(new ValidationPipe())
+    async update(
         @Param('id', ParseIntPipe) id: number,
-        @Body() employeeTypeData: Partial<EmployeeType>
-    ): Promise<EmployeeType>{
-        return this.employeeTypeSeervice.update(id, employeeTypeData);
+        @Body() updateEmployeeTypeDto: EmployeeTypeUpdateDto
+    ): Promise<EmployeeTypeResponceDto>{
+        const type = await this.employeeTypeSeervice.update(id, updateEmployeeTypeDto)
+        return this.employeeTypeSeervice.toResponceDto(type);
     }
 
     @Delete(':id')

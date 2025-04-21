@@ -2,7 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TeacherDiscipline } from 'src/entity/teacher-discipline';
-
+import { CreateTeacherDisciplineDto } from 'src/dto/teacher-discipline/create';
+import { UpdateTeacherDisciplineDto } from 'src/dto/teacher-discipline/update';
+import { ResponceTeacherDisciplineDto } from 'src/dto/teacher-discipline/responce';
+import { DisciplineStatsDto, TopTeacherDto } from 'src/dto/teacher-discipline/stats';
+import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class TeacherDisciplineService {
     constructor(@InjectRepository(TeacherDiscipline) private teacherDisciplineRepository: Repository<TeacherDiscipline>){}
@@ -39,14 +43,16 @@ export class TeacherDisciplineService {
         })
     }
 
-    async create(teacherDisciplineData: Partial<TeacherDiscipline>): Promise<TeacherDiscipline>{
-        const teacherDiscipline = this.teacherDisciplineRepository.create(teacherDisciplineData);
-        return this.teacherDisciplineRepository.save(teacherDiscipline);
+    async create(createTeacherDisciplineDto: CreateTeacherDisciplineDto): Promise<TeacherDiscipline>{
+        const teacherDiscipline = this.teacherDisciplineRepository.create(createTeacherDisciplineDto);
+        const saveDiscipline = await this.teacherDisciplineRepository.save(teacherDiscipline);
+
+        return this.findOne(saveDiscipline.id);
     }
 
-    async update(id: number, teacherDiscipline: Partial<TeacherDiscipline>): Promise<TeacherDiscipline>{
+    async update(id: number, updateTeacherDiscipline: UpdateTeacherDisciplineDto): Promise<TeacherDiscipline>{
         await this.findOne(id);
-        await this.teacherDisciplineRepository.update(id, teacherDiscipline);
+        await this.teacherDisciplineRepository.update(id, updateTeacherDiscipline);
         return this.findOne(id);
     }
 
@@ -55,18 +61,22 @@ export class TeacherDisciplineService {
         await this.teacherDisciplineRepository.remove(teacherDiscipline);
     }
 
-    async getDisciplineStats(): Promise<any[]>{
-        return this.teacherDisciplineRepository
+    async getDisciplineStats(): Promise<DisciplineStatsDto[]>{
+        const stats = await this.teacherDisciplineRepository
             .createQueryBuilder('discipline')
             .select('discipline.disciplineName', 'disciplineName')
             .addSelect('COUNT(discipline.id)', 'teacherCount')
             .groupBy('discipline.disciplineName')
             .orderBy('teacherCount', 'DESC')
             .getRawMany();
+
+        return plainToInstance(DisciplineStatsDto, stats, {
+            excludeExtraneousValues: true
+        })
     }
 
-    async getTopTeacherrByDisciplineCound(limit: number = 10): Promise<any[]>{
-        return this.teacherDisciplineRepository
+    async getTopTeacherrByDisciplineCound(limit: number = 10): Promise<TopTeacherDto[]>{
+        const topTeachers = await this.teacherDisciplineRepository
             .createQueryBuilder('discipline')
             .leftJoin('discipline.employee', 'employee')
             .select('employee.id', 'employeeId')
@@ -78,5 +88,21 @@ export class TeacherDisciplineService {
             .orderBy('disciplineCount', 'DESC')
             .limit(limit)
             .getRawMany();
+
+        return plainToInstance(TopTeacherDto, topTeachers, {
+            excludeExtraneousValues: true
+        })
+    }
+
+    toRespoceDto(teacherDiscipline: TeacherDiscipline): ResponceTeacherDisciplineDto {
+        return plainToInstance(ResponceTeacherDisciplineDto, teacherDiscipline, {
+            excludeExtraneousValues: true,
+        })
+    }
+
+    toResponceDtoArray(teacherDicipline: TeacherDiscipline[]): ResponceTeacherDisciplineDto[] {
+        return plainToInstance(ResponceTeacherDisciplineDto, teacherDicipline, {
+            excludeExtraneousValues: true,
+        })
     }
 }

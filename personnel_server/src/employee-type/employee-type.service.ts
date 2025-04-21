@@ -2,7 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EmployeeType } from 'src/entity/employee-type';
-
+import { EmployeeTypeResponceDto } from 'src/dto/employee-type/responce';
+import { EmployeeTypeStatsDto } from 'src/dto/employee-type/stats';
+import { EmployeeTypeUpdateDto } from 'src/dto/employee-type/update';
+import { EmployeeTypeCreateDto } from 'src/dto/employee-type/create';   
+import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class EmployeeTypeService {
     constructor(
@@ -11,7 +15,9 @@ export class EmployeeTypeService {
     ) {}
 
     async findAll(): Promise<EmployeeType[]>{
-        return this.employeeTypeRepository.find();
+        return this.employeeTypeRepository.find({
+            relations: ['employees']
+        });
     }
 
     async findOne(id: number): Promise<EmployeeType>{
@@ -39,14 +45,21 @@ export class EmployeeTypeService {
         return employeeType;
     }
 
-    async create(emplyeeTypeData: Partial<EmployeeType>): Promise<EmployeeType>{
-        const employeeType = this.employeeTypeRepository.create(emplyeeTypeData);
+    async create(createEmployeeTypeDto: EmployeeTypeCreateDto): Promise<EmployeeType>{
+        const employeeType = this.employeeTypeRepository.create({
+            ...createEmployeeTypeDto,
+            employees: createEmployeeTypeDto.employees?.map(id => ({ id })),
+        });
         return this.employeeTypeRepository.save(employeeType);
     }
 
-    async update(id: number, employeeTypeData: Partial<EmployeeType>): Promise<EmployeeType>{
+    async update(id: number, updateEmployeeTypeDto: EmployeeTypeUpdateDto): Promise<EmployeeType>{
         await this.findOne(id);
-        await this.employeeTypeRepository.update(id, employeeTypeData);
+        const updateData = {
+            ...updateEmployeeTypeDto,
+            employees: updateEmployeeTypeDto.employees?.map(id => ({ id })),
+        };
+        await this.employeeTypeRepository.update(id, updateData);
         return this.findOne(id);
     }
 
@@ -58,8 +71,8 @@ export class EmployeeTypeService {
         await this.employeeTypeRepository.remove(employeeType);
     }
 
-    async getEmployeeTypeStats(): Promise<any[]>{
-        return this.employeeTypeRepository
+    async getEmployeeTypeStats(): Promise<EmployeeTypeStatsDto[]>{
+        const stats = await this.employeeTypeRepository
             .createQueryBuilder('type')
             .leftJoin('type.employees', 'employee')
             .select('type.id', 'typeId')
@@ -68,5 +81,15 @@ export class EmployeeTypeService {
             .groupBy('type.id')
             .orderBy('employeeCount', 'DESC')
             .getRawMany();
+
+        return plainToInstance(EmployeeTypeStatsDto, stats, {
+            excludeExtraneousValues: true
+        });
+    }
+
+    toResponceDto(employeeType: EmployeeType): EmployeeTypeResponceDto{
+        return plainToInstance(EmployeeTypeResponceDto, employeeType,{
+            exposeDefaultValues: true,
+        });
     }
 }

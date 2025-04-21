@@ -1,4 +1,8 @@
-import { PartialType } from "@nestjs/mapped-types";
-import { CreatePassportDataDto } from "./create";
+import { IsOptional, IsString, Length } from "class-validator";
 
-export class UpdatePassportDataDto extends PartialType(CreatePassportDataDto) {}
+export class UpdateWorkModeDto{
+    @IsString()
+    @IsOptional()
+    @Length(2, 255)
+    name?: string;
+}

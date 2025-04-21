@@ -1,23 +1,18 @@
-import { IsString, IsNumber, IsDate, IsOptional, Length, IsNotEmpty } from 'class-validator'
-import { Type } from 'class-transformer'
+import { IsString, IsOptional, Length, IsNotEmpty, IsArray } from 'class-validator'
 
-export class CreatePassportDataDto{
+
+export class EmployeeTypeCreateDto{
+    @IsString()
+    @IsNotEmpty()
+    @Length(2, 50)
+    typeName: string;
+
+    @IsString()
     @IsOptional()
-    @IsNumber()
-    employeeId?: number
+    description: string;
 
-    @IsString()
-    @IsNotEmpty({ message: 'Passport number cannot be empty '})
-    @Length(5, 255, { message: 'Passport number must be between 2 and 255 characters '})
-    passport: string;
+    @IsArray()
+    @IsOptional()
+    employees?: number[]; 
 
-    @IsString()
-    @IsNotEmpty({ message: 'Passport issued by cannot be empty '})
-    @Length(3 , 255, { message: 'Passport issued by must be between 3 and 255 characters '})
-    passportIssuedBy: string;
-
-    @IsDate()
-    @Type(() => Date)
-    @IsNotEmpty({ message: 'Passport issued date cannot be empty' })
-    passportDateIssued: Date;
 }

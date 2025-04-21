@@ -1,5 +1,5 @@
 import { Exclude, Expose, Type } from 'class-transformer';
-
+import { EmployeeTypeResponceDto } from '../employee-type/responce';
 export class EmployeeResponceDto {
     @Expose()
     id: number;
@@ -31,9 +31,9 @@ export class EmployeeResponceDto {
     @Expose()
     employeeTypeId?: number;
 
-    // @Expose()
-    // @Type(() => EmployeeTypeResponceDto)
-    // employeeType?: EmployeeTypeResponceDto;
+    @Expose()
+    @Type(() => EmployeeTypeResponceDto)
+    employeeType?: EmployeeTypeResponceDto;
 
     @Expose()
     dateOfEnterCard?: Date;
