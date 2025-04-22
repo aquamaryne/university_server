@@ -1,6 +1,6 @@
 import { IsNumber, IsBoolean, IsOptional, IsString, Min } from "class-validator";
 
-export class CreateAcamicStatusDto {
+export class UpdateAcamicStatusDto {
     @IsNumber()
     @IsOptional()
     employeeId?: number;
