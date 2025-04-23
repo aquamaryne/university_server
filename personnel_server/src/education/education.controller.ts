@@ -1,33 +1,43 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
 import { EducationService } from './education.service';
-import { Education } from 'src/entity/education';
-
+import { CreateEducationDto } from 'src/dto/education/create';
+import { UpdateEducationDto } from 'src/dto/education/update';
+import { EducationResponceDto } from 'src/dto/education/responce';
 @Controller('education')
 export class EducationController {
     constructor(private readonly educationService: EducationService){}
 
     @Post()
-    create(@Body() educationData: Partial<Education>): Promise<Education>{
-        return this.educationService.create(educationData)
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async create(@Body() createEducationDto: CreateEducationDto): Promise<EducationResponceDto>{
+        const education = await this.educationService.create(createEducationDto);
+        return this.educationService.toRespondDto(education);
     }
 
     @Get()
-    findAll(): Promise<Education[]>{
-        return this.educationService.findAll();
+    async findAll(): Promise<EducationResponceDto[]>{
+        const educations = await this.educationService.findAll();
+        return educations.map(edu => this.educationService.toRespondDto(edu));
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string): Promise<Education>{
-        return this.educationService.findOne(Number(id));
+    async findOne(@Param('id', ParseIntPipe) id: number): Promise<EducationResponceDto>{
+        const education = await this.educationService.findOne(id);
+        return this.educationService.toRespondDto(education);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() educationData: Partial<Education>): Promise<Education>{
-        return this.educationService.update(Number(id), educationData);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async update(
+        @Param('id') id: number, 
+        @Body() updateEducationDto: UpdateEducationDto
+    ): Promise<EducationResponceDto>{
+        const education = await this.educationService.update(id, updateEducationDto);
+        return this.educationService.toRespondDto(education);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string): Promise<void>{
-        return this.educationService.remove(Number(id));
+    remove(@Param('id', ParseIntPipe) id: number): Promise<void>{
+        return this.educationService.remove(id);
     }
 }
