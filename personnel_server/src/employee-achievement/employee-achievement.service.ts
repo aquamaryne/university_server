@@ -1,7 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import { Repository, Between } from 'typeorm';
 import { EmployeeAchievement } from 'src/entity/employee-achivement';
+import { CreateEmployeeAchievementDto } from 'src/dto/emploee-achievement/сreate';
+import { UpdateEmployeeAchievementDto } from 'src/dto/emploee-achievement/update';
+import { EmployeeAchievementResponceDto } from 'src/dto/emploee-achievement/responce';
+import { AchivementStatsDto, TopEmployeeDto } from 'src/dto/emploee-achievement/stats';
+import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class EmployeeAchievementService {
     constructor(
@@ -51,18 +56,20 @@ export class EmployeeAchievementService {
         });
     }
 
-    async create(achievementType: Partial<EmployeeAchievement>): Promise<EmployeeAchievement>{
-        const achievement = this.employeeAchievemmentRepository.create(achievementType);
-        return this.employeeAchievemmentRepository.save(achievement);
+    async create(createEmployeeAchievementDto: CreateEmployeeAchievementDto): Promise<EmployeeAchievement>{
+        const achievement = this.employeeAchievemmentRepository.create(createEmployeeAchievementDto);
+        const savedAchievement = await this.employeeAchievemmentRepository.save(achievement);
+        return this.findOne(savedAchievement.id);
     }
 
     async update(
         id: number,
-        achievementData: Partial<EmployeeAchievement>,
+        updateEmployeeAchievementDto: UpdateEmployeeAchievementDto,
     ): Promise<EmployeeAchievement>{
         const achievement = await this.findOne(id);
-        Object.assign(achievement, achievementData);
-        return this.employeeAchievemmentRepository.save(achievement);
+        Object.assign(achievement, updateEmployeeAchievementDto);
+        await this.employeeAchievemmentRepository.save(achievement);
+        return this.findOne(id);
     }
 
     async remove(id: number): Promise<void>{
@@ -70,11 +77,7 @@ export class EmployeeAchievementService {
         await this.employeeAchievemmentRepository.remove(achievement);
     }
 
-    async getAchievementStats(): Promise<{
-        totalAchievements: number;
-        achievementsByType: { [key: string ]: number};
-        achievementsByDate: { [key: string ]: number};
-    }> {
+    async getAchievementStats(): Promise<AchivementStatsDto> {
         const totalAchievements = await this.employeeAchievemmentRepository.count();
         const achievementsByTypeDate = await this.employeeAchievemmentRepository
             .createQueryBuilder('achievement')
@@ -102,11 +105,15 @@ export class EmployeeAchievementService {
             achievementByYear[item.year] = parseInt(item.count);
         })
 
-        return {
+        const stats = {
             totalAchievements,
-            achievementsByType: achievementByType,
-            achievementsByDate: achievementByYear,
+            achievementByType,
+            achievementByDate: achievementByYear,
         }
+
+        return plainToInstance(AchivementStatsDto, stats, {
+            excludeExtraneousValues: true,
+        })
     }
 
     async getLatestAchievement(limit: number = 5): Promise<EmployeeAchievement[]> {
@@ -117,8 +124,8 @@ export class EmployeeAchievementService {
         })
     }
 
-    async getEmployeeWithMostAchievements(limit: number = 10): Promise<any[]> {
-        return this.employeeAchievemmentRepository
+    async getEmployeeWithMostAchievements(limit: number = 10): Promise<TopEmployeeDto[]> {
+        const topEmployeeDto = await this.employeeAchievemmentRepository
             .createQueryBuilder('achievement')
             .leftJoin('achievement.employee', 'employee')
             .select('employee.id', 'employeeId')
@@ -129,5 +136,15 @@ export class EmployeeAchievementService {
             .orderBy('achievementCount', 'DESC')
             .limit(limit)
             .getRawMany()
+        
+        return plainToInstance(TopEmployeeDto, topEmployeeDto, {
+            excludeExtraneousValues: true,
+        });
+    }
+
+    toRespondDto(achiement: EmployeeAchievement): EmployeeAchievementResponceDto {
+        return plainToInstance(EmployeeAchievementResponceDto, achiement, {
+            excludeExtraneousValues: true,
+        })
     }
 }
