@@ -1,6 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FacultyService } from './faculty.service';
 import { Faculty } from 'src/entity/faculty';
+import { CreateFacultyDto } from 'src/dto/faculty/create';
+import { FacultyResponceDto } from 'src/dto/faculty/responce';
+import { UpdateFacultyDto } from 'src/dto/faculty/update';
 import { ApiKeyGuard } from 'src/api_key/api_key.guard';
 
 @Controller('faculty')
@@ -8,23 +11,32 @@ export class FacultyController {
     constructor(private readonly facultyService: FacultyService) {}
 
     @Get()
-    findAll(): Promise<Faculty[]>{
-        return this.facultyService.findAll();
+    async findAll(): Promise<FacultyResponceDto[]>{
+        const faculties = await this.facultyService.findAll();
+        return faculties.map(faculty => this.facultyService.toResponceDto(faculty));
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string): Promise<Faculty>{
-        return this.facultyService.findOne(Number(id));
+    async findOne(@Param('id', ParseIntPipe) id: number): Promise<FacultyResponceDto>{
+        const faculty = await this.facultyService.findOne(id);
+        return this.facultyService.toResponceDto(faculty);
     }
 
     @Post()
-    create(@Body() department: Partial<Faculty>): Promise<Faculty>{
-        return this.facultyService.create(department);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async create(@Body() createFacultyDto: CreateFacultyDto): Promise<FacultyResponceDto>{
+        const faculty = await this.facultyService.create(createFacultyDto);
+        return this.facultyService.toResponceDto(faculty);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() department: Partial<Faculty>): Promise<Faculty>{
-        return this.facultyService.update(Number(id), department);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async update(
+        @Param('id') id: number, 
+        @Body() updateFacultyDto: UpdateFacultyDto
+    ): Promise<FacultyResponceDto>{
+        const faculty = await this.facultyService.update(id, updateFacultyDto);
+        return this.facultyService.toResponceDto(faculty);
     }
 
     @Delete(':id')

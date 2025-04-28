@@ -1,29 +1,39 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FamilyService } from './family.service';
-import { Family } from 'src/entity/family';
-
+import { CreateFamilyDto } from 'src/dto/family/create';
+import { UpdateFamilyDto } from 'src/dto/family/update';
+import { FamiltyResponceDto } from 'src/dto/family/responce';
 @Controller('family')
 export class FamilyController {
     constructor(private readonly familyService: FamilyService){}
 
     @Post()
-    create(@Body() family: Family): Promise<Family>{
-        return this.familyService.create(family);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async create(@Body() createFamilyDto: CreateFamilyDto): Promise<FamiltyResponceDto>{
+        const family = await this.familyService.create(createFamilyDto);
+        return this.familyService.toRespondDto(family);
     }
 
     @Get()
-    findAll(): Promise<Family[]>{
-        return this.familyService.findAll();
+    async findAll(): Promise<FamiltyResponceDto[]>{
+        const families = await this.familyService.findAll();
+        return families.map(family => this.familyService.toRespondDto(family));
     }
 
     @Get(':id')
-    findOne(@Param('id') id: number): Promise<Family>{
-        return this.familyService.findOne(id);
+    async findOne(@Param('id', ParseIntPipe) id: number): Promise<FamiltyResponceDto>{
+        const family = await this.familyService.findOne(id);
+        return this.familyService.toRespondDto(family);
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() family: Family): Promise<Family>{
-        return this.familyService.update(id, family);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async update(
+        @Param('id', ParseIntPipe) id: number, 
+        @Body() updateFamilyDto: UpdateFamilyDto
+    ): Promise<FamiltyResponceDto>{
+        const family = await this.familyService.update(id, updateFamilyDto)
+        return this.familyService.toRespondDto(family);
     }
 
     @Delete(':id')
