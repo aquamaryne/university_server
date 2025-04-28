@@ -1,34 +1,44 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ParseIntPipe, ValidationPipe } from '@nestjs/common';
 import { FamilyStatusService } from './family_status.service';
-import { FamilyStatus } from 'src/entity/family-status';
-
+import { CreateFamilyStatusDto } from 'src/dto/family-status/create';
+import { FamilyStatusResponceDto } from 'src/dto/family-status/responce';
+import { UpdateFamilyStatusDto } from 'src/dto/family-status/update';
 @Controller('family-status')
 export class FamilyStatusController {
     constructor(private readonly familyStatusService: FamilyStatusService) {}
 
     @Get()
-    findAll(): Promise<FamilyStatus[]>{
-        return this.familyStatusService.findAll();
+    async findAll(): Promise<FamilyStatusResponceDto[]> {
+        const statuses = await this.familyStatusService.findAll();
+        return statuses.map(status => this.familyStatusService.toRespondDto(status));
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string): Promise<FamilyStatus>{
-        return this.familyStatusService.findOne(Number(id))
+    async findOne(@Param('id', ParseIntPipe) id: number): Promise<FamilyStatusResponceDto> {
+        const status = await this.familyStatusService.findOne(id);
+        return this.familyStatusService.toRespondDto(status);
     }
 
     @Post()
-    create(@Body() familyStatus: Partial<FamilyStatus>): Promise<FamilyStatus>{
-        return this.familyStatusService.create(familyStatus);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async create(@Body() createFamilyStatusDto: CreateFamilyStatusDto): Promise<FamilyStatusResponceDto> {
+        const status = await this.familyStatusService.create(createFamilyStatusDto);
+        return this.familyStatusService.toRespondDto(status);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() familyStatus: Partial<FamilyStatus>): Promise<FamilyStatus>{
-        return this.familyStatusService.update(Number(id), familyStatus);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async update(
+        @Param('id', ParseIntPipe) id: number, 
+        @Body() updateFamilyStatusDto: UpdateFamilyStatusDto
+    ): Promise<FamilyStatusResponceDto> {
+        const status = await this.familyStatusService.update(id, updateFamilyStatusDto);
+        return this.familyStatusService.toRespondDto(status);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string): Promise<void>{
-        return this.familyStatusService.remove(Number(id));
+    remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+        return this.familyStatusService.remove(id);
     }
 
 }
