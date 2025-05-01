@@ -1,39 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Location } from 'src/entity/location';
-
+import { CreateLocationDto } from 'src/dto/location/create';
+import { UpdateLocationDto } from 'src/dto/location/update';
+import { LocationResponceDto } from 'src/dto/location/responce';
+import { LocationStatsDto, TopBirthPlaceDto } from 'src/dto/location/stats';
+import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class LocationService {
     constructor(@InjectRepository(Location) private locaionRepository: Repository<Location>){}
 
     async findAll(): Promise<Location[]>{
-        return this.locaionRepository.find();
+        return this.locaionRepository.find({
+            relations: ['birthPlace']
+        });
     }
 
     async findOne(id: number): Promise<Location>{
-        return this.locaionRepository.findOne({
+        const location = this.locaionRepository.findOne({
             where: { id },
             relations: ['birthPlace'],
         });
+
+        if(!location){
+            throw new NotFoundException(`Location with ID ${id} not found`)
+        }
+
+        return location;
     }
 
     async findByName(name: string): Promise<Location[]>{
         return this.locaionRepository
             .createQueryBuilder('location')
+            .leftJoinAndSelect('location.birthPlace', 'birthPlace')
             .where('location.name LIKE :name', { name: `%${name}%`})
             .getMany();
     }
 
-    async create(locationData: Partial<Location>): Promise<Location>{
-        const location = this.locaionRepository.create(locationData);
-        return this.locaionRepository.save(location);
+    async create(createLocationDto: CreateLocationDto): Promise<Location>{
+        const location = this.locaionRepository.create(createLocationDto);
+        const savedLocation = await this.locaionRepository.save(location);
+        return this.findOne(savedLocation.id);
     }
 
-    async update(id: number, locationData: Partial<Location>): Promise<Location>{
-        await this.findOne(id);
-        await this.locaionRepository.create(locationData);
-        return this.findOne(id);
+    async update(id: number, updateLocationDto: UpdateLocationDto): Promise<Location>{
+        const location = await this.findOne(id);
+        Object.assign(location, updateLocationDto);
+        await this.locaionRepository.save(location);
+        return this.locaionRepository.remove(location);
     }
 
     async remove(id: number): Promise<void>{
@@ -45,8 +60,8 @@ export class LocationService {
         await this.locaionRepository.remove(location);
     }
 
-    async getTopBirthPlaces(limit: number = 10): Promise<any[]>{
-        return this.locaionRepository
+    async getTopBirthPlaces(limit: number = 10): Promise<TopBirthPlaceDto[]>{
+        const topPlaces = await this.locaionRepository
             .createQueryBuilder('location')
             .leftJoin('location.birthPlace', 'personalInfo')
             .select('location.id', 'id')
@@ -57,9 +72,13 @@ export class LocationService {
             .orderBy('employeeCount', 'DESC')
             .limit(limit)
             .getRawMany();
+        
+        return plainToInstance(TopBirthPlaceDto, topPlaces, {
+            excludeExtraneousValues: true,
+        })
     }
 
-    async getLocationsStats(): Promise<any>{
+    async getLocationsStats(): Promise<LocationStatsDto>{
         const totalLocations = await this.locaionRepository.count();
         const topBirthPlaces = await this.getTopBirthPlaces(5);
         const unusedLocations = await this.locaionRepository
@@ -69,15 +88,30 @@ export class LocationService {
             .having('COUNT(personalInfo.id) = 0')
             .getRawOne();
 
-        return {
+        const stats = {
             totalLocations,
             topBirthPlaces,
             unusedLocations: unusedLocations ? parseInt(unusedLocations.count): 0
         };
+
+        return plainToInstance(LocationStatsDto, stats, {
+            excludeExtraneousValues: true,
+        })
     }
 
-    async bulkCreate(locations: Partial<Location>[]): Promise<Location[]>{
+    async bulkCreate(locations: CreateLocationDto[]): Promise<Location[]>{
         const locationEntities = this.locaionRepository.create(locations);
-        return this.locaionRepository.save(locationEntities);
+        const savedLocations = await this.locaionRepository.save(locationEntities);
+        const locationIds = savedLocations.map(loc => loc.id); 
+        return this.locaionRepository.find({
+            where: { id: In(locationIds) },
+            relations: ['birthPlace']
+        })
+    }
+
+    toResponseDto(location: Location): LocationResponceDto{
+        return plainToInstance(LocationResponceDto, location, {
+            excludeExtraneousValues: true,
+        })
     }
 }

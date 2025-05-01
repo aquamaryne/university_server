@@ -1,56 +1,68 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, ParseIntPipe, Query, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, ParseIntPipe, Query, HttpException, HttpStatus, UsePipes, ValidationPipe } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { Location } from 'src/entity/location';
-
+import { CreateLocationDto } from 'src/dto/location/create';
+import { UpdateLocationDto } from 'src/dto/location/update';
+import { LocationResponceDto } from 'src/dto/location/responce';
+import { LocationStatsDto, TopBirthPlaceDto } from 'src/dto/location/stats';
+import { BulkCreateLocationDto } from 'src/dto/location/bulk-create';
 @Controller('location')
 export class LocationController {
     constructor(private readonly locationService: LocationService){}
 
     @Get()
-    findAll(): Promise<Location[]>{
-        return this.locationService.findAll();
+    async findAll(): Promise<LocationResponceDto[]>{
+        const locations = await this.locationService.findAll();
+        return locations.map(location => this.locationService.toResponseDto(location));
     }
 
     @Get('stats')
-    getLocationStats(){
+    getLocationStats(): Promise<LocationStatsDto>{
         return this.locationService.getLocationsStats();
     }
 
     @Get('top-birthplaces')
-    getTopBirthPlaces(@Query('limit', ParseIntPipe) limit?: number): Promise<any[]>{
+    getTopBirthPlaces(@Query('limit', ParseIntPipe) limit?: number): Promise<TopBirthPlaceDto[]>{
         return this.locationService.getTopBirthPlaces(limit);
     }
 
     @Get('search')
-    findByName(@Query('name') name: string): Promise<Location[]>{
+    async findByName(@Query('name') name: string): Promise<LocationResponceDto[]>{
         if(!name){
             throw new HttpException('Parameter name required', HttpStatus.BAD_REQUEST);
         }
-
-        return this.locationService.findByName(name);
+        const location = await this.locationService.findByName(name);
+        return location.map(loc => this.locationService.toResponseDto(loc));
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number): Promise<Location>{
-        return this.locationService.findOne(id);
+    async findOne(@Param('id', ParseIntPipe) id: number): Promise<LocationResponceDto>{
+        const location = await this.locationService.findOne(id);
+        return this.locationService.toResponseDto(location);
     }
 
     @Post()
-    create(@Body() locationData: Partial<Location>): Promise<Location>{
-        return this.locationService.create(locationData);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async create(@Body() createLocationDto: CreateLocationDto): Promise<LocationResponceDto>{
+        const location = await this.locationService.create(createLocationDto);
+        return this.locationService.toResponseDto(location);
     }
 
     @Post('bulk')
-    bulkCreate(@Body() locations: Partial<Location[]>): Promise<Location[]>{
-        return this.locationService.bulkCreate(locations);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async bulkCreate(@Body() bulkCreateDto: BulkCreateLocationDto): Promise<LocationResponceDto[]>{
+        const locations = await this.locationService.bulkCreate(bulkCreateDto.locations);
+        return locations.map(location => this.locationService.toResponseDto(location));
     }
 
     @Put(':id')
-    update(
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async update(
         @Param('id', ParseIntPipe) id: number,
-        @Body() locationData: Partial<Location>
-    ): Promise<Location>{
-        return this.locationService.update(id, locationData);
+        @Body() updateLocationDto: UpdateLocationDto
+    ): Promise<LocationResponceDto>{
+        const location = await this.locationService.update(id, updateLocationDto);
+        return this.locationService.toResponseDto(location);
     }
 
     @Delete(':id')
