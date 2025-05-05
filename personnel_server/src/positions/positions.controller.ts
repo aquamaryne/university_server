@@ -1,33 +1,43 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PositionsService } from './positions.service';
-import { Positions } from 'src/entity/positions';
-
+import { CreatePositionDto } from 'src/dto/position/create';
+import { UpdatePositionDto } from 'src/dto/position/update';
+import { PositionResponceDto } from 'src/dto/position/responce';
 @Controller('positions')
 export class PositionsController {
     constructor(private readonly positionsService: PositionsService) {}
 
     @Get()
-    findall(): Promise<Positions[]>{
-        return this.positionsService.findAll();
+    async findall(): Promise<PositionResponceDto[]>{
+        const position = await this.positionsService.findAll();
+        return position.map(pos => this.positionsService.toResposeDto(pos));
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string): Promise<Positions>{
-        return this.positionsService.findOne(Number(id));
+    async findOne(@Param('id', ParseIntPipe) id: number): Promise<PositionResponceDto>{
+        const position = await this.positionsService.findOne(id);
+        return this.positionsService.toResposeDto(position);
     }
 
     @Post()
-    create(@Body() positions: Positions): Promise<Positions>{
-        return this.positionsService.create(positions);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async create(@Body() createPositionDto: CreatePositionDto): Promise<PositionResponceDto>{
+        const position = await this.positionsService.create(createPositionDto);
+        return this.positionsService.toResposeDto(position);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() positions: Positions): Promise<Positions>{
-        return this.positionsService.update(Number(id), positions);
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async update(
+        @Param('id') id: number, 
+        @Body() updatePositionDto: UpdatePositionDto
+    ): Promise<PositionResponceDto>{
+        const position = await this.positionsService.update(id, updatePositionDto);
+        return this.positionsService.toResposeDto(position);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string): Promise<void>{
-        return this.positionsService.remove(Number(id));
+    remove(@Param('id', ParseIntPipe) id: number): Promise<void>{
+        return this.positionsService.remove(id);
     }
 }
