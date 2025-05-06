@@ -2,8 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, MoreThanOrEqual, Repository } from 'typeorm';
 import { UniversityEmployment } from '../entity/university-employment';
-import e from 'express';
-
+import { CreateUniversityEmployeeDto } from 'src/dto/university-employement/create';
+import { UpdateUniversityEmployeeDto } from 'src/dto/university-employement/update';
+import { UniversityEmployementResponseDto } from 'src/dto/university-employement/responce';
+import { plainToInstance } from 'class-transformer';
 @Injectable()
 export class UnviversityEmploymentService {
     constructor(
@@ -11,13 +13,17 @@ export class UnviversityEmploymentService {
         private universityEmployment: Repository<UniversityEmployment>
     ) {}
 
-    async fundAll(): Promise<UniversityEmployment[]>{
-        return this.universityEmployment.find({
+    async findAll(): Promise<UniversityEmployementResponseDto[]>{
+        const employements = await this.universityEmployment.find({
             relations: ['employee', 'department', 'pasition', 'workmode'],
         });
+
+        return plainToInstance(UniversityEmployementResponseDto, employements as object[], {
+            excludeExtraneousValues: true,
+        })
     }
 
-    async findOne(id: number): Promise<UniversityEmployment>{
+    async findOne(id: number): Promise<UniversityEmployementResponseDto>{
         const employment = await this.universityEmployment.findOne({
             where: { id }, 
             relations: ['employee', 'department', 'position', 'workmode'],
@@ -27,10 +33,12 @@ export class UnviversityEmploymentService {
             throw new NotFoundException(`University Employment with ID ${id} not found`);
         }
 
-        return employment;
+        return plainToInstance(UniversityEmployementResponseDto, employment, {
+            excludeExtraneousValues: true
+        });
     }
 
-    async findByEmployee(employeeId: number): Promise<UniversityEmployment>{
+    async findByEmployee(employeeId: number): Promise<UniversityEmployementResponseDto>{
         const employment = await this.universityEmployment.findOne({
             where: { employeeId },
             relations: ['employee', 'department', 'position', 'workmode'],
@@ -40,62 +48,106 @@ export class UnviversityEmploymentService {
             throw new NotFoundException(`University Employment with Employee ID ${employeeId} not found`);
         }
 
-        return employment;
+        return plainToInstance(UniversityEmployementResponseDto, employment, {
+            excludeExtraneousValues: true
+        });
     }
 
-    async findByDepartment(departmentId: number): Promise<UniversityEmployment[]>{
-        return this.universityEmployment.find({
+    async findByDepartment(departmentId: number): Promise<UniversityEmployementResponseDto[]>{
+        const employements = await this.universityEmployment.find({
             where: { departmentId },
             relations: ['employee', 'department', 'position', 'workMode'],
         });
+
+        return plainToInstance(UniversityEmployementResponseDto, employements, {
+            excludeExtraneousValues: true,
+        });
     }
 
-    async findByWorkMode(workModeId: number): Promise<UniversityEmployment[]>{
-        return this.universityEmployment.find({
+    async findByWorkMode(workModeId: number): Promise<UniversityEmployementResponseDto[]>{
+        const employements = await this.universityEmployment.find({
             where: { workModeId },
             relations: ['employee', 'department', 'position'],
         });
+
+        return plainToInstance(UniversityEmployementResponseDto, employements, {
+            excludeExtraneousValues: true
+        })
     }
 
-    async findContractEndDateRange(startDate: Date, endDate: Date): Promise<UniversityEmployment[]>{
-        return this.universityEmployment.find({
+    async findContractEndDateRange(startDate: Date, endDate: Date): Promise<UniversityEmployementResponseDto[]>{
+        const employement = await this.universityEmployment.find({
             where: {
-                employmentContractEndDate: Between(startDate, endDate),
+                employementContractEndDate: Between(startDate, endDate),
             },
             relations: ['employee', 'department', 'position', 'workMode'],
         });
+
+        return plainToInstance(UniversityEmployementResponseDto, employement, {
+            excludeExtraneousValues: true,
+        })
     }
 
-    async findWithExpiringContracts(daysThreshold: number = 30): Promise<UniversityEmployment[]>{
+    async findWithExpiringContracts(daysThreshold: number = 30): Promise<UniversityEmployementResponseDto[]>{
         const today = new Date();
         const thresholdDate = new Date();
         thresholdDate.setDate(today.getDate() + daysThreshold);
 
-        return this.universityEmployment.find({
+        const employements = await this.universityEmployment.find({
             where: {
-                employmentContractEndDate: Between(today, thresholdDate),
+                employementContractEndDate: Between(today, thresholdDate),
             },
             relations: ['employee', 'department', 'position', 'workMode'],
+        });
+
+        return plainToInstance(UniversityEmployementResponseDto, employements, {
+            excludeExtraneousValues: true
         })
     }
 
-    async create(employmentData: Partial<UniversityEmployment>): Promise<UniversityEmployment>{
-        const employment = this.universityEmployment.create(employmentData);
-        return this.universityEmployment.save(employment);
+    async create(createDto: CreateUniversityEmployeeDto): Promise<UniversityEmployementResponseDto>{
+        const employment = this.universityEmployment.create(createDto);
+        const savedEmployement = await this.universityEmployment.save(employment);
+        const fullEmployement = await this.universityEmployment.findOne({
+            where: { id: savedEmployement.id },
+            relations: ['employee', 'department', 'position', 'workMode'],
+        });
+
+        return plainToInstance(UniversityEmployementResponseDto, fullEmployement, {
+            excludeExtraneousValues: true
+        })
     }
 
     async update(
         id: number,
-        employmentData: Partial<UniversityEmployment>,
-    ): Promise<UniversityEmployment>{
-        const employment = await this.findOne(id);
-        Object.assign(employment, employmentData);
-        return this.universityEmployment.save(employment);
+        updateDto: UpdateUniversityEmployeeDto,
+    ): Promise<UniversityEmployementResponseDto>{
+        await this.universityEmployment.update(id, updateDto);
+        const updatedEmployement = await this.universityEmployment.findOne({
+            where: { id },
+            relations: ['employee', 'department', 'position', 'workMode'],
+        });
+
+        if(!updatedEmployement){
+            throw new NotFoundException(`Universityt employement with ID ${id} not found`);
+        }
+
+        return plainToInstance(UniversityEmployementResponseDto, updatedEmployement, {
+            excludeExtraneousValues: true
+        })
     }
 
     async remove(id: number): Promise<void>{
-        const employment = await this.findOne(id);
+        const employment = await this.universityEmployment.findOne({
+            where: { id }
+        });
+
+        if(!employment){
+            throw new NotFoundException(`University employement with ID ${id} not found`);
+        }
+
         await this.universityEmployment.remove(employment);
+        
     }
 
     async getStatsByDepartment(): Promise<any[]>{
@@ -132,7 +184,7 @@ export class UnviversityEmploymentService {
             .getRawMany();
     }
 
-    async getEmployeesByExpirience(minYears: number, maxYears?: number): Promise<UniversityEmployment[]>{
+    async getEmployeesByExpirience(minYears: number, maxYears?: number): Promise<UniversityEmployementResponseDto[]>{
         const whereClause: any = {
             totalEperienceYears: MoreThanOrEqual(minYears),
         };
@@ -141,10 +193,14 @@ export class UnviversityEmploymentService {
             whereClause.totalExperienceYears = Between(minYears, maxYears);
         }
 
-        return this.universityEmployment.find({
+        const employees = await this.universityEmployment.find({
             where: whereClause,
-            relations: ['employee', 'department', 'position'],
+            relations: ['employee', 'department', 'position', 'workMode'],
         });
+        
+        return plainToInstance(UniversityEmployementResponseDto, employees, {
+            excludeExtraneousValues: true
+        })
     }
 
 

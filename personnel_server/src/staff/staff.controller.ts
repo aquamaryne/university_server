@@ -1,33 +1,42 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { StaffService } from './staff.service';
-import { Staff } from 'src/entity/staff';
-
-@Controller('positions')
+import { CreateStaffDto } from 'src/dto/staff/create';
+import { UpdateStaffDto } from 'src/dto/staff/update';
+import { StaffResponceDto } from 'src/dto/staff/responce';
+@Controller('staff')
 export class StaffController {
     constructor(private readonly staffService: StaffService) {}
 
     @Get()
-    findall(): Promise<Staff[]>{
+    @HttpCode(HttpStatus.OK)
+    async findall(): Promise<StaffResponceDto[]>{
         return this.staffService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string): Promise<Staff>{
-        return this.staffService.findOne(Number(id));
+    @HttpCode(HttpStatus.OK)
+    async findOne(@Param('id') id: number): Promise<StaffResponceDto>{
+        return this.staffService.findOne(id);
     }
 
     @Post()
-    create(@Body() staff: Staff): Promise<Staff>{
-        return this.staffService.create(staff);
+    @HttpCode(HttpStatus.CREATED)
+    async create(@Body() createStaffDto: CreateStaffDto): Promise<StaffResponceDto>{
+        return this.staffService.create(createStaffDto);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() staff: Staff): Promise<Staff>{
-        return this.staffService.update(Number(id), staff);
+    @HttpCode(HttpStatus.OK)
+    async update(
+        @Param('id') id: number, 
+        @Body() updateStaffDto: UpdateStaffDto
+    ): Promise<StaffResponceDto>{
+        return this.staffService.update(id, updateStaffDto);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string): Promise<void>{
-        return this.staffService.remove(Number(id));
+    @HttpCode(HttpStatus.NO_CONTENT)
+    remove(@Param('id') id: number): Promise<void>{
+        return this.staffService.remove(id);
     }
 }

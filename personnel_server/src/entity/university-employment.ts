@@ -82,14 +82,14 @@ export class UniversityEmployment {
     length: 255, 
     nullable: true 
   })
-  employmentContract: string;
+  employementContract: string;
 
   @Column({ 
     name: 'employment_contract_end_date', 
     type: 'date', 
     nullable: true 
   })
-  employmentContractEndDate: Date;
+  employementContractEndDate: Date;
 
   @Column({ 
     name: 'previous_jobs', 

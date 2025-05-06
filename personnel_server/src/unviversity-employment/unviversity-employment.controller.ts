@@ -1,95 +1,111 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, HttpCode, HttpStatus } from '@nestjs/common';
 import { UnviversityEmploymentService } from './unviversity-employment.service';
-import { UniversityEmployment } from '../entity/university-employment';
-
+import { CreateUniversityEmployeeDto } from 'src/dto/university-employement/create';
+import { UpdateUniversityEmployeeDto } from 'src/dto/university-employement/update';
+import { UniversityEmployementResponseDto } from 'src/dto/university-employement/responce';
 @Controller('unviversity-employment')
 export class UnviversityEmploymentController {
     constructor(private readonly universityEmploymentService: UnviversityEmploymentService){}
 
     @Post()
-    create(@Body() employmentData: Partial<UniversityEmployment>): Promise<UniversityEmployment>{
-        return this.universityEmploymentService.create(employmentData);
+    @HttpCode(HttpStatus.CREATED)
+    create(@Body() createDto: CreateUniversityEmployeeDto): Promise<UniversityEmployementResponseDto> {
+        return this.universityEmploymentService.create(createDto);
     }
 
     @Get()
-    findAll(): Promise<UniversityEmployment[]>{
-        return this.universityEmploymentService.fundAll();
+    @HttpCode(HttpStatus.OK)
+    findAll(): Promise<UniversityEmployementResponseDto[]> {
+        return this.universityEmploymentService.findAll();
     }
 
     @Get('stats/department')
-    getStatsByDepartment(){
+    @HttpCode(HttpStatus.OK)
+    getStatsByDepartment() {
         return this.universityEmploymentService.getStatsByDepartment();
     }
 
     @Get('stats/position')
-    getStatsByPosition(){
+    @HttpCode(HttpStatus.OK)
+    getStatsByPosition() {
         return this.universityEmploymentService.getStatsByPosition();
     }
 
     @Get('stats/work-mode')
-    getStatsByWorkMode(){
+    @HttpCode(HttpStatus.OK)
+    getStatsByWorkMode() {
         return this.universityEmploymentService.getStatsByWorkMode();
     }
 
     @Get('stats/avg-experience')
-    getAvgEmperienceByDepartment(){
+    @HttpCode(HttpStatus.OK)
+    getAvgExperienceByDepartment() {
         return this.universityEmploymentService.getAvgExperienceByDepartment();
     }
 
     @Get('expiring-contracts')
-    findWithExpiringContracts(@Query('days', ParseIntPipe) days?: number): Promise<UniversityEmployment[]>{
+    @HttpCode(HttpStatus.OK)
+    findWithExpiringContracts(@Query('days', ParseIntPipe) days?: number): Promise<UniversityEmployementResponseDto[]> {
         return this.universityEmploymentService.findWithExpiringContracts(days);
     }
 
     @Get('contract-date-range')
+    @HttpCode(HttpStatus.OK)
     findByContractEndDateRange(
         @Query('startDate') startDate: string,
         @Query('endDate') endDate: string,
-    ): Promise<UniversityEmployment[]>{
+    ): Promise<UniversityEmployementResponseDto[]> {
         return this.universityEmploymentService.findContractEndDateRange(
             new Date(startDate),
             new Date(endDate),
-        )
+        );
     }
 
     @Get('experience')
-    getEmployeesByExpierence(
+    @HttpCode(HttpStatus.OK)
+    getEmployeesByExperience(
         @Query('min', ParseIntPipe) minYears: number,
         @Query('max', ParseIntPipe) maxYears?: number,
-    ): Promise<UniversityEmployment[]>{
+    ): Promise<UniversityEmployementResponseDto[]> {
         return this.universityEmploymentService.getEmployeesByExpirience(minYears, maxYears);
     }
 
     @Get('employee/:employeeId')
-    findByEmployee(@Param('employeeId', ParseIntPipe) employeeId: number): Promise<UniversityEmployment>{
+    @HttpCode(HttpStatus.OK)
+    findByEmployee(@Param('employeeId', ParseIntPipe) employeeId: number): Promise<UniversityEmployementResponseDto> {
         return this.universityEmploymentService.findByEmployee(employeeId);
     }
 
-    @Get('employee/:departmentId')
-    findByDepartment(@Param('departmentId', ParseIntPipe) departmentId: number): Promise<UniversityEmployment[]>{
+    @Get('department/:departmentId')
+    @HttpCode(HttpStatus.OK)
+    findByDepartment(@Param('departmentId', ParseIntPipe) departmentId: number): Promise<UniversityEmployementResponseDto[]> {
         return this.universityEmploymentService.findByDepartment(departmentId);
     }
 
-    @Get('position/:positionId')
-    findByposition(@Param('positionId', ParseIntPipe) positionId: number): Promise<UniversityEmployment[]>{
-        return this.universityEmploymentService.findByWorkMode(positionId);
+    @Get('work-mode/:workModeId')
+    @HttpCode(HttpStatus.OK)
+    findByWorkMode(@Param('workModeId', ParseIntPipe) workModeId: number): Promise<UniversityEmployementResponseDto[]> {
+        return this.universityEmploymentService.findByWorkMode(workModeId);
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number): Promise<UniversityEmployment>{
+    @HttpCode(HttpStatus.OK)
+    findOne(@Param('id', ParseIntPipe) id: number): Promise<UniversityEmployementResponseDto> {
         return this.universityEmploymentService.findOne(id);
     }
 
     @Patch(':id')
+    @HttpCode(HttpStatus.OK)
     update(
         @Param('id', ParseIntPipe) id: number,
-        @Body() employmentData: Partial<UniversityEmployment>,
-    ): Promise<UniversityEmployment>{
-        return this.universityEmploymentService.update(id, employmentData);
+        @Body() updateDto: UpdateUniversityEmployeeDto,
+    ): Promise<UniversityEmployementResponseDto> {
+        return this.universityEmploymentService.update(id, updateDto);
     }
 
     @Delete(':id')
-    remove(@Param('id', ParseIntPipe) id: number): Promise<void>{
+    @HttpCode(HttpStatus.NO_CONTENT)
+    remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
         return this.universityEmploymentService.remove(id);
     }
 }
