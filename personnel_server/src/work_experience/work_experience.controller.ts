@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { WorkExperienceService } from './work_experience.service';
-import { WorkExperience } from 'src/entity/work-experience';
 import { CreateWorkExperienceDto } from 'src/dto/work-experience/create';
 import { UpdateWorkExperienceDto } from 'src/dto/work-experience/update';
 import { WorkExperienceResponceDto } from 'src/dto/work-experience/responce';
