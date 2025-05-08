@@ -1,5 +1,5 @@
 import { Expose, Exclude, Type } from 'class-transformer';
-
+import { EmployeeAchievementResponceDto } from '../emploee-achievement/responce';
 export class ResponceAchieveDto{ 
     @Expose()
     id: number;
@@ -7,9 +7,9 @@ export class ResponceAchieveDto{
     @Expose()
     name: string;
 
-    // @Expose()
-    // @Type(() => EmployeeAchievementResponseDto)
-    // employeeAchievement?: EmployeeAchievementResponseDto[];
+    @Expose()
+    @Type(() => EmployeeAchievementResponceDto)
+    employeeAchievement?: EmployeeAchievementResponceDto[];
 
     @Exclude()
     createdAt?: Date;

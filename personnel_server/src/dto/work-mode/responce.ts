@@ -1,5 +1,5 @@
 import { Expose, Exclude, Type } from 'class-transformer';
-
+import { UniversityEmployementResponseDto } from '../university-employement/responce';
 export class ResponceWorkModeDto{
     @Expose()
     id: number;
@@ -7,9 +7,9 @@ export class ResponceWorkModeDto{
     @Expose()
     name: string;
 
-    // @Expose()
-    // @Type(() => UniversityEmployementResponceDto)
-    // universityEmployement?: UniversityEmployementResponceDto[];
+    @Expose()
+    @Type(() => UniversityEmployementResponseDto)
+    universityEmployement?: UniversityEmployementResponseDto[];
 
     @Exclude()
     createdAt?: Date;

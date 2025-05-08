@@ -1,5 +1,5 @@
 import { Expose, Exclude, Type } from "class-transformer";
-
+import { PersonalInfoResponceDto } from "../personal-info/repsonce";
 export class LocationResponceDto{
     @Expose()
     id: number;
@@ -7,9 +7,9 @@ export class LocationResponceDto{
     @Expose()
     name: string;
 
-    // @Expose()
-    // @Type(() => PersonalInfoResponceDto)
-    // birthPlace?: PersonalInfoResponceDto[];
+    @Expose()
+    @Type(() => PersonalInfoResponceDto)
+    birthPlace?: PersonalInfoResponceDto[];
 
     @Exclude()
     createdAt?: Date;

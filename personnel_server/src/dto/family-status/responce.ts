@@ -1,5 +1,5 @@
 import { Expose, Exclude, Type } from 'class-transformer';
-
+import { PersonalInfoResponceDto } from '../personal-info/repsonce';
 export class FamilyStatusResponceDto{
     @Expose()
     id: number;
@@ -7,9 +7,9 @@ export class FamilyStatusResponceDto{
     @Expose()
     status: string;
 
-    // @Expose()
-    // @Type(() => PersonalInfoResponceDto)
-    // familyStatus?: PersonalInfoResponceDto[];
+    @Expose()
+    @Type(() => PersonalInfoResponceDto)
+    familyStatus?: PersonalInfoResponceDto[];
 
     @Exclude()
     createdAt?: Date;

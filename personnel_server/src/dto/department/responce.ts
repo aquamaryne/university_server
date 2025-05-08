@@ -1,5 +1,7 @@
 import { Expose, Exclude, Type} from 'class-transformer';
-// import { FacultyResponceDto }
+import { FacultyResponceDto } from '../faculty/responce';
+import { UniversityEmployementResponseDto } from '../university-employement/responce';
+import { StaffResponceDto } from '../staff/responce';
 export class ResponceDepartmentDto{
     @Expose()
     id: number;
@@ -13,17 +15,17 @@ export class ResponceDepartmentDto{
     @Expose()
     facultyId: number;
 
-    // @Expose()
-    // @Type(() => FacultyResponceDto)
-    // faculty?: FacultyResponceDto;
+    @Expose()
+    @Type(() => FacultyResponceDto)
+    faculty?: FacultyResponceDto;
 
-    // @Expose()
-    // @Type(() => UniversityEmployementResponceDto)
-    // universityEmployement?: UniversityEmployementResponceDto[];
+    @Expose()
+    @Type(() => UniversityEmployementResponseDto)
+    universityEmployement?: UniversityEmployementResponseDto[];
 
-    // @Expose()
-    // @Type(() => ResponceStafdfDto)
-    // staff?: ResponceStafdfDto[];
+    @Expose()
+    @Type(() => StaffResponceDto)
+    staff?: StaffResponceDto[];
 
     @Exclude()
     createdAt?: Date;

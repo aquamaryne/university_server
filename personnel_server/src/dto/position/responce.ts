@@ -1,5 +1,5 @@
 import { Expose, Exclude, Type } from 'class-transformer';
-
+import { UniversityEmployementResponseDto } from '../university-employement/responce';
 export class PositionResponceDto{
     @Expose()
     id: number;
@@ -13,9 +13,9 @@ export class PositionResponceDto{
     @Expose()
     isAdministative: boolean;
 
-    // @Expose()
-    // @Type(() => UniversityEmployementResponceDto)
-    // universityEmployement?: UniversityEmployementRepsonceDto[];
+    @Expose()
+    @Type(() => UniversityEmployementResponseDto)
+    universityEmployement?: UniversityEmployementResponseDto[];
 
     @Exclude()
     createdAt?: Date;
