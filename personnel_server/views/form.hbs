@@ -174,6 +174,7 @@
                 <button id="backup" class="route-button" disabled>Backups</button>
                 <button id="csv" class="route-button" disabled>CSV Data</button>
                 <button id="health" class="route-button" disabled>Health Check</button>
+                <button id="key" class="route-button" > Key </button>
             </div>
 
             <h2>Clear Keys</h2>
@@ -205,7 +206,8 @@
                 const urls = [
                     'http://localhost:3001/backups',
                     'http://localhost:3001/csv/view',
-                    'http://localhost:3001/health'
+                    'http://localhost:3001/health',
+                    'http://localhost:3001/auth-key'
                 ];
 
                 const requests = urls.map(url => {
@@ -265,6 +267,11 @@
             document.getElementById('health').addEventListener('click', function () {
                 window.location.href = 'http://localhost:3001/health';
             });
+
+            document.getElementById('key').addEventListener('click', function () {
+                window.location.href = 'http://localhost:3001/auth-key';
+            });
+
         </script>
     </body>
 </html>

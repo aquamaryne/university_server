@@ -23,7 +23,6 @@ import {
     ListItem,
     ListItemButton,
     ListItemText,
-
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
@@ -40,7 +39,6 @@ const SearchBySurname: React.FC = () => {
     const [sname, setSname] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [selectedCard, setSelectedCards] = React.useState<Set<number>>(new Set());
-    const [isPreviewOpen, setIsPreviewOpen] = React.useState(false);
     const [isFormOpen, setIsFormOpen] = React.useState(false);
     const [selectedCategory, setSelectedCategory] = React.useState<string>("1");
 

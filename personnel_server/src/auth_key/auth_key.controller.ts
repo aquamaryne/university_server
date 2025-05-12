@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, HttpStatus, UnauthorizedException, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, UnauthorizedException, HttpCode, Render,Get } from '@nestjs/common';
 import { AuthKeyService } from './auth_key.service';
 import { Public } from 'src/api_key/public';
 
@@ -9,8 +9,17 @@ export class AuthKeyController {
     ) {}
 
     @Public()
+    @Get()
+    @Render('auth-key')
+    showForm(){
+        return {
+            message: null,
+        }
+    }
+
+    @Public()
     @HttpCode(HttpStatus.CREATED)
-    @Post()
+    @Post('validate')
     async validateAuthKey(@Body('auth_key') authKey: string){
         try{
             const authKeyEntity = await this.authKeyService.validateAuthKey(authKey);

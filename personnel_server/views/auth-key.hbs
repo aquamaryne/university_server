@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8">
+        <title>Key</title>
+        <style>
+            body{
+                font-family: sans-serif; 
+                padding: 40px;
+                background: #5f5f5f;
+            }
+
+            form{
+                max-width: 400px;
+                margin: auto;
+                background: white;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba((0, 0, 0, 0.1);
+            }
+            input[type='text']{_
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0 20px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            button{
+                padding: 10px 20px;
+                background: #007BFF;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:hover{
+                background: #0056B3;
+            }
+        </style>
+        <form action="/auth-key/validate" method="POST">
+            <h2>Регестарція ключа</h2>
+            {{#if message}}
+                <div style="margin-bottom: 15px; color: red">
+                    {{message}}
+                </div>
+            {{/if}}
+            <input type="text" name="auth_key" placeholder="Key" required />
+            <button type="submit">Регестарція</button>
+        </form>
+    </head>
+</html>
