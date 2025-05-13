@@ -1,51 +1,74 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html>
     <head>
         <meta charset="utf-8">
-        <title>Key</title>
+        <title>Додавання ключа</title>
         <style>
-            body{
-                font-family: sans-serif; 
-                padding: 40px;
-                background: #5f5f5f;
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+                background-color: #f5f5f5;
             }
-
-            form{
+            form {
                 max-width: 400px;
-                margin: auto;
+                margin: 0 auto;
                 background: white;
-                padding: 30px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba((0, 0, 0, 0.1);
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
-            input[type='text']{_
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+            input {
                 width: 100%;
                 padding: 10px;
-                margin: 10px 0 20px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
+                margin: 10px 0;
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                box-sizing: border-box;
             }
-            button{
-                padding: 10px 20px;
-                background: #007BFF;
+            button {
+                width: 100%;
+                padding: 10px;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
-                border-radius: 4px;
+                border-radius: 3px;
                 cursor: pointer;
             }
-            button:hover{
-                background: #0056B3;
+            button:hover {
+                background-color: #45a049;
+            }
+            .message {
+                text-align: center;
+                margin: 10px 0;
+                padding: 10px;
+                border-radius: 3px;
+            }
+            .success {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .error {
+                background-color: #f8d7da;
+                color: #721c24;
             }
         </style>
-        <form action="/auth-key/validate" method="POST">
-            <h2>Регестарція ключа</h2>
-            {{#if message}}
-                <div style="margin-bottom: 15px; color: red">
-                    {{message}}
-                </div>
-            {{/if}}
-            <input type="text" name="auth_key" placeholder="Key" required />
-            <button type="submit">Регестарція</button>
-        </form>
     </head>
+    <body>
+        <form action="/auth-key/add" method="POST">
+            <h1>Додавання ключа</h1>
+            
+            {{#if message}}
+            <div class="message {{#if success}}success{{else}}error{{/if}}">
+                {{message}}
+            </div>
+            {{/if}}
+            
+            <input type="text" name="auth_key" placeholder="Введіть ключ для додавання" required>
+            <button type="submit">Додати ключ</button>
+        </form>
+    </body>
 </html>

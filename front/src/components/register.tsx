@@ -22,7 +22,7 @@ const Register: React.FC = () => {
 
         try {
             const response = await axios.post<{ message: string }>(
-                'http://localhost:3001/auth-key', 
+                'http://localhost:3001/auth-key/validate', 
                 { auth_key: authKey },
                 {
                     withCredentials: true,

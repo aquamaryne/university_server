@@ -10,22 +10,47 @@ export class AuthKeyService {
         private authKeyRepository: Repository<Auth_Key>,
     ){}
 
-    async validateAuthKey(authKey: string): Promise<Auth_Key>{
-        const authKeyEntity = await this.authKeyRepository.findOne({ where: { auth_key: authKey }});
+    async validateKey(authKey: string): Promise<Auth_Key>{
+        if(!authKey){
+            throw new UnauthorizedException("Auth key can't be wrong");
+        }
 
-        if(!authKeyEntity){
-            throw new UnauthorizedException('Недійсний ключ автентифікації');
+        const authKeyEntity = await this.authKeyRepository.findOne({
+            where: {
+                auth_key: authKey,
+            }
+        });
+
+        if(!authKey){
+            throw new UnauthorizedException('Wrong key auth');
         }
 
         return authKeyEntity;
     }
 
-    async createAuthKey(authKey: string): Promise<Auth_Key>{
-        const newAuthKey = this.authKeyRepository.create({ auth_key: authKey });
+    async createdAuthKey(authKey: string): Promise<Auth_Key>{
+        if(!authKey){
+            throw new Error("Auth key can't be wrong");
+        }
+
+        const existingKey = await this.authKeyRepository.findOne({
+            where: {
+                auth_key: authKey,
+            }
+        });
+
+        if(existingKey){
+            return existingKey;
+        }
+
+        const newAuthKey = this.authKeyRepository.create({
+            auth_key: authKey,
+        });
+
         try{
-            return this.authKeyRepository.save(newAuthKey);
-        } catch (error){
-            throw new Error('Failed to create key');
+            return await this.authKeyRepository.save(newAuthKey);
+        } catch(error){
+            throw new Error('Error while creating key');
         }
     }
 }

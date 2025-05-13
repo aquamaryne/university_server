@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, HttpStatus, UnauthorizedException, HttpCode, Render,Get } from '@nestjs/common';
+import { Controller, Post, Body, Render,Get, UnauthorizedException, HttpException, HttpStatus, HttpCode } from '@nestjs/common';
 import { AuthKeyService } from './auth_key.service';
 import { Public } from 'src/api_key/public';
 
@@ -18,22 +18,33 @@ export class AuthKeyController {
     }
 
     @Public()
-    @HttpCode(HttpStatus.CREATED)
+    @Get('create')
+    @Render('create-key')
+    showCreatedForm(){
+        return {
+            message: null,
+        }
+    }
+
+    @Public()
     @Post('validate')
-    async validateAuthKey(@Body('auth_key') authKey: string){
+    @Render('auth-key')
+    async validateAuthKey(
+        @Body('auth_key') authKey: string
+    ){
         try{
-            const authKeyEntity = await this.authKeyService.validateAuthKey(authKey);
-    
-            return{
+            const authKeyEntity = await this.authKeyService.validateKey(authKey);
+
+            return {
                 auth_key: authKeyEntity.auth_key,
-                message: 'Login successful!',
+                message: 'Login success',
             };
         } catch(error){
             if(error instanceof UnauthorizedException){
                 throw new HttpException(
                     {
-                        "statusCode": HttpStatus.UNAUTHORIZED,
-                        "message": error.message,
+                        statusCode: HttpStatus.UNAUTHORIZED,
+                        message: error.message,
                     },
                     HttpStatus.UNAUTHORIZED,
                 );
@@ -41,12 +52,29 @@ export class AuthKeyController {
 
             throw new HttpException(
                 {
-                    "statusCode": HttpStatus.INTERNAL_SERVER_ERROR,
-                    "message": 'An unexpected error occured',
+                    statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                    message: 'An unexpected error occurred',
                 },
-
                 HttpStatus.INTERNAL_SERVER_ERROR,
-            )
+            );
+        }
+    }
+
+    @Public()
+    @HttpCode(HttpStatus.CREATED)
+    @Post('add')
+    async createAuthKey(
+        @Body('auth_key') authKey: string,
+    ){
+        try{
+            await this.authKeyService.createdAuthKey(authKey);
+            return {
+                message: 'Key successfully added',
+            }
+        } catch(error) {
+            return {
+                message: error.message || 'Error while adding key'
+            }
         }
     }
 }
