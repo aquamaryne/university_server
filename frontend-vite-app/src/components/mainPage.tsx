@@ -3,7 +3,7 @@ import Witness from "./witness";
 import PersonalCard from "./personal_card";
 import Print from "./print";
 import Statistic from "./statisctic";
-import Form from "./ui/form";
+import Form from "./form";
 import Archieve from "./archieve";
 // import PageButton from "./button";
 
