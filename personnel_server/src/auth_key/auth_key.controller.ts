@@ -29,6 +29,7 @@ export class AuthKeyController {
     @Public()
     @Post('validate')
     @Render('auth-key')
+    @HttpCode(HttpStatus.CREATED)
     async validateAuthKey(
         @Body('auth_key') authKey: string
     ){

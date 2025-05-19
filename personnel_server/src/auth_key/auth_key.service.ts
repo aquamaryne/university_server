@@ -21,7 +21,7 @@ export class AuthKeyService {
             }
         });
 
-        if(!authKey){
+        if(!authKeyEntity){
             throw new UnauthorizedException('Wrong key auth');
         }
 

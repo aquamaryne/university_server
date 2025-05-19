@@ -10,7 +10,6 @@ import PrivateRoute from './routes/privateRoute';
 import { AuthProvider } from './routes/authContext';
 import MainPage from './components/mainPage';
 import Layout from './components/mainPage';
-import { Button } from './components/ui/button';
 
 function App() {
   return (
@@ -18,6 +17,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Register />} />
+          <Route element={<PrivateRoute />}>
             <Route element={<Layout />}>
               <Route path="/mainPage" element={ <MainPage />} />
               <Route path="/view/archieve/*" element={<ArchieveRoute />} />
@@ -27,7 +27,6 @@ function App() {
               <Route path="/view/witness/*" element={<WitnessRoute />} />
               <Route path="/view/print/*" element={<PrintRoute />} />
             </Route>
-          <Route element={<PrivateRoute />}>
             <Route path="*" element={<Navigate to="/mainPage" replace />} />
           </Route>
         </Routes>

@@ -1,6 +1,6 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton } from "./ui/sidebar";
+import { Link } from "react-router-dom";
+import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton } from "./ui/sidebar";
 import { ChevronRight } from "lucide-react";
 
 const navItems = [
@@ -123,11 +123,13 @@ export default function Layout() {
                                     <ChevronRight className={`h-4 w-4 transition-transform ${openSubmenus.includes(categoty.title) ? "transform rotate-90" : ""}`} />
                                 </SidebarMenuButton>
                                 {openSubmenus.includes(categoty.title) && (
-                                    <SidebarMenuSub>
+                                    <SidebarMenuSub className="max-h-64 overflow-y-auto pr-2">
                                         {categoty.subItems.map((item) => (
                                             <SidebarMenuSubItem key={item.path}>
                                                 <SidebarMenuSubButton asChild>
-                                                    <a href={item.path}>{item.name}</a>
+                                                    <Link key={item.path} to={item.path} className="block truncate">
+                                                        {item.name}
+                                                    </Link>
                                                 </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
@@ -138,17 +140,7 @@ export default function Layout() {
                     </SidebarMenu>
                 </SidebarContent>
             </Sidebar>
-            <main className="ml-64 flex-1 p-6">
-                <div className="flex items-center mb-4">
-                    <SidebarTrigger className="mr-2" />
-                    <h1 className="text-xl font-semibold">Система кадрів</h1>
-                </div>
-                <div className="bg-white rounded-lg shadow p-4">
-                    <Outlet />
-                </div>
-            </main>
         </SidebarProvider>
     )
-
 }
 

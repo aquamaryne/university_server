@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Label } from './ui/label';
 import { Alert, AlertDescription } from './ui/alert';
 import { useNavigate } from 'react-router-dom';
@@ -53,12 +53,9 @@ const Register: React.FC = () => {
     return (
         <div className='flex justify-center items-center min-h-screen bg-slate-50'>
             <div className='w-full max-w-md px-4'>
-                <Card className='border-2 shadow-lg'>
+                <Card className='border-2 shadow-lg border-black rounded-none'>
                     <CardHeader className='space-y-1'>
                         <CardTitle className='text-2xl font-bold text-center'>Авторизація</CardTitle>
-                        <CardDescription className='text-center'>
-                            Введіть ключ
-                        </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit}>
@@ -71,18 +68,18 @@ const Register: React.FC = () => {
                                         placeholder='Введіть ключ'
                                         value={authKey}
                                         onChange={handleInputChange}
-                                        className='border-blue-300 focus:border-blue-500'
+                                        className='border-blue-300 focus:border-blue-500 rounded-none'
                                         autoComplete='off'
                                     />
                                 </div>
                                 {message && (
-                                    <Alert variant="destructive" className='py-2'>
+                                    <Alert variant="destructive" className='py-2 rounded-none border-red-600'>
                                         <AlertDescription>{message}</AlertDescription>
                                     </Alert>
                                 )}
                                 <Button
                                     type='submit'
-                                    className='w-full bg-blue-500 hover:bg-blue-700'
+                                    className='w-full bg-blue-500 hover:bg-blue-700 rounded-none cursor-pointer'
                                     disabled={loading}
                                 >
                                     {loading ? (
