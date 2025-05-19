@@ -1,87 +1,107 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Label } from './ui/label';
+import { Alert, AlertDescription } from './ui/alert';
 import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Typography, Grid, CircularProgress } from '@mui/material';
 import { useAuth } from '../routes/authContext';
+import { Loader2 } from 'lucide-react';
 
 
 const Register: React.FC = () => {
-    const [authKey, setAuthKey] = useState<string>('');
-    const [message, setMessage] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(false);
+    const [authKey, setAuthKey] = React.useState<string>('');
+    const [message, setMessage] = React.useState<string>('');
+    const [loading, setLoading] = React.useState<boolean>(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAuthKey(e.target.value);
-    };
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
 
-        try {
-            const response = await axios.post<{ message: string }>(
-                'http://localhost:3001/auth-key/validate', 
+        try{
+            const responce = await axios.post<{ message: string }>(
+                'http://localhost:3001/auth-key/validate',
                 { auth_key: authKey },
                 {
                     withCredentials: true,
                 }
             );
-            
-            if (response.status === 201) {
-                setMessage(response.data.message);
+
+            if(responce.status === 201){
+                setMessage(responce.data.message);
                 login();
-                navigate('/mainPage')
+                navigate('/mainPage');
             }
-        } catch (error: any) {
-            if (axios.isAxiosError(error)) {
-                setMessage(error.response?.data.message || 'Сталася неочікувана помилка.');
+        } catch (error: any){
+            if(axios.isAxiosError(error)){
+                setMessage(error.response?.data.message || 'Сталася несподівана помилка.');
             } else {
-                setMessage('Сталася неочікувана помилка.');
+                setMessage('Сталася несподівана помилка.');
             }
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    };
+    }
 
     return (
-        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '90vh' }}>
-            <Grid item xs={12} sm={6} md={4}>
-                <Box p={3} border={2} borderRadius={1} boxShadow={4}>
-                    <Typography variant="h4" gutterBottom textAlign="center">
-                        Авторизація
-                    </Typography>
-                    <form onSubmit={handleSubmit}>
-                        <TextField
-                            label="Введіть ключ"
-                            type="password"
-                            variant="standard" 
-                            fullWidth
-                            focused
-                            color="warning"
-                            margin="normal"
-                            value={authKey}
-                            onChange={handleInputChange}
-                        />
-                        <Box sx={{ textAlign: 'center' }}>
-                            {message && <Typography color="white" align="center" variant="body1" sx={{ marginTop: 1, backgroundColor: 'red', padding: '4px 16px', display: 'inline-block', borderRadius: '4px' }}>{message}</Typography>}
-                        </Box>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            type="submit"
-                            style={{ marginTop: '16px' }}
-                            disabled={loading} 
-                        >
-                            {loading ? <CircularProgress size={24} color="success" /> : 'Увійти'}
-                        </Button>
-                    </form>
-                </Box>
-            </Grid>
-        </Grid>
-    );
-};
+        <div className='flex justify-center items-center min-h-screen bg-slate-50'>
+            <div className='w-full max-w-md px-4'>
+                <Card className='border-2 shadow-lg'>
+                    <CardHeader className='space-y-1'>
+                        <CardTitle className='text-2xl font-bold text-center'>Авторизація</CardTitle>
+                        <CardDescription className='text-center'>
+                            Введіть ключ
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handleSubmit}>
+                            <div className='grid gap-4'>
+                                <div className='grid gap-2'>
+                                    <Label htmlFor='auth-key'>Ключ авторизації</Label>
+                                    <Input 
+                                        id='auth-key'
+                                        type='password'
+                                        placeholder='Введіть ключ'
+                                        value={authKey}
+                                        onChange={handleInputChange}
+                                        className='border-blue-300 focus:border-blue-500'
+                                        autoComplete='off'
+                                    />
+                                </div>
+                                {message && (
+                                    <Alert variant="destructive" className='py-2'>
+                                        <AlertDescription>{message}</AlertDescription>
+                                    </Alert>
+                                )}
+                                <Button
+                                    type='submit'
+                                    className='w-full bg-blue-500 hover:bg-blue-700'
+                                    disabled={loading}
+                                >
+                                    {loading ? (
+                                        <>
+                                            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                                            Завантаження
+                                        </>
+                                    ): (
+                                        'Увійти'
+                                    )}
+                                </Button>
+                            </div>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    )
+}
+
 
 export default Register;

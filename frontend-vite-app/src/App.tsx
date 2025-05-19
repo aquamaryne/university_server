@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ArchieveRoute from './routes/archieve';
 import FormRoute from './routes/form';
 import PersonalCardRoute from './routes/personal_card';
@@ -9,29 +8,25 @@ import PrintRoute from './routes/print';
 import Register from './components/register';
 import PrivateRoute from './routes/privateRoute';
 import { AuthProvider } from './routes/authContext';
-import Layout from './components/layout';
-
+import MainPage from './components/mainPage';
 
 function App() {
   return (
-    <AuthProvider>
       <Router>
-        <Layout>
-          <Routes>
-            <Route path='/' element={ <Register/> } />
-            <Route path='/' element={<PrivateRoute />}>
-              <Route path='/mainPage' />              
-            </Route>
-            </Routes>
-            <ArchieveRoute />
-            <FormRoute />
-            <PersonalCardRoute />
-            <StatisticRoute />
-            <WitnessRoute />
-            <PrintRoute />
-          </Layout>
-        </Router>
-    </AuthProvider>
+        <Routes>
+          <Route path="/" element={<Register />} />
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="/mainPage" element={<MainPage />} />
+            <Route path="/view/archieve/*" element={<ArchieveRoute />} />
+            <Route path="/view/form/*" element={<FormRoute />} />
+            <Route path="/view/personal_card/*" element={<PersonalCardRoute />} />
+            <Route path="/view/statistic/*" element={<StatisticRoute />} />
+            <Route path="/view/witness/*" element={<WitnessRoute />} />
+            <Route path="/view/print/*" element={<PrintRoute />} />
+            <Route path="*" element={<Navigate to="/mainPage" replace />} />
+          </Route>
+        </Routes>
+      </Router>
   );
 }
 

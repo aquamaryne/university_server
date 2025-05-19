@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, type ReactNode, useEffect } from "react";
 
 interface AuthContextType {
     isAuthenticated: boolean; 
@@ -9,7 +9,21 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    // Check local storage for authentication status on initial load
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+        const saved = localStorage.getItem('isAuthenticated');
+        return saved === 'true';
+    });
+
+    // Update local storage when authentication changes
+    useEffect(() => {
+        localStorage.setItem('isAuthenticated', isAuthenticated.toString());
+    }, [isAuthenticated]);
+
+    // Debug logging
+    useEffect(() => {
+        console.log("Auth state changed:", isAuthenticated);
+    }, [isAuthenticated]);
 
     const login = () => setIsAuthenticated(true);
     const logout = () => setIsAuthenticated(false);
@@ -28,4 +42,4 @@ export const useAuth = (): AuthContextType => {
     }
 
     return context;
-}
+};
