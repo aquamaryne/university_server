@@ -1,14 +1,14 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import WhereFrom from "../view/form/whereFrom";
+import WhereFrom from "../components/view/form/whereFrom";
 // import EnterDataToForm from "../view/form/enterDataToForm";
 // import ManagementTeam from "../view/form/managementTeam";
 // import PrintForm from "../view/form/printForm";
 // import FormOne from "../view/form/formOne";
 // import FormTwo from "../view/form/formTwo";
-import FormThree from "../view/form/formThree";
-import FormFour from "../view/form/formFour";
-import FormFive from "../view/form/formFive";
+import FormThree from "../components/view/form/formThree";
+import FormFour from "../components/view/form/formFour";
+import FormFive from "../components/view/form/formFive";
 // import FormForAnother from "../view/form/formForAnother";
 
 const FormRoute: React.FC = () => {

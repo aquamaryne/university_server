@@ -8,8 +8,7 @@ import PrintRoute from './routes/print';
 import Register from './components/register';
 import PrivateRoute from './routes/privateRoute';
 import { AuthProvider } from './routes/authContext';
-import MainPage from './components/mainPage';
-import Layout from './components/mainPage';
+import Layout from './components/layout';
 
 function App() {
   return (
@@ -19,7 +18,7 @@ function App() {
           <Route path="/" element={<Register />} />
           <Route element={<PrivateRoute />}>
             <Route element={<Layout />}>
-              <Route path="/mainPage" element={ <MainPage />} />
+              <Route path="/mainPage" element={""} />
               <Route path="/view/archieve/*" element={<ArchieveRoute />} />
               <Route path="/view/form/*" element={<FormRoute />} />
               <Route path="/view/personal_card/*" element={<PersonalCardRoute />} />

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Routes, Route } from "react-router-dom";
-import WatchCard from "../view/archieve/watchCard";
-import ListOfFired from "../view/archieve/listOfFired";
-import WatchAndEdit from "../view/archieve/watchAndEdit";
+import WatchCard from "../components/view/archieve/watchCard";
+import ListOfFired from "../components/view/archieve/listOfFired";
+import WatchAndEdit from "../components/view/archieve/watchAndEdit";
 
 const ArchieveRoute: React.FC = () => {
     return(

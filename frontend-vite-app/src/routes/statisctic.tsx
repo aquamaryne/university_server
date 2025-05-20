@@ -1,14 +1,14 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import EditForStaticForm from "../view/statistic/enterForStaticForm";
-import FormFive from "../view/statistic/formFive";
-import EditFormFive from "../view/statistic/editFormFive";
-import FormSix from "../view/statistic/formSix";
-import FormSixEdit from "../view/statistic/formSixEdit";
-import ListOfAges from "../view/statistic/listOfAges";
-import ListOfOlder from "../view/statistic/listOfOlder";
-import ListOfAllWithoutPartTimesAndBranches from "../view/statistic/listOfAfllWithoutPartTimesAndBranches";
-import ListOfDoctorsByDiploma from "../view/statistic/listOfDoctorsByDimploma";
+import EditForStaticForm from "../components/view/statistic/enterForStaticForm";
+import FormFive from "../components/view/statistic/formFive";
+import EditFormFive from "../components/view/statistic/editFormFive";
+import FormSix from "../components/view/statistic/formSix";
+import FormSixEdit from "../components/view/statistic/formSixEdit";
+import ListOfAges from "../components/view/statistic/listOfAges";
+import ListOfOlder from "../components/view/statistic/listOfOlder";
+import ListOfAllWithoutPartTimesAndBranches from "../components/view/statistic/listOfAfllWithoutPartTimesAndBranches";
+import ListOfDoctorsByDiploma from "../components/view/statistic/listOfDoctorsByDimploma";
 
 const StatisticRoute: React.FC = () => {
     return(

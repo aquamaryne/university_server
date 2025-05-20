@@ -138,7 +138,9 @@ export default function MainPage() {
                                                 >
                                                     <NavLink 
                                                         to={item.path} 
-                                                        className="block truncate"
+                                                        className={({ isActive }) =>
+                                                            `block truncate ${isActive ? "bg-muted text-blue-300" : ""}`
+                                                        }
                                                     >
                                                         {item.name}
                                                     </NavLink>
