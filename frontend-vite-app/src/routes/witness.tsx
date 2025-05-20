@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 // import Domain from "../view/witness/domain";
-// import Faculty from "../view/witness/faculty";
+import FacultyPage from "../view/witness/faculty";
 import FamilyMember from "../view/witness/familyMember";
 import HonoraryTitles from "../view/witness/honoraryTitles";
 import FamilyStatus from "../view/witness/familyStatus";
@@ -17,8 +17,8 @@ import Work from "../view/witness/work";
 const WitnessRoute: React.FC = () => {
     return(
         <Routes>
-            {/* <Route path="/view/witness/domain"          element={ <Domain /> } />
-            <Route path="/view/witness/faculty"         element={ <Faculty />} /> */}
+            {/* <Route path="/view/witness/domain"          element={ <Domain /> } /> */}
+            <Route path="/view/witness/faculty"         element={ <FacultyPage />} />
             <Route path="/view/witness/familyMember"    element={ <FamilyMember />} />
             <Route path="/view/witness/hononaryTitles"  element={ <HonoraryTitles />} />
             <Route path="/view/witness/familyStatus"    element={ <FamilyStatus />} />

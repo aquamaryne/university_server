@@ -103,16 +103,16 @@ export default function Layout() {
 
     return (
         <SidebarProvider>
-            <Sidebar className="border-r bg-card">
-                <div className="p-4 font-semibold text-lg border-b">
-                    Навігація
+            <Sidebar className="border-r bg-card border-black">
+                <div className="p-4 font-semibold text-lg border-b text-center border-black">
+                    Відділ кадрів
                 </div>
                 <SidebarContent>
                     <SidebarMenu>
                         {navItems.map((categoty) => (
                             <SidebarMenuItem key={categoty.title}>
                                 <SidebarMenuButton
-                                    className="w-full justify-between py-2"
+                                    className="w-full justify-between py-2 border-r-none border-black"
                                     onClick={() =>{
                                         setActiveItem(categoty.title);
                                         toggleSunmenu(categoty.title);
@@ -122,19 +122,30 @@ export default function Layout() {
                                     <span>{categoty.title}</span>
                                     <ChevronRight className={`h-4 w-4 transition-transform ${openSubmenus.includes(categoty.title) ? "transform rotate-90" : ""}`} />
                                 </SidebarMenuButton>
-                                {openSubmenus.includes(categoty.title) && (
-                                    <SidebarMenuSub className="max-h-64 overflow-y-auto pr-2">
+                                <div className={`transition-all duration-200 ease-in-out overflow-hidden ${
+                                    openSubmenus.includes(categoty.title) 
+                                    ? "max-h-64 opacity-100" 
+                                    : "max-h-0 opacity-0"
+                                }`}
+                                >
+                                    <SidebarMenuSub className="overflow-y-auto pr-2 border-black">
                                         {categoty.subItems.map((item) => (
                                             <SidebarMenuSubItem key={item.path}>
-                                                <SidebarMenuSubButton asChild>
-                                                    <Link key={item.path} to={item.path} className="block truncate">
+                                                <SidebarMenuSubButton 
+                                                    asChild 
+                                                    className="transition-colors duration-200 border-1 hover:border-blue-600 rounded-none"
+                                                >
+                                                    <Link 
+                                                        to={item.path} 
+                                                        className="block truncate py-1"
+                                                    >
                                                         {item.name}
                                                     </Link>
                                                 </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
                                     </SidebarMenuSub>
-                                )}
+                                </div>
                             </SidebarMenuItem>
                         ))}
                     </SidebarMenu>
