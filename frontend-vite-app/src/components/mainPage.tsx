@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton } from "./ui/sidebar";
 import { ChevronRight } from "lucide-react";
 
@@ -94,9 +94,10 @@ const navItems = [
     }
 ];
 
-export default function Layout() {
+export default function MainPage() {
     const [activeItem, setActiveItem] = React.useState<string>("");
     const [openSubmenus, setOpenSubmenus] = React.useState<string[]>([]);
+    
     const toggleSunmenu = (title: string) => {
         setOpenSubmenus(prev => prev.includes(title) ? prev.filter(item => item !== title): [...prev, title]);
     };
@@ -122,25 +123,25 @@ export default function Layout() {
                                     <span>{categoty.title}</span>
                                     <ChevronRight className={`h-4 w-4 transition-transform ${openSubmenus.includes(categoty.title) ? "transform rotate-90" : ""}`} />
                                 </SidebarMenuButton>
-                                <div className={`transition-all duration-200 ease-in-out overflow-hidden ${
+                                <div className={`transition-all duration-200 ease-in-out overflow-y-auto ${
                                     openSubmenus.includes(categoty.title) 
                                     ? "max-h-64 opacity-100" 
                                     : "max-h-0 opacity-0"
                                 }`}
                                 >
-                                    <SidebarMenuSub className="overflow-y-auto pr-2 border-black">
+                                    <SidebarMenuSub className="pr-2 border-black">
                                         {categoty.subItems.map((item) => (
                                             <SidebarMenuSubItem key={item.path}>
                                                 <SidebarMenuSubButton 
                                                     asChild 
                                                     className="transition-colors duration-200 border-1 hover:border-blue-600 rounded-none"
                                                 >
-                                                    <Link 
+                                                    <NavLink 
                                                         to={item.path} 
-                                                        className="block truncate py-1"
+                                                        className="block truncate"
                                                     >
                                                         {item.name}
-                                                    </Link>
+                                                    </NavLink>
                                                 </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}

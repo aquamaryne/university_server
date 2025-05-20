@@ -27,8 +27,8 @@ function App() {
               <Route path="/view/witness/*" element={<WitnessRoute />} />
               <Route path="/view/print/*" element={<PrintRoute />} />
             </Route>
-            <Route path="*" element={<Navigate to="/mainPage" replace />} />
           </Route>
+          <Route path="*" element={<Navigate to='/mainPage' replace />} />
         </Routes>
       </Router>
     </AuthProvider>

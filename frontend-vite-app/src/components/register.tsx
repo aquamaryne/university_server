@@ -11,9 +11,9 @@ import { Loader2 } from 'lucide-react';
 
 
 const Register: React.FC = () => {
-    const [authKey, setAuthKey] = React.useState<string>('');
-    const [message, setMessage] = React.useState<string>('');
-    const [loading, setLoading] = React.useState<boolean>(false);
+    const [authKey, setAuthKey] = useState<string>('');
+    const [message, setMessage] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
