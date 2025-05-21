@@ -20,6 +20,7 @@ export class Faculty {
         length: 255,
         nullable: true,
     })
+    short_name: string;
 
     @OneToMany(() => Department, (department) => department.faculty)
     departments: Department[];

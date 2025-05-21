@@ -7,6 +7,7 @@ import { Plus, Pencil, Trash2 } from "lucide-react";
 interface Faculty {
     id: number;
     faculty_name: string;
+    short_name: string;
 }
 
 const FacultyPage: React.FC = () => {
@@ -30,7 +31,7 @@ const FacultyPage: React.FC = () => {
             } catch(error){
                 console.error(`Помилка завантаження даних: ${error}` );
             } finally {
-                setLoading(true);
+                setLoading(false);
             }
         };
 
@@ -38,7 +39,7 @@ const FacultyPage: React.FC = () => {
     }, []);
 
     return(
-        <Card className="shadow-md">
+        <Card className="shadow-md rounded-none border-black">
             <CardHeader className="pb-2">
                 <CardTitle className="text-2xl font-bold text-center">
                     Довідник факультетів
@@ -65,6 +66,7 @@ const FacultyPage: React.FC = () => {
                             <TableRow>
                                 <TableHead className="w-[100px] text-center">Код</TableHead>
                                 <TableHead>Назва</TableHead>
+                                <TableHead>Скорочена назва</TableHead>
                                 <TableHead className="w-[120px] text-center">Дії</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -82,6 +84,7 @@ const FacultyPage: React.FC = () => {
                                             {faculty.id}
                                         </TableCell>
                                         <TableCell>{faculty.faculty_name}</TableCell>
+                                        <TableCell>{faculty.short_name}</TableCell>
                                         <TableCell className="text-right">
                                             <div className="flex justify-end gap-2">
                                                 <Button variant="ghost" size="icon" className="h-8 w-8">

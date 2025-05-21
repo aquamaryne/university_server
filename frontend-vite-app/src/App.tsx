@@ -9,7 +9,7 @@ import Register from './components/register';
 import PrivateRoute from './routes/privateRoute';
 import { AuthProvider } from './routes/authContext';
 import Layout from './components/layout';
-
+import MainPage from './components/mainPage';
 function App() {
   return (
     <AuthProvider>
@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Register />} />
           <Route element={<PrivateRoute />}>
             <Route element={<Layout />}>
-              <Route path="/mainPage" element={""} />
+              <Route path="/mainPage" element={<MainPage />} />
               <Route path="/view/archieve/*" element={<ArchieveRoute />} />
               <Route path="/view/form/*" element={<FormRoute />} />
               <Route path="/view/personal_card/*" element={<PersonalCardRoute />} />
