@@ -1,1045 +1,354 @@
-// import * as React from 'react';
-// import { 
-//   Box, 
-//   Paper, 
-//   Typography, 
-//   TextField, 
-//   MenuItem, 
-//   Button, 
-//   Grid, 
-//   Container,
-//   FormControl,
-//   InputLabel,
-//   Select,
-//   SelectChangeEvent,
-//   Checkbox,
-//   FormControlLabel,
-//   TableContainer,
-//   Table,
-//   TableRow,
-//   TableHead,
-//   TableCell,
-//   TableBody,
-//   FormGroup,
-// } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, User, FileText, BookOpen, Clock, Settings } from "lucide-react";
+import { string } from "prop-types";
+interface EmployeeData {
+  identificationCode: string;
+  taxNumber: string;
+  insuranceNumber: string;
+  personalCardNumber: string;
+  lastName: string;
+  firstName: string;
+  patronymic: string;
+  birthDate: string;
+  birthPlace: string;
+  education: string;
+  educationInstitution: string;
+  graduationYear: string;
+  educationType: string;
+  department: string;
+  position: string;
+  startDate: string;
+  contractEndDate: string;
+  contractType: string;
+  gender: string;
+  workingSince: string;
+  specialization: string;
+  qualification: string;
+  diplomaNumber: string;
+  diplomaDate: string;
+  totalExperience: string;
+  continuousExperience: string;
+  hiringDate: string;
+  hiringOrderNumber: string;
+  hiringOrderDate: string;
+  lastWorkplace: string;
+  terminationDate: string;
+  terminationReason: string;
+}
 
-// // Define types for our form data (exactly the same as original)
-// interface EmployeeData {
-//   identificationCode: string;
-//   taxNumber: string;
-//   insuranceNumber: string;
-//   personalCardNumber: string;
-//   lastName: string;
-//   firstName: string;
-//   patronymic: string;
-//   birthDate: Date | null;
-//   birthPlace: string;
-//   education: string;
-//   educationInstitution: string;
-//   graduationYear: string;
-//   educationType: string;
-//   department: string;
-//   position: string;
-//   startDate: Date | null;
-//   contractEndDate: Date | null;
-//   contractType: string;
-//   gender: string;
-//   workingSince: string;
-//   specialization: string;
-//   qualification: string;
-//   diplomaNumber: string;
-//   diplomaDate: Date | null;
-//   totalExperience: string;
-//   continuousExperience: string;
-//   hiringDate: Date | null;
-//   hiringOrderNumber: string;
-//   hiringOrderDate: Date | null;
-//   lastWorkplace: string;
-//   terminationDate: Date | null;
-//   terminationReason: string;
-// }
+interface CheckboxState {
+    fullTime: boolean;
+    partTime25: boolean;
+    partTime50: boolean;
+    partTime75: boolean;
+    coWorker: boolean;
+    externalCoWorker: boolean;
+    temporaryWorker: boolean;
+    postalPaidTeacher: boolean;
+    scientificCandiate: boolean;
+    scientificDoctor: boolean;
+    academician: boolean;
+    chernobyl1: boolean;
+    chernobyl2: boolean;
+    chernobyl3: boolean;
+    chernobyl4: boolean;
+    disability1: boolean;
+    disability2: boolean;
+    disability3: boolean;
+}
 
-// const EmployeeForm: React.FC = () => {
-//   // State for form fields
-//   const [employeeData, setEmployeeData] = React.useState<EmployeeData>({
-//     identificationCode: '',
-//     taxNumber: '',
-//     insuranceNumber: '',
-//     personalCardNumber: '',
-//     lastName: '',
-//     firstName: '',
-//     patronymic: '',
-//     birthDate: null,
-//     birthPlace: '',
-//     education: 'higher',
-//     educationInstitution: '',
-//     graduationYear: '',
-//     educationType: 'full-time',
-//     department: '',
-//     position: '',
-//     startDate: null,
-//     contractEndDate: null,
-//     contractType: 'contract',
-//     gender: 'female',
-//     workingSince: '',
-//     specialization: '',
-//     qualification: '',
-//     diplomaNumber: '',
-//     diplomaDate: null,
-//     totalExperience: '',
-//     continuousExperience: '',
-//     hiringDate: null,
-//     hiringOrderNumber: '',
-//     hiringOrderDate: null,
-//     lastWorkplace: '',
-//     terminationDate: null,
-//     terminationReason: ''
-//   });
+const PersonalCard: React.FC = () => {
+    const { id } = useParams<{ id: string}>();
+    const navigate = useNavigate();
+    const[loading, setLoading] = useState(true);
+    const[activeTab, setActiveTab] = useState<string>("general");
+    const[scientificDegree, setScientificDegree] = useState<string>("008");
 
-//   const [checkboxes, setCheckboxes] = React.useState({
-//     fullTime: true,
-//     partTime25: false,
-//     partTime50: false,
-//     partTime75: false,
-//     coWorker: false,
-//     externalCoWorker: false,
-//     temporaryWorker: false,
-//     postalPaidTeacher: false,
-//     scientificCandidate: false,
-//     scientificDoctor: true,
-//     academician: false,
-//     chernobyl1: false,
-//     chernobyl2: false,
-//     chernobyl3: false,
-//     chernobyl4: false,
-//     disability1: false,
-//     disability2: false,
-//     disability3: false
-//   });
+    const [employeeData, setEmployeeData] = useState<EmployeeData>({
+        identificationCode: '',
+        taxNumber: '',
+        insuranceNumber: '',
+        personalCardNumber: '',
+        lastName: '',
+        firstName: '',
+        patronymic: '',
+        birthDate: '',
+        birthPlace: '',
+        education: '',
+        educationInstitution: '',
+        graduationYear: '',
+        educationType: '',
+        department: '',
+        position: '',
+        startDate: '',
+        contractEndDate: '',
+        contractType: '',
+        gender: '',
+        workingSince: '',
+        specialization : '',
+        qualification:'',
+        diplomaNumber: '',
+        diplomaDate: '',
+        totalExperience: '',
+        continuousExperience: '',
+        hiringDate: '',
+        hiringOrderNumber: '',
+        hiringOrderDate: '',
+        lastWorkplace: '',
+        terminationDate: '',
+        terminationReason: '',
+    });
 
-//   const[activeTab, setActiveTab] = React.useState<string>("Загальні відомості");
-//   const [scientificDegree, setScientificDegree] = React.useState('008');
+    const [checkboxes, setCheckboxes] = useState<CheckboxState>({
+        fullTime: true,
+        partTime25: false,
+        partTime50: false,
+        partTime75: false,
+        coWorker: false,
+        externalCoWorker: false,
+        temporaryWorker: false,
+        postalPaidTeacher: false,
+        scientificCandiate: false,
+        scientificDoctor: false,
+        academician: false,
+        chernobyl1: false,
+        chernobyl2: false,
+        chernobyl3: false,
+        chernobyl4: false,
+        disability1: false,
+        disability2: false,
+        disability3: false,
+    });
 
-//   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     setCheckboxes({
-//       ...checkboxes,
-//       [event.target.name]: event.target.checked
-//     });
-//   }
+    useEffect(() => {
+        if(id){
+            fetchemployeeData(id);
+        }
+    }, [id]);
 
-//   const handleSelectChange = (event: SelectChangeEvent) => {
-//     setScientificDegree(event.target.value);
-//   }
-//   // Handle text field changes
-//   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>): void => {
-//     const { name, value } = event.target;
-//     setEmployeeData({
-//       ...employeeData,
-//       [name]: value
-//     });
-//   };
+    const fetchemployeeData = async (employeeId: string) => {
+        setLoading(true);
+        try{
+            const responce = await fetch(`http://localhost:3001/employees/${employeeId}`);
+            if(responce.ok){
+                const data = await responce.json();
+                setEmployeeData(data);
+            } 
+        } catch(error){
+            console.error('Error fetching employee data: ', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-//   const handleTabChange = (tab: string) => {
-//     setActiveTab(tab);
-//   }
+    const handleInputChange = (field: keyof EmployeeData, value: string) => {
+        setEmployeeData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    }
 
-//   // Education options
-//   const educationOptions = [
-//     { value: 'higher', label: 'Вища' },
-//     { value: 'secondary', label: 'Середня' },
-//     { value: 'vocational', label: 'Професійно-технічна' }
-//   ];
+    const handleCheckboxChange = (field: keyof CheckboxState, checked: boolean) => {
+        setCheckboxes(prev => ({
+            ...prev,
+            [field]: checked
+        }))
+    }
 
-//   // Education type options
-//   const educationTypeOptions = [
-//     { value: 'full-time', label: 'Денний' },
-//     { value: 'part-time', label: 'Заочний' },
-//     { value: 'evening', label: 'Вечірній' }
-//   ];
+    const handleSave = async () => {
+        setLoading(true);
+        try{
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `http://localhost:3001/employees/${id}` : 'http://localhost:3001/employees';
+            const responce = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(employeeData),
+            });
 
-//   // Contract type options
-//   const contractTypeOptions = [
-//     { value: 'contract', label: 'Контракт' },
-//     { value: 'permanent', label: 'Постійний' },
-//     { value: 'temporary', label: 'Тимчасовий' }
-//   ];
+            if(responce.ok){
+                navigate('../personal_card/searchBySurname');
+            }
+        } catch(error) {
+            console.error('Error saving employee data: ', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-//   // Termination reason options
-//   const terminationReasonOptions = [
-//     { value: 'voluntary', label: 'За власним бажанням, ст.38 КЗпП України' },
-//     { value: 'agreement', label: 'За згодою сторін' },
-//     { value: 'contract-end', label: 'Закінчення строку контракту' }
-//   ];
+    const handleDelete = async () => {
+        if(!id) return;
 
-//   const tabs = [
-//     'Загальні відомості', 
-//     'Загальні відомості-2', 
-//     'Призначення і переведення', 
-//     'Відпустки', 
-//     'Додат. відомості'
-//   ]
-
-//   return (
-//     <Container maxWidth="xl" sx={{ py: 2 }}>
-//       <Paper elevation={3} sx={{ p: 2 }}>
-//         {/* Form Header */}
-//         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-//           <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Особова картка працівника</Typography>
-//           <Typography variant="caption">Форма № П-2</Typography>
-//         </Box>
-
-//         {/* Tab-like Buttons */}
-//         <Box sx={{ 
-//           display: 'flex', 
-//           flexWrap: 'wrap', 
-//           gap: 1, 
-//           borderBottom: 1, 
-//           borderColor: 'divider', 
-//           mb: 2, 
-//           pb: 1 
-//         }}>
-//           {tabs.map((tab) => (
-//             <Button 
-//               key={tab} 
-//               variant={activeTab === tab ? "outlined" : "contained"}
-//               size="small"
-//               onClick={() => handleTabChange(tab)}
-//               sx={{ 
-//                 textTransform: 'none',
-//                 borderRadius: 0
-//               }}
-//             >
-//               {tab}
-//             </Button>
-//           ))}
-//         </Box>
-//         {activeTab === 'Загальні відомості' && (
-//           <Grid container spacing={2}>
-//             {/* Left Column */}
-//             <Grid item xs={12} md={6}>
-//               {/* Identification Codes */}
-//               <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-//                 <TextField 
-//                   label="Ідентифікаційний код"
-//                   name="identificationCode"
-//                   value={employeeData.identificationCode}
-//                   onChange={handleChange}
-//                   size="small" 
-//                   fullWidth 
-//                 />
-//                 <TextField 
-//                   label="Таб №"
-//                   name="taxNumber"
-//                   value={employeeData.taxNumber}
-//                   onChange={handleChange}
-//                   size="small" 
-//                   sx={{ width: 100 }} 
-//                 />
-//               </Box>
-
-//               {/* Insurance and Personal Card Numbers */}
-//               <TextField 
-//                 label="Страхове свідоцтво №"
-//                 name="insuranceNumber"
-//                 value={employeeData.insuranceNumber}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
-
-//               <TextField 
-//                 label="Особова картка №"
-//                 name="personalCardNumber"
-//                 value={employeeData.personalCardNumber}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
-
-//               {/* Personal Information */}
-//               <TextField 
-//                 label="1. Прізвище"
-//                 name="lastName"
-//                 value={employeeData.lastName}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
-
-//               <TextField 
-//                 label="Ім'я"
-//                 name="firstName"
-//                 value={employeeData.firstName}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
-
-//               <TextField 
-//                 label="По батькові"
-//                 name="patronymic"
-//                 value={employeeData.patronymic}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
-
-//               {/* Birth Date */}
-//               <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-//                 <TextField 
-//                   label="2. Рік народження"
-//                   name="birthYear"
-//                   size="small" 
-//                   sx={{ width: 100 }} 
-//                 />
-//                 <TextField 
-//                   label="Місяць"
-//                   name="birthMonth"
-//                   size="small" 
-//                   sx={{ width: 100 }} 
-//                 />
-//                 <TextField 
-//                   label="Число"
-//                   name="birthDay"
-//                   size="small" 
-//                   sx={{ width: 100 }} 
-//                 />
-//               </Box>
-
-//               {/* Birth Place */}
-//               <TextField 
-//                 label="3. Місце народження"
-//                 name="birthPlace"
-//                 value={employeeData.birthPlace}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
-
-//               {/* Education Section */}
-//               <Box sx={{ mb: 1 }}>
-//                 <Typography variant="subtitle2" sx={{ mb: 1 }}>4. Освіта</Typography>
+        if(confirm('Ви впевнені, що хочете видалити цю картку?')){
+            try{
+                const responce = await fetch(`http://localhost:3001/employees/${id}`, {
+                    method: 'DELETE',
+                });
                 
-//                 <FormControl fullWidth size="small" sx={{ mb: 1 }}>
-//                   <InputLabel>а) Рівень освіти</InputLabel>
-//                   <Select
-//                     name="education"
-//                     value={employeeData.education}
-//                     label="а) Рівень освіти"
-//                     onChange={handleChange}
-//                   >
-//                     {educationOptions.map((option) => (
-//                       <MenuItem key={option.value} value={option.value}>
-//                         {option.label}
-//                       </MenuItem>
-//                     ))}
-//                   </Select>
-//                 </FormControl>
+                if(responce.ok){
+                    navigate('../personal_card/searchBySurname');
+                }
+            } catch(error) {
+                console.error('Error deleting employee data: ', error);
+            }
+        }
+    };
 
-//                 <TextField 
-//                   label="б) Назва і дата закінчення ВУЗу"
-//                   name="educationInstitution"
-//                   value={employeeData.educationInstitution}
-//                   onChange={handleChange}
-//                   size="small" 
-//                   fullWidth 
-//                   sx={{ mb: 1 }}
-//                 />
+    const educationOptions = [
+        { value: 'higher', label: 'Вища' },
+        { value: 'secondary', label: 'Середня' },
+        { value: 'vocational', label: 'Професійно-технічна' },
+    ];
 
-//                 <TextField 
-//                   label="в) Назва і дата закінчення ПТУ"
-//                   name="vocationalSchool"
-//                   size="small" 
-//                   fullWidth 
-//                   sx={{ mb: 1 }}
-//                 />
+    const educationTypeOptions = [
+        { value: 'full-time', label: 'Денна' },
+        { value: 'part-time', label: 'Заочна' },
+        { value: 'external', label: 'Вечірня' },
+    ];
 
-//                 <FormControl fullWidth size="small">
-//                   <InputLabel>г) Вид навчання</InputLabel>
-//                   <Select
-//                     name="educationType"
-//                     value={employeeData.educationType}
-//                     label="г) Вид навчання"
-//                     onChange={handleChange}
-//                   >
-//                     {educationTypeOptions.map((option) => (
-//                       <MenuItem key={option.value} value={option.value}>
-//                         {option.label}
-//                       </MenuItem>
-//                     ))}
-//                   </Select>
-//                 </FormControl>
-//               </Box>
+    const contractTypeOtions = [
+        { value: 'permanent', label: 'Постійний' },
+        { value: 'temporary', label: 'Тимчасовий' },
+        { value: 'contract', label: 'Контракт' },
+    ];
 
-//               {/* Department and Position */}
-//               <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-//                 <FormControl size="small" sx={{ width: 120 }}>
-//                   <InputLabel>Підрозділ</InputLabel>
-//                   <Select
-//                     name="department"
-//                     value={employeeData.department}
-//                     label="Підрозділ"
-//                     onChange={handleChange}
-//                   >
-//                     <MenuItem value="08">08</MenuItem>
-//                     <MenuItem value="01">01</MenuItem>
-//                     <MenuItem value="02">02</MenuItem>
-//                   </Select>
-//                 </FormControl>
+    const terminationReasonOptions = [
+        { value: 'resignation', label: 'Звільнення за власним бажанням,  ст.38 КЗпП України' },
+        { value: 'contract-end', label: 'Закінчення строку контракту' },
+        { value: 'agreement', label: 'За згодою сторін' },
+    ]
 
-//                 <FormControl size="small" sx={{ flexGrow: 1 }}>
-//                   <InputLabel>Посада</InputLabel>
-//                   <Select
-//                     name="position"
-//                     value={employeeData.position}
-//                     label="Посада"
-//                     onChange={handleChange}
-//                   >
-//                     <MenuItem value="senior_lecturer">Старший викладач</MenuItem>
-//                     <MenuItem value="lecturer">Викладач</MenuItem>
-//                     <MenuItem value="assistant">Асистент</MenuItem>
-//                   </Select>
-//                 </FormControl>
-//               </Box>
-//             </Grid>
+    if(loading){
+        return(
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent animate-spin rounded-full"></div>
+            </div>
+        )
+    }
 
-//             {/* Right Column */}
-//             <Grid item xs={12} md={6}>
-//               {/* Gender and Working Since */}
-//               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-//                 <Typography variant="body2">Стать</Typography>
-//                 <FormControlLabel 
-//                   control={
-//                     <Checkbox />
-//                   }
-//                   label="Чоловічий"
-//                 />
-//                 <FormControlLabel 
-//                   control={
-//                     <Checkbox />
-//                   }
-//                   label="Жіночий"
-//                 />
-//                 <TextField 
-//                   label="В інституті працює з"
-//                   name="workingSince"
-//                   value={employeeData.workingSince}
-//                   onChange={handleChange}
-//                   size="small" 
-//                   sx={{ ml: 2, width: 100 }}
-//                 />
-//                 <Typography variant="body2">року</Typography>
-//               </Box>
+    return (
+        <div className="container mx-auto p-4 max-w-7xl">
+            <Card className="shadow-lg">
+                <CardHeader className="border-b">
+                    <div className="flex justify-between items-center">
+                        <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                            <User className="h-6 w-6" />
+                            Особиста картка працівника
+                        </CardTitle>
+                    </div>
+                </CardHeader>
 
-//               {/* Specialization and Qualification */}
-//               <TextField 
-//                 label="5. Спеціальність за дипломом"
-//                 name="specialization"
-//                 value={employeeData.specialization}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
+                <CardContent className="p-6">
+                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                        <TabsList className="grid w-full grid-cols-5 mb-6">
+                            <TabsTrigger value="general" className="flex items-center gap-2">
+                                <User className="h-4 w-4" />
+                                Загальна відомості
+                            </TabsTrigger>
+                            <TabsTrigger value="general2" className="flex items-center gap-2">
+                                <FileText className="h-4 w-4" />
+                                Загальні відомості-2
+                            </TabsTrigger>
+                            <TabsTrigger value="appointments" className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4" />
+                                Призначення
+                            </TabsTrigger>
+                            <TabsTrigger value="vacations" className="flex items-center gap-2">
+                                <Clock className="h-4 w-4" />
+                                Відпустки
+                            </TabsTrigger>
+                            <TabsTrigger value="additional" className="flex items-center gap-2">
+                                <Settings className="h-4 w-4" />
+                                Додат. відомості
+                            </TabsTrigger>
+                        </TabsList>
 
-//               <TextField 
-//                 label="6. Кваліфікація за дипломом"
-//                 name="qualification"
-//                 value={employeeData.qualification}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
+                        <TabsContent value="general" className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="spacr-y-4">
+                                    <div className="flex gap-4">
+                                        <div className="flex-1">
+                                            <Label htmlFor="identificationCode">Ідентифікаційний код</Label>
+                                            <Input 
+                                                id="identificationCode"
+                                                value={employeeData.identificationCode}
+                                                onChange={(e) => handleInputChange('identificationCode', e.target.value)}
+                                                className="mt-1"
+                                            />
+                                        </div>
+                                        <div className="w-24">
+                                            <Label htmlFor="taxNumber">Таб №</Label>
+                                            <Input 
+                                                id="taxNumber"
+                                                value={employeeData.taxNumber}
+                                                onChange={(e) => handleInputChange('taxNumber', e.target.value)}
+                                                className="mt-1"
+                                            />
+                                        </div>
+                                    </div>
 
-//               {/* Diploma Details */}
-//               <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-//                 <TextField 
-//                   label="Диплом №"
-//                   name="diplomaNumber"
-//                   value={employeeData.diplomaNumber}
-//                   onChange={handleChange}
-//                   size="small" 
-//                   sx={{ flexGrow: 1 }} 
-//                 />
-//                 <TextField 
-//                   label="Дата"
-//                   name="diplomaDate"
-//                   placeholder="ДД.ММ.РРРР"
-//                   size="small" 
-//                   sx={{ width: 150 }} 
-//                 />
-//               </Box>
+                                    <div>
+                                        <Label htmlFor="personalCardNumber">Особова картка</Label>
+                                        <Input 
+                                            id="personalCardNumber"
+                                            value={employeeData.personalCardNumber}
+                                            onChange={(e) => handleInputChange('personalCardNumber', e.target.value)}
+                                            className="mt-1"
+                                        />
+                                    </div>
 
-//               {/* Experience */}
-//               <TextField 
-//                 label="7. Загальний стаж роботи"
-//                 name="totalExperience"
-//                 value={employeeData.totalExperience}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
+                                    <Separator />
 
-//               <Box sx={{ mb: 1 }}>
-//                 <TextField 
-//                   label="8. Безперервний стаж роботи"
-//                   name="continuousExperience"
-//                   value={employeeData.continuousExperience}
-//                   onChange={handleChange}
-//                   size="small" 
-//                   fullWidth 
-//                   sx={{ mb: 1 }}
-//                 />
+                                    <div>
+                                        <Label htmlFor="lastName">Прізвище</Label>
+                                        <Input 
+                                            id="lastName"
+                                            value={employeeData.lastName}
+                                            onChange={(e) => handleInputChange('lastName', e.target.value)}
+                                            className="mt-1"
+                                        />
+                                    </div>  
 
-//                 <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-//                   <TextField 
-//                     label="Дата прийому в НТУ"
-//                     name="hiringDate"
-//                     placeholder="ДД.ММ.РРРР"
-//                     size="small" 
-//                     sx={{ flexGrow: 1 }}
-//                   />
-//                   <TextField 
-//                     label="№ наказу"
-//                     name="hiringOrderNumber"
-//                     value={employeeData.hiringOrderNumber}
-//                     onChange={handleChange}
-//                     size="small" 
-//                     sx={{ width: 120 }}
-//                   />
-//                 </Box>
+                                    <div>
+                                        <Label htmlFor="firstName">Ім'я</Label>
+                                        <Input 
+                                            id="firstName"
+                                            value={employeeData.firstName}
+                                            onChange={(e) => handleInputChange('firstName', e.target.value)}
+                                            className="mt-1"
+                                        />
+                                    </div>
 
-//                 <TextField 
-//                   label="Дата наказу на прийом"
-//                   name="hiringOrderDate"
-//                   placeholder="ДД.ММ.РРРР"
-//                   size="small" 
-//                   fullWidth 
-//                 />
-//               </Box>
+                                    <div>
+                                        <Label htmlFor="fatherly">По-батькові</Label>
+                                        <Input 
+                                            id="fatherly"
+                                            value={employeeData.patronymic}
+                                            onChange={(e) => handleInputChange('patronymic', e.target.value)}
+                                            className="mt-1"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </TabsContent> 
+                    </Tabs>
+                </CardContent>
+            </Card>
+        </div>
+    )
+}
 
-//               {/* Last Workplace */}
-//               <TextField 
-//                 label="9. Останнє місце роботи, посада, професія"
-//                 name="lastWorkplace"
-//                 value={employeeData.lastWorkplace}
-//                 onChange={handleChange}
-//                 size="small" 
-//                 fullWidth 
-//                 sx={{ mb: 1 }}
-//               />
-
-//               {/* Termination Details */}
-//               <Box sx={{ mb: 1 }}>
-//                 <TextField 
-//                   label="10. Дата звільнення"
-//                   name="terminationDate"
-//                   placeholder="ДД.ММ.РРРР"
-//                   size="small" 
-//                   fullWidth 
-//                   sx={{ mb: 1 }}
-//                 />
-
-//                 <FormControl fullWidth size="small">
-//                   <InputLabel>Причина звільнення</InputLabel>
-//                   <Select
-//                     name="terminationReason"
-//                     value={employeeData.terminationReason}
-//                     label="Причина звільнення"
-//                     onChange={handleChange}
-//                   >
-//                     {terminationReasonOptions.map((option) => (
-//                       <MenuItem key={option.value} value={option.value}>
-//                         {option.label}
-//                       </MenuItem>
-//                     ))}
-//                   </Select>
-//                 </FormControl>
-//               </Box>
-
-//               {/* Contract Details */}
-//               <Grid container spacing={1}>
-//                 <Grid item xs={12} sm={5}>
-//                   <FormControl fullWidth size="small">
-//                     <InputLabel>Трудова угода</InputLabel>
-//                     <Select
-//                       name="contractType"
-//                       value={employeeData.contractType}
-//                       label="Трудова угода"
-//                       onChange={handleChange}
-//                     >
-//                       {contractTypeOptions.map((option) => (
-//                         <MenuItem key={option.value} value={option.value}>
-//                           {option.label}
-//                         </MenuItem>
-//                       ))}
-//                     </Select>
-//                   </FormControl>
-//                 </Grid>
-//                 <Grid item xs={12} sm={7}>
-//                   <TextField 
-//                     label="Термін закінч. труд угоди"
-//                     name="contractEndDate"
-//                     placeholder="ДД.ММ.РРРР"
-//                     size="small" 
-//                     fullWidth 
-//                   />
-//                 </Grid>
-//               </Grid>
-//             </Grid>
-//           </Grid>
-//         )}
-
-//         {activeTab === 'Загальні відомості-2' && (
-//           <Grid container spacing={2}>
-//             <Grid item xs={12}> 
-//               <Typography variant='h6' sx={{ mb: 2 }}>Додаткові відомості</Typography>
-//               <Box sx = {{ mb:2 }}>
-//                 <Typography variant='subtitle1'>11. Родинний стан</Typography>
-//                 <Grid container spacing={2}>
-//                   <Grid item xs={12} sm={4}>
-//                     <FormControl fullWidth size='small'>
-//                       <InputLabel>Члени сім'ї</InputLabel>
-//                       <Select
-//                         label="Члени сім'ї"
-//                       >
-//                         <MenuItem value="spouse">Дружина/Чоловік</MenuItem>
-//                         <MenuItem value="child">Дитина</MenuItem>
-//                         <MenuItem value="parent">Батько/Мати</MenuItem>
-//                       </Select>
-//                     </FormControl>
-//                   </Grid>
-//                   <Grid item xs={12} sm={8}>
-//                     <TextField 
-//                       label="ПІБ"
-//                       size='small'
-//                       fullWidth
-//                     />
-//                   </Grid>
-//                 </Grid>
-//               </Box>
-//               <Box sx={{ mb: 2 }}>
-//                 <Typography variant="subtitle1">12. Паспорт</Typography>
-//                 <Grid container spacing={2}>
-//                   <Grid item xs={12} sm={4}>
-//                     <TextField 
-//                       label="Серія"
-//                       size='small'
-//                       fullWidth
-//                     />
-//                   </Grid>
-//                   <Grid item xs={12} sm={4}>
-//                     <TextField
-//                       label="Ким виданий"
-//                       size='small'
-//                       fullWidth
-//                     />
-//                   </Grid>
-//                   <Grid item xs={12} sm={6}>
-//                     <TextField 
-//                       label="Дата видачі"
-//                       size='small'
-//                       fullWidth
-//                       placeholder='ДД.ММ.РРРР'
-//                     />
-//                   </Grid>
-//                 </Grid>
-//               </Box>
-//               <Box sx={{ mb: 2 }}>
-//                 <Typography variant='subtitle1'>13-14. Контактна інформація</Typography>
-//                 <TextField 
-//                   label='Домашня адреса'
-//                   size='small'
-//                   fullWidth
-//                   sx={{ mb: 1 }}
-//                 />
-//                 <Grid container spacing={2}>
-//                   <Grid item xs={12} sm={6}>
-//                     <TextField
-//                       label='Телефон'
-//                       size='small'
-//                       fullWidth 
-//                     />
-//                   </Grid>
-//                   <Grid item xs={12} sm={6}>
-//                     <TextField 
-//                       label='Мобільний телефон'
-//                       size='small'
-//                       fullWidth
-//                     />
-//                   </Grid>
-//                 </Grid>
-//               </Box>
-//             </Grid>
-//           </Grid>
-//         )}
-
-//         { activeTab === 'Призначення і переведення' && (
-//           <TableContainer sx={{ border: 1, borderColor: 'divider', mb: 1, maxHeight: 400 }}>
-//             <Table size='small' stickyHeader>
-//               <TableHead>
-//                 <TableRow sx={{ backgroundColor: '#f5f5f5'}}>
-//                   <TableCell sx={{ width: 30}}>#</TableCell>
-//                   <TableCell>Дата</TableCell>
-//                   <TableCell>Підрозділ</TableCell>
-//                   <TableCell>Посада</TableCell>
-//                   <TableCell>Вид труд.договору</TableCell>
-//                   <TableCell>Оклад</TableCell>
-//                   <TableCell>Наказ №</TableCell>
-//                   <TableCell>від</TableCell>
-//                 </TableRow>
-//               </TableHead>
-//               <TableBody>
-//                 {[...Array(5)].map((_, i) => (
-//                   <TableRow key={`empty-${i}`} sx={{
-//                     '&:nth-of-type(odd)': { backgroundColor: '#f5f5f5' },
-//                     '&:hover': { backgroundColor: '#e0e0e0'}
-//                   }}>
-//                     <TableCell>{i + 1}</TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                   </TableRow>
-//                 ))}
-//               </TableBody>
-//             </Table>
-//           </TableContainer>
-//         )}
-
-//         { activeTab === 'Відпустки' && (
-//           <TableContainer sx={{ border: 1, borderColor: 'divider', mb: 1, maxHeight: 400 }}>
-//             <Table size='small' stickyHeader>
-//               <TableHead>
-//                 <TableRow>
-//                   <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Вид</TableCell>
-//                   <TableCell sx={{ backgroundColor: '#f0f0f0', width: '10%' }}>Період</TableCell>
-//                   <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Початок</TableCell>
-//                   <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Кінець</TableCell>
-//                   <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Наказ</TableCell>
-//                   <TableCell sx={{ backgroundColor: '#f0f0f0', width: '15%' }}>Від</TableCell>
-//                 </TableRow>
-//               </TableHead>
-//               <TableBody>
-//                 {[...Array(15)].map((_, index) => (
-//                   <TableRow key={index} sx={{ backgroundColor: '#d8f0d8' }}>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                     <TableCell></TableCell>
-//                   </TableRow>
-//                 ))}
-//               </TableBody>
-//             </Table>
-//           </TableContainer>
-//         )}
-
-//         { activeTab === 'Додат. відомості' && (
-//           <Box sx={{ border: 1, borderColor: 'divider', p: 1 }}>
-//             <Grid container spacing={2}>
-//               <Grid item xs={12} md={6}>
-//                 <Box sx={{ display: 'flex', mb: 2 }}>
-//                   <FormGroup sx={{ mr: 4 }}>
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.fullTime} onChange={handleCheckboxChange} name='fullTime' />}
-//                       label='Повна ставка'
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.fullTime} onChange={handleCheckboxChange} name='pathTime25' />}
-//                       label='0.25 ставки'
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.fullTime} onChange={handleCheckboxChange} name='partTime50' />}
-//                       label='0.50 ставки'
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.fullTime} onChange={handleCheckboxChange} name='partTime75' />}
-//                       label='0.75 ставки'
-//                     />
-//                   </FormGroup>
-//                   <FormGroup>
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.coWorker} onChange={handleCheckboxChange} name='coWorker' />}
-//                       label='Сумісник'
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.externalCoWorker} onChange={handleCheckboxChange} name='externalCoWorker' />}
-//                       label='Сумісник зі сторони'
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.temporaryWorker} onChange={handleCheckboxChange} name='temporaryWorker' />}
-//                       label='Працює тимчасово'
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.postalPaidTeacher} onChange={handleCheckboxChange} name='postalPaidTeacher' />}
-//                       label='Викладач з почасовою оплатою'
-//                     />
-//                   </FormGroup>
-//                 </Box>
-//                 <Box sx={{ mb: 2 }}>
-//                   <Typography variant='body2'>Вчене звання</Typography>
-//                   <TextField 
-//                     size='small'
-//                     fullWidth
-//                     sx={{ mb: 1 }}
-//                   />
-//                 </Box>
-//               </Grid>
-//               <Grid item xs={12} md={6}>
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <Typography variant="body2" sx={{ minWidth: 150 }}>Розширена зона</Typography>
-//                   <TextField
-//                     size="small"
-//                     defaultValue="0.00"
-//                     sx={{ width: 80 }}
-//                   />
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <FormControlLabel 
-//                     control={<Checkbox checked={checkboxes.scientificCandidate} onChange={handleCheckboxChange} name="scientificCandidate" />} 
-//                     label="Кандидат наук" 
-//                     sx={{ minWidth: 150 }}
-//                   />
-//                   <Button
-//                     variant="outlined"
-//                     size="small"
-//                     sx={{ width: 100 }}
-//                   >
-//                     Карта канд.
-//                   </Button>
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <FormControlLabel 
-//                     control={<Checkbox checked={checkboxes.scientificDoctor} onChange={handleCheckboxChange} name="scientificDoctor" />} 
-//                     label="Доктор наук" 
-//                     sx={{ minWidth: 150 }}
-//                   />
-//                   <Button
-//                     variant="outlined"
-//                     size="small"
-//                     sx={{ width: 100 }}
-//                   >
-//                     Карта докт.
-//                   </Button>
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <FormControlLabel 
-//                     control={<Checkbox checked={checkboxes.academician} onChange={handleCheckboxChange} name="academician" />} 
-//                     label="Академік" 
-//                     sx={{ minWidth: 150 }}
-//                   />
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <Typography variant="body2" sx={{ minWidth: 150 }}>Галузь вчен.ступені:</Typography>
-//                   <FormControl size="small" sx={{ width: 120 }}>
-//                     <Select
-//                       value={scientificDegree}
-//                       onChange={handleSelectChange}
-//                       displayEmpty
-//                     >
-//                       <MenuItem value="008">008</MenuItem>
-//                       <MenuItem value="007">007</MenuItem>
-//                       <MenuItem value="009">009</MenuItem>
-//                     </Select>
-//                   </FormControl>
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <Typography variant="body2" sx={{ minWidth: 150 }}>Рік присвоєння останнього вченого звання:</Typography>
-//                   <TextField
-//                     size="small"
-//                     defaultValue="2004"
-//                     sx={{ width: 80 }}
-//                   />
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <Typography variant="body2" sx={{ minWidth: 150 }}>Рік останнього підвищення кваліфікації</Typography>
-//                   <TextField
-//                     size="small"
-//                     defaultValue="2023"
-//                     sx={{ width: 80 }}
-//                   />
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <Typography variant="body2" sx={{ minWidth: 150 }}>Загальний науково-педагогічний стаж</Typography>
-//                   <TextField
-//                     size="small"
-//                     defaultValue="24"
-//                     sx={{ width: 80 }}
-//                   />
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <Typography variant="body2" sx={{ minWidth: 70 }}>Філія</Typography>
-//                   <TextField
-//                     size="small"
-//                     fullWidth
-//                   />
-//                 </Box>
-//               </Grid>
-
-//               {/* Chernobyl section */}
-//               <Grid item xs={12} md={6}>
-//                 <Box sx={{ border: 1, borderColor: 'divider', p: 1 }}>
-//                   <Typography variant="body2" sx={{ mb: 1 }}>Чорнобилець:</Typography>
-//                   <FormGroup sx={{ display: 'flex', flexDirection: 'row', mb: 1 }}>
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.chernobyl1} onChange={handleCheckboxChange} name="chernobyl1" />} 
-//                       label="1 кат." 
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.chernobyl2} onChange={handleCheckboxChange} name="chernobyl2" />} 
-//                       label="2 кат." 
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.chernobyl3} onChange={handleCheckboxChange} name="chernobyl3" />} 
-//                       label="3 кат." 
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.chernobyl4} onChange={handleCheckboxChange} name="chernobyl4" />} 
-//                       label="4 кат." 
-//                     />
-//                   </FormGroup>
-//                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-//                     <Typography variant="body2" sx={{ minWidth: 270 }}>№ посвідчення чорнобильця, коли і ким видане:</Typography>
-//                     <TextField
-//                       size="small"
-//                       fullWidth
-//                     />
-//                   </Box>
-//                 </Box>
-//               </Grid>
-
-//               {/* Disability section */}
-//               <Grid item xs={12} md={6}>
-//                 <Box sx={{ border: 1, borderColor: 'divider', p: 1 }}>
-//                   <Typography variant="body2" sx={{ mb: 1 }}>Інвалід:</Typography>
-//                   <FormGroup sx={{ display: 'flex', flexDirection: 'row', mb: 1 }}>
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.disability1} onChange={handleCheckboxChange} name="disability1" />} 
-//                       label="1 групи" 
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.disability2} onChange={handleCheckboxChange} name="disability2" />} 
-//                       label="2 групи" 
-//                     />
-//                     <FormControlLabel 
-//                       control={<Checkbox checked={checkboxes.disability3} onChange={handleCheckboxChange} name="disability3" />} 
-//                       label="3 групи" 
-//                     />
-//                   </FormGroup>
-//                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-//                     <Typography variant="body2" sx={{ minWidth: 200 }}>№ посвідчення, коли і ким видане:</Typography>
-//                     <TextField
-//                       size="small"
-//                       fullWidth
-//                     />
-//                   </Box>
-//                 </Box>
-//               </Grid>
-
-//               {/* Additional Information */}
-//               <Grid item xs={12}>
-//                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
-//                   <Typography variant="body2" sx={{ minWidth: 120 }}>Додаткові відомості</Typography>
-//                   <Box sx={{ flexGrow: 1 }}>
-//                     <TextField
-//                       size="small"
-//                       fullWidth
-//                       sx={{ mb: 1 }}
-//                     />
-//                     <TextField
-//                       size="small"
-//                       fullWidth
-//                     />
-//                   </Box>
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-//                   <Typography variant="body2" sx={{ minWidth: 120 }}>Дата звільнення</Typography>
-//                   <TextField
-//                     size="small"
-//                     sx={{ width: 120 }}
-//                   />
-//                   <Typography variant="body2" sx={{ ml: 2, minWidth: 120 }}>Причина звільнення</Typography>
-//                   <FormControl size="small" sx={{ flexGrow: 1 }}>
-//                     <Select
-//                       displayEmpty
-//                     >
-//                       <MenuItem value="">Виберіть причину</MenuItem>
-//                       <MenuItem value="voluntary">За власним бажанням</MenuItem>
-//                       <MenuItem value="agreement">За згодою сторін</MenuItem>
-//                     </Select>
-//                   </FormControl>
-//                 </Box>
-
-//                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-//                   <Typography variant="body2" sx={{ minWidth: 120 }}>№ наказу на звільнення</Typography>
-//                   <TextField
-//                     size="small"
-//                     sx={{ width: 120 }}
-//                   />
-//                   <Typography variant="body2" sx={{ ml: 2, minWidth: 120 }}>Дата наказу на звільнення</Typography>
-//                   <TextField
-//                     size="small"
-//                     sx={{ width: 120 }}
-//                   />
-//                 </Box>
-//               </Grid>
-//             </Grid>
-//           </Box>
-//         )}
-        
-//         <Box sx={{ 
-//           display: 'flex', 
-//           justifyContent: 'center', 
-//           gap: 2, 
-//           mt: 2 
-//         }}>
-//           <Button 
-//             variant="contained" 
-//             color="error" 
-//             size="small"
-//           >
-//             Видалити
-//           </Button>
-//           <Button 
-//             variant="contained" 
-//             color="primary" 
-//             size="small"
-//           >
-//             Друк 1-ї сторінки
-//           </Button>
-//           <Button 
-//             variant="contained" 
-//             color="primary" 
-//             size="small"
-//           >
-//             Друк 2-ї сторінки
-//           </Button>
-//         </Box>
-//       </Paper>
-//     </Container>
-//   );
-// };
-
-// export default EmployeeForm;
+export default PersonalCard;

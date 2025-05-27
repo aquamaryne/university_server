@@ -143,7 +143,7 @@ const SearchBySurname: React.FC = () => {
     };
 
     return (
-        <Card className="shadow-md">
+        <Card className="shadow-md rounded-none border-black">
             <CardHeader className="pb-2">
                 <div className="flex justify-between items-center">
                     <CardTitle className="text-2xl font-bold">

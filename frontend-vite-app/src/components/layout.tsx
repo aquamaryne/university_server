@@ -8,7 +8,7 @@ const Layout: React.FC = () => {
             <div className="flex-shrink-0">
                 <MainPage />
             </div>
-            <div className="flex-1 p-4 overflow-auto bg-gray-300 min-h-screen">
+            <div className="flex-1 p-4 overflow-auto bg-gray-200 min-h-screen">
                 <Outlet />
             </div>
         </div>
