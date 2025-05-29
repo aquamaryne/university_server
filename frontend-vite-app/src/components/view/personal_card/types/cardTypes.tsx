@@ -1,0 +1,34 @@
+export interface EmployeeData {
+    identificationCode: string;
+    taxNumber: string;
+    insuranceNumber: string;
+    personalCardNumber: string;
+    lastName: string;
+    firstName: string;
+    patronymic: string;
+    birthDate: string;
+    birthPlace: string;
+    education: string;
+    educationInstitution: string;
+    graduationYear: string;
+    educationType: string;
+    department: string;
+    position: string;
+    startDate: string;
+    contractEndDate: string;
+    contractType: string;
+    gender: string;
+    workingSince: string;
+    specialization: string;
+    qualification: string;
+    diplomaNumber: string;
+    diplomaDate: string;
+    totalExperience: string;
+    continuousExperience: string;
+    hiringDate: string;
+    hiringOrderNumber: string;
+    hiringOrderDate: string;
+    lastWorkplace: string;
+    terminationDate: string;
+    terminationReason: string;
+}
