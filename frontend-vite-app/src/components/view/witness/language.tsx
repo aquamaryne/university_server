@@ -1,82 +1,113 @@
-// import React from "react";
-// import { Box, Typography } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 
-// interface Languages{
-//     id: number;
-//     language_name: string;
-// };
+interface Language {
+    id: number;
+    language_name: string;
+    short_name: string;
+}
 
+const Language: React.FC = () => {
+    const [languages, setLanguages] = useState<Language[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
-// const Language: React.FC = () => {
-//     const[language,setLanguage] = React.useState<Languages[]>([]);
-//     React.useEffect(() => {
-//         const fetchLang = async() => {
-//             try{
-//                 const responce = await fetch('http://localhost:3001/lang');
-//                 if(!responce.ok){
-//                     throw new Error('Bad network');
-//                 }
-//                 const data: Languages[] = await responce.json();
-//                 setLanguage(data);
-//             } catch(error){
-//                 console.error('Error fetching data', error);
-//             }
-//         };
-//         fetchLang();
-//     }, []);
+    useEffect(() => {
+        const fetchLanguages = async () => {
+            setLoading(true);
+            
+            try {
+                const response = await fetch(`http://localhost:3001/languages`);
 
-//     return(
-//         <Box sx={{ width: '100%', margin: '0 auto', padding: '16px', boxSizing: 'border-box' }}>
-//             <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'center' }}>Довідник іноземних мов</Typography>
-//             <Box component='ul' sx={{ display: 'table', width: '100%', padding: 0, margin: 0, listStyleType: 'none', border: 1 }}>
-//                 <Box
-//                     component="li"
-//                     sx={{
-//                         display: "table-row",
-//                         backgroundColor: "e0e0e0"
-//                     }}
-//                 >
-//                     <Box
-//                         component='span'
-//                         sx={{
-//                             display: 'table-cell',
-//                             padding: '8px',
-//                             border: '1px solid',
-//                             textAlign: 'center',
-//                             fontWeight: 'bold',
-//                             backgroundColor: 'ThreeDHighlight'
-//                         }}
-//                     >
-//                         Назва
-//                     </Box>
-//                 </Box>
-//                     { language.map(lang => (
-//                         <Box
-//                             component="li"
-//                             key={lang.language_name}
-//                             sx={{
-//                                 display: 'table-row',
-//                                 '&:nth-of-type(odd)': {
-//                                     backgroundColor: '#f2f2f2',
-//                                 },
-//                             }}
-//                         >
-//                             <Box
-//                                 component='span'
-//                                 sx={{
-//                                     display: 'table-cell',
-//                                     padding: '8px',
-//                                     border: '1px solid',
-//                                     textAlign: 'center',
-//                                 }}
-//                             >
-//                                 <Typography variant="h6">{lang.language_name}</Typography>
-//                             </Box>
-//                         </Box>
-//                     ))}
-//                 </Box>
-//             </Box>
-//     )
-// }
+                if (!response.ok) {
+                    throw new Error('Не вдалося отримати дані мов');
+                }
+                const data: Language[] = await response.json();
+                setLanguages(data);
+                setError(null);
+            } catch (error) {
+                console.error(`Помилка завантаження даних: ${error}`);
+                setError('Помилка завантаження даних мов');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-// export default Language;
+        fetchLanguages();
+    }, []);
+
+    return (
+        <div className="bg-white shadow-md border border-black">
+            <div className="p-4 border-b border-gray-200">
+                <h1 className="text-2xl font-bold text-center mb-4">
+                    Довідник мов
+                </h1>
+                <div className="flex justify-end">
+                    <button className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded hover:bg-gray-50 text-sm">
+                        <Plus className="h-4 w-4" /> Додати мову
+                    </button>
+                </div>
+            </div>
+            <div className="p-4">
+                {loading ? (
+                    <div className="flex justify-center p-8">
+                        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent animate-spin rounded-full"></div>
+                    </div>
+                ) : error ? (
+                    <div className="p-4 text-center text-red-500">{error}</div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse border border-gray-300">
+                            <caption className="mb-4 text-sm text-gray-600">
+                                Список всіх мов НТУ
+                            </caption>
+                            <thead>
+                                <tr className="bg-gray-50">
+                                    <th className="border border-gray-300 px-4 py-3 text-center w-24">Код</th>
+                                    <th className="border border-gray-300 px-4 py-3 text-left">Назва мови</th>
+                                    <th className="border border-gray-300 px-4 py-3 text-left">Скорочена назва</th>
+                                    <th className="border border-gray-300 px-4 py-3 text-center w-32">Дії</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {languages.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={4} className="border border-gray-300 px-4 py-8 text-center text-gray-500">
+                                            Немає даних про мови
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    languages.map((language) => (
+                                        <tr key={language.id} className="hover:bg-gray-50">
+                                            <td className="border border-gray-300 px-4 py-3 text-center font-medium">
+                                                {language.id}
+                                            </td>
+                                            <td className="border border-gray-300 px-4 py-3">
+                                                {language.language_name}
+                                            </td>
+                                            <td className="border border-gray-300 px-4 py-3">
+                                                {language.short_name}
+                                            </td>
+                                            <td className="border border-gray-300 px-4 py-3 text-center">
+                                                <div className="flex justify-center gap-2">
+                                                    <button className="p-1 hover:bg-gray-200 rounded">
+                                                        <Pencil className="h-4 w-4" />
+                                                    </button>
+                                                    <button className="p-1 hover:bg-red-100 text-red-500 hover:text-red-700 rounded">
+                                                        <Trash2 className="h-4 w-4" />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default Language;
