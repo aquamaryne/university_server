@@ -7,7 +7,7 @@ interface Position {
     short_name: string;
 }
 
-const PositionPage: React.FC = () => {
+const FamilyMember: React.FC = () => {
     const [positions, setPositions] = useState<Position[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -110,4 +110,4 @@ const PositionPage: React.FC = () => {
     );
 };
 
-export default PositionPage;
+export default FamilyMember;
