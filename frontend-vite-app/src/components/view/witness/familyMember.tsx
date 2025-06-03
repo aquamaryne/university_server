@@ -40,7 +40,7 @@ const FamilyMember: React.FC = () => {
         <div className="bg-white shadow-md border border-black">
             <div className="p-4 border-b border-gray-200">
                 <h1 className="text-2xl font-bold text-center mb-4">
-                    Довідник посад
+                    Довідник членів сім'ї
                 </h1>
                 <div className="flex justify-end">
                     <button className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded hover:bg-gray-50 text-sm">
@@ -59,12 +59,12 @@ const FamilyMember: React.FC = () => {
                     <div className="overflow-x-auto">
                         <table className="w-full border-collapse border border-gray-300">
                             <caption className="mb-4 text-sm text-gray-600">
-                                Список всіх посад НТУ
+                                Список всіх членів сім'ї
                             </caption>
                             <thead>
                                 <tr className="bg-gray-50">
                                     <th className="border border-gray-300 px-4 py-3 text-center w-24">Код</th>
-                                    <th className="border border-gray-300 px-4 py-3 text-left">Назва посади</th>
+                                    <th className="border border-gray-300 px-4 py-3 text-left">Назва</th>
                                     <th className="border border-gray-300 px-4 py-3 text-left">Скорочена назва</th>
                                     <th className="border border-gray-300 px-4 py-3 text-center w-32">Дії</th>
                                 </tr>
@@ -73,7 +73,7 @@ const FamilyMember: React.FC = () => {
                                 {positions.length === 0 ? (
                                     <tr>
                                         <td colSpan={4} className="border border-gray-300 px-4 py-8 text-center text-gray-500">
-                                            Немає даних про посади
+                                            Немає даних про членів сім'ї
                                         </td>
                                     </tr>
                                 ) : (
