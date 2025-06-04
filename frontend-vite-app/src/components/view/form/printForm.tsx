@@ -6,10 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { PrinterIcon, Download, Calendar as CalendarIcon } from "lucide-react";
+import { PrinterIcon, Download, Calendar as CalendarIcon, Settings2 } from "lucide-react";
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -82,21 +81,57 @@ const PrintForm: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto p-4 max-w-7xl">
-            <Card className="shadow-lg">
-                <CardHeader>
-                    <CardTitle className="text-2xl font-bold text-center">
-                        Друк штатного формуляра
-                    </CardTitle>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 border border-black">
+            {/* Header Section */}
+            <div className="bg-white border-b border-slate-200/60 px-8 py-6">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
+                            Штатний формуляр
+                        </h1>
+                        <p className="text-slate-500 text-sm mt-1">
+                            Науково-педагогічний склад НТУ
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Button
+                            onClick={handleDownload}
+                            variant="outline"
+                            size="sm"
+                            className="border-black hover:bg-slate-50 rounded-none"
+                        >
+                            <Download className="w-4 h-4 mr-2" />
+                            Зміст
+                        </Button>
+                        <Button
+                            onClick={handlePrint}
+                            size="sm"
+                            className="bg-slate-900 hover:bg-slate-800 rounded-none"
+                        >
+                            <PrinterIcon className="w-4 h-4 mr-2" />
+                            Друк
+                        </Button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Controls Section */}
+            <Card className="mx-8 mt-6 shadow-sm rounded-none border-black w-auto">
+                <CardHeader className="pb-4">
+                    <div className="flex items-center gap-2">
+                        <Settings2 className="w-4 h-4 text-slate-400" />
+                        <CardTitle className="text-base font-medium text-slate-800">Налаштування</CardTitle>
+                    </div>
                 </CardHeader>
                 
-                <CardContent className="space-y-6">
-                    {/* Controls Section */}
-                    <div className="flex flex-wrap items-end gap-4 p-4 bg-muted/50 rounded-lg">
-                        <div className="flex-1 min-w-48">
-                            <Label htmlFor="department">Кафедра</Label>
+                <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div className="space-y-2">
+                            <Label htmlFor="department" className="text-sm font-medium text-slate-700">
+                                Кафедра
+                            </Label>
                             <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                                <SelectTrigger className="mt-1 rounded-none">
+                                <SelectTrigger className="h-10 border-black focus:border-slate-400 focus:ring-0 rounded-none">
                                     <SelectValue placeholder={loading ? "Завантаження..." : "Виберіть кафедру"} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -109,31 +144,33 @@ const PrintForm: React.FC = () => {
                             </Select>
                         </div>
 
-                        <div className="min-w-48">
-                            <Label htmlFor="startPage">Початок сторінки</Label>
+                        <div className="space-y-2">
+                            <Label htmlFor="startPage" className="text-sm font-medium text-slate-700">
+                                Початок сторінки
+                            </Label>
                             <Input
                                 id="startPage"
                                 type="number"
                                 min="1"
                                 value={startPage}
                                 onChange={handleInputChange}
-                                className="mt-1 rounded-none"
-                                placeholder="Введіть номер сторінки"
+                                className="h-10 border-black focus:border-slate-400 focus:ring-0 rounded-none"
+                                placeholder="Номер сторінки"
                             />
                         </div>
 
-                        <div className="min-w-40">
-                            <Label>Дата</Label>
+                        <div className="space-y-2">
+                            <Label className="text-sm font-medium text-slate-700">Дата</Label>
                             <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant="outline"
                                         className={cn(
-                                            "w-full mt-1 justify-start text-left font-normal rounded-none",
+                                            "w-full h-10 justify-start text-left font-normal border-black hover:bg-slate-50 rounded-none",
                                             !selectedDate && "text-muted-foreground"
                                         )}
                                     >
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        <CalendarIcon className="mr-2 h-4 w-4 text-slate-400" />
                                         {selectedDate ? (
                                             format(selectedDate, "dd MMMM yyyy", { locale: uk })
                                         ) : (
@@ -141,7 +178,14 @@ const PrintForm: React.FC = () => {
                                         )}
                                     </Button>
                                 </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
+                                <PopoverContent 
+                                    className="w-auto p-0 z-50" 
+                                    align="start"
+                                    side="bottom"
+                                    sideOffset={4}
+                                    avoidCollisions={true}
+                                    collisionPadding={16}
+                                >
                                     <Calendar
                                         mode="single"
                                         selected={selectedDate}
@@ -152,186 +196,159 @@ const PrintForm: React.FC = () => {
                                             }
                                         }}
                                         locale={uk}
-                                        initialFocus
+                                        className="rounded-none border"
+                                        autoFocus
                                     />
                                 </PopoverContent>
                             </Popover>
-                        </div>
-
-                        <Button
-                            onClick={handlePrint}
-                            className="rounded-none min-w-24"
-                            size="default"
-                        >
-                            <PrinterIcon className="mr-2 h-4 w-4" />
-                            Друк
-                        </Button>
-
-                        <Button
-                            onClick={handleDownload}
-                            variant="outline"
-                            className="rounded-none min-w-24"
-                            size="default"
-                        >
-                            <Download className="mr-2 h-4 w-4" />
-                            Зміст
-                        </Button>
-                    </div>
-
-                    <Separator />
-
-                    {/* Print Content */}
-                    <div ref={componentRef} className="print-content">
-                        <div className="text-center mb-6 space-y-2">
-                            <h4 className="text-lg font-bold m-0">ШТАТНИЙ ФОРМУЛЯР</h4>
-                            <p className="text-sm m-0">
-                                науково-педагогічного складу Національного транспортного університету
-                            </p>
-                            <p className="text-sm m-0 font-medium">
-                                на {format(selectedDate, "dd MMMM yyyy", { locale: uk })}
-                            </p>
-                        </div>
-
-                        <div className="overflow-x-auto border rounded-lg">
-                            <Table className="w-full border-collapse">
-                                <TableHeader>
-                                    <TableRow className="border-b">
-                                        <TableCell rowSpan={2} className="border text-center w-12 text-xs font-bold">
-                                            № п/п
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-32 text-xs font-bold">
-                                            Прізвище, ім'я та по-батькові
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-24 text-xs font-bold">
-                                            Посада
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-24 text-xs font-bold">
-                                            Дата вступу на посаду
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-32 text-xs font-bold">
-                                            Дисципліна, яку читає
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-20 text-xs font-bold">
-                                            Штат чи сумісник
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-20 text-xs font-bold">
-                                            Вчене звання
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-20 text-xs font-bold">
-                                            Вчений ступінь
-                                        </TableCell>
-                                        <TableCell colSpan={2} className="border text-center text-xs font-bold">
-                                            Стаж науково-пед. роботи
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-20 text-xs font-bold">
-                                            Рік останнього підвищення кваліфікації
-                                        </TableCell>
-                                        <TableCell colSpan={3} className="border text-center text-xs font-bold">
-                                            Загальні дані
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-20 text-xs font-bold">
-                                            Почесне звання
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-20 text-xs font-bold">
-                                            Іноземна мова, якою володіє
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-24 text-xs font-bold">
-                                            Звільнення, у який навч. заклад
-                                        </TableCell>
-                                        <TableCell rowSpan={2} className="border text-center w-24 text-xs font-bold">
-                                            Дата закінчення трудового договору або контракту
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow className="border-b">
-                                        <TableCell className="border text-center text-xs font-bold">
-                                            Загальний
-                                        </TableCell>
-                                        <TableCell className="border text-center text-xs font-bold">
-                                            У даному ВНЗ
-                                        </TableCell>
-                                        <TableCell className="border text-center text-xs font-bold">
-                                            Рік народження
-                                        </TableCell>
-                                        <TableCell className="border text-center text-xs font-bold">
-                                            Стать
-                                        </TableCell>
-                                        <TableCell className="border text-center text-xs font-bold">
-                                            Освіта (який навч. заклад закінч. і коли)
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow className="border-b bg-muted/30">
-                                        {Array(18).fill(0).map((_, index) => (
-                                            <TableCell key={index} className="border text-center text-xs font-bold">
-                                                {index + 1}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {Array(ITEM_PER_PAGE).fill(0).map((_, index) => (
-                                        <TableRow key={index} className="hover:bg-muted/20 transition-colors">
-                                            {Array(18).fill(0).map((_, cellIndex) => (
-                                                <TableCell key={cellIndex} className="border h-12 text-xs">
-                                                    {cellIndex === 0 ? startIndex + index + 1 : ''}
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </div>
-
-                        <div className="mt-6 text-center">
-                            <p className="text-sm font-medium">
-                                Сторінка {startPage}
-                            </p>
                         </div>
                     </div>
                 </CardContent>
             </Card>
 
-            {/* Print Styles */}
+            {/* Print Content */}
+            <Card className="mx-8 mt-6 mb-8 shadow-sm overflow-hidden rounded-none border-black">
+                <div ref={componentRef} className="print-content">
+                    {/* Document Header */}
+                    <CardHeader className="bg-slate-50">
+                        <div className="text-center space-y-3">
+                            <CardTitle className="text-xl font-bold text-slate-900 tracking-tight">
+                                ШТАТНИЙ ФОРМУЛЯР
+                            </CardTitle>
+                            <p className="text-slate-600 text-sm leading-relaxed">
+                                науково-педагогічного складу Національного транспортного університету
+                            </p>
+                            <p className="text-slate-800 font-medium text-sm">
+                                на {format(selectedDate, "dd MMMM yyyy", { locale: uk })}
+                            </p>
+                        </div>
+                    </CardHeader>
+
+                    {/* Table Container */}
+                    <CardContent className="p-6">
+                        <div className="border border-slate-200 overflow-hidden">
+                            <div className="overflow-x-auto">
+                                <Table className="w-full">
+                                    <TableHeader>
+                                        <TableRow className="bg-slate-100 hover:bg-slate-100">
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 w-16">
+                                                № п/п
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[160px]">
+                                                Прізвище, ім'я та по-батькові
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[120px]">
+                                                Посада
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[100px]">
+                                                Дата вступу на посаду
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[140px]">
+                                                Дисципліна, яку читає
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[100px]">
+                                                Штат чи сумісник
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[100px]">
+                                                Вчене звання
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[100px]">
+                                                Вчений ступінь
+                                            </TableHead>
+                                            <TableHead colSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3">
+                                                Стаж науково-пед. роботи
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[100px]">
+                                                Рік останнього підвищення кваліфікації
+                                            </TableHead>
+                                            <TableHead colSpan={3} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3">
+                                                Загальні дані
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[100px]">
+                                                Почесне звання
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[100px]">
+                                                Іноземна мова, якою володіє
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[120px]">
+                                                Звільнення, у який навч. заклад
+                                            </TableHead>
+                                            <TableHead rowSpan={2} className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[120px]">
+                                                Дата закінчення трудового договору або контракту
+                                            </TableHead>
+                                        </TableRow>
+                                        <TableRow className="bg-slate-100 hover:bg-slate-100">
+                                            <TableHead className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[80px]">
+                                                Загальний
+                                            </TableHead>
+                                            <TableHead className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[80px]">
+                                                У даному ВНЗ
+                                            </TableHead>
+                                            <TableHead className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[80px]">
+                                                Рік народження
+                                            </TableHead>
+                                            <TableHead className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[60px]">
+                                                Стать
+                                            </TableHead>
+                                            <TableHead className="border border-slate-300 text-center font-semibold text-xs text-slate-700 p-3 min-w-[140px]">
+                                                Освіта (який навч. заклад закінч. і коли)
+                                            </TableHead>
+                                        </TableRow>
+                                        <TableRow className="bg-slate-50 hover:bg-slate-50">
+                                            {Array(18).fill(0).map((_, index) => (
+                                                <TableHead key={index} className="border border-slate-300 text-center font-medium text-xs text-slate-600 p-2">
+                                                    {index + 1}
+                                                </TableHead>
+                                            ))}
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {Array(ITEM_PER_PAGE).fill(0).map((_, index) => (
+                                            <TableRow key={index} className="hover:bg-slate-50/50 transition-colors duration-200">
+                                                {Array(18).fill(0).map((_, cellIndex) => (
+                                                    <TableCell key={cellIndex} className="border border-slate-300 h-16 text-xs text-slate-700 p-3 align-top">
+                                                        {cellIndex === 0 && (
+                                                            <span className="font-medium text-slate-600">
+                                                                {startIndex + index + 1}
+                                                            </span>
+                                                        )}
+                                                    </TableCell>
+                                                ))}
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </div>
+
+                        {/* Page Footer */}
+                        <div className="mt-6 text-center">
+                            <div className="inline-flex items-center px-4 py-2 bg-slate-100">
+                                <span className="text-sm font-medium text-slate-700">
+                                    Сторінка {startPage}
+                                </span>
+                            </div>
+                        </div>
+                    </CardContent>
+                </div>
+            </Card>
+
+            {/* Enhanced Print Styles */}
             <style>{`
                 @media print {
                     @page {
                         size: A4 landscape;
-                        margin: 5mm;
+                        margin: 8mm;
                     }
                     
-                    .print-content {
-                        width: 100% !important;
-                        max-width: none !important;
+                    body {
+                        -webkit-print-color-adjust: exact;
+                        color-adjust: exact;
                         margin: 0 !important;
                         padding: 0 !important;
-                        box-shadow: none !important;
-                        border: none !important;
-                        background: white !important;
                     }
                     
-                    .print-content table {
-                        width: 100% !important;
-                        font-size: 8pt !important;
-                        border-collapse: collapse !important;
-                    }
-                    
-                    .print-content th,
-                    .print-content td {
-                        padding: 2pt !important;
-                        font-size: 6pt !important;
-                        border: 1px solid black !important;
-                    }
-                    
-                    .print-content h4 {
-                        font-size: 10pt !important;
-                        margin: 0 0 5pt 0 !important;
-                    }
-                    
-                    .print-content p {
-                        font-size: 8pt !important;
-                        margin: 0 0 3pt 0 !important;
-                    }
-                    
-                    body * {
+                    * {
                         visibility: hidden;
                     }
                     
@@ -344,8 +361,187 @@ const PrintForm: React.FC = () => {
                         position: absolute;
                         left: 0;
                         top: 0;
-                        width: 100%;
+                        width: 100% !important;
+                        height: 100% !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        box-shadow: none !important;
+                        border: none !important;
+                        background: white !important;
+                        transform: none !important;
+                        display: flex !important;
+                        flex-direction: column !important;
                     }
+                    
+                    .print-content .bg-slate-50,
+                    .print-content [class*="CardHeader"] {
+                        background-color: white !important;
+                        padding: 6pt 0 !important;
+                        margin: 0 !important;
+                        flex-shrink: 0 !important;
+                    }
+                    
+                    .print-content .p-6,
+                    .print-content [class*="CardContent"] {
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        flex: 1 !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                    }
+                    
+                    .print-content h1,
+                    .print-content .text-xl {
+                        font-size: 14pt !important;
+                        margin: 0 0 4pt 0 !important;
+                        font-weight: bold !important;
+                        text-align: center !important;
+                    }
+                    
+                    .print-content p {
+                        font-size: 9pt !important;
+                        margin: 0 0 2pt 0 !important;
+                        line-height: 1.1 !important;
+                        text-align: center !important;
+                    }
+                    
+                    .print-content .border,
+                    .print-content .overflow-hidden {
+                        border: none !important;
+                        overflow: visible !important;
+                        flex: 1 !important;
+                    }
+                    
+                    .print-content .overflow-x-auto {
+                        overflow: visible !important;
+                        width: 100% !important;
+                        flex: 1 !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                    }
+                    
+                    .print-content table {
+                        width: 100% !important;
+                        height: 100% !important;
+                        border-collapse: collapse !important;
+                        font-size: 10pt !important;
+                        margin: 0 !important;
+                        table-layout: fixed !important;
+                        flex: 1 !important;
+                    }
+                    
+                    .print-content thead {
+                        display: table-header-group;
+                    }
+                    
+                    .print-content tbody {
+                        display: table-row-group;
+                        height: 100% !important;
+                    }
+                    
+                    .print-content th,
+                    .print-content td {
+                        padding: 2pt 1pt !important;
+                        font-size: 9pt !important;
+                        line-height: 1.0 !important;
+                        border: 1pt solid #000 !important;
+                        vertical-align: middle !important;
+                        word-wrap: break-word !important;
+                        text-align: center !important;
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        text-overflow: ellipsis !important;
+                    }
+                    
+                    .print-content th {
+                        background-color: #f8f9fa !important;
+                        font-weight: bold !important;
+                        font-size: 6pt !important;
+                        padding: 1pt 0.5pt !important;
+                        line-height: 1.0 !important;
+                        height: 30pt !important;
+                        white-space: normal !important;
+                        word-break: break-word !important;
+                        hyphens: auto !important;
+                    }
+                    
+                    .print-content tbody tr {
+                        height: calc((100% - 30pt) / 7) !important;
+                    }
+                    
+                    .print-content tbody td {
+                        height: calc((100% - 30pt) / 7) !important;
+                        vertical-align: middle !important;
+                    }
+                    
+                    /* Скрываем элементы управления */
+                    .print-content .space-y-6,
+                    .print-content .grid {
+                        display: none !important;
+                    }
+                    
+                    /* ПОЛНОСТЬЮ СКРЫВАЕМ НИЖНИЙ БЛОК С ДАТОЙ И НОМЕРОМ СТРАНИЦЫ */
+                    .print-content .mt-6,
+                    .print-content .mt-6.text-center,
+                    .print-content .inline-flex {
+                        display: none !important;
+                        visibility: hidden !important;
+                    }
+                    
+                    /* Показываем только таблицу и заголовок */
+                    .print-content .text-center.space-y-3,
+                    .print-content .overflow-x-auto {
+                        display: flex !important;
+                        flex-direction: column !important;
+                    }
+                    
+                    .print-content .text-center.space-y-3 {
+                        flex-shrink: 0 !important;
+                    }
+                    
+                    /* Стили для номеров строк */
+                    .print-content tbody td:first-child {
+                        font-weight: bold !important;
+                        background-color: #f9f9f9 !important;
+                        width: 4% !important;
+                    }
+                    
+                    /* Более точные ширины столбцов */
+                    .print-content th:nth-child(1) { width: 3% !important; }
+                    .print-content th:nth-child(2) { width: 6% !important; }
+                    .print-content th:nth-child(3) { width: 4% !important; }
+                    .print-content th:nth-child(4) { width: 5% !important; }
+                    .print-content th:nth-child(5) { width: 6% !important; }
+                    .print-content th:nth-child(6) { width: 5% !important; }
+                    .print-content th:nth-child(7) { width: 5% !important; }
+                    .print-content th:nth-child(8) { width: 5% !important; }
+                    .print-content th:nth-child(9) { width: 5% !important; }
+                    .print-content th:nth-child(10) { width: 6% !important; }
+                    .print-content th:nth-child(11) { width: 5% !important; }
+                    .print-content th:nth-child(12) { width: 4% !important; }
+                    .print-content th:nth-child(13) { width: 6% !important; }
+                    .print-content th:nth-child(14) { width: 6% !important; }
+                    .print-content th:nth-child(15) { width: 5% !important; }
+                    .print-content th:nth-child(16) { width: 6% !important; }
+                    .print-content th:nth-child(17) { width: 7% !important; }
+                    .print-content th:nth-child(18) { width: 11% !important; }
+                }
+                
+                /* Scrollbar styling for better aesthetics */
+                .overflow-x-auto::-webkit-scrollbar {
+                    height: 6px;
+                }
+                
+                .overflow-x-auto::-webkit-scrollbar-track {
+                    background: #f1f5f9;
+                }
+                
+                .overflow-x-auto::-webkit-scrollbar-thumb {
+                    background: #cbd5e1;
+                }
+                
+                .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8;
                 }
             `}</style>
         </div>
