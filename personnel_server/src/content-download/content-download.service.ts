@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import PDFDocument = require('pdfkit');
 
-@Injectable()
+@Injectable() 
 export class ContentDownloadService {
     constructor(private readonly httpService: HttpService) {}
 
@@ -14,7 +14,7 @@ export class ContentDownloadService {
         const filePath = path.join(downloadDir, 'Зміст.pdf');
 
         try{
-            const response = await lastValueFrom(this.httpService.get('http://localhost:3001/domains'));
+            const response = await lastValueFrom(this.httpService.get('http://localhost:3001/faculty'));
             const domains = response.data;
             
             if(!Array.isArray(domains) || domains.length === 0){

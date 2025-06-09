@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FacultyService } from './faculty.service';
-import { Faculty } from 'src/entity/faculty';
 import { CreateFacultyDto } from 'src/dto/faculty/create';
 import { FacultyResponceDto } from 'src/dto/faculty/responce';
 import { UpdateFacultyDto } from 'src/dto/faculty/update';

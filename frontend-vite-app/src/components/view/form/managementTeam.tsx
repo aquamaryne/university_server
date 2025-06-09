@@ -4,9 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PrinterIcon, Download, Calendar as CalendarIcon, Settings2 } from 'lucide-react';
@@ -34,7 +32,6 @@ const ManagementTeam: React.FC = () => {
     const[faculty, setFaculty] = useState<Faculty[]>([]);
     const[loading, setLoading] = useState<boolean>(false);
     const[data, setData] = useState<DataItem[]>([]);
-    const [selectedDepartment, setSelectedDepartment] = useState<string>("");
     const[selectedDate, setSelectedDate] = useState<Date>(new Date());
     const[startPage, setStartPage] = useState<number>(1);
     const[isCalendarOpen, setIsCalendarOpen] = useState(false);
