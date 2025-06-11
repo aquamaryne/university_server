@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Minimize, Crop, X } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const alphabet = 'АБВГҐДЕЄЖЗІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ'.split('');
 
@@ -35,9 +36,12 @@ const SearchBySurname: React.FC = () => {
     const[selectedCard, setSelectedCard] = useState<Set<number>>(new Set());
     const[isFormOpen, setIsFormOpen] = useState(false);
     const[selectedCategory, setSelecteCategory] = useState<string>("1");
+    const[isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
     const printRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
+
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const fetchEmployees = async(queryType: 'letter' | 'search' | 'all', value: string = '') => {
         setLoading(true);
@@ -152,7 +156,7 @@ const SearchBySurname: React.FC = () => {
                     <Button 
                         variant="outline" 
                         onClick={handleOpenForm}
-                        className="rounded-none"
+                        className="rounded-none border-black"
                     >
                         {categories.find(c => c.id === selectedCategory)?.label || 'Обрати категорію'}
                     </Button>
@@ -293,8 +297,8 @@ const SearchBySurname: React.FC = () => {
                     <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleCloseForm}>
                         <Crop className="h-3 w-3" />
                     </Button>
-                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleCloseForm}>
-                    <X className="h-3 w-3" />
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleCloseForm}>
+                        <X className="h-3 w-3" />
                     </Button>
                 </div>
                 </DialogHeader>
