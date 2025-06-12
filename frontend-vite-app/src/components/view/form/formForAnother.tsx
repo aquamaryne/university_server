@@ -1,273 +1,314 @@
-// import React from 'react';
-// import { Table, TableCell, TableBody, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, FormControl, TextField, SelectChangeEvent, Typography, InputLabel } from "@mui/material";
-// import ReactToPrint, { useReactToPrint } from 'react-to-print';
-// import { LocalizationProvider  } from '@mui/x-date-pickers';
-// import { DatePicker } from '@mui/x-date-pickers';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import uk from "date-fns/locale/uk";
-// import enUS from 'date-fns/locale/en-US';
-// import PrintIcon from '@mui/icons-material/Print';
-// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import React, { useState, useEffect, useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { Calendar1Icon, PrinterIcon, DownloadIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { uk } from 'date-fns/locale';
 
-// interface Domain { 
-//     id: number;
-//     domain_name: string;
-// };
+interface Domain {
+    id: number;
+    domain_name: string;
+}
 
-// interface DataItem {
-//     id: number;
-//     name: string;
-//     position: string;
-//     hire_date: string;
-// }
+interface DataItem {
+    id: number;
+    name: string;
+    position: string;
+    hire_date: string;
+}
 
-// const ITEMS_PER_PAGE = 7;
+const ITEM_PER_PAGE = 7;
 
-// const StaffForm: React.FC = () => {
-//     const componentRef = React.useRef<HTMLDivElement>(null);
-//     const[domains, setDomains] = React.useState<Domain[]>([]);
-//     const[selecterdDepartment, setSelectedDepartment] = React.useState<string | number>("");
-//     const[data, setData] = React.useState<DataItem[]>([]);
-//     const[loading, setLoading] = React.useState<boolean>(true);
-//     const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
-//     const[startPage, setStartPage] = React.useState<number>(1);
+const StaffForm: React.FC = () => {
+    const componentRef = useRef<HTMLDivElement>(null);
+    const[domain, setDomaim] = useState<Domain[]>([]);
+    const[selectedDepartment, setSelectedDepartment] = useState<string>('');
+    const[data, setData] = useState<DataItem[]>([]);
+    const[loading, setLoading] = useState<boolean>(true);
+    const[selectedDate, setSelectedDate] = useState<Date>(new Date());
+    const[startPage, setStartPage] = useState<number>(1);
+    const[isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
 
-//     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-//         const value = parseInt(e.target.value, 7);
-//         if(!isNaN(value) && value >= 0){
-//             setStartPage(value);
-//         }
-//     };
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const value = parseInt(e.target.value, 10);
+        if(!isNaN(value) && value >= 1){
+            setStartPage(value);
+        }
+    };
 
-//     const handleChangeDate = (newValue: Date | null) => {
-//         setSelectedDate(newValue);
-//     };
+    const handleDateChange = (date: Date | undefined) => {
+        if(date){
+            setSelectedDate(date);
+            setIsCalendarOpen(false);
+        }
+    };
 
-//     const handlePrint = useReactToPrint({
-//         content: () => componentRef.current,
-//         documentTitle: 'Друк формуляра',
-//         onAfterPrint: () => console.log('Друк завершено'),
-//     });
+    const handlePrint = useReactToPrint({
+        contentRef: componentRef,
+        documentTitle: 'Друк підрозділів',
+        onAfterPrint: () => console.log('Друк завершено'),
+    });
 
-//     const handleChange = (e: SelectChangeEvent<{ value: unknown }>) => {
-//         setSelectedDepartment(e.target.value as string);
-//     };
+    const handleDepartmentChange = (value: string) => {
+        setSelectedDepartment(value);
+    };
 
-//     React.useEffect(() => {
-//         const fetchDomain = async () => {
-//             try{
-//                 const response = await fetch('http://localhost:3001/');
-//                 const data = await response.json();
-//                 setDomains(data);
-//             } catch(error){
-//                 console.error(error);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
+    useEffect(() => {
+        const fetchFaculty = async () => {
+            try{
+                const responce = await fetch('http://localhost:3001/faculty');
+                const data = await responce.json();
+                setDomaim(data);
+            } catch (error) {
+                console.error('Помилка при завантаження даних: ', error);
+            } finally { 
+                setLoading(false);
+            }
+        };
 
-//         fetchDomain();
-//     }, []);
+        fetchFaculty();
+    }, []);
 
-//     const startIndex = (startPage - 1) * ITEMS_PER_PAGE;
-//     const endIndex = startPage + ITEMS_PER_PAGE;
-//     const displayedData = data.slice(startIndex, endIndex);
+    const startIndex = (startPage - 1) * ITEM_PER_PAGE;
+    const endIndex = startIndex + ITEM_PER_PAGE;
+    const displayedData = data.slice(startIndex, endIndex);
 
-//     const handleDownload = () => {
-//         const link = document.createElement('a');
-//         link.href = 'http://localhost:3001/content-download';
-//         link.download = 'зміст.pdf';
-//         document.body.appendChild(link);
-//         link.click();
-//         document.body.removeChild(link);
-//     };
+    const handleDownload = () => {
+        const link = document.createElement('a');
+        link.href = 'http://localhost:3001/content-download';
+        link.download = 'зміст.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
-//     return (
-//         <div style={{ justifyContent: 'center', padding: '16px' }}>
-//             <FormControl>
-//                 <InputLabel>Вкажіть підрозділ</InputLabel>
-//                 <Select 
-//                     label='Кафедра'
-//                     variant="standard" 
-//                     onChange={handleChange}
-//                     sx={{ 
-//                         width: '200px', 
-//                         height: "25px", 
-//                         marginBottom: '20px', 
-//                         marginRight: "10px" 
-//                     }} 
-//                 >
-//                     <MenuItem value="" disabled>
-//                         {loading ? 'Завантаження...' : 'Вкажіть підрозділ'}
-//                     </MenuItem>
-//                     {domains.map((dom) => (
-//                         <MenuItem key={dom.id} value={dom.id}>
-//                             {dom.domain_name}
-//                         </MenuItem>
-//                     ))}
-//                 </Select>
-//             </FormControl>
-//             <TextField
-//                 color='primary'
-//                 variant='outlined'
-//                 label="Введіть початок сторінки"
-//                 sx={{ 
-//                     borderColor: '#1976d2',
-//                     width: '200px',
-//                     '& .MuiInputBase-root': {
-//                         borderRadius: 0,
-//                         height: '40.5px',
-//                     },
-//                     '& .MuiInputLabel-root': {
-//                         marginTop: '-6px',
-//                     }
-//                 }}
-//                 onChange={handleInputChange}
-//             />
-//             <LocalizationProvider 
-//                 dateAdapter={AdapterDateFns} 
-//                 adapterLocale={{ ...enUS, ...uk}}
-//             >
-//                 <DatePicker 
-//                     value={selectedDate}
-//                     onChange={handleChangeDate}
-//                     sx={{
-//                         width: '150px',
-//                         marginLeft: '10px',
-//                         '& .MuiInputBase-root': {
-//                             borderRadius: 0,
-//                             border: '1px solid #1976d2',
-//                             height: '40.5px',
-//                         }
-//                     }}
-//                 />
-//             </LocalizationProvider>
-//             <Button
-//                 variant='contained'
-//                 onClick={handlePrint}
-//                 color='primary'
-//                 endIcon={<PrintIcon />}
-//                 sx={{
-//                     border: '1px solid #1976d2',
-//                     borderRadius: 0,
-//                     height: '40.5px',
-//                     marginLeft: '10px',
-//                 }}
-//             >
-//                 Друк
-//             </Button>
-//             <Button
-//                 variant='contained'
-//                 endIcon={<ArrowDownwardIcon />}
-//                 sx={{
-//                     border: '1px solid #1976d2',
-//                     borderRadius: 0,
-//                     marginLeft: '10px',
-//                 }}
-//                 onClick={handleDownload}
-//             >
-//                 Зміст
-//             </Button>
-//             <div ref={componentRef}>
-//                 <div style={{ textAlign: "center", marginBottom: "20px", fontSize: "18px", fontFamily: 'Roboto, sans-serif' }}>
-//                     <h4 style={{margin: 0, marginBottom: "5px"}}>ФОРМУЛЯР ПІДРОЗДІЛІВ</h4>
-//                     <p style={{ margin: 0, marginBottom: "15px"}}>
-//                         на {selectedDate?.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}
-//                     </p>
-//                     <TableContainer 
-//                         ref={componentRef}
-//                         component={Paper}
-//                         sx={{
-//                             '@media print': {
-//                                 transform: 'scale(1)',
-//                                 margin: '3mm',
-//                                 border: '1px solid black',
-//                                 width: 'calc(100% - 5mm)',
-//                             },
-//                             '@page': {
-//                                 size: 'A4 landscape',
-//                             }
-//                         }}
-//                     >
-//                         <Table
-//                             size="small"
-//                             sx={{
-//                                 tableLayout: 'fixed',
-//                                 borderCollapse: 'collapse',
-//                                 padding: 'center',
-//                                 fontFamily: 'Roboto, sans-serif',
-//                                 '& th': {
-//                                     border: '1px solid black',
-//                                     padding: '4px',
-//                                     textAlign: 'center',
-//                                 },
-//                                 "& td": {
-//                                     border: 'none',
+    return (
+        <div className='p-4 spacy-y-6'>
+            <Card className='rounded-none border-black'>
+                <CardContent className='p-4'>
+                    <div className='flex flex-wrap gap-4 items-end'>
+                        <div className='space-y-2'>
+                            <Label htmlFor='department'>Вкажіть підрозділ</Label>
+                            <Select onValueChange={handleDepartmentChange} disabled={loading}>
+                                <SelectTrigger className='w-[250px] rounded-none' id='department'>
+                                    <SelectValue placeholder={loading ? 'Завантаження...' : 'Вкажіть підрозділ'} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {domain.map((domains) => (
+                                        <SelectItem key={domains.id} value={domains.id.toString()}>
+                                            {domains.domain_name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
 
-//                                 },
-//                                 '@media print': {
-//                                     '& th, & td': {
-//                                         fontSize: '9px',
-//                                     }
-//                                 }
-//                             }}
-//                         >
-//                             <TableHead>
-//                                 <TableRow>
-//                                     <TableCell rowSpan={2}>№ п/п</TableCell>
-//                                     <TableCell rowSpan={2}>Прізвище, ім'я та по-батькові</TableCell>
-//                                     <TableCell rowSpan={2}>Посада</TableCell>
-//                                     <TableCell rowSpan={2}>Дата вступу на посаду</TableCell>
-//                                     <TableCell rowSpan={2}>Штат чи сумісник</TableCell>
-//                                     <TableCell colSpan={2}>Стаж науково-пед. роботи</TableCell>
-//                                     <TableCell colSpan={3}>Загальні дані</TableCell>
-//                                     <TableCell rowSpan={2}>Дата закінчення трудового договору або контракту</TableCell>
-//                                 </TableRow>
-//                                 <TableRow>
-//                                     <TableCell align="center">Загальний</TableCell>
-//                                     <TableCell align="center">У даному ВНЗ</TableCell>
-//                                     <TableCell align="center">Рік народження</TableCell>
-//                                     <TableCell align="center">Стать</TableCell>
-//                                     <TableCell align="center">Освіта (який навч. заклад закінч. і коли)</TableCell>
-//                                 </TableRow>
-//                                 <TableRow>
-//                                     {Array(11).fill(0).map((_, index) => (
-//                                         <TableCell key={index} align="center">
-//                                             {index + 1}
-//                                         </TableCell>
-//                                     ))}
-//                                 </TableRow>
-//                             </TableHead>
-//                             <TableBody
-//                                 sx={{
-//                                     transition: 'background-color 0.3s ease-in-out',
-//                                     "&:hover": {
-//                                         backgroundColor: "rgba(25, 118, 210, 0.2)",
-//                                         cursor: 'pointer',
-//                                     }
-//                                 }}
-//                             >
-//                                 {/**
-//                                  * тут короче надо сделать
-//                                  * вывод из базы данных для административных сотрудников
-//                                  * вот да
-//                                  * и ура победа
-//                                  */}
-//                                 {displayedData.map((item) => (
-//                                     <h1></h1>
-//                                 ))}
-//                             </TableBody>
-//                         </Table>
-//                     </TableContainer>
-//                     <div style={{ marginTop: '20px'}}>
-//                         <Typography variant="body1" sx={{ fontFamily: 'Roboto, sans-serif' }}>
-//                             {`「${startPage}」`}
-//                         </Typography>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
+                        <div className='space-y-2'>
+                            <Label htmlFor='startPage'>Початок стрінки</Label>
+                            <Input 
+                                id='startPage'
+                                type='number'
+                                placeholder='Вкажіть номер'
+                                value={startPage}
+                                onChange={handleInputChange}
+                                className='w-[200px] rounded-none'
+                                min="1"
+                            />
+                        </div>
 
-// export default StaffForm;
+                        <div className='space-y-2'>
+                            <Label>Дата</Label>
+                            <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        className={cn(
+                                            "w-[200px] justify-start text-left font-normal rounded-none",
+                                            !selectedDate && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <Calendar1Icon className='mr-2 h-4 w-4' />
+                                        { selectedDate ? (
+                                            format(selectedDate, 'dd MMMM yyyy', { locale: uk })
+                                        ) : (
+                                            <span>Оберіть дату</span>
+                                        )}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className='w-auto p-0' align='start'>
+                                    <Calendar 
+                                        mode='single'
+                                        selected={selectedDate}
+                                        onSelect={handleDateChange}
+                                        autoFocus
+                                        locale={uk}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+
+                        <div className='flex gap-2'>
+                            <Button
+                                onClick={handlePrint}
+                                className='rounded-none'
+                                variant="default"
+                            >
+                                <PrinterIcon className='mr-2 h-4 w-4' />
+                                Друк
+                            </Button>
+                            <Button
+                                onClick={handleDownload}
+                                className='rounded-none'
+                                variant="outline"
+                            >
+                                <DownloadIcon className='mr-2 h-4 w-4' />
+                                Зміст
+                            </Button>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+            
+            <div ref={componentRef} className='print:m-2'>
+                <div className='text-center mb-6 font-serif'>
+                    <h4 className='text-lg font-bold mb-2 print:text-base'>
+                        ФОРМУЛЯР ПІДРОЗДІЛІВ
+                    </h4>
+                    <p className='text-sm mb-4 print:text-xs'>
+                        на {format(selectedDate, "dd MMMM yyyy 'р.' ", {locale: uk})}
+                    </p>
+                </div>
+
+                <div className='border border-black rounded-none print:border print:border-black'>
+                    <Table className="border-collapse w-full">
+                        <TableHeader>
+                            <TableRow className="border-b border-black">
+                                <TableCell 
+                                    rowSpan={2}
+                                    className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                >
+                                    № п/п
+                                </TableCell>
+                                <TableCell 
+                                    rowSpan={2}
+                                    className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                >
+                                    Прізвище, ім'я та по-батькові
+                                </TableCell>
+                                <TableCell 
+                                    rowSpan={2}
+                                    className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                >
+                                    Посада
+                                </TableCell>
+                                <TableCell 
+                                    rowSpan={2}
+                                    className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                >
+                                    Дата вступу на посаду
+                                </TableCell>
+                                <TableCell 
+                                    rowSpan={2}
+                                    className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                >
+                                    Штат чи сумісник
+                                </TableCell>
+                                <TableCell 
+                                    colSpan={2}
+                                    className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                >
+                                    Стаж науково-пед. роботи
+                                </TableCell>
+                                <TableCell 
+                                    colSpan={3}
+                                    className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                >
+                                    Загальні дані
+                                </TableCell>
+                                <TableCell 
+                                    rowSpan={2}
+                                    className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                >
+                                    Дата закінчення трудового договору або контракту
+                                </TableCell>
+                            </TableRow>
+                            <TableRow className="border-b border-black">
+                                <TableCell className="border border-black text-center p-2 font-bold text-xs print:text-[8px]">
+                                    Загальний
+                                </TableCell>
+                                <TableCell className="border border-black text-center p-2 font-bold text-xs print:text-[8px]">
+                                    У даному ВНЗ
+                                </TableCell>
+                                <TableCell className="border border-black text-center p-2 font-bold text-xs print:text-[8px]">
+                                    Рік народження
+                                </TableCell>
+                                <TableCell className="border border-black text-center p-2 font-bold text-xs print:text-[8px]">
+                                    Стать
+                                </TableCell>
+                                <TableCell className="border border-black text-center p-2 font-bold text-xs print:text-[8px]">
+                                    Освіта (який навч. заклад закінч. і коли)
+                                </TableCell>
+                            </TableRow>
+                            <TableRow className="border-b border-black">
+                                {Array.from({ length: 11 }, (_, index) => (
+                                    <TableCell 
+                                        key={index} 
+                                        className="border border-black text-center p-2 font-bold text-xs print:text-[8px]"
+                                    >
+                                        {index + 1}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {/* Пустые строки для заполнения */}
+                            {Array.from({ length: ITEM_PER_PAGE }, (_, index) => (
+                                <TableRow key={index} className="h-12 print:h-8">
+                                    {Array.from({ length: 11 }, (_, cellIndex) => (
+                                        <TableCell 
+                                            key={cellIndex}
+                                            className="border border-black p-2 text-xs print:text-[8px]"
+                                        >
+                                            &nbsp;
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+
+                <div className='mt-4 text-center'>
+                    <p className='text-sm font-serif print:text-xs'>
+                        Сторінка {startPage}
+                    </p>
+                </div>
+            </div>
+             <style>
+                {`
+                    @media print {
+                        @page {
+                            size: A4 landscape;
+                            margin: 10mm;
+                        }
+                        
+                        body {
+                            print-color-adjust: exact;
+                            -webkit-print-color-adjust: exact;
+                        }
+                    }
+                `}
+            </style>
+        </div>
+    )
+}
+
+export default StaffForm;

@@ -9,7 +9,7 @@ import ManagementTeam from "@/components/view/form/managementTeam";
 // import FormThree from "../components/view/form/formThree";
 // import FormFour from "../components/view/form/formFour";
 // import FormFive from "../components/view/form/formFive";
-// import FormForAnother from "../view/form/formForAnother";
+import StaffForm from "@/components/view/form/formForAnother";
 
 const FormRoute: React.FC = () => {
     return(
@@ -22,8 +22,8 @@ const FormRoute: React.FC = () => {
             <Route path="/view/form/formTwo"            element={ <FormTwo />} />
             <Route path="/view/form/formThree"          element={ <FormThree />} />
             <Route path="/view/form/formFour"           element={ <FormFour />} />
-            <Route path="/view/form/formFive"           element={ <FormFive />} />
-            <Route path="/view/form/formForAnother"     element={ <FormForAnother />} /> */}
+            <Route path="/view/form/formFive"           element={ <FormFive />} /> */}
+            <Route path="formForAnother"     element={ <StaffForm />} />
         </Routes>
     )
 }

@@ -99,6 +99,17 @@ const SearchBySurname: React.FC = () => {
     };
 
     useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if(dropdownRef.current && !dropdownRef.current.contains(event.target as Node)){
+                setIsDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    })
+
+    useEffect(() => {
         fetchEmployees('all');
     }, []);
 
@@ -153,13 +164,33 @@ const SearchBySurname: React.FC = () => {
                     <CardTitle className="text-2xl font-bold">
                         Пошук за прізвищем
                     </CardTitle>
-                    <Button 
-                        variant="outline" 
-                        onClick={handleOpenForm}
-                        className="rounded-none border-black"
-                    >
-                        {categories.find(c => c.id === selectedCategory)?.label || 'Обрати категорію'}
-                    </Button>
+                    <div className="relative" ref={dropdownRef}>
+                        <Button
+                            variant='outline'
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="rounded-none min-w-[300px] justify-between"
+                        >
+                            <span className="truncate">{selectedCategory}</span>
+                            {isDropdownOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                        </Button>
+
+                        { isDropdownOpen && (
+                            <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-300 shadow-lg max-h-60 overflow-auto">
+                                {categories.map((category) => (
+                                    <div
+                                        key={category.id}
+                                        className={`
+                                            px-4 py-3 cursor-pointer border-b border-gay-100 last:border-b-0 transition-all duration-200 ease-in-out
+                                            ${category.id === selectedCategory ? 'bg-blue-50 text-blue-700 font-medium' : 'hover:bg-gray-50 text-gray-700'}
+                                        `}
+                                        onClick={() => handleCategorySelect(category.id)}
+                                    >
+                                        {category.label}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </CardHeader>
 
