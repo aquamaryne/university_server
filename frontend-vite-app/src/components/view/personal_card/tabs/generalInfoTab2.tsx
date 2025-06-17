@@ -11,7 +11,7 @@ const GeneralInfo2Tab: React.FC = () => {
                 <h3 className="text-lg font-semibold mb-4">11. Родинний стан</h3>
                 <div className="flex gap-4">
                     <div className="w-48">
-                        <Label>Členi sím'ï</Label>
+                        <Label>Члени сім'ї</Label>
                         <Select>
                             <SelectTrigger className="mt-1">
                                 <SelectValue placeholder="Виберіть" />

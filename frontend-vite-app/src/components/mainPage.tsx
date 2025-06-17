@@ -1,11 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton } from "./ui/sidebar";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight,  BookOpen, User, Printer, BarChart3, FileText, Archive, Building2 } from "lucide-react";
 
 const navItems = [
     { 
         title: "Довідники", 
+        icon: BookOpen,
         subItems: [
             { name: "Довідники факультетів", path: "/view/witness/faculty" },
             { name: "Довідники підрозділів", path: "/view/witness/domain" },
@@ -24,13 +25,15 @@ const navItems = [
     },
     { 
     title: "Особисті картки", 
+    icon: User,
         subItems: [
             { name: "Ввод особистих карток", path: "/view/personal_card/personalCard" },
             { name: "Пошук по прізвищу", path: "/view/personal_card/searchBySurname" }
         ]
     },
     { 
-    title: "Друк", 
+    title: "Друк",
+    icon: Printer, 
         subItems: [
             { name: "Друк особистих карток", path: "/view/print/printPersonalCard" },
             { name: "Друк списку співробітників по підрозділам", path: "/view/print/printByDivisions" },
@@ -56,7 +59,8 @@ const navItems = [
         ]
     },
     { 
-    title: "Статистика", 
+    title: "Статистика",
+    icon: BarChart3, 
         subItems: [
             { name: "Ввести реквізити для статичних форм", path: "/view/statistic/enterForStaticForm" },
             { name: "Форма №5 - формування даних", path: "/view/statistic/formFive" },
@@ -71,6 +75,7 @@ const navItems = [
     },
     { 
     title: "Формуляр", 
+    icon: FileText,
         subItems: [
             { name: "Занести звідки прийшов", path: "/view/form/whereFrom" },
             { name: "Введення даних до формуляру", path: "/view/form/enterDataToFrom" },
@@ -85,7 +90,8 @@ const navItems = [
         ]
     },
     { 
-    title: "Архів", 
+    title: "Архів",
+    icon: Archive, 
         subItems: [
             { name: "Перегляд картки в архіві", path: "/view/archieve/watchCard" },
             { name: "Списки звільнених викладачів за вказаний період", path: "/view/archieve/listOfFired" },
@@ -110,47 +116,52 @@ export default function MainPage() {
                 </div>
                 <SidebarContent>
                     <SidebarMenu>
-                        {navItems.map((categoty) => (
-                            <SidebarMenuItem key={categoty.title}>
-                                <SidebarMenuButton
-                                    className="w-full justify-between py-2 border-r-none border-black"
-                                    onClick={() =>{
-                                        setActiveItem(categoty.title);
-                                        toggleSunmenu(categoty.title);
-                                    }}
-                                    isActive = {activeItem === categoty.title}
-                                >
-                                    <span>{categoty.title}</span>
-                                    <ChevronRight className={`h-4 w-4 transition-transform ${openSubmenus.includes(categoty.title) ? "transform rotate-90" : ""}`} />
-                                </SidebarMenuButton>
-                                <div className={`transition-all duration-200 ease-in-out overflow-y-auto ${
-                                    openSubmenus.includes(categoty.title) 
-                                    ? "max-h-64 opacity-100" 
-                                    : "max-h-0 opacity-0"
-                                }`}
-                                >
-                                    <SidebarMenuSub className="pr-2 border-black">
-                                        {categoty.subItems.map((item) => (
-                                            <SidebarMenuSubItem key={item.path}>
-                                                <SidebarMenuSubButton 
-                                                    asChild 
-                                                    className="transition-colors duration-200 border-1 hover:border-blue-600 rounded-none"
-                                                >
-                                                    <NavLink 
-                                                        to={item.path} 
-                                                        className={({ isActive }) =>
-                                                            `block truncate ${isActive ? "bg-muted text-blue-300" : ""}`
-                                                        }
+                        {navItems.map((categoty) => {
+                            const IconComponent = categoty.icon;
+                            return (
+                                <SidebarMenuItem key={categoty.title}>
+                                    <SidebarMenuButton
+                                        className="w-full justify-between py-2 border-r-none border-black"
+                                        onClick={() =>{
+                                            setActiveItem(categoty.title);
+                                            toggleSunmenu(categoty.title);
+                                        }}
+                                        isActive = {activeItem === categoty.title}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <IconComponent className="h-4 w-4 text-slate-600 group-hover:text-slate-900 transition-colors" />
+                                            <span>{categoty.title}</span>
+                                        </div>
+                                        <ChevronRight className={`h-4 w-4 transition-transform ${openSubmenus.includes(categoty.title) ? "transform rotate-90" : ""}`} />
+                                    </SidebarMenuButton>
+                                    <div className={`transition-all duration-200 ease-in-out overflow-y-auto ${
+                                        openSubmenus.includes(categoty.title) 
+                                        ? "max-h-64 opacity-100" 
+                                        : "max-h-0 opacity-0"
+                                    }`}>
+                                        <SidebarMenuSub className="pr-2 border-black">
+                                            {categoty.subItems.map((item) => (
+                                                <SidebarMenuSubItem key={item.path}>
+                                                    <SidebarMenuSubButton 
+                                                        asChild 
+                                                        className="transition-colors duration-200 border-1 hover:border-blue-600 rounded-none"
                                                     >
-                                                        {item.name}
-                                                    </NavLink>
-                                                </SidebarMenuSubButton>
-                                            </SidebarMenuSubItem>
-                                        ))}
-                                    </SidebarMenuSub>
-                                </div>
-                            </SidebarMenuItem>
-                        ))}
+                                                        <NavLink 
+                                                            to={item.path} 
+                                                            className={({ isActive }) =>
+                                                                `block truncate ${isActive ? "bg-muted text-blue-300" : ""}`
+                                                            }
+                                                        >
+                                                            {item.name}
+                                                        </NavLink>
+                                                    </SidebarMenuSubButton>
+                                                </SidebarMenuSubItem>
+                                            ))}
+                                        </SidebarMenuSub>
+                                    </div>
+                                </SidebarMenuItem>
+                            )
+                        })}
                     </SidebarMenu>
                 </SidebarContent>
             </Sidebar>

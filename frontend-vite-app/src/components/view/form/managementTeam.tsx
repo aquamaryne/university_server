@@ -11,7 +11,7 @@ import { PrinterIcon, Download, Calendar as CalendarIcon, Settings2 } from 'luci
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
-
+import { DayPicker } from 'react-day-picker';
 
 interface Faculty {
     id: number;
@@ -130,7 +130,7 @@ const ManagementTeam: React.FC = () => {
                                     <Button
                                         variant="outline"
                                         className={cn(
-                                            "w-full h-10 justify-start text-left font-normal border-black hover:bg-slate-50 rounded-none",
+                                            "w-full h-10 justify-start text-left font-normal border-black hover:bg-slate-50 rounded-none transition-colors",
                                             !selectedDate && "text-muted-foreground"
                                         )}
                                     >
@@ -143,26 +143,55 @@ const ManagementTeam: React.FC = () => {
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent 
-                                    className="w-auto p-0 z-50" 
+                                    className="w-auto p-0 z-50 shadow-lg border-slate-200" 
                                     align="start"
                                     side="bottom"
                                     sideOffset={4}
                                     avoidCollisions={true}
                                     collisionPadding={16}
                                 >
-                                    <Calendar
-                                        mode="single"
-                                        selected={selectedDate}
-                                        onSelect={(date) => {
-                                            if (date) {
-                                                setSelectedDate(date);
-                                                setIsCalendarOpen(false);
-                                            }
-                                        }}
-                                        locale={uk}
-                                        className="rounded-none border"
-                                        autoFocus
-                                    />
+                                    <div className="bg-white rounded-lg border border-slate-200 shadow-xl">
+                                        <Calendar
+                                            mode="single"
+                                            selected={selectedDate}
+                                            onSelect={(date) => {
+                                                if (date) {
+                                                    setSelectedDate(date);
+                                                    setIsCalendarOpen(false);
+                                                }
+                                            }}
+                                            locale={uk}
+                                            className="rounded-lg"
+                                            autoFocus
+                                            classNames={{
+                                                months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                                                month: "space-y-4",
+                                                caption: "flex justify-center pt-1 relative items-center",
+                                                caption_label: "text-sm font-medium text-slate-900",
+                                                nav: "space-x-1 flex items-center",
+                                                nav_button: cn(
+                                                    "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 hover:bg-slate-100 rounded-md transition-colors"
+                                                ),
+                                                nav_button_previous: "absolute left-1",
+                                                nav_button_next: "absolute right-1",
+                                                table: "w-full border-collapse space-y-1",
+                                                head_row: "flex",
+                                                head_cell: "text-slate-500 rounded-md w-9 font-normal text-[0.8rem]",
+                                                row: "flex w-full mt-2",
+                                                cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-slate-100/50 [&:has([aria-selected])]:bg-slate-100 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                                                day: cn(
+                                                    "h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-slate-100 hover:text-slate-900 rounded-md transition-colors"
+                                                ),
+                                                day_range_end: "day-range-end",
+                                                day_selected: "bg-slate-900 text-slate-50 hover:bg-slate-900 hover:text-slate-50 focus:bg-slate-900 focus:text-slate-50",
+                                                day_today: "bg-slate-100 text-slate-900 font-medium",
+                                                day_outside: "day-outside text-slate-500 opacity-50 aria-selected:bg-slate-100/50 aria-selected:text-slate-500 aria-selected:opacity-30",
+                                                day_disabled: "text-slate-500 opacity-50",
+                                                day_range_middle: "aria-selected:bg-slate-100 aria-selected:text-slate-900",
+                                                day_hidden: "invisible",
+                                            }}
+                                        />
+                                    </div>
                                 </PopoverContent>
                             </Popover>
                         </div>
@@ -286,7 +315,7 @@ const ManagementTeam: React.FC = () => {
                         <div className="mt-6 text-center">
                             <div className="inline-flex items-center px-4 py-2 bg-slate-100">
                                 <span className="text-sm font-medium text-slate-700">
-                                    「{startPage}」
+                                    Сторінка {startPage}
                                 </span>
                             </div>
                         </div>
@@ -299,7 +328,7 @@ const ManagementTeam: React.FC = () => {
                 @media print {
                     @page {
                         size: A4 landscape;
-                        margin: 8mm;
+                        margin: 5mm; /* Уменьшили отступы для большего пространства */
                     }
                     
                     body {
@@ -337,7 +366,7 @@ const ManagementTeam: React.FC = () => {
                     .print-content .bg-slate-50,
                     .print-content [class*="CardHeader"] {
                         background-color: white !important;
-                        padding: 6pt 0 !important;
+                        padding: 8pt 0 !important; /* Немного увеличили */
                         margin: 0 !important;
                         flex-shrink: 0 !important;
                     }
@@ -353,16 +382,16 @@ const ManagementTeam: React.FC = () => {
                     
                     .print-content h1,
                     .print-content .text-xl {
-                        font-size: 14pt !important;
-                        margin: 0 0 4pt 0 !important;
+                        font-size: 16pt !important; /* Увеличили с 14pt */
+                        margin: 0 0 6pt 0 !important;
                         font-weight: bold !important;
                         text-align: center !important;
                     }
                     
                     .print-content p {
-                        font-size: 9pt !important;
-                        margin: 0 0 2pt 0 !important;
-                        line-height: 1.1 !important;
+                        font-size: 11pt !important; /* Увеличили с 9pt */
+                        margin: 0 0 3pt 0 !important;
+                        line-height: 1.2 !important;
                         text-align: center !important;
                     }
                     
@@ -385,7 +414,7 @@ const ManagementTeam: React.FC = () => {
                         width: 100% !important;
                         height: 100% !important;
                         border-collapse: collapse !important;
-                        font-size: 10pt !important;
+                        font-size: 12pt !important; /* Увеличили с 10pt */
                         margin: 0 !important;
                         table-layout: fixed !important;
                         flex: 1 !important;
@@ -402,9 +431,9 @@ const ManagementTeam: React.FC = () => {
                     
                     .print-content th,
                     .print-content td {
-                        padding: 2pt 1pt !important;
-                        font-size: 9pt !important;
-                        line-height: 1.0 !important;
+                        padding: 3pt 2pt !important; /* Увеличили отступы */
+                        font-size: 10pt !important; /* Увеличили с 9pt */
+                        line-height: 1.1 !important;
                         border: 1pt solid #000 !important;
                         vertical-align: middle !important;
                         word-wrap: break-word !important;
@@ -417,21 +446,23 @@ const ManagementTeam: React.FC = () => {
                     .print-content th {
                         background-color: #f8f9fa !important;
                         font-weight: bold !important;
-                        font-size: 6pt !important;
-                        padding: 1pt 0.5pt !important;
-                        line-height: 1.0 !important;
-                        height: 30pt !important;
+                        font-size: 8pt !important; /* Увеличили с 6pt */
+                        padding: 2pt 1pt !important; /* Увеличили отступы */
+                        line-height: 1.1 !important;
+                        height: 35pt !important; /* Увеличили высоту заголовков */
                         white-space: normal !important;
                         word-break: break-word !important;
                         hyphens: auto !important;
                     }
                     
                     .print-content tbody tr {
-                        height: calc((100% - 30pt) / 7) !important;
+                        height: calc((100% - 35pt) / 7) !important; /* Скорректировали под новую высоту заголовков */
+                        min-height: 25pt !important; /* Минимальная высота строки */
                     }
                     
                     .print-content tbody td {
-                        height: calc((100% - 30pt) / 7) !important;
+                        height: calc((100% - 35pt) / 7) !important;
+                        min-height: 25pt !important;
                         vertical-align: middle !important;
                     }
                     
@@ -465,26 +496,40 @@ const ManagementTeam: React.FC = () => {
                         font-weight: bold !important;
                         background-color: #f9f9f9 !important;
                         width: 4% !important;
+                        font-size: 11pt !important; /* Увеличили размер номеров */
                     }
                     
-                    /* Более точные ширины столбцов */
+                    /* Оптимизированные ширины столбцов для лучшего использования пространства */
                     .print-content th:nth-child(1) { width: 3% !important; }
-                    .print-content th:nth-child(2) { width: 6% !important; }
-                    .print-content th:nth-child(3) { width: 5% !important; }
+                    .print-content th:nth-child(2) { width: 8% !important; } /* Увеличили для ФИО */
+                    .print-content th:nth-child(3) { width: 6% !important; } /* Увеличили для должности */
                     .print-content th:nth-child(4) { width: 5% !important; }
-                    .print-content th:nth-child(5) { width: 7% !important; }
-                    .print-content th:nth-child(6) { width: 6% !important; }
-                    .print-content th:nth-child(7) { width: 6% !important; }
-                    .print-content th:nth-child(8) { width: 6% !important; }
+                    .print-content th:nth-child(5) { width: 7% !important; } /* Увеличили для дисциплины */
+                    .print-content th:nth-child(6) { width: 5% !important; }
+                    .print-content th:nth-child(7) { width: 5% !important; }
+                    .print-content th:nth-child(8) { width: 5% !important; }
                     .print-content th:nth-child(9) { width: 5% !important; }
                     .print-content th:nth-child(10) { width: 5% !important; }
-                    .print-content th:nth-child(11) { width: 7% !important; }
-                    .print-content th:nth-child(12) { width: 5% !important; }
-                    .print-content th:nth-child(13) { width: 5% !important; }
-                    .print-content th:nth-child(14) { width: 5% !important; }
-                    .print-content th:nth-child(15) { width: 8% !important; }
-                    .print-content th:nth-child(16) { width: 9% !important; }
-                    .print-content th:nth-child(17) { width: 11% !important; }
+                    .print-content th:nth-child(11) { width: 5% !important; }
+                    .print-content th:nth-child(12) { width: 4% !important; }
+                    .print-content th:nth-child(13) { width: 4% !important; }
+                    .print-content th:nth-child(14) { width: 8% !important; } /* Увеличили для образования */
+                    .print-content th:nth-child(15) { width: 5% !important; }
+                    .print-content th:nth-child(16) { width: 6% !important; }
+                    .print-content th:nth-child(17) { width: 6% !important; }
+                    .print-content th:nth-child(18) { width: 9% !important; } /* Увеличили для последнего столбца */
+                    
+                    /* Дополнительные улучшения читаемости */
+                    .print-content th[rowspan="2"] {
+                        writing-mode: horizontal-tb !important;
+                        text-orientation: mixed !important;
+                    }
+                    
+                    /* Улучшение отображения многострочных заголовков */
+                    .print-content th {
+                        display: table-cell !important;
+                        vertical-align: middle !important;
+                    }
                 }
                 
                 /* Scrollbar styling for better aesthetics */
