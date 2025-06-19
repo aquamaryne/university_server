@@ -271,83 +271,73 @@ const PersonalCard: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="flex items-center gap-2">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => window.print()}
-                                className="border-slate-300 hover:bg-slate-50"
-                            >
-                                <Printer className="h-4 w-4 mr-2" />
-                                Друк 1-ї стор.
-                            </Button>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => window.print()}
-                                className="border-slate-300 hover:bg-slate-50"
-                            >
-                                <Printer className="h-4 w-4 mr-2" />
-                                Друк 2-ї стор.
-                            </Button>
-                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Employee Summary Card */}
-            {(employeeData.lastName || employeeData.firstName) && (
-                <div className="container mx-auto max-w-7xl px-6 py-4">
-                    <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-sm">
-                        <CardContent className="p-4">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                        <User className="h-6 w-6 text-blue-600" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-lg text-slate-900">
-                                            {`${employeeData.lastName} ${employeeData.firstName} ${employeeData.patronymic}`.trim() || 'Ім\'я не вказано'}
-                                        </h3>
-                                        <div className="flex items-center gap-4 text-sm text-slate-600 mt-1">
-                                            {employeeData.position && (
-                                                <span className="flex items-center gap-1">
-                                                    <Building2 className="h-3 w-3" />
-                                                    {employeeData.position}
-                                                </span>
-                                            )}
-                                            {employeeData.department && (
-                                                <span className="flex items-center gap-1">
-                                                    <MapPin className="h-3 w-3" />
-                                                    {employeeData.department}
-                                                </span>
-                                            )}
-                                        </div>
+            <div className="container mx-auto max-w-8xl px-6 py-4">
+                <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-sm rounded-none ">
+                    <CardContent className="p-4">
+                        <div className="flex items-center justify-between w-full">
+                            <div className="flex items-center gap-4 flex-1 min-w-0">
+                                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <User className="h-6 w-6 text-blue-600" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-semibold text-lg text-slate-900">
+                                        {`${employeeData.lastName} ${employeeData.firstName} ${employeeData.patronymic}`.trim() || 
+                                         (id ? 'Завантаження даних...' : 'Нова картка працівника')}
+                                    </h3>
+                                    <div className="flex items-center gap-4 text-sm text-slate-600 mt-1 flex-wrap">
+                                        {employeeData.position && (
+                                            <span className="flex items-center gap-1">
+                                                <Building2 className="h-3 w-3 flex-shrink-0" />
+                                                <span className="truncate">{employeeData.position}</span>
+                                            </span>
+                                        )}
+                                        {employeeData.department && (
+                                            <span className="flex items-center gap-1">
+                                                <MapPin className="h-3 w-3 flex-shrink-0" />
+                                                <span className="truncate">{employeeData.department}</span>
+                                            </span>
+                                        )}
+                                        {!employeeData.position && !employeeData.department && (
+                                            <span className="text-slate-500 italic">
+                                                {id ? 'Інформація про посаду завантажується...' : 'Заповніть дані працівника'}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
-                                
-                                {employeeData.startDate && (
-                                    <div className="text-right">
+                            </div>
+                            
+                            <div className="text-right flex-shrink-0 ml-4">
+                                {employeeData.startDate ? (
+                                    <>
                                         <p className="text-sm text-slate-500">Працює з</p>
                                         <p className="font-medium text-slate-700">{employeeData.startDate}</p>
-                                    </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <p className="text-sm text-slate-500">Статус</p>
+                                        <p className="font-medium text-slate-700">{getEmployeeStatus()}</p>
+                                    </>
                                 )}
                             </div>
-                        </CardContent>
-                    </Card>
-                </div>
-            )}
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
 
             {/* Main Content */}
-            <div className="container mx-auto max-w-7xl px-6 pb-8">
-                <Card className="shadow-xl border-slate-200 overflow-hidden">
+            <div className="container mx-auto max-w-8xl px-6 pb-8">
+                <Card className="shadow-xl border-slate-200 overflow-hidden rounded-none">
                     <CardContent className="p-0">
                         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                             {/* Enhanced Tabs Header */}
                             <div className="bg-slate-50 border-b border-slate-200 px-6 py-4">
                                 <TabsList className="grid w-full grid-cols-5 bg-white border border-slate-200 shadow-sm h-auto p-1 relative">
-                                    {tabsConfig.map((tab, index) => {
+                                    {tabsConfig.map((tab) => {
                                         const IconComponent = tab.icon;
                                         const isActive = activeTab === tab.value;
                                         
