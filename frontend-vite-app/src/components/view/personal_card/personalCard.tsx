@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsTrigger, TabsList } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -12,15 +12,11 @@ import {
     Settings, 
     Save, 
     Trash2, 
-    Printer, 
     ArrowLeft, 
     UserCircle,
     Building2,
-    Mail,
-    Phone,
     MapPin,
     AlertCircle,
-    CheckCircle,
     Loader2
 } from "lucide-react";
 
@@ -459,7 +455,7 @@ const PersonalCard: React.FC = () => {
                                     variant="destructive" 
                                     onClick={handleDelete}
                                     disabled={!id}
-                                    className="min-w-32 shadow-sm"
+                                    className="min-w-32 shadow-sm rounded-none"
                                 >
                                     <Trash2 className="h-4 w-4 mr-2" />
                                     Видалити
@@ -468,7 +464,7 @@ const PersonalCard: React.FC = () => {
                                 <Button 
                                     onClick={handleSave}
                                     disabled={saving || !hasChanges}
-                                    className="min-w-32 bg-blue-600 hover:bg-blue-700 shadow-sm"
+                                    className="min-w-32 bg-blue-600 hover:bg-blue-700 shadow-sm rounded-none"
                                 >
                                     {saving ? (
                                         <>
